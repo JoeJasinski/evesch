@@ -126,7 +126,7 @@ def event_edit(request,org_short_name,event_hash,template_name=None):
             if form.is_valid():
                 form.save()
                 template_name = "core/message.html"
-                message = Message(title=_("Event Saved", text="Event Saved"))
+                message = Message(title=_("Event Saved"), text=_("Event Saved"))
                 message.addlink(_("Continue"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
                 message.addlink(_("Edit"),reverse('event_event_edit',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
                 context = {'message':message,}
