@@ -147,6 +147,9 @@ class User(User):
     def get_user_groups(self):
         return self.user_groups.all()
     
+    def get_attending_events(self):
+        return self.attendee_set.all()
+        
     def save(self):
         super(User, self).save()
 
