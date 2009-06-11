@@ -1,0 +1,58 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}
+{% load color_correct %}
+{% block title %} - {{ message.title }}{% endblock %}
+{% block header_page_specific %} 
+	<script type="text/javascript">
+	  $(document).ready(function(){
+	   $('#min_event_date_input').datepicker({ dateFormat: 'yy-mm-dd' });
+	   $('#max_event_date_input').datepicker({ dateFormat: 'yy-mm-dd' });
+	   
+		$('#filter_toggle a').click(function () {
+	      if ($("div.report_filter").is(":hidden")) 
+	      { $("div.report_filter").slideDown("slow");}
+	      else 
+	      { $("div.report_filter").slideUp("slow"); }
+	      return false;
+	    });
+	   });
+	</script>
+{% endblock %}
+{% block content %}
+<a href="{% url home %}">{% trans "home" %}</a> 
+&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+&gt; <a href="{% url org_org_view current_org.org_short_name %}">{{ current_org.org_name }}</a> &gt; {% trans "Organization Reports" %}
+{% include "event/inc_event_menu.html" %}
+
+<div class="section"> 
+	<div class="section_title">{{ type_display }}</div>
+	<div class="section_body">
+	 {% ifnotequal type "generic" %}
+	 <div class="report_filter">
+	   <FORM action="." method="POST">
+	   <TABLE>
+	   <TR><TD>{{ form.min_event_date.label }}</TD><TD>{{ form.max_event_date.label }}</TD><TD>&nbsp;</TD></TR>
+       <TR><TD>{{ form.min_event_date }}</TD><TD>{{ form.max_event_date }}</TD><TD><input type="submit" value="{% trans "Filter" %}"></TD></TR>
+       </TABLE>
+       </FORM>
+     </div>
+     <div id="filter_toggle"><a href="#">{% trans "Filter Results" %}</a></div>
+
+	 {% endifnotequal %}
+	
+	  {% ifequal type "generic" %}
+		<ul>
+		 <li><a href="{% url report_org_reports_by_user current_org.org_short_name %}">{% trans "Report Grouped By User" %}</a></li>
+		 <li><a href="{% url report_org_reports_by_eventtype current_org.org_short_name %}">{% trans "Report Grouped By Event Type" %}</a></li>
+		 <li><a href="{% url report_org_reports_by_event current_org.org_short_name %}">{% trans "Report Grouped by Event" %}</a></li>
+		</ul>
+   	  {% else %}{% ifequal type "event" %}
+		{% include "report/inc_org_report_event.html" %}
+	  {% else %}{% ifequal type "eventtype" %}
+		{% include "report/inc_org_report_eventtype.html" %}
+	  {% else %}{% ifequal type "user" %}
+		Not ready
+	  {% endifequal %}{% endifequal %}{% endifequal %}{% endifequal %}
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,224 @@
+body { 
+	background-color: #fbb100; 
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	font-size: 10px;
+	line-height: 100%;
+	word-spacing: normal;
+	letter-spacing: normal;
+	text-decoration: none;
+	text-transform: none;
+	text-align: left;
+	text-indent: 0ex;
+	background: url('/media/images/background-grad.png') 0% 0% repeat-x;
+}
+
+a
+{
+  color: #336644;
+}
+
+.header_banner
+{
+	background-color: #69e067;
+	height: 50px;
+  -moz-border-radius-topright: 10px;
+  -moz-border-radius-topleft: 10px;
+  -webkit-border-top-left-radius: 10px;  
+  -webkit-border-top-right-radius: 10px;
+  border-radius: 5px;
+  border: 0px solid black;	
+}
+
+.header_banner .login_container
+{
+  float: right;
+  margin: 10px;
+
+}
+
+.header_banner .logo
+{
+  float: left;
+  margin: 15px;
+  font-size: 40px;
+  height: 1em;
+}
+
+.main_container
+{
+	background-color:white;
+	padding: 20px;
+}
+
+
+/*** Nav bar styles ***/
+
+div ul.nav
+{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+ul.nav,
+.nav ul{
+/*Remove all spacings from the list items*/
+	margin: 0;
+	padding: 0;
+	cursor: default;
+	list-style-type: none;
+	display: inline;
+}
+
+ul.nav{
+	display: table;
+}
+ul.nav>li{
+	display: table-cell;
+	position: relative;
+	padding: 2px 6px;
+	border: #fbb100 1px solid;
+}
+
+
+ul.nav li>ul{
+/*Make the sub list items invisible*/
+	display: none;
+	position: absolute;
+	max-width: 40ex;
+	margin-left: -6px;
+	margin-top: 2px;
+}
+
+ul.nav li:hover>ul{
+/*When hovered, make them appear*/
+	display : block;
+}
+
+.nav ul li a{
+/*Make the hyperlinks as a block element, sort of a hover effect*/
+	display: block;
+	padding: 2px 10px;
+}
+
+/*** Menu colors (customizable) ***/
+
+ul.nav,
+.nav ul,
+.nav ul li a{
+	background-color: #fff;
+	color: #986100;
+}
+
+
+ul.nav li:hover,
+.nav ul li a:hover{
+	background-color: #fbb100;
+	color: #fff;
+}
+
+ul.nav li:active,
+.nav ul li a:active{
+	background-color: #036;
+	color: #fff;
+}
+
+ul.nav,
+.nav ul{
+	border: 1px solid #986100;
+}
+
+.nav a{
+	text-decoration: none;
+}
+
+.section
+{
+  border: 1px solid #69e067;
+  margin: 10px;
+  background-color: #eaf8e4;
+}
+
+.section_title
+{
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding: 5px;
+  font-size: 16px;
+  background-color: #69e067;
+  align: center;
+}
+
+.section_body
+{
+  margin: 5px;
+}
+
+.org_list_entry
+{
+  padding: 2px;
+}
+
+.org_list_entry  div
+{
+  display: inline;
+  width: 450px;
+  border: solid black 1px;
+}
+
+span.section_header_icon
+{
+  margin-left: 10px;
+}
+
+#forgot_password
+{
+  font-size: 10px;
+}
+
+span.org_user_list
+{
+  width: 185px;
+  float: left;
+  border: solid #ffa100 1px;
+  padding: 5px;
+  margin: 4px;
+  background-color: #f2e5b7;
+}
+
+
+.report
+{
+  border:1px solid #69E067;
+}
+.report .report_item_head
+{
+  background-color: #69E067;
+  color: black;
+  padding: 3px;
+}
+
+.report .report_item_subhead
+{
+  background-color: #CCFFCC;
+   color: #336644; 
+}
+
+.report .report_item_body
+{
+  color: #336644; 
+}
+
+.report_filter
+{
+  margin: 5px;
+  display:none;
+}
+
+#filter_toggle
+{
+ margin: 5px;
+}
+

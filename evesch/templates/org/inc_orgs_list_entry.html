@@ -1,0 +1,28 @@
+{% load ellipsis %}
+{% load i18n %}
+			<script language="Javascript" type="text/javascript">
+			$(document).ready(function()
+			{
+			    function load_posts(url)
+			    {  var cachebuster=Math.floor(Math.random()*10000001); $("#all_org_list_container").load( url, "ajax=" + cachebuster );  }
+			    
+			    $("#all_orgs_prev").click(function() 
+			    { load_posts("{% url org_orgs_list_all_ajax %}?all_orgs_page={{ all_orgs_page.prev }}"); });
+			    
+			    $("#all_orgs_next").click(function() 
+			    { load_posts("{% url org_orgs_list_all_ajax %}?all_orgs_page={{ all_orgs_page.next }}"); });		    
+			
+			});
+			</script>
+			<div> {% trans "Page" %} {{ all_orgs_page.curr }} {% trans "of" %} {{ all_orgs_page.num_pages }}</div>
+			<span>{% if all_orgs_page.prev %}<a id="all_orgs_prev" href="{% url org_orgs_list %}?all_orgs_page={{ all_orgs_page.prev }}&my_orgs_page={{ my_orgs_page.next }}" onClick="return false;">Previous</a>{% else %}{% trans "Previous" %}{% endif %}</span>
+			<span>{% if all_orgs_page.next %}<a id="all_orgs_next" href="{% url org_orgs_list %}?all_orgs_page={{ all_orgs_page.next }}&my_orgs_page={{ my_orgs_page.next }}" onClick="return false;">Next</a>{% else %}{% trans "Next" %}{% endif %}</span>
+		
+			<TABLE>
+			{% for org in all_orgs_page.current_page.object_list %}
+			  <TR><TD>{{ org.org_name }}</TD>
+			      <TD> {{ org.org_desc|ellipsis:30 }}</TD>
+			      <TD> <a title="{% trans "Join Organization" %}" href="{% url org_org_join org.org_short_name %}"><img alt="Join" style="border: solid 0px;" src="{{ MEDIA_URL }}images/join.png"></a></TD>
+			   </TR>  
+			{% endfor %}
+			</TABLE>

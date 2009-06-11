@@ -1,0 +1,19 @@
+.org_cal_mon_num
+{
+  font-weight: bold;
+}
+
+TD.org_cal_mon_cell
+{
+  background-color: #eee;
+  width: 200px;
+  height: 60px;
+}
+
+TR.org_cal_mon_head TH
+{
+  background-color: black;
+  color: white;
+  font-weight: normal;
+  padding: 4px;
+}

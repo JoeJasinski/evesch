@@ -1,0 +1,23 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}
+{% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Edit Event Type" %}{% endblock %}
+{% block header_page_specific %}<script type="text/javascript" src="{{ MEDIA_URL }}js/jscolor/jscolor.js"></script>{% endblock %}
+{% block content %}
+<a href="{% url home %}">{% trans "home" %}</a>
+&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a> 
+&gt; <a href="{% url org_org_view current_org.org_short_name %}">{{ current_org.org_name }}</a> 
+&gt; {% trans "Edit Event Type" %}
+{% include "event/inc_event_menu.html" %}
+<div class="section">
+	<div class="section_title">{% trans "Edit Event Type" %}</div>
+	<div class="section_body">
+		{% trans "Edit Event Type for" %}: {{ current_org.org_name }}
+		<FORM action="." method=POST>
+		<TABLE>
+		 {{ form.as_table }}
+		</TABLE>
+		<INPUT type="submit" name="edit_eventtype" value="{% trans "Save" %}">
+		</FORM>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}{% load ellipsis %}
+{% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Monthly Calendar of Events" %}{% endblock %}
+{% block header_page_specific %} 
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/org_cal_mon.css" />
+{% endblock %}
+{% block content %}
+<a href="{% url home %}">{% trans "home" %}</a> 
+&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+&gt;  <a href="{% url org_org_view current_org.org_short_name %}">{{ current_org.org_name }}</a> 
+&gt; {% trans "Calendar" %}
+{% include "event/inc_event_menu.html" %}
+
+<div class="section"> 
+	<div class="section_title">{% trans "Calendar" %}</div>
+	<TABLE align="center"><TR>
+	<TD><a href="{% url ecalendar_calendar_monthly_view current_org.org_short_name %}?year={{ year_prev }}&month={{ month_prev }}">{% trans "Previous" %}</a></TD>
+	<TD><a href="{% url ecalendar_calendar_monthly_view current_org.org_short_name %}">{% trans "Current Month" %}</a></TD>
+	<TD><a href="{% url ecalendar_calendar_monthly_view current_org.org_short_name %}?year={{ year_next }}&month={{ month_next }}">{% trans "Next" %}</a></TD>
+	</TABLE>
+	
+	<div align="center">{{  month|date:"F Y"}}</div>
+	<TABLE align="center">
+	   <TR class="org_cal_mon_head"><TH>{% trans "Sunday" %}</TH><TH>{% trans "Monday" %}</TH><TH>{% trans "Tuesday" %}</TH><TH>{% trans "Wednesday" %}</TH><TH>{% trans "Thursday" %}</TH><TH>{% trans "Friday" %}</TH><TH>{% trans "Saturday" %}</TH></TR>
+	   {% for week in monthcal %}
+	   <TR>
+	     {% for day in week %}
+	     <TD class=org_cal_mon_cell>
+	       {% ifnotequal day.date 0 %}<div class="org_cal_mon_num"><a href="{% url ecalendar_calendar_daily_view current_org.org_short_name %}?year={{ month.year }}&month={{ month.month }}&day={{ day.date }}">{{ day.date }}</a></div><BR>{% for event in day.events %}<a href="{% url event_event_view current_org.org_short_name event.event_hash %}">{{ event.event_name|ellipsis:25 }}</a><BR>{% endfor %}{% endifnotequal %}
+	     </TD>{% endfor %}
+	   </TR>{% endfor %}
+	</TABLE>
+</div>
+	
+{% endblock %}

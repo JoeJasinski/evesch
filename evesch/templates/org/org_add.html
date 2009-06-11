@@ -1,0 +1,19 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}
+{% block title %} - {% trans "Add Organization" %}{% endblock %}
+{% block content %}
+<a href="{% url home %}">{% trans "home" %}</a> 
+&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+&gt; {% trans "Add Organization" %}
+<div class="section"> 
+	<div class="section_title">{% trans "Add Organization" %}</div>
+	<div class="section_body">
+		<FORM action="." method="POST">
+		<TABLE>
+		 {{ form.as_table }}
+		</TABLE>
+		<INPUT type="submit" name="org_add" value="{% trans "Add" %}">
+		</FORM>
+	</div>
+</div>
+{% endblock %}

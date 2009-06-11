@@ -1,0 +1,23 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}
+{% block content %}
+<!-- Start Login -->
+{% if form.errors %}
+<p>{% trans "Your username and password didn't match. Please try again." %}</p>
+{% endif %}
+<div class="section">
+	<div class="section_title">{% trans "Login" %}</div>
+	<div class="section_body">
+		<form method="post" action=".">
+		<table>
+		<tr><td>{{ form.username.label_tag }}</td><td>{{ form.username }}</td></tr>
+		<tr><td>{{ form.password.label_tag }}</td><td>{{ form.password }}</td></tr>
+		<tr><td>&nbsp;</td><td><div id="forgot_password"><a href="{% url account_password_reset %}">{% trans "Forgot your password?" %}</a></div></td></tr>
+		</table>
+		<input type="submit" value="{% trans "login" %}" />
+		<input type="hidden" name="next" value="{{ next }}" />
+		</form>
+	</div>
+</div>
+<!-- Start Login -->
+{% endblock %}

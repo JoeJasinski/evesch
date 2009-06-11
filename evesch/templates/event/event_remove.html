@@ -1,0 +1,24 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}
+{% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Delete Event" %}{% endblock %}
+{% block content %}
+<a href="{% url home %}">{% trans "home" %}</a> 
+&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+&gt; <a href="{% url org_org_view current_org.org_short_name %}">{{ current_org.org_name }}</a> 
+&gt; <a href="{% url event_events_list current_org.org_short_name %}">{% trans "Events" %}</a>  
+&gt; <a href="{% url event_event_view current_org.org_short_name current_event.event_hash %}">{{ current_event.event_name }}</a>
+&gt; {% trans "Delete Event" %}
+<div class="section">
+	<div class="section_title">{% trans "Delete Event" %}</div>
+	<div class="section_body">
+		{% trans "Event" %}: {{ current_event.event_name}}<BR>
+		{% trans "Event Date" %}: {{ current_event.event_date }}<BR>
+		{% trans "Belonging to" %}: {{ current_org.org_name }}
+		<BR><BR>
+		<FORM action="." method=POST>
+		{% trans "Are you sure you want to delete?" %}
+		<INPUT type="submit" name=remove_event value="{% trans "Delete" %}">
+		</FORM>
+	</div>
+</div>
+{% endblock %}

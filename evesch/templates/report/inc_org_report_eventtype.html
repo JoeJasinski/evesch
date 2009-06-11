@@ -1,0 +1,45 @@
+{% load i18n %}
+{% load color_correct %}
+		<TABLE class="report">	
+		{% if org_w.eventtypes %}
+		{% for event_type in org_w.eventtypes %}
+			<TR height="18px;" class="report_item_head">
+			 <TH bgcolor="#{{ event_type.eventtype.type_color }}"><font color="#{{ event_type.eventtype.type_color|color_correct }}">{{ event_type.eventtype }}</font></TH>
+			 <TH colspan="9">&nbsp;</TH>		 
+			</TR>
+			<TR class="report_item_subhead">
+			 <TH style="width:100px;">{% trans "Event" %}</TH>
+			 <TH style="width:100px;">{% trans "Attendee" %}</TH>
+			 <TH style="width:150px;">{% trans "Date Registered" %}</TH>
+			 <TH style="width:80px;">{% trans "Hours" %}</TH>
+			 <TH style="width:80px;">{{ event.att_header_col1 }}</TH>
+			 <TH style="width:80px;">{{ event.att_header_col2 }}</TH>
+			 <TH style="width:80px;">{{ event.att_header_col3 }}</TH>
+			 <TH style="width:80px;">{{ event.att_header_col4 }}</TH>
+			 <TH style="width:80px;">{{ event.att_header_col5 }}</TH>
+			 <TH style="width:80px;">{{ event.att_header_col6 }}</TH>
+			</TR>
+		   {% if event_type.events %}
+		   {% for event in event_type.events %}
+		      {% for attendee in event.get_attendees %}
+		      <TR><TD><a href="{% url event_event_view current_org.org_short_name event.event_hash %}">{{ event.event_name }}</a></TD>
+		          <TD>{{ attendee.att_name.first_name }} {{attendee.att_name.last_name }} ({{ attendee.att_name }})</TD>
+				  <TD>{{ attendee.att_added_date|date:"D m/d/Y h:i a" }}</TD>
+				  <TD>{{ attendee.att_hours }}</TD>
+				  <TD>{{ attendee.att_col1 }}</TD>
+				  <TD>{{ attendee.att_col2 }}</TD>
+				  <TD>{{ attendee.att_col3 }}</TD>
+				  <TD>{{ attendee.att_col4 }}</TD>
+				  <TD>{{ attendee.att_col5 }}</TD>
+				  <TD>{{ attendee.att_col6 }}</TD>
+		      </TR>
+		      {% endfor %}
+		   {% endfor %}
+		   {% else %}
+		      <TR><TD  colspan="10">{% trans "No Events" %}</TD></TR>		     
+		   {% endif %}
+		{% endfor %}
+		{% else %}
+		  <TR><TD>{% trans "No Event Types" %}</TD></TR>
+		{% endif %}
+		</TABLE>

@@ -1,0 +1,11 @@
+{% extends "base_layout_01.html" %}
+{% block title %} - {{ message.title }}{% endblock %}
+{% block content %}
+{{ message.text }}
+
+<ul>
+{% for link in message.links %}
+ <li><a href="{{ link.link }}">{{ link.name }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

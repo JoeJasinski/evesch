@@ -1,0 +1,43 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}{% load ellipsis %}
+{% load dict_lookup %}
+{% block title %} - {% trans "Home" %}{% endblock %}
+{% block header_page_specific %}{% endblock %}
+{% block content %}
+
+<a href="{% url home %}">{% trans "home" %}</a>
+&gt; {% trans "Organizations" %}
+
+<div>
+<ul class="nav">
+ <li><strong>{% trans "Organization" %}</strong>
+  <ul>
+    <li><a href="{% url org_org_add %}">{% trans "Add" %}</a></li>
+  </ul>
+ </li>
+</ul>
+</div>
+
+<div class="section">
+	<div class="section_title">{% trans "My Organizations" %}</div>
+	<div class="section_body">
+		<div id="my_org_list_container">
+			{# Statically load the list on first page load; this will be overridden by ajax #}
+			{% include "org/inc_myorgs_list_entry.html" %}
+			{# End Static #}
+		</div>
+	</div>
+</div>
+
+<div class="section">
+	<div class="section_title">{% trans "All Organizations" %}</div>
+	<div class="section_body">
+		<div id="all_org_list_container">
+			{# Statically load the list on first page load; this will be overridden by ajax #}
+			{% include "org/inc_orgs_list_entry.html" %}
+			{# End Static #}
+		</div>
+	</div>
+</div>
+
+{% endblock %}

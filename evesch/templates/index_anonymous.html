@@ -1,0 +1,23 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}{% load ellipsis %}
+{% load pagination_tags %}
+{% block title %} - {% trans "Home" %}{% endblock %}
+{% block header_page_specific %}<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/event_list_entry.css" />{% endblock %}
+{% block content %}
+&nbsp;
+<div>
+<ul class="nav">
+ <li><strong><a href="{% url account_signup %}">{% trans "Signup" %}</a></strong></li>
+ <li><strong><a href="{% url account_auth_login %}">{% trans "Login" %}</a></strong></li>
+ <li><strong><a href="">{% trans "Browse" %}</a></strong></li>
+</ul>
+</div>
+
+<div class="section">
+	<div class="section_title">{% trans "Welcome" %}</div>
+	<div class="section_body">
+		<img alt="" src="{{ MEDIA_URL }}images/calendar.png">
+	</div>
+</div>
+
+{% endblock %}

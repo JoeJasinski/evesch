@@ -1,0 +1,22 @@
+div.event_list_entry
+{
+  background-color: #eaf8e4;
+  border-top: solid black 1px;
+  padding: 6px;
+}
+
+div.event_list_entry div
+{
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+div.event_list_entry div div
+{
+  display: inline;
+}
+
+div.event_list_entry div div span.event_name
+{
+  width: 200px;
+}

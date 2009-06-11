@@ -1,0 +1,14 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}
+{% block title %} - {% trans "Add User" %}{% endblock %}
+
+{% block content %}
+	<a href="{% url home %}">{% trans "home" %}</a> &gt; {% trans "User Add" %}
+	<div class="section_title">{% trans "User Add" %}</div>
+	<FORM action="." method="POST">
+	  <TABLE>
+	   {{ form.as_table }}
+	  </TABLE>
+	  <INPUT type="submit" name="add_user" value="{% trans "Add" %}">
+	</FORM>
+{% endblock %}

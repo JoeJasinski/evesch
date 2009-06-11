@@ -1,0 +1,22 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}
+{% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Delete Group" %} {% endblock %}
+{% block content %}
+<a href="{% url home %}">{% trans "home" %}</a> 
+&gt; <a href="{% url org_orgs_list %}">{% trans "Organization" %}s</a>
+&gt; <a href="{% url org_org_view current_org.org_short_name %}">{{ current_org.org_name }}</a> 
+&gt; {% trans "Delete Group" %}
+{% include "event/inc_event_menu.html" %}
+<div class="section">
+	<div class="section_title">{% trans "Delete Group" %}</div>
+	<div class="section_body">
+		{% trans "Group Name" %}: {{ current_usergroup.group_name}}<BR>
+		{% trans "Belonging to" %}: {{ current_org.org_name }}
+		<BR><BR>
+		<FORM action="." method="POST">
+		{% trans "Are you sure you want to delete?" %}
+		<INPUT type="submit" name="remove_usergroup" value="{% trans "Delete" %}">
+		</FORM>
+	</div>
+</div>
+{% endblock %}

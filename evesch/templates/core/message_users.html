@@ -1,0 +1,14 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}
+{% block title %} - {{ message.title }}{% endblock %}
+{% block content %}
+
+<form method="post" action=".">
+<TABLE>
+<TR><TD><strong>{% trans "Attendees" %}</strong>:</TD><TD>{% for attendee in attendees %}<a href="{% url euser_user_view attendee.att_name %}">{{ attendee }}</a>, {% endfor %}</TD></TR>
+{{ form.as_table }}&nbsp;&nbsp;
+</TABLE>
+<INPUT type="submit" name="send_message" value="{% trans "Send" %}">
+</form>
+
+{% endblock %}

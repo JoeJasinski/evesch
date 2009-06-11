@@ -1,0 +1,25 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}
+{% block title %} - {% trans "Join Organization" %}{% endblock %}
+{% block content %}
+<a href="{% url home %}">{% trans "home" %}</a> 
+&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+&gt; {% trans "Join Organization" %}
+<div class="section">
+	<div class="section_title">{% trans "Join Organization" %}</div>
+	<div class="section_body">
+		<TABLE>
+		 <TR><TD>{% trans "Org Name" %}:</TD><TD>{{ current_org.org_name }}</TD></TR>
+		 <TR><TD>{% trans "Org Type" %}:</TD><TD>{{ current_org.get_org_type_display }}</TD></TR>
+		 <TR><TD>{% trans "Org Description" %}:</TD><TD>{{ current_org.org_desc }}</TD></TR>
+		</TABLE>
+		
+		<FORM action="." method="POST">
+		<TABLE>
+		 {{ form.as_table }}
+		</TABLE>
+		<INPUT type="submit" name="org_join" value="{% trans "Join" %}">
+		</FORM>
+	</div>
+</div>
+{% endblock %}

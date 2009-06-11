@@ -1,0 +1,53 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}
+{% block title %} - {{ message.title }}{% endblock %}
+    {% block header_page_specific %} 
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jautocomplete/jqac.css" />
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jautocomplete/jquery.autocomplete-1.4.2.js"></script>
+	<script type="text/javascript">
+
+	function get_look(v,cont){
+	$.get('{% url euser_ajax_lookup_users %}',{q:v},
+	        function(obj){
+	          var res = [];
+	          for(var i=0;i<obj.length;i++){
+	            res.push({ id:i , value:obj[i]});
+	          }
+	          cont(res);
+	        },
+	        'json');
+	}
+	
+	$("#invite_member_form").focus(function()
+	{
+		alert("asdf");
+	  $("#info").autocomplete({ajax_get:get_look, callback:print_sugg, cache:false});
+	});
+	
+	function print_sugg(obj){ $('#info').html('ID: '+obj.id+'<br>VALUE: '+obj.value+'<br>EXTRA: '+obj.extra); }
+	
+	$(document).ready(function()
+	{ $('#invite_member_form').autocomplete({ get : get_look,  callback: print_sugg, multi: true}); });
+	</script>
+{% endblock %}
+{% block content %}
+<a href="{% url home %}">{% trans "home" %}</a> 
+&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+&gt; <a href="{% url org_org_view current_org.org_short_name %}">{{ current_org.org_name }}</a> &gt; {% trans "Invite Members" %}
+{% include "event/inc_event_menu.html" %}
+
+<div class="section"> 
+	<div class="section_title">{% trans "Invite Members" %}</div>
+	<div class="section_body">
+		<FORM action="." method="POST">
+		<TABLE>
+		{{ form }}
+		</TABLE>
+	    <INPUT type="submit" name="add_org_members" value="{% trans "Add" %}">
+		</FORM>
+		<div id="info"></div>
+	</div>
+</div>
+
+
+{% endblock %}

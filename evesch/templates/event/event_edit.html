@@ -1,0 +1,32 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}
+{% block title %} - {% trans "Edit Event" %}{% endblock %}
+{% block header_page_specific %} 
+	<!-- calendar -->
+	<script type="text/javascript">
+	  $(document).ready(function(){
+	   $('#id_event_signup_deadline_0').datepicker({ dateFormat: 'yy-mm-dd' });
+	   $('#id_event_date_0').datepicker({ dateFormat: 'yy-mm-dd' });
+	   });
+	</script>
+	<!-- /calendar -->
+{% endblock %}
+{% block content %}
+<a href="{% url home %}">{% trans "home" %}</a>
+&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+&gt; <a href="{% url org_org_view current_org.org_short_name %}">{{ current_org.org_name }}</a> 
+&gt; <a href="{% url event_events_list current_org.org_short_name %}">{% trans "Events" %}</a>
+&gt; <a href="{% url event_event_view current_org.org_short_name event.event_hash %}">{{ event.event_name }}</a>
+&gt; {% trans "Edit Event" %}
+<div class="section"> 
+	<div class="section_title">{% trans "Edit Event" %}</div>
+	<div class="section_body">
+		<FORM action="." method=POST>
+		<TABLE>
+		 {{ form.as_table }}
+		</TABLE>
+		<INPUT type="submit" name="add_event" value="{% trans "Save" %}">
+		</FORM>
+	</div>
+</div>
+{% endblock %}
