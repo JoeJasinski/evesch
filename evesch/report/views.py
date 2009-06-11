@@ -37,6 +37,7 @@ def org_reports(request,org_short_name, type='generic', template_name=None):
         def __init__(self):
             user = None
             events = []
+            attending = []
             
     org_w = None
     current_org, message = Organization.objects.get_current_org(org_short_name)
@@ -57,6 +58,8 @@ def org_reports(request,org_short_name, type='generic', template_name=None):
             org_w.users = []
             for user in current_users.get_member():
                 user_w = UserWrapper()
+                user_w.user = user
+                
                 # needs more code here
             
             
