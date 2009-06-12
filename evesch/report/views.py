@@ -56,9 +56,10 @@ def org_reports(request,org_short_name, type='generic', template_name=None):
             type_display = _("Report grouped by User")
             org_w = OrgWrapper()
             org_w.users = []
-            for user in current_users.get_member():
+            for user in current_org.get_members():
                 user_w = UserWrapper()
                 user_w.user = user
+               
                 
                 # needs more code here
             
