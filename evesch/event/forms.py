@@ -59,7 +59,7 @@ class EventEditForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        exclude = ('event_hash','event_creator_name',)
+        exclude = ('event_org','event_hash','event_creator_name',)
     
 class AttendeeForm(forms.ModelForm):
     class Meta:
