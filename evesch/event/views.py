@@ -212,26 +212,12 @@ def event_attendee_add(request,org_short_name,event_hash,template_name=None):
         if request.method == 'POST':
             form = AttendeeForm(request.POST)
             if form.is_valid(): 
-                att_hours = form.cleaned_data['att_hours']
-                att_col1 = form.cleaned_data['att_col1']
-                att_col2 = form.cleaned_data['att_col2']
-                att_col3 = form.cleaned_data['att_col3']
-                att_col4 = form.cleaned_data['att_col4']
-                att_col5 = form.cleaned_data['att_col5']
-                att_col6 = form.cleaned_data['att_col6']
-                att_ip = request.META['REMOTE_ADDR'] 
-                att_added_date = datetime.now()
-                attendee = Attendee(att_name=current_user,att_added_date=att_added_date)
-                attendee.att_ip=att_ip
-                attendee.att_hours=att_hours
-                attendee.att_col1=att_col1
-                attendee.att_col2=att_col2
-                attendee.att_col3=att_col3
-                attendee.att_col4=att_col4
-                attendee.att_col5=att_col5
-                attendee.att_col6=att_col6
+		attendee = form.save(commit=False)
+		attendee.att_name = current_user
+		attendee.att_event = current_event
+                attendee.att_ip = request.META['REMOTE_ADDR'] 
+                attendee.att_added_date = datetime.now()
                 attendee.save()
-                attendee.att_event.add(current_event)
                 #context = {'current_org':current_org,'current_event':current_event,'current_user':current_user,'form':form }
                 template_name = "core/message.html"
                 message = Message(title=_("Registration Complete"), text=_("You have Registered for this event"))           

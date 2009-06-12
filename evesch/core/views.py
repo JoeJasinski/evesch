@@ -23,12 +23,12 @@ def index(request,template_name=None):
 
         try:
             current_user = User.objects.get(username=request.user)
-            user_signups = Attendee.objects.filter(att_name=current_user)
-            #user_events = Event.objects.filter(attendee__att_name__in=user_signups).distinct()
-            user_events = Event.objects.none()
+            user_signups = current_user.get_attending_events() #Attendee.objects.filter(att_name=current_user)
+            user_events = Event.objects.filter(attendee__att_name__in=user_signups).filter(event_date__gte=datetime.now()).order_by('event_date')
+            #user_events = Event.objects.none()
             #user_events = []
-            for att in user_signups:
-                user_events = (user_events | att.att_event.all()).filter(event_date__gte=datetime.now()).order_by('event_date')
+            #for att in user_signups:
+            #    user_events = (user_events | att.att_event).filter(event_date__gte=datetime.now()).order_by('event_date')
                 
             user_orgs = current_user.get_user_orgs().order_by('org_name')
     

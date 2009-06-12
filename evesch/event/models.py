@@ -247,7 +247,7 @@ class AttendeeManager(models.Manager):
 class Attendee(models.Model):
 	att_name = models.ForeignKey(User, 
 		verbose_name=_("User Attending"))
-	att_event = models.ManyToManyField(Event,
+	att_event = models.ForeignKey(Event,
 		#related_name="event_attendees",
 		verbose_name=_("Event to Attend"))
 	att_added_date = models.DateTimeField(
