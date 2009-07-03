@@ -46,7 +46,7 @@ class EventType(models.Model):
 		verbose_name=_("Event Type Color"),
 		max_length=15, 
 		blank=True, null=True)
-	type_track_hours = models.BooleanField(
+	type_track_hours = models.NullBooleanField(
 		db_column="type_track_hours",
 		verbose_name=_("Track Hours for events of this type?"),
 		default = False, blank=True, null=True)
@@ -67,7 +67,9 @@ class EventType(models.Model):
 	objects = EventTypeManager()
 
 	def get_events(self):
-		return self.event_set.filter(event_active=True)
+		if not hasattr(self, '_events'):
+			self._events = self.event_set.filter(event_active=True)
+		return self._events
 
 	#class Meta:
 	#	db_table="EventTypes"
@@ -97,7 +99,7 @@ class Event(models.Model):
 		db_index=True,
 		unique=True,
 		max_length=8,)
-	event_active = models.BooleanField(
+	event_active = models.NullBooleanField(
 		db_column="event_active",
 		verbose_name=_("Does the Event Exist?"),
 		default = True, blank=True, null=True)
@@ -185,19 +187,29 @@ class Event(models.Model):
 		return "%s" % (self.event_name)
 	
 	def get_attendees(self):
-		return self.attendee_set.all()
+		if not hasattr(self, '_attendees'):
+			self._attendees = self.attendee_set.all()
+		return self._attendees
 	
 	def get_attendee_count(self):
-		return self.attendee_set.count()
+		if not hasattr(self, '_attendee_count'):
+			self._attendee_count = self.attendee_set.count()
+		return self._attendee_count
 	
 	def get_event_coordinators(self):
-		return self.event_coordinators.all()
+		if not hasattr(self, '_event_coordinators'):
+			self._event_coordinators = self.event_coordinators.all()
+		return self._event_coordinators
 
 	def is_attending(self, user):
-		return self.attendee_set.filter(att_name=user)
+		if not hasattr(self, '_is_attending'):
+			self._is_attending = self.attendee_set.filter(att_name=user)
+		return self._is_attending
 	
 	def is_event_coordinator(self,user):
-		return self.event_coordinators.filter(username=user)
+		if not hasattr(self, '_is_event_coordinator'):
+			self._is_event_coordinator = self.event_coordinators.filter(username=user)
+		return self._is_event_coordinator
 
 	def is_creator(self,user):
 		if self.event_creator_name.id == user.id:

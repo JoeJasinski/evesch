@@ -63,14 +63,12 @@
 </div>
 
 <div class="section">
-	<div class="section_title">{% trans "Members" %}<span class="section_header_icon"><a title="{% trans "Invite User to Org" %}" href="{% url org_org_member_invite current_org.org_short_name %}"><img alt="add" style="border: solid 0px;" src="{{ MEDIA_URL }}images/join.png"></a></span></div>
+	<div class="section_title">{% trans "Members" %} ({{ current_org.get_member_count }})<span class="section_header_icon"><a title="{% trans "Invite User to Org" %}" href="{% url org_org_member_invite current_org.org_short_name %}"><img alt="add" style="border: solid 0px;" src="{{ MEDIA_URL }}images/join.png"></a></span></div>
 	<div class="section_body">
-		{% for user in current_org.get_members %}
-		 <span class="org_user_list"> &nbsp; <span style="float: right;"><a title="{% trans "Remove Member" %}" href="{% url org_org_member_remove current_org.org_short_name user.username %}"><img alt="remove" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove_user.png"></a></span><div><a href="{% url euser_user_view user.username %}">{{ user.first_name }} {{ user.last_name }} ({{ user.username }}) </a></div></span>
-		{% endfor %}
-		<div style="clear: both"></div>
+		<div id="org_user_list_container">
+			{% include  "org/inc_org_user_list.html" %}
+	    </div>
 	</div>
 </div>
-
 
 {% endblock %}

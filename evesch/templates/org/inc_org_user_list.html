@@ -1,0 +1,24 @@
+{% load i18n %}
+			<script language="Javascript" type="text/javascript">
+			$(document).ready(function()
+			{
+			    function load_posts(url)
+			    {  var cachebuster=Math.floor(Math.random()*10000001); $("#org_user_list_container").load( url, "ajax=" + cachebuster );  }
+			    
+			    $("#members_prev").click(function() 
+			    {  load_posts("{{ ajax_page_members }}?members_page={{ members.prev }}"); });
+			    
+			    $("#members_next").click(function() 
+			    {  load_posts("{{ ajax_page_members }}?members_page={{ members.next }}"); });		    
+			
+			});
+			</script>
+			<div> {% trans "Page" %} {{ members.curr }} {% trans "of" %} {{ members.num_pages }}</div>
+			<span>{% if members.prev %}<a id="members_prev" href=".?members_page={{ members.prev }}" onClick="return false;">Previous</a>{% else %}Previous{% endif %}</span>
+			<span>{% if members.next %}<a id="members_next" href=".?members_page={{ members.next }}" onClick="return false;">Next</a>{% else %}Next{% endif %}</span>
+			<div>
+			{% for user in members.current_page.object_list  %}
+			 <span class="org_user_list"> &nbsp; <span style="float: right;"><a title="{% trans "Remove Member" %}" href="{% url org_org_member_remove current_org.org_short_name user.username %}"><img alt="remove" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove_user.png"></a></span><div><a href="{% url euser_user_view user.username %}">{{ user.first_name }} {{ user.last_name }} ({{ user.username }}) </a></div></span>
+			{% endfor %}
+						<div style="clear: both"></div>
+			</div>

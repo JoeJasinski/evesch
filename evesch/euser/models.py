@@ -81,20 +81,6 @@ class User(User):
         (1,u'Female'),
     )
 
-    last_name = models.CharField(
-        db_column=u"last_name",
-        verbose_name=_("Last Name"),
-        #db_index=True,
-        #unique=False,
-        max_length=48, 
-        null=True, blank=True)
-    first_name = models.CharField(
-        db_column=u"first_name",
-        verbose_name=_("First Name"),
-        #db_index=True,
-        #unique=False,
-        max_length=48, 
-        null=True, blank=True)
     user_organizations = models.ManyToManyField(Organization, 
         related_name = "org_users",
         verbose_name = _("User Organizations"),                                    
@@ -142,14 +128,30 @@ class User(User):
         return "%s" % (self.username)
     
     def get_user_orgs(self):
-        return self.user_organizations.filter(org_active=True)
+        if not hasattr(self, '_user_orgs'):
+            self._user_orgs = self.user_organizations.filter(org_active=True)
+        return self._user_orgs
 
     def get_user_groups(self):
-        return self.user_groups.all()
+        if not hasattr(self, '_user_groups'):
+            self._user_groups = self.user_groups.all()
+        return self._user_groups
     
     def get_attending_events(self):
-        return self.attendee_set.all()
-        
+        if not hasattr(self, '_attending_events'):
+            self._attending_events = self.attendee_set.all()
+        return self._attending_events
+    
+    def get_org_invites(self):
+        if not hasattr(self, '_org_invites'):
+            self._org_invites = self.user_invites_set.all()
+        return self._org_invites
+
+    def get_org_invites_count(self):
+        if not hasattr(self, '_org_invites_count'):
+            self._org_invites_count = self.user_invites_set.count()
+        return self._org_invites_count
+            
     def save(self):
         super(User, self).save()
 

@@ -3,7 +3,7 @@
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Edit Organization" %}{% endblock %}
 {% block content %}
 <a href="{% url home %}">{% trans "home" %}</a> 
-&gt; <a href="{% url org_orgs_list %}">{% trasn "Organizations" %}</a>
+&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
 &gt; <a href="{% url org_org_view current_org.org_short_name %}">{{ current_org.org_name }}</a> &gt; {% trans "Edit Organization" %}
 {% include "event/inc_event_menu.html" %}
 

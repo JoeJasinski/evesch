@@ -7,16 +7,18 @@
 home
 <BR><BR>
 
-<div class="section_title">{% trans "Dashboard " %} - {{ request.user }}</div>
+<div class="section_title">{% trans "Dashboard " %} - <a href="{% url euser_user_view request.user.username %}">{{ request.user }}</a></div>
 
 <div class="section">
 	<div class="section_title">{% trans "My Organizations" %} - <a style="font-size: 12px;" href="{% url org_orgs_list %}">{% trans "Manage" %}</a></div>
 	<div class="section_body">
+ 	    <div id="my_org_list_container">
 		{% if my_orgs_page.current_page.object_list %}   
 				{% include "org/inc_myorgs_list_entry.html" %}
 		{% else %}
 		   {% trans "No orgs listed." %}
-		{% endif %}	
+		{% endif %}
+		</div>
 	</div>
 </div>
 
@@ -24,12 +26,9 @@ home
 	<div class="section_title">{% trans "My Events:" %}</div>
 	<div class="section_body">
 		{% if user_events %}   
-		   {% autopaginate user_events 20 %}
-		   {% paginate %}
 		   {% with user_events as events %}
 		      {% include "event/inc_events_list_entry.html" %} 
 		   {% endwith %}
-		   {% paginate %}
 		{% else %}
 		   {% trans "No events listed." %}
 		{% endif %}

@@ -84,6 +84,7 @@ def group_edit(request, org_short_name, group_hash, template_name=None):
             #form.org_name = current_org
             if form.is_valid():
                 form.save()
+                return HttpResponseRedirect(reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
         else:
             form = UserGroupEditForm(instance=current_usergroup)
         context = {'current_org':current_org,'form':form}

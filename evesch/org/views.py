@@ -1,6 +1,6 @@
 # Create your views here.
 from django.utils.translation import ugettext_lazy as _
-from org.models import Organization
+from org.models import Organization, OrgInvite
 from org.forms import OrganizationForm, OrganizationFormEdit, OrganizationJoinForm, OrganizationInviteMember
 from django.shortcuts import render_to_response
 from datetime import datetime
@@ -13,6 +13,7 @@ from core.lib import Message, ePage
 from egroup.models import UserGroup
 from euser.models import User, get_current_user
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 @login_required
@@ -33,7 +34,7 @@ def orgs_list(request, template_name=None):
             try:
                 my_orgs_page.curr = int(request.GET['my_orgs_page'])
                 #my_orgs_page.curr = int(request.GET.get('my_orgs_page',1))
-            except ValueError:
+            except:
                 my_orgs_page.curr = 1 
 
         my_org_groups = UserGroup.objects.filter(pk__in=current_user.get_user_groups())
@@ -50,6 +51,8 @@ def orgs_list(request, template_name=None):
                    'all_orgs_page':all_orgs_page,
                    'my_groups':my_groups,
                    'my_orgs_page':my_orgs_page,
+                   'ajax_page_my':reverse('org_orgs_list_my_ajax',kwargs={}),
+                   'ajax_page_all':reverse('org_orgs_list_all_ajax',kwargs={}),
                    }
     else:
         template_name = "core/message.html"
@@ -58,26 +61,38 @@ def orgs_list(request, template_name=None):
 
 
 @login_required
-def orgs_list_all(request, template_name=None):       
-    current_user, message = get_current_user(request.user)
+def orgs_list_all(request, template_name=None):    
+    message = None
+    if not request.is_ajax():
+        template_name = "core/message.html"
+        message = Message(title=_("Cannot Be Viewed"), text=_("Cannot view this page" ))          
+        context = {'message':message,}
+    if not message:   
+        current_user, message = get_current_user(request.user)
     if not message:
         all_orgs_page = ePage(1)
         if request.GET.__contains__("all_orgs_page"): 
             try:
                 all_orgs_page.curr  = int(request.GET['all_orgs_page'])
-            except ValueError:
+            except:
                 all_orgs_page.curr = 1
         orgs = Organization.objects.filter(org_active=True).order_by('org_name')
         all_orgs_page.set_pages(Paginator(orgs, 3))
-        context = {'all_orgs_page':all_orgs_page,}
+        context = {'all_orgs_page':all_orgs_page, 'ajax_page_all':reverse('org_orgs_list_all_ajax',kwargs={}),}
     else:
         template_name = "core/message.html"
         context = {'message':message }
     return render_to_response(template_name,context, context_instance=RequestContext(request))
 
 @login_required
-def orgs_list_my(request, template_name=None):       
-    current_user, message = get_current_user(request.user)
+def orgs_list_my(request, template_name=None):
+    message = None
+    if not request.is_ajax():
+        template_name = "core/message.html"
+        message = Message(title=_("Cannot Be Viewed"), text=_("Cannot view this page" ))          
+        context = {'message':message,}
+    if not message:
+        current_user, message = get_current_user(request.user)
     if not message:
         orgs = Organization.objects.filter(org_active=True).order_by('org_name')
 
@@ -85,7 +100,7 @@ def orgs_list_my(request, template_name=None):
         if request.GET.__contains__("my_orgs_page"): 
             try:
                 my_orgs_page.curr = int(request.GET['my_orgs_page'])
-            except ValueError:
+            except:
                 my_orgs_page.curr = 1 
         my_org_groups = UserGroup.objects.filter(pk__in=current_user.get_user_groups())
         my_groups = orgs.filter(group_set__in=my_org_groups)
@@ -97,14 +112,13 @@ def orgs_list_my(request, template_name=None):
         my_orgs_page.set_pages(Paginator(jaz_orgs, 3))
 
         #raise AssertionError(my_orgs_page.current_page().object_list)
-        context = {'my_orgs_page':my_orgs_page,}
+        context = {'my_orgs_page':my_orgs_page,'ajax_page_my':reverse('org_orgs_list_my_ajax',kwargs={}),}
     else:
         template_name = "core/message.html"
         context = {'message':message }
     return render_to_response(template_name,context, context_instance=RequestContext(request))
 
-
-
+@login_required
 def org_join(request, org_short_name, template_name=None):
     current_user, message = get_current_user(request.user)
     if not message:
@@ -115,6 +129,13 @@ def org_join(request, org_short_name, template_name=None):
             template_name = "core/message.html"
             message = Message(title=_("Already a Member"), text=_("You are already a member of this organization." ))          
             message.addlink(_("Continue"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            context = {'message':message,}
+    if not message:
+        operms = current_org.org_perms(current_user)
+        if not operms['can_join_org']:
+            template_name = "core/message.html"
+            message = Message(title=_("Approval Needed"), text=_("In order to join this organization, you need approval from the organization admin."))
+            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
             context = {'message':message,}
     if not message:  
         if request.method == 'POST':                    
@@ -132,6 +153,7 @@ def org_join(request, org_short_name, template_name=None):
         context = {'message':message }
     return render_to_response(template_name,context,context_instance=RequestContext(request))
 
+@login_required
 def org_leave(request, org_short_name, template_name=None):
     current_user, message = get_current_user(request.user)
     if not message:
@@ -159,16 +181,51 @@ def org_view(request,org_short_name,template_name=None):
     """ Displays organization detail information """
     current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:
-        org_eventtypes = current_org.eventtype_set.filter(type_active=True)
-        context = {'message':_("Org View"),'current_org':current_org,'org_eventtypes':org_eventtypes}
+        members_page = ePage(1)
+        if request.GET.__contains__("members_page"): 
+            try:
+                members_page.curr  = int(request.GET['members_page'])
+            except:
+                members_page.curr = 1
+        members = current_org.get_members()
+        members_page.set_pages(Paginator(members, 48))
+        #raise AssertionError(members_page.prev)
+        
+        org_eventtypes = current_org.get_eventtypes()
+        context = {'message':_("Org View"),'current_org':current_org,'org_eventtypes':org_eventtypes, 'members':members_page, 'ajax_page_members': reverse('org_org_user_list_ajax', kwargs={'org_short_name':current_org.org_short_name,})}
     else:
         template_name = "core/message.html"
         context = {'message':message }    
     return render_to_response(template_name,context,context_instance=RequestContext(request))
 
 @login_required
+def org_members(request,org_short_name,template_name=None):
+    message = None
+    if not request.is_ajax():
+        template_name = "core/message.html"
+        message = Message(title=_("Cannot Be Viewed"), text=_("Cannot view this page" ))          
+        context = {'message':message,}
+    if not message:
+        current_org, message = Organization.objects.get_current_org(org_short_name)
+    if not message:
+        members_page = ePage(1)
+        if request.GET.__contains__("members_page"): 
+            try:
+                members_page.curr  = int(request.GET['members_page'])
+            except:
+                members_page.curr = 1
+        members = current_org.get_members()
+        members_page.set_pages(Paginator(members, 48))
+        context = {'current_org':current_org,'members':members_page,'ajax_page_members': reverse('org_org_user_list_ajax', kwargs={'org_short_name':current_org.org_short_name,})}
+    else:
+        template_name = "core/message.html"
+        context = {'message':message }  
+    return render_to_response(template_name,context,context_instance=RequestContext(request))
+
+
+@login_required
 def org_edit(request,org_short_name=None,template_name=None):
-    """ Edits and organization """
+    """ Edits an organization """
     
     current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:    
@@ -293,6 +350,7 @@ def org_member_remove(request,org_short_name=None, username=None, template_name=
 @login_required
 def org_member_invite(request,org_short_name=None, template_name=None):
     current_user, message = get_current_user(request.user)
+    invited_users = User.objects.none()
     if not message:
         current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:
@@ -303,9 +361,67 @@ def org_member_invite(request,org_short_name=None, template_name=None):
             message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
             context = {'message':message,}
     if not message:
-        form = OrganizationInviteMember()
-        context = {'current_org':current_org,'form':form,}
+        invited_users_page = ePage(1)
+        org_invites = current_org.invite_set.all()
+        invited_users = User.objects.filter(user_invites_set__in=org_invites)       
+        if request.method == 'POST':
+            form = OrganizationInviteMember(request.POST)
+            if form.is_valid():
+                user_list = form.cleaned_data['invite_list'].strip().strip(',').split(',')
+                new_user_list = []
+                for user in user_list:
+                    new_user_list.append(user.strip().strip(','))
+                new_invited_users = User.objects.filter(username__in=new_user_list).exclude(user_invites_set__in=org_invites)
+                for user in new_invited_users:
+                    i = OrgInvite()
+                    i.user = user
+                    i.org = current_org
+                    i.direction = True
+                    i.save()
+                invited_users = invited_users | new_invited_users  
+        else:
+            form = OrganizationInviteMember()
+
+            if request.GET.__contains__("members_page"): 
+                try:
+                    members_page.curr = int(request.GET['members_page'])
+                except:
+                    members_page.curr = 1 
+                
+        invited_users_page.set_pages(Paginator(invited_users, 5))
+
+        context = {'current_org':current_org,'form':form,'invited_users':invited_users_page,'ajax_page_members':reverse('org_org_invites_list_ajax', kwargs={'org_short_name':current_org.org_short_name,})}
     else:
         template_name = "core/message.html"
         context = {'message':message }
-    return render_to_response(template_name,context,context_instance=RequestContext(request))    
+    return render_to_response(template_name,context,context_instance=RequestContext(request))   
+
+def org_list_invites(request,org_short_name,template_name=None):
+    invited_users_page = ePage(1)
+    message = None
+    if not True: # request.is_ajax():
+        template_name = "core/message.html"
+        message = Message(title=_("Cannot Be Viewed"), text=_("Cannot view this page" ))          
+        context = {'message':message,}
+    if not message:
+        current_user, message = get_current_user(request.user)
+    if not message:
+        current_org, message = Organization.objects.get_current_org(org_short_name)      
+    if not message:
+        if request.GET.__contains__("invited_users_page"): 
+            try:
+                invited_users_page.curr = int(request.GET['invited_users_page'])
+            except:
+                invited_users_page.curr = 1 
+
+        org_invites = current_org.invite_set.all()
+        invited_users = User.objects.filter(user_invites_set__in=org_invites)   
+        invited_users_page.set_pages(Paginator(invited_users, 5))
+        context = {'current_org':current_org,'invited_users':invited_users_page,'ajax_page_members':reverse('org_org_invites_list_ajax', kwargs={'org_short_name':current_org.org_short_name,})}
+
+    else:
+        template_name = "core/message.html"
+        context = {'message':message }
+    return render_to_response(template_name,context,context_instance=RequestContext(request))
+
+   

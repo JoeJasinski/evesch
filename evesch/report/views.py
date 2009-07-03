@@ -59,11 +59,15 @@ def org_reports(request,org_short_name, type='generic', template_name=None):
             for user in current_org.get_members():
                 user_w = UserWrapper()
                 user_w.user = user
-               
-                
+                user_w.attending = []
+                user_w.events = []
+                for att in user.get_attending_events():
+                    user_w.attending.append(att)
+                    user_w.events.append(att.att_event)
+                org_w.users.append(user)
+            
                 # needs more code here
-            
-            
+                
         elif type == 'eventtype':            
             type_display = _("Report grouped by Event Type")
             org_w = OrgWrapper()

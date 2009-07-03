@@ -14,7 +14,7 @@ MANAGERS = ADMINS
 AUTH_PROFILE_MODULE = 'core.User'
 
 DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'eveschd'             # Or path to database file if using sqlite3.
+DATABASE_NAME = 'eveschd_test'             # Or path to database file if using sqlite3.
 DATABASE_USER = 'evesch'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'brutus1234'         # Not used with sqlite3.
 DATABASE_HOST = 'localhost'             # Set to empty string for localhost. Not used with sqlite3.
@@ -24,7 +24,7 @@ DATABASE_OPTIONS = {
      "init_command": "SET storage_engine=INNODB",
      }
 
-
+INTERNAL_IPS = ('127.0.0.1','localhost',)
 
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, "core"))
@@ -81,6 +81,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.doc.XViewMiddleware',
     'core.pagination.middleware.PaginationMiddleware',
     'core.middleware.StripWhitespaceMiddleware.StripWhitespaceMiddleware',
+#    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'evesch.urls'
@@ -115,6 +116,8 @@ INSTALLED_APPS = (
     'calendar',
     'core.feed',
     'core.pagination',
+#    'core.debug_toolbar',
+    'core.ajax_filtered_fields',
     'report',
 )
 

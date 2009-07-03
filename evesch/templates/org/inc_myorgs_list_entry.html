@@ -7,17 +7,17 @@
 			    {  var cachebuster=Math.floor(Math.random()*10000001); $("#my_org_list_container").load( url, "ajax=" + cachebuster );  }
 			    
 			    $("#my_orgs_prev").click(function() 
-			    {  load_posts("{% url org_orgs_list_my_ajax %}?my_orgs_page={{ my_orgs_page.prev }}"); });
+			    {  load_posts("{{ ajax_page_my }}?my_orgs_page={{ my_orgs_page.prev }}"); });
 			    
 			    $("#my_orgs_next").click(function() 
-			    {  load_posts("{% url org_orgs_list_my_ajax %}?my_orgs_page={{ my_orgs_page.next }}"); });		    
+			    {  load_posts("{{ ajax_page_my }}?my_orgs_page={{ my_orgs_page.next }}"); });		    
 			
 			});
 			</script>
 			<div> {% trans "Page" %} {{ my_orgs_page.curr }} {% trans "of" %} {{ my_orgs_page.num_pages }}</div>
-			<span>{% if my_orgs_page.prev %}<a id="my_orgs_prev" href="{% url org_orgs_list %}?my_orgs_page={{ my_orgs_page.prev }}&all_orgs_page={{ all_orgs_page.prev }}" onClick="return false;">Previous</a>{% else %}Previous{% endif %}</span>
-			<span>{% if my_orgs_page.next %}<a id="my_orgs_next" href="{% url org_orgs_list %}?my_orgs_page={{ my_orgs_page.next }}&all_orgs_page={{ all_orgs_page.next }}" onClick="return false;">Next</a>{% else %}Next{% endif %}</span>
-		
+			<span>{% if my_orgs_page.prev %}<a id="my_orgs_prev" href=".?my_orgs_page={{ my_orgs_page.prev }}&all_orgs_page={{ all_orgs_page.prev }}" onClick="return false;">Previous</a>{% else %}Previous{% endif %}</span>
+			<span>{% if my_orgs_page.next %}<a id="my_orgs_next" href=".?my_orgs_page={{ my_orgs_page.next }}&all_orgs_page={{ all_orgs_page.next }}" onClick="return false;">Next</a>{% else %}Next{% endif %}</span>
+
 			<TABLE>
 			{% for org in my_orgs_page.current_page.object_list %}
 			  <TR><TD><a href="{% url org_org_view org.org_short_name %}">{{ org.org_name }}</a></TD>

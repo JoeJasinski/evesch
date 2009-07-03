@@ -7,10 +7,10 @@
 			    {  var cachebuster=Math.floor(Math.random()*10000001); $("#all_org_list_container").load( url, "ajax=" + cachebuster );  }
 			    
 			    $("#all_orgs_prev").click(function() 
-			    { load_posts("{% url org_orgs_list_all_ajax %}?all_orgs_page={{ all_orgs_page.prev }}"); });
+			    { load_posts("{{ ajax_page_all }}?all_orgs_page={{ all_orgs_page.prev }}"); });
 			    
 			    $("#all_orgs_next").click(function() 
-			    { load_posts("{% url org_orgs_list_all_ajax %}?all_orgs_page={{ all_orgs_page.next }}"); });		    
+			    { load_posts("{{ ajax_page_all }}?all_orgs_page={{ all_orgs_page.next }}"); });		    
 			
 			});
 			</script>

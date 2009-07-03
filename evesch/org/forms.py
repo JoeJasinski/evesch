@@ -3,10 +3,12 @@ from django.forms import ModelForm, Form
 from org.models import Organization
 from django.utils.translation import ugettext_lazy as _
 
+
 class OrganizationForm(ModelForm):
     org_short_name = forms.CharField()
     org_desc = forms.CharField(max_length=512,
          widget=forms.Textarea(attrs = {'cols': '45', 'rows': '5'}))
+    
     class Meta:
         model = Organization
         exclude = ('org_date_created','org_feed_hash',)
@@ -35,9 +37,13 @@ class OrganizationFormEdit(ModelForm):
         
 
 class OrganizationInviteMember(Form):
-    invite_list = forms.CharField(max_length=512,
+    invite_list = forms.CharField(required=False, max_length=512,
          widget=forms.Textarea(attrs = {'cols': '45', 'rows': '5','id':'invite_member_form'}))
+    def clean_invite_list(self):
+        user_string = self.cleaned_data['invite_list']
+        user_string = user_string.strip().strip(',').strip()
+        return user_string
 
+    class Meta:
+        exclude = ('direction',)
 
-
-        

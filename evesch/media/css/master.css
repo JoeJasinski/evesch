@@ -39,13 +39,11 @@ a
 
 }
 
-.header_banner .logo
+.logo a img
 {
-  float: left;
-  margin: 15px;
-  font-size: 40px;
-  height: 1em;
-}
+outline: 0;
+border: 0px; 
+} 
 
 .main_container
 {
@@ -220,5 +218,13 @@ span.org_user_list
 #filter_toggle
 {
  margin: 5px;
+}
+
+.logo_text
+{
+ position: absolute; 
+  z-index: 10; 
+  left: 1000; 
+  display: none;
 }
 

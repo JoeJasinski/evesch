@@ -1,5 +1,5 @@
 {% extends "base_layout_01.html" %}
-{% load i18n %}
+{% load i18n %}	   {% load adminmedia %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Add Event" %}{% endblock %}
 {% block header_page_specific %} 
 	<!-- calendar -->
@@ -14,6 +14,8 @@
 	   });
 	</script>
 	<!-- /calendar -->
+	<script type="text/javascript" src="/admin/jsi18n/"></script>
+	<script type="text/javascript" src="{% admin_media_prefix %}js/core.js"></script>
 {% endblock %}
 {% block content %}
 <a href="{% url home %}">{% trans "home" %}</a> 

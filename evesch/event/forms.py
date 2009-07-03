@@ -4,6 +4,9 @@ from event.models import  EventType, Event, Attendee
 from org.models import Organization
 from django.core.exceptions import ObjectDoesNotExist
 from core.widgets import DateTimeWidget
+from core.ajax_filtered_fields.forms import ManyToManyByLetter
+from django.conf import settings
+from euser.models import User
 import re 
     
 class ColorField(forms.CharField):
@@ -30,12 +33,21 @@ class EventTypeForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     event_desc = forms.CharField(
          widget=forms.Textarea(attrs = {'cols': '30', 'rows': '5'}))
-    #TASK: fix this logic below - it should be a dynamic list box 
     event_type = forms.ModelChoiceField(queryset=EventType.objects.none())
-    event_date = forms.SplitDateTimeField(widget=forms.SplitDateTimeWidget({'id':"id_event_date"}))
-    event_signup_deadline = forms.SplitDateTimeField(widget=forms.SplitDateTimeWidget({'id':"id_event_signup_deadline"}))
+    event_date = forms.SplitDateTimeField(widget=forms.SplitDateTimeWidget(time_format="%H:%M", attrs={'id':"id_event_date"}))
+    event_signup_deadline = forms.SplitDateTimeField(widget=forms.SplitDateTimeWidget(time_format="%H:%M", attrs={'id':"id_event_signup_deadline"}))
+    
+    #event_coordinators = ManyToManyByLetter(User, field_name="username")
 
-    #forms.DateTimeField(widget=DateTimeWidget())
+
+    class Media:
+        js = (
+            settings.ADMIN_MEDIA_PREFIX + "js/SelectBox.js",
+            settings.ADMIN_MEDIA_PREFIX + "js/SelectFilter2.js",
+            settings.MEDIA_URL + 'js/jqui/js/jquery-1.3.2.min.js',
+            settings.MEDIA_URL + 'js/ajax_filtered_fields/ajax_filtered_fields.js',
+        )
+    
     
     def __init__(self, current_org, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
@@ -43,7 +55,7 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        exclude = ('event_org','event_hash','event_creator_name','event_created_date',)
+        exclude = ('event_org','event_hash','event_creator_name','event_created_date','event_active',)
     
     
 class EventEditForm(forms.ModelForm):
@@ -54,12 +66,12 @@ class EventEditForm(forms.ModelForm):
 
     event_desc = forms.CharField(max_length=512, widget=forms.Textarea(attrs = {'cols':'45','rows':'5'}))
     #event_date = forms.DateTimeField(widget=forms.TextInput(attrs = {'id':'id_event_date',}))
-    event_date = forms.SplitDateTimeField(widget=forms.SplitDateTimeWidget({'id':"id_event_date"}))
-    event_signup_deadline = forms.SplitDateTimeField(widget=forms.SplitDateTimeWidget({'id':"id_event_signup_deadline"}))
+    event_date =            forms.SplitDateTimeField(widget=forms.SplitDateTimeWidget(time_format='%H:%M', attrs={'id':"id_event_date"}))
+    event_signup_deadline = forms.SplitDateTimeField(widget=forms.SplitDateTimeWidget(time_format='%H:%M', attrs={'id':"id_event_signup_deadline"}))
 
     class Meta:
         model = Event
-        exclude = ('event_org','event_hash','event_creator_name',)
+        exclude = ('event_org','event_hash','event_creator_name','event_active',)
     
 class AttendeeForm(forms.ModelForm):
     class Meta:

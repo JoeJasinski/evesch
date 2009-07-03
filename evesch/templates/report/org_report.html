@@ -51,7 +51,7 @@
 	  {% else %}{% ifequal type "eventtype" %}
 		{% include "report/inc_org_report_eventtype.html" %}
 	  {% else %}{% ifequal type "user" %}
-		Not ready
+		{% include "report/inc_org_report_user.html" %}
 	  {% endifequal %}{% endifequal %}{% endifequal %}{% endifequal %}
 	</div>
 </div>

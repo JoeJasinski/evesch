@@ -16,4 +16,17 @@
 	</div>
  </div>
 
+{% if myprofile %}
+<div class="section">
+	<div class="section_title">{% trans "My Invites" %} ({{ current_user.get_org_invites_count }})</div>
+	<div class="section_body">
+		<TABLE>
+		{% for invite in current_user.get_org_invites %}
+		 <TR><TD><a href="{% url org_org_view invite.org.org_short_name %}">{{ invite.org }}</a></TD></TR>
+		{% endfor %}
+		</TABLE>
+	</div>
+ </div>
+{% endif %}
+
 {% endblock %}

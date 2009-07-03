@@ -9,6 +9,8 @@ from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
+from django.db.models import Q
+
 
 def get_or_create_profile(self,user):
     try:
@@ -36,7 +38,13 @@ def user_add(request,template_name=None):
 @login_required
 def user_view(request,username, template_name=None):
     current_user, message = get_current_user(username)
-    context = {'current_user':current_user,}
+    if request.user.id == current_user.id:
+        myprofile = True
+    else:
+        myprofile = False
+        
+        
+    context = {'current_user':current_user,'myprofile':myprofile}
     return render_to_response(template_name,context, context_instance=RequestContext(request))
 
 @login_required
@@ -46,7 +54,7 @@ def lookup_users(request, template_name=None):
     if request.GET.__contains__("q"): 
         try:
             q  = request.GET['q']
-            users = User.objects.filter(username__contains=q)
+            users = User.objects.filter(Q(username__contains=q) | Q(last_name__contains=q) | Q(first_name__contains=q)).order_by('username')[:10]
         except ValueError:
             pass
     

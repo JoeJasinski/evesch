@@ -23,9 +23,11 @@ def index(request,template_name=None):
 
         try:
             current_user = User.objects.get(username=request.user)
-            user_signups = current_user.get_attending_events() #Attendee.objects.filter(att_name=current_user)
+            attending = current_user.get_attending_events()
+            user_events = Event.objects.filter(attendee__in=attending)
+            #user_signups = current_user.get_attending_events() #Attendee.objects.filter(att_name=current_user)
             #user_events = Event.objects.filter(attendee__att_name__in=user_signups).filter(event_date__gte=datetime.now()).order_by('event_date')    
-            user_events = []
+            #user_events = []
             #user_events = []
             #for att in user_signups:
             #    user_events.append(att.att_event)
@@ -37,12 +39,12 @@ def index(request,template_name=None):
             if request.GET.__contains__("my_orgs_page"): 
                 try:
                     my_orgs_page.curr = int(request.GET['my_orgs_page'])
-                except ValueError:
+                except:
                     my_orgs_page.curr = 1 
     
             my_orgs_page.set_pages(Paginator(user_orgs, 3))
     
-            context = {'user_events':user_events,'my_orgs_page':my_orgs_page,}
+            context = {'user_events':user_events,'my_orgs_page':my_orgs_page,'ajax_page_my':reverse('org_orgs_list_my_ajax',kwargs={}),}
         except ObjectDoesNotExist:
             template_name = "error.html"
             context = {'error':_("User does not exist ") } 
@@ -96,7 +98,10 @@ def evesch_signup(request, template_name=None):
         message.addlink(_("Back"),reverse('home'))
         context = {'message':message,}
     else:
-        form = SignupForm()
+        if request.POST:
+            form = SignupForm(request.POST)
+        else: 
+            form = SignupForm()
         context = {'form':form,}
     return render_to_response(template_name,context,context_instance=RequestContext(request)) 
 

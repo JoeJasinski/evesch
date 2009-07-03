@@ -1,1 +1,1 @@
-[ {% for user in users %}'{{ user }}',{% endfor %} ]
+[ {% for user in users %}{"id":"{{ user }}","name":"{{user.first_name }} {{ user.last_name }} ({{ user.username }})"},{% endfor %} ]
