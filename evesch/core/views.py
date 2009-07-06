@@ -10,12 +10,14 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from event.models import Attendee, Event
 from euser.models import User 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
 from core.forms import EveschLoginForm, SignupForm, PasswordResetForm
 from core.lib import Message, ePage
 from django.core.paginator import Paginator
+import settings 
+import random 
 
 def index(request,template_name=None):
     #raise AssertionError(request.user)
@@ -25,14 +27,7 @@ def index(request,template_name=None):
             current_user = User.objects.get(username=request.user)
             attending = current_user.get_attending_events()
             user_events = Event.objects.filter(attendee__in=attending)
-            #user_signups = current_user.get_attending_events() #Attendee.objects.filter(att_name=current_user)
-            #user_events = Event.objects.filter(attendee__att_name__in=user_signups).filter(event_date__gte=datetime.now()).order_by('event_date')    
-            #user_events = []
-            #user_events = []
-            #for att in user_signups:
-            #    user_events.append(att.att_event)
-            #    user_events = (user_events | att.att_event) #.filter(event_date__gte=datetime.now()).order_by('event_date')
-                
+   
             user_orgs = current_user.get_user_orgs().order_by('org_name')
     
             my_orgs_page = ePage(1)
@@ -99,20 +94,53 @@ def evesch_signup(request, template_name=None):
         context = {'message':message,}
     else:
         if request.POST:
-            form = SignupForm(request.POST)
+            session_captcha = request.session.get('signup_captcha', '-1')
+            #raise AssertionError(session_captcha)
+            form = SignupForm(session_captcha, request.POST)
+            if form.is_valid():
+                raise AssertionError('got here')
+
         else: 
-            form = SignupForm()
+            form = SignupForm(None)
         context = {'form':form,}
     return render_to_response(template_name,context,context_instance=RequestContext(request)) 
 
+def evesch_captcha(request):
+        from random import choice
+        import Image, ImageDraw, ImageFont, sha
+        SALT = settings.SECRET_KEY[:20]
+        imgtext = ''.join([choice('QWERTYUOPASDFGHJKLZXCVBNM') for i in range(5)])
+        request.session['signup_captcha'] = imgtext
+
+        imghash = sha.new(SALT+imgtext).hexdigest()
+        im=Image.open(settings.MEDIA_ROOT + 'images/captcha_box.jpg')
+        (bg_width, bg_height) = im.size
+        draw=ImageDraw.Draw(im)
+        font=ImageFont.truetype(settings.MEDIA_ROOT + 'fonts/Cracked', 44)
+        (txt_width, txt_height) = draw.textsize(imgtext, font=font) 
+        draw.text(((bg_width / 2 ) - (txt_width / 2), (bg_height / 2) - (txt_height / 2) ),imgtext, font=font, fill=(100,100,50))
+
+        for i in range(5):
+            x0 = random.randint(0, im.size[0])
+            y0 = random.randint(0, im.size[1])
+            x1 = random.randint(0, im.size[0])
+            y1 = random.randint(0, im.size[1])
+            draw.rectangle((x0, y0, x1, y1), outline=(100,100,50))
+
+        response = HttpResponse(mimetype="image/png")
+        im.save(response, "PNG")
+        return response
+
 def evesch_password_reset(request, template_name=None):
     if request.POST:
-        form = PasswordResetForm(request.POST)
-        email = form.cleaned_data['email']
-        username = form.cleaned_data['username']
-        return HttpResponseRedirect(reverse('home'))
+        session_captcha = request.session.get('signup_captcha', '-1')
+        form = PasswordResetForm(session_captcha, request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            username = form.cleaned_data['username']
+            return HttpResponseRedirect(reverse('home'))
     else: 
-        form = PasswordResetForm()
+        form = PasswordResetForm(None)
     context = {'form':form,}
     return render_to_response(template_name,context,context_instance=RequestContext(request)) 
  
