@@ -35,6 +35,13 @@ class SignupForm(forms.Form):
         self.session_captcha = session_captcha
         super(SignupForm, self).__init__(*args, **kwargs)
 
+    def clean_email(self):
+        post_email = self.cleaned_data['email']
+        from euser.models import UserEmail
+        if UserEmail.objects.filter(email_address=post_email):
+            raise forms.ValidationError(_("This email is already registered."))
+        return post_email
+
     def clean_username(self):
         post_username = self.cleaned_data['username']
         p = re.compile('^\w+$')
@@ -66,6 +73,8 @@ class SignupForm(forms.Form):
         
         return cleaned_data
 
+class SignupConfirmForm(forms.Form):
+    security_hash = forms.CharField(max_length=24)
     
 class PasswordResetForm(forms.Form):
     username = forms.CharField(required=False)

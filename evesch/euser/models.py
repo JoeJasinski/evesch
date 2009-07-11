@@ -119,6 +119,10 @@ class User(User):
         verbose_name = _("About Me"),
         max_length=256,
         blank=True, null=True)
+    security_hash = models.CharField(
+        verbose_name = _("Confirmation Number"),
+        blank=True, null=True,
+        max_length = 24)
     objects = UserManager()
     
    # class Meta:

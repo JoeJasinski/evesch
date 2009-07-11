@@ -228,3 +228,8 @@ span.org_user_list
   display: none;
 }
 
+.error_string
+{
+  color: red; 
+}
+
