@@ -1,13 +1,12 @@
 #!/bin/sh
 
-num=180
+num=2
 cat names.txt | while read name
 do
   username=`echo "$name" | tr A-Z a-z`
   (( num = $num + 1 ))  
-echo "user_email = UserEmail(email_label = '${username}', email_address='${username}@evesch.com',email_isDefault=True)"
-echo "user_email.save()"
-echo "user${num} = User(username='${username}',email_addresses=user_email)"
+echo "user_email=\"${username}.hot@evesch.com\""
+echo "user${num} = User(username='${username}',email=user_email)"
 echo "user${num}.first_name = '${name}'"
 echo "user${num}.last_name = 'Hot'"
 echo "user${num}.is_superuser=False"

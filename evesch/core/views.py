@@ -10,7 +10,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from event.models import Attendee, Event
-from euser.models import User, UserEmail
+from euser.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
@@ -107,9 +107,7 @@ def evesch_signup(request, template_name=None):
                 post_email = form.cleaned_data['email']
                 post_username = form.cleaned_data['username']
                 post_password = form.cleaned_data['password']
-                user_email = UserEmail(email_label = 'primary', email_address=post_email,email_isDefault=True)
-                user_email.save()
-                user = User(username=post_username,email_addresses=user_email)
+                user = User(username=post_username,email=post_email)
                 user.first_name = post_username
                 user.last_name = ''
                 user.is_superuser=False
@@ -126,7 +124,7 @@ def evesch_signup(request, template_name=None):
                                             'link': "http://" + host + reverse('account_signup_confirm') + "?registration_confirmation=" + user.security_hash,
                                              'registration_confirmation':user.security_hash,})
                 email_from = ""
-                email_recipients = post_email
+                email_recipients = [post_email,]
                 # Create a new thread in Daemon mode to send message
                 t = threading.Thread(target=send_mail,
                                      args=[subject, email_body, email_from, email_recipients],
@@ -199,16 +197,27 @@ def evesch_captcha(request):
     return response
 
 def evesch_password_reset(request, template_name=None):
-    if request.POST:
-        session_captcha = request.session.get('signup_captcha', '-1')
-        form = PasswordResetForm(session_captcha, request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            username = form.cleaned_data['username']
-            return HttpResponseRedirect(reverse('home'))
-    else: 
-        form = PasswordResetForm(None)
-    context = {'form':form,}
+    if request.user.is_authenticated():
+        template_name = "core/message.html"
+        message = Message(title=_("Cannot Reset"), text=_("You cannot reset your password while logged in."))
+        message.addlink(_("Back"),reverse('home'))
+        context = {'message':message,}
+    else:
+        if request.POST:
+            session_captcha = request.session.get('signup_captcha', '-1')
+            form = PasswordResetForm(session_captcha, request.POST)
+            if form.is_valid():
+                post_email = form.cleaned_data['email']
+                post_username = form.cleaned_data['username']
+                if post_email:
+                    pass
+                else:
+                    pass    
+                
+                return HttpResponseRedirect(reverse('home'))
+        else: 
+            form = PasswordResetForm(None)
+        context = {'form':form,}
     return render_to_response(template_name,context,context_instance=RequestContext(request)) 
  
 

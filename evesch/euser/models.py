@@ -23,25 +23,6 @@ def get_current_user(username, message=None):
             message = Message(title=_("User Not Found"), text=_("The user was not found. Are you logged in?"))
         return current_user, message
 
-
-class UserEmail(models.Model):
-
-    EMAIL_TYPES = (
-        (1,u'Personal'),
-        (2,u'Work'),
-    )
-
-    email_label = models.CharField(max_length=15)    
-    email_address = models.EmailField()
-    email_type = models.IntegerField(choices=EMAIL_TYPES,default=1)
-    email_privacy = models.IntegerField(choices=PRIVACY_TYPES,default=2)
-    email_isDefault = models.BooleanField(
-        verbose_name=_("Is Default Email"), 
-        default=False)
-    
-    def __unicode__(self):
-        return "%s <%s>" % (self.email_label, self.email_address)
-
     
 class UserIM(models.Model):
 
@@ -99,8 +80,6 @@ class User(User):
         choices=GENDER_CHOICES, 
         blank=True, null=True, 
         help_text = _("Optional Gender Information"))
-    email_addresses = models.ForeignKey(UserEmail,
-        related_name = "user_email_addresses")
     country = models.CharField(
         verbose_name = _("Country"),
         max_length=64,
