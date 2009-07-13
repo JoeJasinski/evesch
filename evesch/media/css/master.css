@@ -1,5 +1,5 @@
 body { 
-	background-color: #fbb100; 
+	background-color: #ff9f00; 
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-style: normal;
 	font-variant: normal;
@@ -12,7 +12,16 @@ body {
 	text-transform: none;
 	text-align: left;
 	text-indent: 0ex;
-	background: url('/media/images/background-grad.png') 0% 0% repeat-x;
+	padding: 0px;
+	margin: 0px;
+}
+
+.background
+{
+  margin: 0px;
+  padding: 10px;
+  background: url('/media/images/background-grad.png') 0% 0% repeat-x;
+  height: 400px; 
 }
 
 a
