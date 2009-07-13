@@ -1,9 +1,17 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block content %}
+&nbsp;
+<div>
+<ul class="nav">
+ <li><strong><a href="{% url account_signup %}">{% trans "Signup" %}</a></strong></li>
+ <li><strong><a href="{% url account_auth_login %}">{% trans "Login" %}</a></strong></li>
+ <li><strong><a href="">{% trans "Browse" %}</a></strong></li>
+</ul>
+</div>
 
 <div class="section">
-	<div class="section_title">{% trans "Signup" %}</div>
+	<div class="section_title">{% trans "Signup Confirmation" %}</div>
 	<div class="section_body">
 		{% if message %}<p class="error_string">{{ message }}</p>{% endif %}
 		<div><p>

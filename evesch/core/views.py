@@ -10,7 +10,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from event.models import Attendee, Event
-from euser.models import User
+from euser.models import User, get_current_user_by_email, get_current_user
 from django.http import HttpResponseRedirect, HttpResponse
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
@@ -217,16 +217,19 @@ def evesch_password_reset(request, template_name=None):
                 post_email = form.cleaned_data['email']
                 post_username = form.cleaned_data['username']
                 if post_email:
-                   pass
+                    message, user =  get_current_user_by_email(post_email, message=None) 
                 else:
-                    message, user =  User.objects.get_current_user(username, message=None) 
+                    message, user =  get_current_user(post_username, message=None) 
                 
-                return HttpResponseRedirect(reverse('home'))
+                return HttpResponseRedirect(reverse('account_password_reset_sent'))
         else: 
             form = PasswordResetForm(None)
         context = {'form':form,}
     return render_to_response(template_name,context,context_instance=RequestContext(request)) 
  
+def evesch_password_reset_sent(request, template_name=None):
+    context = {}
+    return render_to_response(template_name,context,context_instance=RequestContext(request)) 
 
 def error(request,template_name):
     return render_to_response("error.html",{'error':_("Error")})

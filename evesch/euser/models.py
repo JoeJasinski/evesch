@@ -23,6 +23,17 @@ def get_current_user(username, message=None):
             message = Message(title=_("User Not Found"), text=_("The user was not found. Are you logged in?"))
         return current_user, message
 
+
+def get_current_user_by_email(email, message=None):
+    if message:
+        return None, message
+    else:
+        try:
+            current_user = User.objects.get(email=email)
+        except:
+            current_user = None
+            message = Message(title=_("User Not Found"), text=_("The user was not found. Are you logged in?"))
+        return current_user, message
     
 class UserIM(models.Model):
 
