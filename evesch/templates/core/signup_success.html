@@ -1,0 +1,18 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}
+{% block content %}
+
+<div class="section">
+	<div class="section_title">{% trans "Signup" %}</div>
+	<div class="section_body">
+	Success
+	{{ message.text }}
+		<ul>
+		{% for link in message.links %}
+		 <li><a href="{{ link.link }}">{{ link.name }}</a></li>
+		{% endfor %}
+		</ul>
+	</div>
+</div>
+
+{% endblock %}

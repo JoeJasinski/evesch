@@ -157,7 +157,7 @@ def evesch_signup_confirm(request, template_name=None):
                 if user.is_active == False: 
                     user.is_active = True
                     user.save()
-                    return HttpResponseRedirect(reverse('account_auth_login'))
+                    return HttpResponseRedirect(reverse('account_signup_success'))
                 else:
                     message = _("You have already confirmed your account.  Proceed to the login page.")          
             except:
@@ -167,6 +167,13 @@ def evesch_signup_confirm(request, template_name=None):
         form = SignupConfirmForm()
         form.initial = {'security_hash':security_hash_get,}
     context = {'form':form,'message':message}
+    return render_to_response(template_name,context,context_instance=RequestContext(request)) 
+
+def evesch_signup_success(request, template_name=None):
+    template_name = "core/message.html"
+    message = Message(title=_("Success"), text=_("Congratulations! You have successfully registered for Evesch.com.  Please proceed to the login page."))
+    message.addlink(_("Login"),reverse('account_auth_login'))
+    context = {'message':message}
     return render_to_response(template_name,context,context_instance=RequestContext(request)) 
 
 
