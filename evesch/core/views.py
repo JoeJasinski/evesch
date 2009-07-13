@@ -217,9 +217,9 @@ def evesch_password_reset(request, template_name=None):
                 post_email = form.cleaned_data['email']
                 post_username = form.cleaned_data['username']
                 if post_email:
-                    pass
+                   pass
                 else:
-                    pass    
+                    message, user =  User.objects.get_current_user(username, message=None) 
                 
                 return HttpResponseRedirect(reverse('home'))
         else: 
