@@ -9,5 +9,6 @@ urlpatterns = patterns('',
     url('^signup/success/','core.views.evesch_signup_success',{'template_name':'core/signup_success.html'},name='account_signup_success'),
     url('^signup/captcha.png$','core.views.evesch_captcha',{},name='account_signup_captcha'),
     url('^password_reset/$','core.views.evesch_password_reset',{'template_name':'core/password_reset.html'},name='account_password_reset'),
-    url('^password_reset/sent/$','core.views.evesch_password_reset_sent',{'template_name':'core/password_reset_sent.html'},name='account_password_reset_sent')
+    url('^password_reset/sent/$','core.views.evesch_password_reset_sent',{'template_name':'core/password_reset_sent.html'},name='account_password_reset_sent'),
+    url('^settings/$', 'euser.views.user_settings', {'template_name':'euser/user_settings.html'}, name='euser_user_settings'), 
 )

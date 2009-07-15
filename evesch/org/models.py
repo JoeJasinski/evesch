@@ -183,9 +183,7 @@ class Organization(models.Model):
 			return current_event, message
 
 	def is_member(self,user):
-		if not hasattr(self, '_is_member'):
-			self._is_member = self.org_users.filter(id=user.id)
-		return self._is_member
+		return self.org_users.filter(id=user.id)	
 
 	def org_perms(self,user):
 		permissions = {
@@ -241,7 +239,12 @@ class Organization(models.Model):
 				if  OrgInvite.objects.filter(org=self, user=user, direction=True) > 0:
 					permissions['can_join_org'] = True
 		else:
-			pass
+			if self.org_join_privacy == 0:
+				permissions['can_join_org'] = True	
+			if self.org_join_privacy == 1 or self.org_join_privacy == 2:
+				from org.models import OrgInvite
+				if  OrgInvite.objects.filter(org=self, user=user, direction=True) > 0:
+					permissions['can_join_org'] = True
 		return permissions
 
 	def save(self):

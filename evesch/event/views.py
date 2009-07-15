@@ -12,7 +12,6 @@ from core.exceptions import EventTypeExistsException
 from core.forms import MessageForm
 from event.models import Event,EventType,Attendee
 from event.forms import EventForm, EventEditForm, EventTypeForm, AttendeeForm
-from euser.forms import UserForm
 from euser.models import User, get_current_user
 from org.models import Organization
 

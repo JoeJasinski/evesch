@@ -17,7 +17,7 @@ class ColorField(forms.CharField):
         if  len(value) != 6:
             raise forms.ValidationError(_('Must be 6 chars long'))
         
-        p = re.compile('^[a-zA-Z0-9]{6}$')
+        p = re.compile('^[a-fA-F0-9]{6}$')
         if not p.match(value):
             raise forms.ValidationError(_('Must be a Hex Color value'))
         

@@ -11,7 +11,11 @@
 		 <TR><TD>{% trans "Username" %}:</TD><TD>{{ current_user.username }}</TD></TR>
 		 <TR><TD>{% trans "First Name" %}:</TD><TD>{{ current_user.first_name }}</TD></TR>
 		 <TR><TD>{% trans "Last Name" %}:</TD><TD>{{ current_user.last_name }}</TD></TR>
+		 {% if current_user.gender %}<TR><TD>{% trans "Gender" %}:</TD><TD>{{ current_user.get_gender_display }}</TD></TR>{% endif %}
 		 {% if current_user.email %}<TR><TD>{% trans "E-mail" %}:</TD><TD>{{ current_user.email }}</TD></TR>{% endif %}
+		 {% if current_user.phone %}<TR><TD>{% trans "Phone" %}:</TD><TD>{{ current_user.phone }}</TD></TR>{% endif %}
+		 {% if current_user.about %}<TR><TD>{% trans "About Me" %}:</TD><TD>{{ current_user.about }}</TD></TR>{% endif %}
+		 {% if current_user.city %}<TR><TD>{% trans "City" %}:</TD><TD>{{ current_user.city }}</TD></TR>{% endif %}
 		</TABLE>
 	</div>
  </div>
@@ -22,7 +26,8 @@
 	<div class="section_body">
 		<TABLE>
 		{% for invite in current_user.get_org_invites %}
-		 <TR><TD><a href="{% url org_org_view invite.org.org_short_name %}">{{ invite.org }}</a></TD></TR>
+		 <TR><TD><a href="{% url org_org_view invite.org.org_short_name %}">{{ invite.org }}</a></TD>
+		     <TD><a title="{% trans "Join Organization" %}" href="{% url org_org_join invite.org.org_short_name %}"><img alt="Join" style="border: solid 0px;" src="{{ MEDIA_URL }}images/join.png"></a></TD></TR>
 		{% endfor %}
 		</TABLE>
 	</div>

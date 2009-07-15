@@ -1,0 +1,21 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}
+{% block title %} - {% trans "User Settings" %}{% endblock %}
+
+{% block content %}
+<a href="{% url home %}">{% trans "home" %}</a>  &gt; {% trans "user" %} &gt; <a href="{% url euser_user_view request.user %}">{{ current_user.username }}</a>
+<div class="section">
+	<div class="section_title">{% trans "User Settings" %}</div>
+	<div class="section_body">
+	<FORM action="." method="POST">
+	<TABLE>
+	<TR><TD>{{ request.user }}</TD><TD>&nbsp;</TD></TR>
+	{{ form }}
+	<TR><TD><INPUT type="submit" name="save_settings" value="{% trans "Save" %}"></TD><TD>&nbsp;<font class="success_string">{{ message }}</font></TD></TR>
+	</FORM>
+	</TABLE>
+	</div>
+ </div>
+
+
+{% endblock %}

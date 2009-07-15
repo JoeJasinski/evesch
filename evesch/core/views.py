@@ -28,23 +28,18 @@ KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 def index(request,template_name=None):
     #raise AssertionError(request.user)
     if request.user.is_authenticated():
-
         try:
             current_user = User.objects.get(username=request.user)
             attending = current_user.get_attending_events()
             user_events = Event.objects.filter(attendee__in=attending)
-   
             user_orgs = current_user.get_user_orgs().order_by('org_name')
-    
             my_orgs_page = ePage(1)
             if request.GET.__contains__("my_orgs_page"): 
                 try:
                     my_orgs_page.curr = int(request.GET['my_orgs_page'])
                 except:
                     my_orgs_page.curr = 1 
-    
             my_orgs_page.set_pages(Paginator(user_orgs, 3))
-    
             context = {'user_events':user_events,'my_orgs_page':my_orgs_page,'ajax_page_my':reverse('org_orgs_list_my_ajax',kwargs={}),}
         except ObjectDoesNotExist:
             template_name = "error.html"
@@ -53,7 +48,6 @@ def index(request,template_name=None):
     else:
         template_name="index_anonymous.html"
         context={}
-    
     return render_to_response(template_name,context,context_instance=RequestContext(request))
 
 
@@ -116,7 +110,6 @@ def evesch_signup(request, template_name=None):
                 user.set_password(post_password)
                 user.security_hash = "".join(random.sample(KEYS,24))
                 user.save()
-                #raise AssertionError(reverse('account_signup_confirm'))
                 
                 host = request.META['HTTP_HOST']
                 subject = "Evesch Registration Confirmation"
@@ -131,7 +124,6 @@ def evesch_signup(request, template_name=None):
                                      kwargs={'fail_silently': True})
                 t.setDaemon(True)
                 t.start()
-
                 return HttpResponseRedirect(reverse('account_signup_confirm'))
         else: 
             form = SignupForm(None)

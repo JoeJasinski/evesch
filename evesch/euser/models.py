@@ -11,19 +11,6 @@ PRIVACY_TYPES = (
            (3,u'Event_View'),     
                 )
 
-
-def get_current_user(username, message=None):
-    if message:
-        return None, message
-    else:
-        try:
-            current_user = User.objects.get(username=username)
-        except:
-            current_user = None
-            message = Message(title=_("User Not Found"), text=_("The user was not found. Are you logged in?"))
-        return current_user, message
-
-
 def get_current_user_by_email(email, message=None):
     if message:
         return None, message
@@ -69,8 +56,8 @@ class UserIM(models.Model):
 
 class User(User):
     GENDER_CHOICES = (
-        (0,u'Male'),
-        (1,u'Female'),
+        (1,u'Male'),
+        (2,u'Female'),
     )
 
     user_organizations = models.ManyToManyField(Organization, 
@@ -151,3 +138,15 @@ class User(User):
 
     def set_password(self, raw_password):
         super(User, self).set_password(raw_password)
+        
+        
+def get_current_user(username, message=None):
+    if message:
+        return None, message
+    else:
+        try:
+            current_user = User.objects.get(username=username)
+        except:
+            current_user = None
+            message = Message(title=_("User Not Found"), text=_("The user was not found. Are you logged in?"))
+        return current_user, message

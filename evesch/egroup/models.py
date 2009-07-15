@@ -1,4 +1,4 @@
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, ugettext
 from django.db import models
 from org.models import Organization
 from random import sample
@@ -16,19 +16,21 @@ class UserGroupManager(models.Manager):
         return user_group
         
     def init_org_groups(self,org,user):
-            admin_group = UserGroup(group_name= "%s - Admin Group" % (org.org_name,),
-                                    group_hash= "%s_adm" % (org.org_short_name,),
-                                    group_desc=_("Administrator Group"), group_removable=False, 
-                                    admin_org=True, coord_events=True, org_name=org)
-            admin_group.save()
-            event_coordinator_group = UserGroup(group_name="%s - Event Coordinator Group" % (org.org_name,),
-                                    group_hash="%s_crd" % (org.org_short_name,),
-                                    group_desc=_("Event Coordinator Group"), group_removable=False,
-                                    admin_org=False, coord_events=True, org_name=org)
-            event_coordinator_group.save()
-            user.user_groups.add(admin_group)
-            user.user_groups.add(event_coordinator_group)
-            user.user_organizations.add(org)
+        admin_desc_text = ugettext("Administrator Group")
+        admin_group = UserGroup(group_name= "%s - Admin Group" % (org.org_name,),
+                                group_hash= "%s_adm" % (org.org_short_name,),
+                                group_desc=admin_desc_text, group_removable=False, 
+                                admin_org=True, coord_events=True, org_name=org)
+        admin_group.save()
+        coord_desc_text = ugettext("Event Coordinator Group")
+        event_coordinator_group = UserGroup(group_name="%s - Event Coordinator Group" % (org.org_name,),
+                                group_hash="%s_crd" % (org.org_short_name,),
+                                group_desc=coord_desc_text, group_removable=False,
+                                admin_org=False, coord_events=True, org_name=org)
+        event_coordinator_group.save()
+        user.user_groups.add(admin_group)
+        user.user_groups.add(event_coordinator_group)
+        user.user_organizations.add(org)
 
     def get_current_usergroup(self,group_hash, message=None):
         if message:

@@ -2,6 +2,7 @@
 #from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from euser.models import User, get_current_user
+from euser.forms import UserForm
 from event.models import EventType
 from event.forms import EventTypeForm
 from euser.forms import UserForm
@@ -20,31 +21,37 @@ def get_or_create_profile(self,user):
         profile.save()
     return profile
 
-def users_list(request, template_name=None):
-    context = {'error':_("User List")}
-    return render_to_response(template_name,context, context_instance=RequestContext(request))
-
-@login_required
-def user_add(request,template_name=None):
-    if request.method == 'POST':
-        form = EventTypeForm(request.POST)
-        if form.is_valid():
-            return render_to_response("error.html",{'error':_("Add not implemented")})
-    else:
-        form = UserForm()
-        context = {'error':"User Add", 'form':form, }
-        return render_to_response(template_name,context, context_instance=RequestContext(request))
-
 @login_required
 def user_view(request,username, template_name=None):
     current_user, message = get_current_user(username)
-    if request.user.id == current_user.id:
-        myprofile = True
+    if not message:
+        if request.user.id == current_user.id:
+            myprofile = True
+        else:
+            myprofile = False
+        context = {'current_user':current_user,'myprofile':myprofile}
     else:
-        myprofile = False
-        
-        
-    context = {'current_user':current_user,'myprofile':myprofile}
+        template_name = "core/message.html"
+        context = {'message':message,}
+    return render_to_response(template_name,context, context_instance=RequestContext(request))
+
+@login_required
+def user_settings(request, template_name=None):
+    quick_message = ""
+    current_user, message = get_current_user(request.user)
+    if not message:
+        if request.method == 'POST':
+                form = UserForm(request.POST, instance=current_user)
+                if form.is_valid():
+                    form.save()
+                    quick_message = _("Saved")
+        else:
+                form = UserForm(instance=current_user)
+        context = {'current_user':current_user,'form':form,'message':quick_message,}
+    else:
+        template_name = "core/message.html"
+        context = {'message':message,}
+
     return render_to_response(template_name,context, context_instance=RequestContext(request))
 
 @login_required

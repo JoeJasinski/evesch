@@ -212,6 +212,7 @@ def org_members(request,org_short_name,template_name=None):
         if request.GET.__contains__("members_page"): 
             try:
                 members_page.curr  = int(request.GET['members_page'])
+                #raise AssertionError(members_page.curr)
             except:
                 members_page.curr = 1
         members = current_org.get_members()
