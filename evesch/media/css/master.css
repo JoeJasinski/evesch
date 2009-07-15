@@ -242,8 +242,42 @@ span.org_user_list
   color: red; 
 }
 
+.page_nav
+{
+  margin:4px;
+}
+
 .success_string
 {
   color: green;
 }
 
+.all_org_list  tr td
+{
+  border-top: solid black 1px;
+}
+
+.my_org_list  tr td table tr td
+{
+  border-top: none;
+}
+
+.my_org_list  tr td
+{
+  border-top: solid black 1px;
+}
+
+.org_name_list
+{
+  width: 200px;
+}
+
+.org_privacy_list
+{
+  width: 80px;
+}
+
+.org_desc_list
+{
+  width: 30em;
+}
