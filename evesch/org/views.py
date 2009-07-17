@@ -140,6 +140,8 @@ def org_join(request, org_short_name, template_name=None):
     if not message:  
         if request.method == 'POST':                    
             current_user.user_organizations.add(current_org)
+            current_user.user_invites_set.filter(org=current_org).delete()
+
             template_name = "core/message.html"
             #message = Message(title="You have Joined the organization", text="Org Join Successful: " + org_user_group.group_name )
             message = Message(title=_("You have Joined the organization"), text=_("Org Join Successful: %s" % (current_org.org_name,)) )            

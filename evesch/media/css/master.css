@@ -252,19 +252,32 @@ span.org_user_list
   color: green;
 }
 
-.all_org_list  tr td
+ul.all_org_list  li
 {
-  border-top: solid black 1px;
+  border-top: solid #69e067 1px;
 }
 
-.my_org_list  tr td table tr td
+ul.all_org_list
+{
+	list-style-type: none;
+	padding: 0px;
+}
+
+ul.my_org_list  li table tr td
 {
   border-top: none;
 }
 
-.my_org_list  tr td
+ul.my_org_list
 {
-  border-top: solid black 1px;
+	list-style-type: none;
+	padding: 0px;
+}
+
+ul.my_org_list  li
+{
+  border-top: solid #69e067 1px;
+  padding: 2px;
 }
 
 .org_name_list

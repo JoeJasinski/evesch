@@ -20,18 +20,18 @@
 				<span>{% if my_orgs_page.next %}<a id="my_orgs_next" href=".?my_orgs_page={{ my_orgs_page.next }}&all_orgs_page={{ all_orgs_page.next }}" onClick="return false;">Next</a>{% else %}Next{% endif %}</span>
 			</div>
 			
-			<TABLE class="my_org_list">
+			<ul class="my_org_list">
 			{% for org in my_orgs_page.current_page.object_list %}
-			<TR><TD>
+			 <li>
 			  <TABLE>
 			  <TR><TD class="org_name_list"><a href="{% url org_org_view org.org_short_name %}">{{ org.org_name }}</a></TD>
-			  	  <TD class="org_desc_list">{{ org.org_desc|ellipsis:30 }}</TD>
+			  	  <TD class="org_desc_list">{{ org.org_desc|ellipsis:40 }}</TD>
 			      <TD> <a title="{% trans "Leave Organization" %}" href="{% url org_org_leave org.org_short_name %}"><img alt="{% trans "Leave" %}" style="border: solid 0px;" src="{{ MEDIA_URL }}images/leave.png"></a></TD>
 			      <TD>{% if org.user_perms.can_edit_org %}<a title="{% trans "Edit Organization" %}" href="{% url org_org_edit org.org_short_name %}"><img alt="{% trans "Edit" %}" style="border: solid 0px;" src="{{ MEDIA_URL }}images/edit.png"></a>{% else %}&nbsp;{% endif %}</TD>			      
 			      <TD>{% if org.user_perms.can_remove_org %}<a title="{% trans "Remove Organization" %}" href="{% url org_org_remove org.org_short_name %}"><img alt="{% trans "Remove" %}" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove.png"></a>{% else %}&nbsp;{% endif %}</TD>
 			  </TR>
 			  <TR><TD colspan="4">{{ org.org_city }}&nbsp;{{ org.org_state}}</TD></TR>
 			  </TABLE>
-			</TR></TD>
+			</li>
 			{% endfor %}
-			</TABLE>
+			</ul>

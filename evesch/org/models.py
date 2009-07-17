@@ -116,6 +116,9 @@ class Organization(models.Model):
 		default=0,
 		verbose_name=_("Organization Join Privacy"),
 		null=True, blank=True,)
+	org_user_can_invite = models.BooleanField(
+		verbose_name=_("Any Org Member can invite people to this org."),
+		default=False)
 
 	objects = OrganizationManager()
 
@@ -231,7 +234,7 @@ class Organization(models.Model):
 			permissions['can_invite_users'] = True			
 		elif self.get_coordinator_users().filter(id=user.id):
 			permissions['can_add_event'] = True
-			permissions['can_invite_users'] = True
+			permissions['can_join_org'] = True
 			if self.org_join_privacy == 0:
 				permissions['can_join_org'] = True	
 			elif self.org_join_privacy == 1 or self.org_join_privacy == 2:
@@ -245,6 +248,10 @@ class Organization(models.Model):
 				from org.models import OrgInvite
 				if  OrgInvite.objects.filter(org=self, user=user, direction=True) > 0:
 					permissions['can_join_org'] = True
+		
+		if self.org_user_can_invite == True:
+			permissions['can_invite_users'] = True
+		
 		return permissions
 
 	def save(self):
