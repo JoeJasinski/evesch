@@ -107,6 +107,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'core.django_extensions',  # adds extra manage.py utils http://code.google.com/p/django-command-extensions/
     'django_evolution',
     'egroup',
     'euser',
@@ -116,8 +117,9 @@ INSTALLED_APPS = (
     'calendar',
     'core.feed',
     'core.pagination',
-#    'core.debug_toolbar',
-    'core.ajax_filtered_fields',
+#    'core.debug_toolbar',  # adds debug toolbar that shows various stats
+    'core.ajax_filtered_fields', 
+    'core.rosetta',   # used for easily editing i18n files
     'report',
 )
 

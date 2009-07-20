@@ -12,7 +12,10 @@ if settings.DEBUG:
         (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     )
 
-
+    if 'core.rosetta' in settings.INSTALLED_APPS:
+        urlpatterns += patterns('',
+            url(r'^rosetta/', include('rosetta.urls')),
+        )
 
 urlpatterns += patterns('evesch',
     # Uncomment this for admin:
