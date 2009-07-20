@@ -3,11 +3,11 @@
 {% load dict_lookup %}
 {% block title %} - {% trans "Home" %}{% endblock %}
 {% block header_page_specific %}{% endblock %}
-{% block content %}
-
+{% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a>
 &gt; {% trans "Organizations" %}
-
+{% endblock %}
+{% block content %}
 <div>
 <ul class="nav">
  <li><strong>{% trans "Organization" %}</strong>
@@ -19,7 +19,7 @@
 </div>
 
 <div class="section">
-	<div class="section_title">{% trans "My Organizations" %}</div>
+	<div class="section_title"><font>{% trans "My Organizations" %}</font></div>
 	<div class="section_body">
 		<div id="my_org_list_container">
 			{# Statically load the list on first page load; this will be overridden by ajax #}
@@ -30,7 +30,7 @@
 </div>
 
 <div class="section">
-	<div class="section_title">{% trans "All Organizations" %}</div>
+	<div class="section_title"><font>{% trans "All Organizations" %}</font></div>
 	<div class="section_body">
 		<div id="all_org_list_container">
 			{# Statically load the list on first page load; this will be overridden by ajax #}

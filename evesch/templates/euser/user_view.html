@@ -2,10 +2,12 @@
 {% load i18n %}
 {% block title %} - {% trans "View User Profile" %}{% endblock %}
 
-{% block content %}
+{% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a>  &gt; {% trans "user" %} &gt; {{ current_user.username }}
+{% endblock %}
+{% block content %}
 <div class="section">
-	<div class="section_title">{% trans "View User Profile" %}</div>
+	<div class="section_title"><font>{% trans "View User Profile" %}</font></div>
 	<div class="section_body">
 		<TABLE>
 		 <TR><TD>{% trans "Username" %}:</TD><TD>{{ current_user.username }}</TD></TR>
@@ -22,7 +24,7 @@
 
 {% if myprofile %}
 <div class="section">
-	<div class="section_title">{% trans "My Invites" %} ({{ current_user.get_org_invites_count }})</div>
+	<div class="section_title"><font>{% trans "My Invites" %} ({{ current_user.get_org_invites_count }})</font></div>
 	<div class="section_body">
 		<TABLE>
 		{% for invite in current_user.get_org_invites %}

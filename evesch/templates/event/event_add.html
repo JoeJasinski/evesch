@@ -17,16 +17,17 @@
 	<script type="text/javascript" src="/admin/jsi18n/"></script>
 	<script type="text/javascript" src="{% admin_media_prefix %}js/core.js"></script>
 {% endblock %}
-{% block content %}
+{% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a> 
 &gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
 &gt; <a href="{% url org_org_view current_org.org_short_name %}">{{ current_org.org_name }}</a> 
 &gt; <a href="{% url event_events_list current_org.org_short_name %}">{% trans "Events" %}</a>
 &gt; {% trans "Add Event" %}
-
+{% endblock %}
+{% block content %}
 {% include "event/inc_event_menu.html" %}
 <div class="section"> 
-	<div class="section_title">{% trans "Event Add" %}</div>
+	<div class="section_title"><font>{% trans "Event Add" %}</font></div>
 	<div class="section_body">
 		<FORM action="." method=POST>
 		<TABLE>

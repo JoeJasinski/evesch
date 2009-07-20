@@ -2,10 +2,12 @@
 {% load i18n %}
 {% block title %} - {% trans "User Settings" %}{% endblock %}
 
-{% block content %}
+{% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a>  &gt; {% trans "user" %} &gt; <a href="{% url euser_user_view request.user %}">{{ current_user.username }}</a>
+{% endblock %}
+{% block content %}
 <div class="section">
-	<div class="section_title">{% trans "User Settings" %}</div>
+	<div class="section_title"><font>{% trans "User Settings" %}</font></div>
 	<div class="section_body">
 	<FORM action="." method="POST">
 	<TABLE>

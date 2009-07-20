@@ -4,13 +4,11 @@
 {% block title %} - {% trans "Home" %}{% endblock %}
 {% block header_page_specific %}<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/event_list_entry.css" />{% endblock %}
 {% block content %}
-home
-<BR><BR>
 
-<div class="section_title">{% trans "Dashboard " %} - <a href="{% url euser_user_view request.user.username %}">{{ request.user }}</a></div>
+<div class="section_title"><font>{% trans "Dashboard " %} - <a href="{% url euser_user_view request.user.username %}">{{ request.user }}</a></font></div>
 
 <div class="section">
-	<div class="section_title">{% trans "My Organizations" %} - <a style="font-size: 12px;" href="{% url org_orgs_list %}">{% trans "Manage" %}</a></div>
+	<div class="section_title"><font>{% trans "My Organizations" %} - <a style="font-size: 12px;" href="{% url org_orgs_list %}">{% trans "Manage" %}</a></font></div>
 	<div class="section_body">
  	    <div id="my_org_list_container">
 		{% if my_orgs_page.current_page.object_list %}   
@@ -23,7 +21,7 @@ home
 </div>
 
 <div class="section">
-	<div class="section_title">{% trans "My Events:" %}</div>
+	<div class="section_title"><font>{% trans "My Events" %}</font></div>
 	<div class="section_body">
 		{% if user_events %}   
 		   {% with user_events as events %}

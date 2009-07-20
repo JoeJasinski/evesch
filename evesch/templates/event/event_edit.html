@@ -15,15 +15,17 @@
 	</script>
 	<!-- /calendar -->
 {% endblock %}
-{% block content %}
+{% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a>
 &gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
 &gt; <a href="{% url org_org_view current_org.org_short_name %}">{{ current_org.org_name }}</a> 
 &gt; <a href="{% url event_events_list current_org.org_short_name %}">{% trans "Events" %}</a>
 &gt; <a href="{% url event_event_view current_org.org_short_name event.event_hash %}">{{ event.event_name }}</a>
 &gt; {% trans "Edit Event" %}
+{% endblock %}
+{% block content %}
 <div class="section"> 
-	<div class="section_title">{% trans "Edit Event" %}</div>
+	<div class="section_title"><font>{% trans "Edit Event" %}</font></div>
 	<div class="section_body">
 		<FORM action="." method=POST>
 		<TABLE>

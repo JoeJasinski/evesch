@@ -14,15 +14,17 @@
  
 </script>
 {% endblock %}
-{% block content %}
+{% block breadcrumb %}
 <a href="{% url home %}">home</a> 
 &gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
 &gt; <a href="{% url org_org_view current_org.org_short_name %}">{{ current_org.org_name }}</a> 
 &gt; <a href="{% url event_events_list current_org.org_short_name %}">{% trans "Events" %}</a> 
 &gt; {{ current_event.event_name }}
+{% endblock %}
+{% block content %}
 {% include "event/inc_event_edit_menu.html" %}
 <div class="section"> 
-	<div class="section_title">{% trans "Event Information" %}</div>
+	<div class="section_title"><font>{% trans "Event Information" %}</font></div>
 	<div class="section_body">
 		<TABLE>
 		 <TR><TD>{% trans "Event Name" %}:</TD><TD>{{ current_event.event_name }}</TD></TR>
@@ -41,7 +43,7 @@
 </div>
 
 <div class="section"> 
-	<div class="section_title">{% trans "Event Attendee Information" %}</div>
+	<div class="section_title"><font>{% trans "Event Attendee Information" %}</font></div>
 	<div class="section_body">
 		<div>
 		<ul class="nav">

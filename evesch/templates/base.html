@@ -5,7 +5,10 @@
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/master.css" />
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqui/css/smoothness/jquery-ui-1.7.1.custom.css" />
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jqui/js/jquery-1.3.2.min.js"></script>
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jqui/js/jquery-ui-1.7.1.custom.min.js"></script>    
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jqui/js/jquery-ui-1.7.1.custom.min.js"></script>   
+     <!--[if lte IE 6]><script type="text/javascript" src="{{ MEDIA_URL }}js/jqsupersleight/supersleight.plugin.js"></script>
+     <script type="text/javascript"> $(document).ready(function(){ $('img').supersleight({shim: '{{ MEDIA_URL }}js/jqsupersleight/x.gif'}); });</script>
+     <![endif]-->
     <TITLE> EVEnt SCHeduler {% block title %} - Home{% endblock %}</TITLE>
     <link rel="icon" type="image/png"  href="{{ MEDIA_URL }}images/favicon.png">
     {% block header_page_specific %} {% endblock %}

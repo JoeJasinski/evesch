@@ -2,14 +2,16 @@
 {% load i18n %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Add Event Type" %}{% endblock %}
 {% block header_page_specific %}<script type="text/javascript" src="{{ MEDIA_URL }}js/jscolor/jscolor.js"></script>{% endblock %}
-{% block content %}
+{% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a>
 &gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
 &gt; <a href="{% url org_org_view current_org.org_short_name %}">{{ current_org.org_name }}</a> 
 &gt; Add Event Type
+{% endblock %}
+{% block content %}
 {% include "event/inc_event_menu.html" %}
 <div class="section">
-	<div class="section_title">{% trans "Add Event Type" %}</div>
+	<div class="section_title"><font>{% trans "Add Event Type" %}</font></div>
 	<div class="section_body">
 		{% trans "Add Event Type for" %}: {{ current_org.org_name }}
 		<FORM action="." method=POST>

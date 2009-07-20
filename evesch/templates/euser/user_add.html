@@ -4,7 +4,7 @@
 
 {% block content %}
 	<a href="{% url home %}">{% trans "home" %}</a> &gt; {% trans "User Add" %}
-	<div class="section_title">{% trans "User Add" %}</div>
+	<div class="section_title"><font>{% trans "User Add" %}</font></div>
 	<FORM action="." method="POST">
 	  <TABLE>
 	   {{ form.as_table }}

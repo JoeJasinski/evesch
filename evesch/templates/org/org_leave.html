@@ -1,12 +1,14 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Leave Organization" %}{% endblock %}
-{% block content %}
+{% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a> 
 &gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
 &gt; {% trans "Leave Organization" %}
+{% endblock %}
+{% block content %}
 <div class="section">
-	<div class="section_title">{% trans "Leave Organization" %}</div>
+	<div class="section_title"><font>{% trans "Leave Organization" %}</font></div>
 	<div class="section_body">
 		<TABLE>
 		 <TR><TD>{% trans "Org Name" %}:</TD><TD>{{ current_org.org_name }}</TD></TR>

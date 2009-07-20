@@ -1,12 +1,14 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Add Organization" %}{% endblock %}
-{% block content %}
+{% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a> 
 &gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
 &gt; {% trans "Add Organization" %}
+{% endblock %}
+{% block content %}
 <div class="section"> 
-	<div class="section_title">{% trans "Add Organization" %}</div>
+	<div class="section_title"><font>{% trans "Add Organization" %}</font></div>
 	<div class="section_body">
 		<FORM action="." method="POST">
 		<TABLE>

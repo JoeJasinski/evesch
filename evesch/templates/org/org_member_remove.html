@@ -1,13 +1,15 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Remove Member" %}{% endblock %}
-{% block content %}
+{% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a> 
 &gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
 &gt; <a href="{% url org_org_view current_org.org_short_name %}">{{ current_org.org_name }}</a>
 &gt; {% trans "Remove Member" %}
+{% endblock %}
+{% block content %}
 <div class="section">
-	<div class="section_title">{% trans "Remove Member" %}</div>
+	<div class="section_title"><font>{% trans "Remove Member" %}</font></div>
 	<div class="section_body">
 		<TABLE>
 	     <TR><TD>{% trans "Member" %}:</TD><TD>{{ current_member.username }}</TD></TR>
