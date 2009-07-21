@@ -8,7 +8,7 @@
 <div class="section_title"><font>{% trans "Dashboard " %} - <a href="{% url euser_user_view request.user.username %}">{{ request.user }}</a></font></div>
 
 <div class="section">
-	<div class="section_title"><font>{% trans "My Organizations" %} - <a style="font-size: 12px;" href="{% url org_orgs_list %}">{% trans "Manage" %}</a></font></div>
+	<div class="section_title"><font>{% trans "My Organizations" %} ({{ num_user_orgs }}) - <a style="font-size: 12px;" href="{% url org_orgs_list %}">{% trans "Manage" %}</a></font></div>
 	<div class="section_body">
  	    <div id="my_org_list_container">
 		{% if my_orgs_page.current_page.object_list %}   
@@ -21,7 +21,7 @@
 </div>
 
 <div class="section">
-	<div class="section_title"><font>{% trans "My Events" %}</font></div>
+	<div class="section_title"><font>{% trans "My Events" %} ({{ num_user_events }})</font></div>
 	<div class="section_body">
 		{% if user_events %}   
 		   {% with user_events as events %}

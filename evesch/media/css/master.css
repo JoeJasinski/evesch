@@ -14,6 +14,7 @@ body {
 	text-indent: 0ex;
 	padding: 0px;
 	margin: 0px;
+    text-align: center; 
 }
 
 
@@ -31,6 +32,13 @@ a
   color: #336644;
 }
 
+.body_wrap
+{
+  width: 800px;
+  text-align: left; 
+  margin: auto; 
+}
+
 .header_banner
 {
 	background-color: #69e067;
@@ -40,7 +48,7 @@ a
   -webkit-border-top-left-radius: 10px;  
   -webkit-border-top-right-radius: 10px;
   border-radius: 5px;
-  border: 0px solid black;	
+  border: 0px solid black;
 }
 
 .header_banner .login_container
@@ -55,6 +63,7 @@ a
 outline: 0;
 border: 0px; 
 } 
+
 
 
 .breadcrumb
@@ -73,9 +82,28 @@ border: 0px;
 
 .main_container_wrap
 {
-   padding: 10px;
+   padding: 20px;
 }
 
+.footer
+{
+  background-color: #69e067; 
+  height: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: black; 
+  padding: 3px;
+  -moz-border-radius-bottomright: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  -webkit-border-bottom-left-radius: 10px;  
+  -webkit-border-bottom-right-radius: 10px;
+  border-radius: 5px;
+}
+
+.footer font
+{
+
+}
 
 /*** Nav bar styles ***/
 
@@ -180,12 +208,16 @@ ul.nav,
 float: left; 
 }
 
+#event_types_id
+{
+ width: 398px;
+}
 
 
 .section
 {
   border: 1px solid #69e067;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   background-color: #eaf8e4;
 }
 
@@ -235,7 +267,7 @@ span.section_header_icon
 
 span.org_user_list
 {
-  width: 185px;
+  width: 166px;
   float: left;
   border: solid #ffa100 1px;
   padding: 5px;
@@ -300,6 +332,8 @@ span.org_user_list
   color: green;
 }
 
+
+/*** Org List Sytles ***/
 ul.all_org_list  li
 {
   border-top: solid #69e067 1px;
@@ -341,4 +375,32 @@ ul.my_org_list  li
 .org_desc_list
 {
   width: 30em;
+}
+
+
+.org_group_list
+{
+	list-style-type: none;
+	padding: 0px;
+}
+
+.org_group_list li
+{
+  border-top: solid #69e067 1px;
+  padding: 2px;
+}
+
+.org_group_list li table .group_name
+{
+  width: 150px;
+}
+
+.org_group_list li table .group_desc
+{
+  width:30em;
+}
+
+.org_group_list li table .group_flags
+{
+  width: 4em;
 }
