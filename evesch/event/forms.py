@@ -12,6 +12,7 @@ import re
 class ColorField(forms.CharField):
  
     def clean(self, value):
+        forms.Field.clean(self, value)
         if not value:
             raise forms.ValidationError(_('Choose a color'))
         if  len(value) != 6:
@@ -21,6 +22,21 @@ class ColorField(forms.CharField):
         if not p.match(value):
             raise forms.ValidationError(_('Must be a Hex Color value'))
         
+        return value
+
+class HourField(forms.CharField):
+    
+    def clean(self, value):
+        forms.Field.clean(self, value)
+        #self.max_length=4
+        try:
+            value = int(value)
+        except ValueError: 
+            raise forms.ValidationError(_('Must be a number'))
+        #raise AssertionError(value)
+        if value < -1000  or 1000 < value:
+            raise forms.ValidationError(_('Number out of range.'))
+
         return value
 
 class EventTypeForm(forms.ModelForm):
@@ -65,7 +81,6 @@ class EventEditForm(forms.ModelForm):
         self.fields["event_type"].queryset = EventType.objects.filter(org_name=current_org, type_active=True)
 
     event_desc = forms.CharField(max_length=512, widget=forms.Textarea(attrs = {'cols':'45','rows':'5'}))
-    #event_date = forms.DateTimeField(widget=forms.TextInput(attrs = {'id':'id_event_date',}))
     event_date =            forms.SplitDateTimeField(widget=forms.SplitDateTimeWidget(time_format='%H:%M', attrs={'id':"id_event_date"}))
     event_signup_deadline = forms.SplitDateTimeField(widget=forms.SplitDateTimeWidget(time_format='%H:%M', attrs={'id':"id_event_signup_deadline"}))
 
@@ -74,7 +89,25 @@ class EventEditForm(forms.ModelForm):
         exclude = ('event_org','event_hash','event_creator_name','event_active',)
     
 class AttendeeForm(forms.ModelForm):
+
+    def __init__(self, current_event, *args, **kwargs):
+        super(AttendeeForm, self).__init__(*args, **kwargs)
+        if current_event.event_track_hours:
+            self.fields['att_hours'] =  HourField(widget=forms.TextInput(attrs={'size':'5',}), max_length=5)
+        if current_event.att_header_col1:
+            self.fields['att_col1'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col1, required=False)
+        if current_event.att_header_col2:
+            self.fields['att_col2'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col2, required=False) 
+        if current_event.att_header_col3:
+            self.fields['att_col3'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col3, required=False)
+        if current_event.att_header_col4:
+            self.fields['att_col4'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col4, required=False)
+        if current_event.att_header_col5:
+            self.fields['att_col5'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col5, required=False)
+        if current_event.att_header_col6:
+            self.fields['att_col6'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col6, required=False)  
+              
     class Meta:
         model = Attendee
-        exclude = ('att_ip','att_event','att_name',)
+        exclude = ('att_ip','att_event','att_name','att_hours','att_col1','att_col2','att_col3','att_col4','att_col5','att_col6')
         

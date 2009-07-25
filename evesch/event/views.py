@@ -129,9 +129,9 @@ def event_edit(request,org_short_name,event_hash,template_name=None):
                 message.addlink(_("Continue"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
                 message.addlink(_("Edit"),reverse('event_event_edit',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
                 context = {'message':message,}
-            else:
-                form = EventEditForm(current_org.id, auto_id=False,instance=current_event)
-                context = {'form':form,'current_org':current_org,'event':current_event,}
+            if not message:
+                message = None
+            context = {'form':form,'current_org':current_org,'event':current_event,'message':message,}
         else:
             form = EventEditForm(current_org,auto_id=False,instance=current_event)
             context = {'form':form,'current_org':current_org,'event':current_event,}
@@ -209,24 +209,39 @@ def event_attendee_add(request,org_short_name,event_hash,template_name=None):
             context = {'message':message,}  
     if not message:
         if request.method == 'POST':
-            form = AttendeeForm(request.POST)
+            form = AttendeeForm(current_event,request.POST)
+
+            #raise AssertionError(form.data)
             if form.is_valid(): 
-		attendee = form.save(commit=False)
-		attendee.att_name = current_user
-		attendee.att_event = current_event
+                attendee = form.save(commit=False)
+                attendee.att_name = current_user
+                attendee.att_event = current_event
                 attendee.att_ip = request.META['REMOTE_ADDR'] 
                 attendee.att_added_date = datetime.now()
+                if current_event.event_track_hours:
+                    attendee.att_hours = form.cleaned_data["att_hours"]
+                if current_event.att_header_col1:
+                    attendee.att_col1 = form.cleaned_data["att_col1"]
+                if current_event.att_header_col2:
+                    attendee.att_col2 = form.cleaned_data["att_col2"]
+                if current_event.att_header_col3:
+                    attendee.att_col3 = form.cleaned_data["att_col3"]
+                if current_event.att_header_col4:
+                    attendee.att_col4 = form.cleaned_data["att_col4"]
+                if current_event.att_header_col5:
+                    attendee.att_col5 = form.cleaned_data["att_col5"]
+                if current_event.att_header_col6:
+                    attendee.att_col6 = form.cleaned_data["att_col6"]                
                 attendee.save()
                 #context = {'current_org':current_org,'current_event':current_event,'current_user':current_user,'form':form }
                 template_name = "core/message.html"
                 message = Message(title=_("Registration Complete"), text=_("You have Registered for this event"))           
                 message.addlink(_("Continue"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
-                context = {'message':message,}                                     
-            else:
-                template_name = "error.html"
-                context = {'error':_("Form is invalid")}
+                context = {'message':message,}
+            else:                                    
+                context = {'current_org':current_org,'current_event':current_event,'current_user':current_user,'form':form }
         else:
-            form = AttendeeForm()
+            form = AttendeeForm(current_event)
             context = {'current_org':current_org,'current_event':current_event,'current_user':current_user,'form':form }
     else:
         template_name = "core/message.html"
@@ -413,6 +428,8 @@ def eventtype_edit(request, org_short_name,eventtype_hash,template_name=None):
                     message.addlink(_("Continue"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
                     message.addlink(_("Edit"),reverse('event_eventtype_edit',kwargs={'org_short_name':current_org.org_short_name,'eventtype_hash':event_type.type_hash}))
                     context = {'message':message,}  
+                else:
+                    context = {'current_org':current_org,'event_type':event_type,'form':form}
             else:
                 form = EventTypeForm(auto_id=False,instance=event_type)
                 context = {'current_org':current_org,'event_type':event_type,'form':form}

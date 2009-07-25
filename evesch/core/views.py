@@ -73,9 +73,7 @@ def evesch_login(request, template_name=None):
                 message = Message(title=_("Invalid Login"), text=_("Invalid Login"))
                 message.addlink(_("Back"),reverse('home'))
                 context = {'message':message,}
-        else:
-            form = EveschLoginForm()
-            context = {'form':form,}
+        context = {'form':form,}
     else:
         form = EveschLoginForm()
         context = {'form':form}

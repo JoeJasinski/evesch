@@ -46,7 +46,6 @@ def group_add(request,org_short_name,template_name=None):
             #if form.is_valid():
                 context = {'current_org':current_org,'message':message}
             else:
-                form = UserGroupForm()
                 context = {'current_org':current_org,'form':form,}
         else:
             form = UserGroupForm()
