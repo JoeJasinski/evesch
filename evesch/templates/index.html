@@ -2,7 +2,7 @@
 {% load ellipsis %}{% load i18n %}
 {% load pagination_tags %}
 {% block title %} - {% trans "Home" %}{% endblock %}
-{% block header_page_specific %}<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/event_list_entry.css" />{% endblock %}
+{% block header_page_specific %}<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/event_list_entry.css">{% endblock %}
 {% block content %}
 
 <div class="section_title"><font>{% trans "Dashboard " %} - <a href="{% url euser_user_view request.user.username %}">{{ request.user }}</a></font></div>

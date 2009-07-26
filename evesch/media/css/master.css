@@ -1,5 +1,5 @@
 body { 
-	background-color: #ff9f00; 
+	background-color: #fbb100; 
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-style: normal;
 	font-variant: normal;
@@ -49,12 +49,16 @@ a
   -webkit-border-top-right-radius: 10px;
   border-radius: 5px;
   border: 0px solid black;
+
 }
 
 .header_banner .login_container
 {
   float: right;
   margin: 10px;
+  display: inline;
+  width: 400px;
+  text-align: right; 
 
 }
 
@@ -98,6 +102,7 @@ border: 0px;
   -webkit-border-bottom-left-radius: 10px;  
   -webkit-border-bottom-right-radius: 10px;
   border-radius: 5px;
+  font-size: 10px;
 }
 
 .footer font
@@ -105,90 +110,100 @@ border: 0px;
 
 }
 
-/*** Nav bar styles ***/
-
-div ul.nav
-{
-  margin-top: 0px;
-  margin-bottom: 10px;
-}
-
-ul.nav,
-.nav ul{
-/*Remove all spacings from the list items*/
-	margin: 0;
-	padding: 0;
-	cursor: default;
-	list-style-type: none;
-	display: inline;
-}
-
-ul.nav{
-	display: table;
-}
-ul.nav>li{
-	display: table-cell;
-	position: relative;
-	padding: 2px 6px;
-	border: #fbb100 1px solid;
-}
 
 
-ul.nav li>ul{
-/*Make the sub list items invisible*/
-	display: none;
-	position: absolute;
-	max-width: 40ex;
-	margin-left: -6px;
-	margin-top: 2px;
-}
-
-ul.nav li:hover>ul{
-/*When hovered, make them appear*/
-	display : block;
-}
-
-.nav ul li a{
-/*Make the hyperlinks as a block element, sort of a hover effect*/
-	display: block;
-	padding: 2px 10px;
-}
-
-/*** Menu colors (customizable) ***/
-
-ul.nav,
-.nav ul,
-.nav ul li a{
-	background-color: #fff;
-	color: #986100;
-}
 
 
-ul.nav li:hover,
-.nav ul li a:hover{
-	background-color: #fbb100;
-	color: #fff;
-}
+.menu{
+	border:none;
+	border:0px;
+	margin:0px;
+	padding:0px;
+    padding-bottom: 10px;
+	font: 67.5% "Lucida Sans Unicode", "Bitstream Vera Sans", "Trebuchet Unicode MS", "Lucida Grande", Verdana, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:bold;
+	}
+.menu ul{
+	background:#986100;
+	height:35px;
+	list-style:none;
+	margin:0;
+	padding:0;
+	}
+	.menu li{
+		float:left;
+		padding:0px;
+		}
+	.menu li a{
+		background:#986100 url("images/seperator.gif") bottom right no-repeat;
+		color:#ffffff;
+		display:block;
+		font-weight:normal;
+		line-height:35px;
+		margin:0px;
+		padding:0px 25px;
+		text-align:center;
+		text-decoration:none;
+		}
+		.menu li a:hover, .menu ul li:hover a{
+			background: #ff9f00 url("images/hover.gif") bottom center no-repeat;
+			color:#FFFFFF;
+			text-decoration:none;
+			}
+	.menu li ul{
+		background:#986100;
+		display:none;
+		height:auto;
+		padding:0px;
+		margin:0px;
+		border:0px;
+		position:absolute;
+		width:225px;
+		z-index:200;
+		/*top:1em;
+		/*left:0;*/
+		}
+	.menu li:hover ul{
+		display:block;
+		
+		}
+	.menu li li {
+		background:url('images/sub_sep.gif') bottom left no-repeat;
+		display:block;
+		float:none;
+		margin:0px;
+		padding:0px;
+		width:225px;
+		}
+	.menu li:hover li a{
+		background:none;
+		
+		}
+	.menu li ul a{
+		display:block;
+		height:35px;
+		font-size:12px;
+		font-style:normal;
+		margin:0px;
+		padding:0px 10px 0px 15px;
+		text-align:left;
+		}
+		.menu li ul a:hover, .menu li ul li:hover a{
+			background:#ff9f00 url('images/hover_sub.gif') center left no-repeat;
+			border:0px;
+			color:#ffffff;
+			text-decoration:none;
+			}
+	.menu p{
+		clear:left;
+		}	
 
-ul.nav li:active,
-.nav ul li a:active{
-	background-color: #036;
-	color: #fff;
-}
-
-ul.nav,
-.nav ul{
-	border: 1px solid #986100;
-}
-
-.nav a{
-	text-decoration: none;
-}
 
 
 .section_sidebyside
 {
-
+  margin-bottom: 10px;
 }
 
 .section_left
@@ -343,6 +358,7 @@ ul.all_org_list
 {
 	list-style-type: none;
 	padding: 0px;
+    margin: 0px;
 }
 
 ul.my_org_list  li table tr td
@@ -353,7 +369,8 @@ ul.my_org_list  li table tr td
 ul.my_org_list
 {
 	list-style-type: none;
-	padding: 0px;
+    margin: 0px 0px 0px 0px;
+    padding-left: 0px;
 }
 
 ul.my_org_list  li
@@ -382,6 +399,7 @@ ul.my_org_list  li
 {
 	list-style-type: none;
 	padding: 0px;
+    margin: 0px;
 }
 
 .org_group_list li

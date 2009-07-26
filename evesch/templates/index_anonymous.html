@@ -2,16 +2,10 @@
 {% load i18n %}{% load ellipsis %}
 {% load pagination_tags %}
 {% block title %} - {% trans "Home" %}{% endblock %}
-{% block header_page_specific %}<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/event_list_entry.css" />{% endblock %}
+{% block header_page_specific %}<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/event_list_entry.css">{% endblock %}
 {% block content %}
 &nbsp;
-<div>
-<ul class="nav">
- <li><strong><a href="{% url account_signup %}">{% trans "Signup" %}</a></strong></li>
- <li><strong><a href="{% url account_auth_login %}">{% trans "Login" %}</a></strong></li>
- <li><strong><a href="">{% trans "Browse" %}</a></strong></li>
-</ul>
-</div>
+{% include "core/inc_anonymous_menu.html" %}
 
 <div class="section">
 	<div class="section_title"><font>{% trans "Welcome" %}</font></div>
