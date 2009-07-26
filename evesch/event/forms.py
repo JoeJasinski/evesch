@@ -95,17 +95,17 @@ class AttendeeForm(forms.ModelForm):
         if current_event.event_track_hours:
             self.fields['att_hours'] =  HourField(widget=forms.TextInput(attrs={'size':'5',}), max_length=5)
         if current_event.att_header_col1:
-            self.fields['att_col1'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col1, required=False)
+            self.fields['att_col1'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col1, required=current_event.att_require_col1)
         if current_event.att_header_col2:
-            self.fields['att_col2'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col2, required=False) 
+            self.fields['att_col2'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col2, required=current_event.att_require_col2) 
         if current_event.att_header_col3:
-            self.fields['att_col3'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col3, required=False)
+            self.fields['att_col3'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col3, required=current_event.att_require_col3)
         if current_event.att_header_col4:
-            self.fields['att_col4'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col4, required=False)
+            self.fields['att_col4'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col4, required=current_event.att_require_col4)
         if current_event.att_header_col5:
-            self.fields['att_col5'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col5, required=False)
+            self.fields['att_col5'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col5, required=current_event.att_require_col5)
         if current_event.att_header_col6:
-            self.fields['att_col6'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col6, required=False)  
+            self.fields['att_col6'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col6, required=current_event.att_require_col6)  
               
     class Meta:
         model = Attendee

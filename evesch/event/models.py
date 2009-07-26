@@ -5,7 +5,6 @@ from datetime import datetime
 from random import sample
 from core.exceptions import EventTypeExistsException
 from django.utils.translation import ugettext_lazy as _
-import hashlib
 from core.lib import text_vs_bg
 #from django.contrib.auth.models import User
 
@@ -147,26 +146,32 @@ class Event(models.Model):
 		max_length=20,
 		verbose_name=_("Column 1 Header"),
 		blank=True, null=True,)
+	att_require_col1 = models.BooleanField(u'Required',default=False)
 	att_header_col2 = models.CharField(
 		max_length=20,
 		verbose_name=_("Column 2 Header"),
 		blank=True, null=True,)
+	att_require_col2 = models.BooleanField(u'Required',default=False)
 	att_header_col3 = models.CharField(
 		max_length=20,
 		verbose_name=_("Column 3 Header"),
 		blank=True, null=True,)
+	att_require_col3 = models.BooleanField(u'Required',default=False)
 	att_header_col4 = models.CharField(
 		max_length=20,
 		verbose_name=_("Column 4 Header"),
 		blank=True, null=True,)
+	att_require_col4 = models.BooleanField(u'Required',default=False)
 	att_header_col5 = models.CharField(
 		max_length=20,
 		verbose_name=_("Column 5 Header"),
 		blank=True, null=True,)
+	att_require_col5 = models.BooleanField(u'Required',default=False)
 	att_header_col6 = models.CharField(
 		max_length=20,
 		verbose_name=_("Column 6 Header"),
 		blank=True, null=True,)	
+	att_require_col6 = models.BooleanField(u'Required',default=False)
 	objects = EventManager()
 	#class Meta:
 	#	db_table="Events"
