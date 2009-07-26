@@ -14,8 +14,8 @@ MANAGERS = ADMINS
 AUTH_PROFILE_MODULE = 'core.User'
 
 DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'eveschd_test'             # Or path to database file if using sqlite3.
-DATABASE_USER = 'evesch'             # Not used with sqlite3.
+DATABASE_NAME = 'joejaz_evesch'             # Or path to database file if using sqlite3.
+DATABASE_USER = 'joejaz_evesch'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'brutus1234'         # Not used with sqlite3.
 DATABASE_HOST = 'localhost'             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
