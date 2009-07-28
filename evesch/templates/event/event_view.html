@@ -45,7 +45,7 @@
 <div class="section"> 
 	<div class="section_title"><font>{% trans "Event Attendee Information" %}</font></div>
 	<div class="section_body">
-		<div>
+		<div class="menu">
 		<ul class="nav">
 		 <li>{% if current_event.is_within_signup_deadline %}<strong><a href="{% url event_attendee_add current_org.org_short_name current_event.event_hash %}">{% trans "Add" %}</a></strong>{% else %}<strong style="color:grey;">{% trans "Add" %}</strong>{% endif %}</li>
 		 <li><strong><a href="{% url event_attendees_message current_org.org_short_name current_event.event_hash %}">{% trans "Message" %}</a></strong></li>

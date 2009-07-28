@@ -66,6 +66,7 @@ class User(User):
         blank=True, null=True)
     user_groups = models.ManyToManyField(UserGroup,
         verbose_name = _("User Groups"),
+        related_name = "group_users",
         blank=True, null=True)
     phone = models.CharField(
         db_column=u"phone",

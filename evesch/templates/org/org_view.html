@@ -66,7 +66,7 @@
 			{% for group in current_org.get_org_groups %}
 			  <li>
 			  <TABLE>
-			    <TR><TD class="group_name">{{ group.group_name }}</TD><TD class="group_desc">{{ group.group_desc }}</TD>
+			    <TR><TD class="group_name"><a href="{% url egroup_group_view current_org.org_short_name group.group_hash %}">{{ group.group_name }}</a></TD><TD class="group_desc">{{ group.group_desc }}</TD>
 			        <TD class="group_flags">{% if group.admin_org %}Yes{% else %}No{% endif %}</TD>
 			        <TD class="group_flags">{% if group.coord_events %}Yes{% else %}No{% endif %}</TD>
 			        <TD><a title="{% trans "Edit Group" %}" href="{% url egroup_group_edit current_org.org_short_name group.group_hash %}"><img alt="edit" style="border: solid 0px;" src="{{ MEDIA_URL }}images/edit.png"></a>

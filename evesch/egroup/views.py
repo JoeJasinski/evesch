@@ -124,3 +124,17 @@ def group_remove(request, org_short_name, group_hash, template_name=None):
         template_name = "core/message.html"
         context = {'message':message,'current_org':current_org,}
     return render_to_response(template_name,context, context_instance=RequestContext(request))
+
+@login_required
+def group_view(request, org_short_name, group_hash, template_name=None):
+    current_org, message = Organization.objects.get_current_org(org_short_name)
+    if not message:
+        current_user, message = get_current_user(request.user)
+    if not message: 
+        current_usergroup, message = UserGroup.objects.get_current_usergroup(group_hash)
+    if not message: 
+        context = {'current_org':current_org,'current_usergroup':current_usergroup}
+    else:
+        template_name = "core/message.html"
+        context = {'message':message,'current_org':current_org,}
+    return render_to_response(template_name,context, context_instance=RequestContext(request))
