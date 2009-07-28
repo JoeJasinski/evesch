@@ -23,7 +23,7 @@ body {
 {
   margin: 0px;
   padding: 10px;
-  background: url('/media/images/background-grad.png') 0% 0% repeat-x;
+  background: url('../images/background-grad.png') 0% 0% repeat-x;
   height: 400px; 
 }
 
@@ -102,12 +102,12 @@ border: 0px;
   -webkit-border-bottom-left-radius: 10px;  
   -webkit-border-bottom-right-radius: 10px;
   border-radius: 5px;
-  font-size: 10px;
+
 }
 
 .footer font
 {
-
+ font-size: 9px;
 }
 
 
@@ -126,7 +126,7 @@ border: 0px;
 	}
 .menu ul{
 	background:#986100;
-	height:35px;
+	height:25px;
 	list-style:none;
 	margin:0;
 	padding:0;
@@ -136,18 +136,18 @@ border: 0px;
 		padding:0px;
 		}
 	.menu li a{
-		background:#986100 url("images/seperator.gif") bottom right no-repeat;
+		background:#986100 url("../images/menu/seperator.gif") bottom right no-repeat;
 		color:#ffffff;
 		display:block;
 		font-weight:normal;
-		line-height:35px;
+		line-height:25px;
 		margin:0px;
 		padding:0px 25px;
 		text-align:center;
 		text-decoration:none;
 		}
 		.menu li a:hover, .menu ul li:hover a{
-			background: #ff9f00 url("images/hover.gif") bottom center no-repeat;
+			background: #ff9f00 url("../images/menu/hover.png") bottom center no-repeat;
 			color:#FFFFFF;
 			text-decoration:none;
 			}
@@ -169,7 +169,7 @@ border: 0px;
 		
 		}
 	.menu li li {
-		background:url('images/sub_sep.gif') bottom left no-repeat;
+		background:url('../images/menu/sub_sep.gif') bottom left no-repeat;
 		display:block;
 		float:none;
 		margin:0px;
@@ -182,7 +182,7 @@ border: 0px;
 		}
 	.menu li ul a{
 		display:block;
-		height:35px;
+		height:25px;
 		font-size:12px;
 		font-style:normal;
 		margin:0px;
@@ -190,7 +190,7 @@ border: 0px;
 		text-align:left;
 		}
 		.menu li ul a:hover, .menu li ul li:hover a{
-			background:#ff9f00 url('images/hover_sub.gif') center left no-repeat;
+			background:#ff9f00 url('../images/menu/hover_sub.png') center left no-repeat;
 			border:0px;
 			color:#ffffff;
 			text-decoration:none;
@@ -421,4 +421,39 @@ ul.my_org_list  li
 .org_group_list li table .group_flags
 {
   width: 4em;
+}
+
+
+ul.attendee_list
+{
+	list-style-type: none;
+	padding: 0px;
+    margin: 0px;
+}
+
+
+ul.attendee_list li
+{
+    border-top: solid #69e067 1px; 
+}
+
+
+ul.attendee_list li .att_name
+{
+  width: 100px;
+}
+
+ul.attendee_list li .att_date
+{
+  width: 130px;
+}
+
+ul.attendee_list li .att_hours
+{
+  width: 50px;
+}
+
+ul.attendee_list li .att_col
+{
+ width: 100px;
 }
