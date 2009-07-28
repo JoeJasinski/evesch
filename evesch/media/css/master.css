@@ -159,7 +159,7 @@ border: 0px;
 		margin:0px;
 		border:0px;
 		position:absolute;
-		width:225px;
+		width:150px;
 		z-index:200;
 		/*top:1em;
 		/*left:0;*/
@@ -174,7 +174,7 @@ border: 0px;
 		float:none;
 		margin:0px;
 		padding:0px;
-		width:225px;
+		width:150px;
 		}
 	.menu li:hover li a{
 		background:none;

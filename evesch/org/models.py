@@ -54,7 +54,7 @@ class Organization(models.Model):
 	org_short_name = models.SlugField(
 		db_column="org_short_name",
 		verbose_name=_("Organization Short Name"),
-		max_length=8,
+		max_length=20,
 		db_index=True)
 	org_active = models.BooleanField(
 		db_column = "org_active",

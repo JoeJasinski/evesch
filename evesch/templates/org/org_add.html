@@ -1,6 +1,20 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Add Organization" %}{% endblock %}
+{% block header_page_specific %} 
+<script type="text/javascript" src="{{ MEDIA_URL }}js/urlify.js"></script>  
+<script type="text/javascript">
+ $(document).ready(function()
+ {
+    document.getElementById("id_org_short_name").onchange = function() { this._changed = true; };
+    document.getElementById("id_org_name").onkeyup = function() {
+        var e = document.getElementById("id_org_short_name");
+        if (!e._changed) { e.value = URLify(document.getElementById("id_org_name").value, 50); }
+    }
+ });
+</script>
+{% endblock %}
+
 {% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a> 
 &gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
@@ -18,4 +32,7 @@
 		</FORM>
 	</div>
 </div>
+
+
+
 {% endblock %}

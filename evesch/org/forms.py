@@ -5,7 +5,6 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class OrganizationForm(ModelForm):
-    org_short_name = forms.CharField()
     org_desc = forms.CharField(max_length=512,
          widget=forms.Textarea(attrs = {'cols': '45', 'rows': '5'}))
     
