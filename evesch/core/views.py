@@ -178,7 +178,7 @@ def evesch_captcha(request):
     im=Image.open(settings.MEDIA_ROOT + 'images/captcha_box.jpg')
     (bg_width, bg_height) = im.size
     draw=ImageDraw.Draw(im)
-    font=ImageFont.truetype(settings.MEDIA_ROOT + 'fonts/Cracked', 44)
+    font=ImageFont.truetype(settings.MEDIA_ROOT + 'fonts/AfterShock.ttf', 44)
     (txt_width, txt_height) = draw.textsize(imgtext, font=font) 
     draw.text(((bg_width / 2 ) - (txt_width / 2), (bg_height / 2) - (txt_height / 2) ),imgtext, font=font, fill=(100,100,50))
 
