@@ -26,8 +26,8 @@
 					 {% if current_org.org_state %}<TR><TD>{% trans "Org State" %}:</TD><TD>{{ current_org.org_state }}</TD></TR>{% endif %}
 					 {% if current_org.org_zip %}<TR><TD>{% trans "Org Zip" %}:</TD><TD>{{ current_org.org_zip }}</TD></TR>{% endif %}
 					 <TR><TD>{% trans "Org Created Date" %}:</TD><TD>{{ current_org.org_date_created|date:"D m/d/Y h:i a" }}</TD></TR>
-					 <TR><TD>{% trans "Org Admins" %}:</TD><TD>{% for admin in current_org.get_admin_users   %}<div><a href="{% url euser_user_view admin.username %}">{{ admin }}</a></div>{% endfor %}</TD></TR>
-					 <TR><TD>{% trans "Org Event Coordinators" %}:</TD><TD>{% for coord in current_org.get_coordinator_users   %}<div><a href="{% url euser_user_view coord.username %}">{{ coord }}</a></div>{% endfor %}</TD></TR>
+					 <TR><TD>{% trans "Org Admins" %}:</TD><TD>{% for admin in current_org.get_admin_users   %}<div><a href="{{ admin.get_absolute_url }}">{{ admin }}</a></div>{% endfor %}</TD></TR>
+					 <TR><TD>{% trans "Org Event Coordinators" %}:</TD><TD>{% for coord in current_org.get_coordinator_users   %}<div><a href="{{ coord.get_absolute_url }}">{{ coord }}</a></div>{% endfor %}</TD></TR>
 					 <TR><TD>{% trans "Org Feed URL" %}</TD><TD><a href="{% url core_feed_org_rss current_org.org_short_name current_org.org_feed_hash %}"><img alt="rss" style="border: solid 0px;" src="{{ MEDIA_URL }}images/rss_icon.png"></a></TD></TR>
 					 <TR><TD>{% trans "Org iCal URL" %}</TD><TD><a href="{% url core_feed_org_ics current_org.org_short_name current_org.org_feed_hash %}"><img alt="ical" width="25" style="border: solid 0px;" src="{{ MEDIA_URL }}images/ical_icon.png"></a></TD></TR>
 					</TABLE>

@@ -28,7 +28,7 @@
 	<div class="section_body">
 		<TABLE>
 		{% for invite in current_user.get_org_invites %}
-		 <TR><TD><a href="{% url org_org_view invite.org.org_short_name %}">{{ invite.org }}</a></TD>
+		 <TR><TD><a href="{{ current_org.get_absolute_url }}">{{ invite.org }}</a></TD>
 		     <TD><a title="{% trans "Join Organization" %}" href="{% url org_org_join invite.org.org_short_name %}"><img alt="Join" style="border: solid 0px;" src="{{ MEDIA_URL }}images/join.png"></a></TD></TR>
 		{% endfor %}
 		</TABLE>

@@ -4,11 +4,12 @@ from django.utils.translation import ugettext_lazy as _
 from random import sample
 from core.lib import Message
 from euser.models import User
+from django.core.urlresolvers import reverse
 
 KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 class OrganizationManager(models.Manager):
-	_org_cache = {}
+
 	def create_organization(self, org_name, org_short_name ):
 		organization = Organization(org_name=org_name,org_short_name=org_short_name, )
 
@@ -21,13 +22,12 @@ class OrganizationManager(models.Manager):
 		if message:
 			return None, message
 		else:
-			if not self._org_cache.has_key(org_short_name):
-				try:
-					self._org_cache[org_short_name] = super(OrganizationManager, self).get(org_short_name=org_short_name, org_active=True)
-				except:
-					self._org_cache[org_short_name] =  None
-					message = Message(title="Org Not Found", text="The organization was not found")
-		return self._org_cache[org_short_name], message
+			try:
+				current_org = super(OrganizationManager, self).get(org_short_name=org_short_name, org_active=True)
+			except:
+				current_org =  None
+				message = Message(title="Org Not Found", text="The organization was not found")
+		return current_org, message
 
 class Organization(models.Model):
 
@@ -184,6 +184,9 @@ class Organization(models.Model):
 				current_event = None
 				message = Message(title="Event Not Found", text="The event was not found")
 			return current_event, message
+
+	def get_absolute_url(self):
+		return reverse('org_org_view',kwargs={'org_short_name':self.org_short_name,})
 
 	def is_member(self,user):
 		return self.org_users.filter(id=user.id)	

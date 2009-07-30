@@ -6,6 +6,7 @@ from random import sample
 from core.exceptions import EventTypeExistsException
 from django.utils.translation import ugettext_lazy as _
 from core.lib import text_vs_bg
+from django.core.urlresolvers import reverse
 #from django.contrib.auth.models import User
 
 KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -221,6 +222,9 @@ class Event(models.Model):
 			return True
 		else:
 		    return False
+	
+	def get_absolute_url(self):
+		return reverse('event_event_view',kwargs={'org_short_name':self.event_org.org_short_name,'event_hash':self.event_hash})
 	
 	def is_additional_signup_info(self):
 		return self.att_header_col1 or self.att_header_col2 or self.att_header_col3 or self.att_header_col4 or self.att_header_col5 or self.att_header_col6 or self.event_track_hours

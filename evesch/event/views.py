@@ -65,13 +65,13 @@ def event_add(request,org_short_name,template_name=None):
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Add Event"), text=_("You cannot add an event in an organization that you do not belong to."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message: 
         if not operms['can_add_event']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Add Event"), text=_("You do not have permission to add an event in this organization."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         current_user, message = get_current_user(request.user, message)
@@ -110,14 +110,14 @@ def event_edit(request,org_short_name,event_hash,template_name=None):
         if not eperms['can_edit_event']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Edit Event"), text=_("You do not have permission to edit this event"))        
-            message.addlink(_("Back"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
+            message.addlink(_("Back"),current_event.get_absolute_url())
             context = {'message':message,}
     if not message:
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Edit Event"), text=_("You cannot edit an event in an organization that you do not belong to."))
-            message.addlink(_("Back"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
+            message.addlink(_("Back"),current_event.get_absolute_url())
             context = {'message':message,}
     if not message:
         if request.method == 'POST':
@@ -126,7 +126,7 @@ def event_edit(request,org_short_name,event_hash,template_name=None):
                 form.save()
                 template_name = "core/message.html"
                 message = Message(title=_("Event Saved"), text=_("Event Saved"))
-                message.addlink(_("Continue"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
+                message.addlink(_("Continue"),current_event.get_absolute_url())
                 message.addlink(_("Edit"),reverse('event_event_edit',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
                 context = {'message':message,}
             if not message:
@@ -152,14 +152,14 @@ def event_remove(request,org_short_name,event_hash,template_name=None):
         if not eperms['can_remove_event']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Delete Event"), text=_("You do not have permission to delete this event"))        
-            message.addlink(_("Back"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
+            message.addlink(_("Back"),current_event.get_absolute_url())
             context = {'message':message,}
     if not message:    
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Remove Event"), text=_("You cannot remove an event in an organization that you do not belong to."))
-            message.addlink(_("Back"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
+            message.addlink(_("Back"),current_event.get_absolute_url())
             context = {'message':message,'current_event':current_event}
     if not message:
         if request.method == 'POST':
@@ -185,27 +185,27 @@ def event_attendee_add(request,org_short_name,event_hash,template_name=None):
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Attend Event"), text=_("You cannot register for an event in an organization that you do not belong to."))
-            message.addlink(_("Back"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
+            message.addlink(_("Back"),current_event.get_absolute_url())
             context = {'message':message,}
     if not message:
         if not current_event.event_open:
             template_name = "core/message.html"
             text = _("This event is closed.  Contact the event coordinator with comments or concerns.")
             message = Message(title=_("Event Closed", text=text))
-            message.addlink(_("Back"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
+            message.addlink(_("Back"),current_event.get_absolute_url())
             context = {'message':message,} 
     if not message:
         if not current_event.is_within_signup_deadline():
             template_name = "core/message.html"
             text = _("You may not register for this event after " + current_event.event_signup_deadline.strftime("%A %m/%d/%Y"))
             message = Message(title=_("Attendee Add Error", text=text))
-            message.addlink(_("Back"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
+            message.addlink(_("Back"),current_event.get_absolute_url())
             context = {'message':message,}
     if not message:
         if Attendee.objects.filter(att_name=current_user,att_event=current_event):
             template_name = "core/message.html"
             message = Message(title=_("Already Registered"), text=_("Attendee is already registered"))           
-            message.addlink(_("Continue"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
+            message.addlink(_("Continue"),current_event.get_absolute_url())
             context = {'message':message,}  
     if not message:
         if request.method == 'POST':
@@ -236,7 +236,7 @@ def event_attendee_add(request,org_short_name,event_hash,template_name=None):
                 #context = {'current_org':current_org,'current_event':current_event,'current_user':current_user,'form':form }
                 template_name = "core/message.html"
                 message = Message(title=_("Registration Complete"), text=_("You have Registered for this event"))           
-                message.addlink(_("Continue"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
+                message.addlink(_("Continue"),current_event.get_absolute_url())
                 context = {'message':message,}
             else:                                    
                 context = {'current_org':current_org,'current_event':current_event,'current_user':current_user,'form':form }
@@ -260,20 +260,20 @@ def event_attendees_message(request,org_short_name,event_hash,template_name=None
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Message Users"), text=_("You cannot message users in an organization that you do not belong to."))
-            message.addlink(_("Back"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
+            message.addlink(_("Back"),current_event.get_absolute_url())
             context = {'message':message,}
     if not message:
         eperms = current_event.event_perms(current_user)
         if not eperms['can_message_event']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Message Users"), text=_("You cannot message users unless you are attending the event."))
-            message.addlink(_("Back"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
+            message.addlink(_("Back"),current_event.get_absolute_url())
             context = {'message':message,}
     if not message:
         attendees = current_event.get_attendees()  #attendee_set.all()
         if not attendees:
             message = Message(title=_("No attendees"), text=_("No attendees are signed up for this event."))
-            message.addlink(_("Back"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':event_hash}))
+            message.addlink(_("Back"),current_event.get_absolute_url())
             context = {'message':message,}
     if not message:
         if request.method == 'POST':
@@ -283,7 +283,7 @@ def event_attendees_message(request,org_short_name,event_hash,template_name=None
                 body = form.cleaned_data['body']
                 template_name = "core/message.html"
                 message = Message(title=_("Message Sent"), text=_("Message Sent"))          
-                message.addlink("Continue",reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':event_hash}))
+                message.addlink("Continue",current_event.get_absolute_url())
                 context = {'message':message,}
             else:
                 context = {'attendees':attendees,'form':form, 'current_event':current_event }
@@ -307,7 +307,7 @@ def event_attendee_remove(request,org_short_name,event_hash,att_name,template_na
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Remove User from Event"), text=_("You cannot remove a user from  an event in an organization that you do not belong to."))
-            message.addlink(_("Back"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
+            message.addlink(_("Back"),current_event.get_absolute_url())
             context = {'message':message,}
     if not message:
         try:
@@ -321,13 +321,13 @@ def event_attendee_remove(request,org_short_name,event_hash,att_name,template_na
         if not aperms['can_remove_attendee']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Remove User from Event"), text=_("You do not have permission to remove this attendee."))
-            message.addlink(_("Back"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
+            message.addlink(_("Back"),current_event.get_absolute_url())
             context = {'message':message,}
         if request.method == 'POST':
             current_attendee.delete()
             template_name = "core/message.html"
             message = Message(title=_("Attendee Removed"), text=_("Attendee Removed"))          
-            message.addlink(_("Continue"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
+            message.addlink(_("Continue"),current_event.get_absolute_url())
             context = {'message':message,}  
         else:
             #raise AssertionError('GOT HERE ' + str(aperms))
@@ -345,7 +345,7 @@ def eventtype_add(request,org_short_name,template_name=None):
         if not current_org.is_member(request.user):
             template_name = "core/message.html"
             message = Message(title=_("Cannot Add Event Type"), text=_("You cannot add an event type in an organization that you do not belong to."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         current_user, message = get_current_user(request.user, message)
@@ -354,7 +354,7 @@ def eventtype_add(request,org_short_name,template_name=None):
         if not operms['can_add_type']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Add Event Type"), text=_("You do not have permission to add an event type in this organization."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         if request.method == 'POST':
@@ -367,22 +367,22 @@ def eventtype_add(request,org_short_name,template_name=None):
                     et1 = EventType.objects.create_eventtype(type_name=type_name, org_name=current_org, type_desc=type_desc,type_color=type_color)
                     template_name = "core/message.html"
                     message = Message(title=_("Add Event Type Successful"), text=_("Add Event Type Successful"))          
-                    message.addlink(_("Continue"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+                    message.addlink(_("Continue"),current_org.get_absolute_url())
                     context = {'message':message,}  
                 except ObjectDoesNotExist:
                     template_name = "core/message.html"
                     message = Message(title=_("Add Event Type Not Successful"), text=_("Add Event Type Not Successful"))           
-                    message.addlink(_("Continue"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+                    message.addlink(_("Continue"),current_org.get_absolute_url())
                     context = {'message':message,}                     
                 except EventTypeExistsException:
                     template_name = "core/message.html"
                     message = Message(title=_("Event Type already exists"), text=_("Event Type already exists"))
-                    message.addlink(_("Continue"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+                    message.addlink(_("Continue"),current_org.get_absolute_url())
                     context = {'message':message,}                                         
                 except: 
                     template_name = "core/message.html"
                     message = Message(title=_("Unknown Error"), text=_("Unknown Error"))
-                    message.addlink(_("Continue"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+                    message.addlink(_("Continue"),current_org.get_absolute_url())
                     context = {'message':message,}                           
             else:
                 context = {'form':form, 'current_org':current_org}
@@ -404,13 +404,13 @@ def eventtype_edit(request, org_short_name,eventtype_hash,template_name=None):
         if not operms['can_edit_type']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Edit Event Type"), text=_("You do not have permission to edit an event type in this organization."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:    
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Edit Event Type"), text=_("You cannot edit a event type in an organization that you do not belong to."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         try:
@@ -425,7 +425,7 @@ def eventtype_edit(request, org_short_name,eventtype_hash,template_name=None):
                     event_type.save()
                     template_name = "core/message.html"
                     message = Message(title=_("Event Type Edit Successful"), text=_("Event Type Edit Successful"))
-                    message.addlink(_("Continue"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+                    message.addlink(_("Continue"),current_org.get_absolute_url())
                     message.addlink(_("Edit"),reverse('event_eventtype_edit',kwargs={'org_short_name':current_org.org_short_name,'eventtype_hash':event_type.type_hash}))
                     context = {'message':message,}  
                 else:
@@ -451,13 +451,13 @@ def eventtype_remove(request, org_short_name,eventtype_hash,template_name=None):
         if not operms['can_remove_type']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Remove Event Type"), text=_("You do not have permission to remove an event type in this organization."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:    
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Remove Event Type"), text=_("You cannot remove an event type in an organization that you do not belong to."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         try:
@@ -465,7 +465,7 @@ def eventtype_remove(request, org_short_name,eventtype_hash,template_name=None):
             if request.method == 'POST':
                 event_type.type_active = False
                 event_type.save()
-                return HttpResponseRedirect(reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+                return HttpResponseRedirect(current_org.get_absolute_url())
             else:
                 context = {'current_org':current_org,'event_type':event_type }
         except ObjectDoesNotExist:

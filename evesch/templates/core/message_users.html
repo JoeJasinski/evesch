@@ -5,7 +5,7 @@
 
 <form method="post" action=".">
 <TABLE>
-<TR><TD><strong>{% trans "Attendees" %}</strong>:</TD><TD>{% for attendee in attendees %}<a href="{% url euser_user_view attendee.att_name %}">{{ attendee }}</a>, {% endfor %}</TD></TR>
+<TR><TD><strong>{% trans "Attendees" %}</strong>:</TD><TD>{% for attendee in attendees %}<a href="{{ attendee.att_name.get_absolute_url }}">{{ attendee }}</a>, {% endfor %}</TD></TR>
 {{ form.as_table }}&nbsp;&nbsp;
 </TABLE>
 <INPUT type="submit" name="send_message" value="{% trans "Send" %}">

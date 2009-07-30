@@ -4,7 +4,7 @@
 {% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a>
 &gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
-&gt; <a href="{% url org_org_view current_org.org_short_name %}">{{ current_org.org_name }}</a> 
+&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
 &gt; {% trans "View Group" %}
 {% endblock %}
 {% block content %}
@@ -15,7 +15,9 @@
 		<TABLE>
 		<TR><TD>{% trans "Organization" %}: </TD><TD>{{ current_org.org_name }}</TD></TR>
 		<TR><TD>{% trans "Group" %}: </TD><TD>{{ current_usergroup.group_name }}</TD></TR>
-
+		{% for user in current_usergroup.group_users.all %}
+		<TR><TD>{{ user }}</TD><TD>&nbsp;</TD></TR>
+		{% endfor %}
 	    </TABLE>
 	</div>
 </div>

@@ -48,7 +48,7 @@ def org_reports(request,org_short_name, type='generic', template_name=None):
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Add Event"), text=_("You cannot add an event in an organization that you do not belong to."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         

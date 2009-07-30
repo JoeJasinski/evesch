@@ -30,7 +30,7 @@
 {% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a> 
 &gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
-&gt; <a href="{% url org_org_view current_org.org_short_name %}">{{ current_org.org_name }}</a> &gt; {% trans "Invite Members" %}
+&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> &gt; {% trans "Invite Members" %}
 {% endblock %}
 {% block content %}
 {% include "event/inc_event_menu.html" %}
@@ -51,9 +51,6 @@
 <div class="section">
 	<div class="section_title"><font>{% trans "Users Invited (waiting for them to confirm)" %}</font><span class="section_header_icon"><a title="{% trans "Invite User to Org" %}" href="{% url org_org_member_invite current_org.org_short_name %}"></a></span></div>
 	<div class="section_body">
-		{% comment %}{% for user in invited_users %}
-		 <span class="org_user_list"> &nbsp; <span style="float: right;"></span><div><a href="{% url euser_user_view user.username %}">{{ user.first_name }} {{ user.last_name }} ({{ user.username }}) </a></div></span>
-		{% endfor %}{% endcomment %}
 		<div id="org_user_list_container">
 		{% with invited_users as members %}
 			{% include  "org/inc_org_user_list.html" %}

@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, UserManager
 from org.models import Organization
 from egroup.models import UserGroup
 from core.lib import Message
+from django.core.urlresolvers import reverse
 
 PRIVACY_TYPES = (
            (1,u'All_View'),
@@ -139,7 +140,10 @@ class User(User):
 
     def set_password(self, raw_password):
         super(User, self).set_password(raw_password)
-        
+
+    def get_absolute_url(self):
+        return reverse('euser_user_view',kwargs={'username':self.username,})
+    
         
 def get_current_user(username, message=None):
     if message:

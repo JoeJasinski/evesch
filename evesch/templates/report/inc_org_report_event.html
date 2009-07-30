@@ -4,7 +4,7 @@
 		{% if current_org.get_events %}
 		{% for event in current_org.get_events %}
 			<TR height="18px;" class="report_item_head">
-			 <TH><a href="{% url event_event_view current_org.org_short_name event.event_hash %}">{{ event }}</a></TH>
+			 <TH><a href="{{ event.get_absolute_url }}">{{ event }}</a></TH>
 			 <TH bgcolor="#{{ event.event_type.type_color }}"><font color="#{{ event.event_type.type_color|color_correct }}">{{ event.event_type }}</font></TH>
 			 <TH colspan="7">&nbsp;</TH>		 
 			</TR>

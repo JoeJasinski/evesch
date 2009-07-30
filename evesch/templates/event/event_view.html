@@ -17,7 +17,7 @@
 {% block breadcrumb %}
 <a href="{% url home %}">home</a> 
 &gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
-&gt; <a href="{% url org_org_view current_org.org_short_name %}">{{ current_org.org_name }}</a> 
+&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
 &gt; <a href="{% url event_events_list current_org.org_short_name %}">{% trans "Events" %}</a> 
 &gt; {{ current_event.event_name }}
 {% endblock %}
@@ -33,8 +33,8 @@
 		 <TR><TD>{% trans "Event Signup Deadline" %}:</TD><TD>{{ current_event.event_signup_deadline|date:"D m/d/Y h:i a" }}</TD></TR>
 		 <TR><TD>{% trans "Event Date" %}:</TD><TD>{{ current_event.event_date|date:"D m/d/Y h:i a" }}</TD></TR>
 		 <TR><TD>{% trans "Description" %}:</TD><TD>{{ current_event.event_desc }}</TD></TR>
-		 <TR><TD>{% trans "Event Creator Name" %}:</TD><TD><a href="{% url euser_user_view current_event.event_creator_name %}">{{ current_event.event_creator_name }}</a></TD></TR>
-		 <TR><TD>{% trans "Event Coordiantors" %}:</TD><TD>{% for coordinator in current_event.get_event_coordinators %}<div><a href="{% url euser_user_view coordinator %}">{{ coordinator }}</a></div>{% endfor %}</TD></TR>
+		 <TR><TD>{% trans "Event Creator Name" %}:</TD><TD><a href="{{ current_event.event_creator_name.get_absolute_url }}">{{ current_event.event_creator_name }}</a></TD></TR>
+		 <TR><TD>{% trans "Event Coordiantors" %}:</TD><TD>{% for coordinator in current_event.get_event_coordinators %}<div><a href="{{ coordinator.get_absolute_url }}">{{ coordinator }}</a></div>{% endfor %}</TD></TR>
 		 <TR><TD>{% trans "Event Created Date" %}:</TD><TD>{{ current_event.event_created_date|date:"D m/d/Y h:i a" }}</TD></TR>
 		 <TR><TD>{% trans "Event Max Attendees" %}:</TD><TD>{{ current_event.max_attendees }}</TD></TR>
 		 <TR><TD>{% trans "Hour Tracking" %}:</TD><TD>{% ifequal current_event.event_track_hours 1 %}Tracking Hours{% else %}Hour Tracking Disabled{% endifequal %}</TD></TR>
@@ -47,7 +47,7 @@
 	<div class="section_body">
 		<div class="menu">
 		<ul class="nav">
-		 <li>{% if current_event.is_within_signup_deadline %}<strong><a href="{% url event_attendee_add current_org.org_short_name current_event.event_hash %}">{% trans "Add" %}</a></strong>{% else %}<strong style="color:grey;">{% trans "Add" %}</strong>{% endif %}</li>
+		 <li>{% if current_event.is_within_signup_deadline %}<strong><a href="{% url event_attendee_add current_org.org_short_name current_event.event_hash %}">{% trans "Add" %}</a></strong>{% else %}<strong><a class="disabled_string">{% trans "Add" %}</a></strong>{% endif %}</li>
 		 <li><strong><a href="{% url event_attendees_message current_org.org_short_name current_event.event_hash %}">{% trans "Message" %}</a></strong></li>
 		</ul>
 		</div>
@@ -70,7 +70,7 @@
 		   {% for attendee in attendees %}
 		   <ul class="attendee_list"><li>
 			   <TABLE>
-				<TR><TD class="att_name"><a href="{% url euser_user_view attendee.att_name %}">{{ attendee.att_name }}</a></TD><TD class="att_date">{{ attendee.att_added_date|date:"D m/d/Y h:i a" }}</TD>
+				<TR><TD class="att_name"><a href="{{ attendee.att_name.get_absolute_url }}">{{ attendee.att_name }}</a></TD><TD class="att_date">{{ attendee.att_added_date|date:"D m/d/Y h:i a" }}</TD>
 					{% if current_event.event_track_hours %}<TD class="att_hours">{{ attendee.att_hours }}</TD>{% endif %}
 				    {% if current_event.att_header_col1 %}<TD class="att_col">{{ attendee.att_col1 }}</TD>{% endif %}
 				    {% if current_event.att_header_col2 %}<TD class="att_col">{{ attendee.att_col2 }}</TD>{% endif %}

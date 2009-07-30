@@ -128,14 +128,14 @@ def org_join(request, org_short_name, template_name=None):
         if current_org.is_member(current_user):
             template_name = "core/message.html"
             message = Message(title=_("Already a Member"), text=_("You are already a member of this organization." ))          
-            message.addlink(_("Continue"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Continue"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         operms = current_org.org_perms(current_user)
         if not operms['can_join_org']:
             template_name = "core/message.html"
             message = Message(title=_("Approval Needed"), text=_("In order to join this organization, you need approval from the organization admin."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:  
         if request.method == 'POST':                    
@@ -145,7 +145,7 @@ def org_join(request, org_short_name, template_name=None):
             template_name = "core/message.html"
             #message = Message(title="You have Joined the organization", text="Org Join Successful: " + org_user_group.group_name )
             message = Message(title=_("You have Joined the organization"), text=_("Org Join Successful: %s" % (current_org.org_name,)) )            
-            message.addlink(_("Continue"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Continue"),current_org.get_absolute_url())
             context = {'message':message,}
         else:  
             form = OrganizationJoinForm()
@@ -237,14 +237,14 @@ def org_edit(request,org_short_name=None,template_name=None):
         if not current_org.is_member(current_user):
             template_name = "core/message.html"
             message = Message(title=_("Can Not Edit Org"), text=_("You cannot edit an organization that you do not belong to."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         operms = current_org.org_perms(current_user)
         if not operms['can_edit_org']:
             template_name = "core/message.html"
             message = Message(title=_("Can Not Edit Org"), text=_("You cannot edit this organization because you do not have permission to."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         if request.method == 'POST':
@@ -253,7 +253,7 @@ def org_edit(request,org_short_name=None,template_name=None):
                 form.save()
                 template_name = "core/message.html"
                 message = Message(title=_("Organization Changes Saved"), text=_("Organization Changes Saved"))
-                message.addlink(_("Continue"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+                message.addlink(_("Continue"),current_org.get_absolute_url())
                 context = {'message':message,}
             else:
                 context = {'org_short_name':org_short_name,'form':form,'current_org':current_org}                
@@ -275,14 +275,14 @@ def org_remove(request,org_short_name=None,template_name=None):
         if not current_org.is_member(current_user):
             template_name = "core/message.html"
             message = Message(title=_("Can Not Remove Org"), text=_("You cannot remove an organization that you do not belong to."))
-            message.addlink(_("Continue"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Continue"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         operms = current_org.org_perms(current_user)
         if not operms['can_remove_org']:
             template_name = "core/message.html"
             message = Message(title=_("Can Not Remove Org"), text=_("You cannot remove this organization because you do not have permission to."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         context = {'current_org':current_org}
@@ -312,7 +312,7 @@ def org_add(request,template_name=None):
     
                 template_name = "core/message.html"
                 message = Message(title=_("Organization Added"), text=_("Organization Added"))
-                message.addlink(_("Continue"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+                message.addlink(_("Continue"),current_org.get_absolute_url())
                 context = {'message':message,}
             else:
                 context = { 'form':form}
@@ -336,12 +336,12 @@ def org_member_remove(request,org_short_name=None, username=None, template_name=
         if not operms['can_remove_users']:
             template_name = "core/message.html"
             message = Message(title=_("Can Not Remove Member"), text=_("You cannot remove this member because you do not have permission to."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         if request.method == 'POST':
             current_member.user_organizations.remove(current_org)
-            return HttpResponseRedirect(reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name}))
+            return HttpResponseRedirect(current_org.get_absolute_url())
         else:
             pass
         context = {'current_org':current_org, 'current_member':current_member, }
@@ -361,7 +361,7 @@ def org_member_invite(request,org_short_name=None, template_name=None):
         if not operms['can_invite_users']:
             template_name = "core/message.html"
             message = Message(title=_("Can Not Invite Member"), text=_("You cannot invite people to this organization because you do not have permission to."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         invited_users_page = ePage(1)

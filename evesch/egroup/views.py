@@ -21,14 +21,14 @@ def group_add(request,org_short_name,template_name=None):
         if not current_org.is_member(request.user):
             template_name = "core/message.html"
             message = Message(title=_("Cannot Add Group"), text=_("You cannot add a group in an organization that you do not belong to."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         operms = current_org.org_perms(current_user)
         if not operms['can_add_group']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Add Group"), text=_("You do not have permission to add a group in this organization."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         if request.method == 'POST':
@@ -41,7 +41,7 @@ def group_add(request,org_short_name,template_name=None):
                 
                 template_name = "core/message.html"
                 message = Message(title=_("Group Added"), text=_("You have added a group"))
-                message.addlink(_("Continue"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+                message.addlink(_("Continue"),current_org.get_absolute_url())
             #form = EventTypeForm(request.POST)
             #if form.is_valid():
                 context = {'current_org':current_org,'message':message}
@@ -68,14 +68,13 @@ def group_edit(request, org_short_name, group_hash, template_name=None):
         if not current_org.is_member(request.user):
             template_name = "core/message.html"
             message = Message(title=_("Cannot Edit Group"), text=_("You cannot edit a group in an organization that you do not belong to."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
-            context = {'message':message,}
+            message.addlink(_("Back"),current_org.get_absolute_url())
     if not message:
         operms = current_org.org_perms(current_user)
         if not operms['can_edit_group']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Edit Group"), text=_("You do not have permission to edit a group in this organization."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         if request.method == 'POST':
@@ -83,7 +82,7 @@ def group_edit(request, org_short_name, group_hash, template_name=None):
             #form.org_name = current_org
             if form.is_valid():
                 form.save()
-                return HttpResponseRedirect(reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+                return HttpResponseRedirect(current_org.get_absolute_url())
         else:
             form = UserGroupEditForm(instance=current_usergroup)
         context = {'current_org':current_org,'form':form}
@@ -105,18 +104,18 @@ def group_remove(request, org_short_name, group_hash, template_name=None):
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Remove Group"), text=_("You cannot remove a group in an organization that you do not belong to."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         if not operms['can_remove_group']:
             template_name = "core/message.html"
             message = Message(title=_("Cannot Remove Event Type"), text=_("You do not have permission to remove a group in this organization."))
-            message.addlink(_("Back"),reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         if request.method == 'POST':
             current_usergroup.delete()
-            return HttpResponseRedirect(reverse('org_org_view',kwargs={'org_short_name':current_org.org_short_name,}))
+            return HttpResponseRedirect(current_org.get_absolute_url())
         else:
             pass
         context = {'current_org':current_org,'current_usergroup':current_usergroup}

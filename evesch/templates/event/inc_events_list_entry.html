@@ -3,7 +3,7 @@
 <div class="event_list_entry">
 	<div>
 	  <div>
-		<span class="event_name"><a href="{% url event_event_view event.event_org.org_short_name event.event_hash %}">{{ event.event_name }}</a></span>
+		<span class="event_name"><a href="{{ event.get_absolute_url }}">{{ event.event_name }}</a></span>
 		<div>-</div>
 		<div class="event_type" style="background-color: #{{ event.event_type.type_color }};"><a style="color: #{{ event.event_type.contrast }};" href="{% url event_events_list event.event_org.org_short_name %}?event_type={{ event.event_type }}">{{ event.event_type }}</a></div>
 		<div>-</div>
