@@ -332,19 +332,12 @@ span.org_user_list
   display: none;
 }
 
-.error_string
-{
-  color: red; 
-}
+
+
 
 .page_nav
 {
   margin:4px;
-}
-
-.success_string
-{
-  color: green;
 }
 
 
@@ -456,4 +449,21 @@ ul.attendee_list li .att_hours
 ul.attendee_list li .att_col
 {
  width: 100px;
+}
+
+
+
+.error_string
+{
+  color: red; 
+}
+
+.success_string
+{
+  color: green;
+}
+
+ul li a.disabled_string 
+{
+  color: grey; 
 }
