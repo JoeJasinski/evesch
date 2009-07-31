@@ -1,6 +1,7 @@
 # Create your views here.
 from django.utils.translation import ugettext_lazy as _
 from org.models import Organization, OrgInvite
+from event.models import EventType
 from org.forms import OrganizationForm, OrganizationFormEdit, OrganizationJoinForm, OrganizationInviteMember
 from django.shortcuts import render_to_response
 from datetime import datetime
@@ -314,6 +315,7 @@ def org_add(request,template_name=None):
                 current_org = form.save()
                 current_org.save()
                 groups = UserGroup.objects.init_org_groups(current_org, current_user)
+                eventtypes = EventType.objects.init_event_types(current_org)
     
                 message = Message(title=_("Organization Added"), text=_("Organization Added"))
                 message.addlink(_("Continue"),current_org.get_absolute_url())

@@ -22,6 +22,9 @@ class EventTypeManager(models.Manager):
 			return event_type
 		else:
 			raise EventTypeExistsException('Type already exists')
+	
+	def init_event_types(self, org_name):
+		return self.create_eventtype("Default", org_name, "Default Type", "FF0000")
 		
 
 class EventType(models.Model):
@@ -55,7 +58,8 @@ class EventType(models.Model):
 		verbose_name = _("Event Type Enabled"),
 		help_text = _("Has the event been disabled?"),
 		default=True)
-
+	objects = EventTypeManager()
+    
 	def contrast(self):
 	   return text_vs_bg(self.type_color)
 
