@@ -131,7 +131,7 @@ def event_edit(request,org_short_name,event_hash,template_name=None):
             if form.is_valid():
                 form.save()
                 message = Message(title=_("Event Saved"), text=_("Event Saved"))
-                message.addlink(_("Continue"),current_event.get_absolute_url())
+                message.addlink(_("View"),current_event.get_absolute_url())
                 message.addlink(_("Edit"),reverse('event_event_edit',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
                 if request.POST.get("dialog",'') == "False":
                     template_name = "core/message.html"
@@ -364,6 +364,7 @@ def eventtype_add(request,org_short_name,template_name=None):
             message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
+        show_dialog=False
         if request.method == 'POST':
             form = EventTypeForm(request.POST)
             if form.is_valid():
@@ -372,10 +373,16 @@ def eventtype_add(request,org_short_name,template_name=None):
                 type_color = form.cleaned_data['type_color']
                 try:
                     et1 = EventType.objects.create_eventtype(type_name=type_name, org_name=current_org, type_desc=type_desc,type_color=type_color)
-                    template_name = "core/message.html"
                     message = Message(title=_("Add Event Type Successful"), text=_("Add Event Type Successful"))          
                     message.addlink(_("Continue"),current_org.get_absolute_url())
-                    context = {'message':message,}  
+                    message.addlink(_("Edit"), message.addlink(_("Edit"),reverse('event_eventtype_edit',kwargs={'org_short_name':current_org.org_short_name,'eventtype_hash':et1.type_hash,}))) 
+                    if request.POST.get("dialog",'') == "False":
+                        template_name = "core/message.html"
+                        show_dialog=False
+                    else:
+                        show_dialog=True
+                    context = {'message':message,'form':form,'message':message,'current_org':current_org,'show_dialog':show_dialog,}                     
+                    
                 except ObjectDoesNotExist:
                     template_name = "core/message.html"
                     message = Message(title=_("Add Event Type Not Successful"), text=_("Add Event Type Not Successful"))           
@@ -422,6 +429,7 @@ def eventtype_edit(request, org_short_name,eventtype_hash,template_name=None):
     if not message:
         try:
             event_type = current_org.eventtype_set.get(type_hash=eventtype_hash, type_active=True)
+            show_dialog=False
             if request.method == 'POST':
                 form = EventTypeForm(request.POST)
                 if form.is_valid():
@@ -430,11 +438,15 @@ def eventtype_edit(request, org_short_name,eventtype_hash,template_name=None):
                     event_type.type_color = form.cleaned_data['type_color']
                     #event_type.type_active = form.cleaned_data['type_active']
                     event_type.save()
-                    template_name = "core/message.html"
-                    message = Message(title=_("Event Type Edit Successful"), text=_("Event Type Edit Successful"))
+                    message = Message(title=_("Event Type Save Successful"), text=_("Event Type Edit Successful"))
                     message.addlink(_("Continue"),current_org.get_absolute_url())
                     message.addlink(_("Edit"),reverse('event_eventtype_edit',kwargs={'org_short_name':current_org.org_short_name,'eventtype_hash':event_type.type_hash}))
-                    context = {'message':message,}  
+                    if request.POST.get("dialog",'') == "False":
+                        template_name = "core/message.html"
+                        show_dialog=False
+                    else:
+                        show_dialog=True
+                    context = {'message':message,'form':form,'message':message,'current_org':current_org,'show_dialog':show_dialog,}                     
                 else:
                     context = {'current_org':current_org,'event_type':event_type,'form':form}
             else:

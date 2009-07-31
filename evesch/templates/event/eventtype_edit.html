@@ -1,7 +1,23 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Edit Event Type" %}{% endblock %}
-{% block header_page_specific %}<script type="text/javascript" src="{{ MEDIA_URL }}js/jscolor/jscolor.js"></script>{% endblock %}
+{% block header_page_specific %}<script type="text/javascript" src="{{ MEDIA_URL }}js/jscolor/jscolor.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqboxy/stylesheets/boxy.css" />
+	<script type="text/javascript">
+	  $(document).ready(function(){
+
+	   $("input#eventtype_edit_submit").click( function() { $("form#edit_eventtype").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
+{% if show_dialog %} 
+	    new Boxy('\
+	    <div class="popup_message">\n\
+	      <ul>{% for link in message.links %}<li><a href="{{ link.link }}">{{ link.name }}</a></li>{% endfor %}</ul>\n\
+	    </div>', 
+	    {modal: true,  title:"{{ message.text }}", closeable: false, });
+{% endif %}	   
+	   });
+	</script>
+{% endblock %}
 {% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a>
 &gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a> 
@@ -14,11 +30,12 @@
 	<div class="section_title"><font>{% trans "Edit Event Type" %}</font></div>
 	<div class="section_body">
 		{% trans "Edit Event Type for" %}: {{ current_org.org_name }}
-		<FORM action="." method=POST>
+		<FORM id="edit_eventtype" action="." method=POST>
+		<input type="hidden" id="dialog" name="dialog" value="False">
 		<TABLE>
 		 {{ form.as_table }}
 		</TABLE>
-		<INPUT type="submit" name="edit_eventtype" value="{% trans "Save" %}">
+		<INPUT id="eventtype_edit_submit" type="submit" name="edit_eventtype" value="{% trans "Save" %}">
 		</FORM>
 	</div>
 </div>

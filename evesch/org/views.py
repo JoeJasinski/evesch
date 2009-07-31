@@ -254,7 +254,7 @@ def org_edit(request,org_short_name=None,template_name=None):
             if form.is_valid():
                 form.save()
                 message = Message(title=_("Organization Changes Saved"), text=_("Organization Changes Saved"))
-                message.addlink(_("Continue"),current_org.get_absolute_url())
+                message.addlink(_("View"),current_org.get_absolute_url())
                 message.addlink(_("Edit"),reverse('org_org_edit',kwargs={'org_short_name':current_org.org_short_name,}))
                 if request.POST.get("dialog",'') == "False":
                     template_name = "core/message.html"
@@ -318,7 +318,7 @@ def org_add(request,template_name=None):
                 eventtypes = EventType.objects.init_event_types(current_org)
     
                 message = Message(title=_("Organization Added"), text=_("Organization Added"))
-                message.addlink(_("Continue"),current_org.get_absolute_url())
+                message.addlink(_("View"),current_org.get_absolute_url())
                 message.addlink(_("Edit"),reverse('org_org_edit',kwargs={'org_short_name':current_org.org_short_name,}))
                 if request.POST.get("dialog",'') == "False":
                     template_name = "core/message.html"
