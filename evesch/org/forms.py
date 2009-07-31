@@ -10,7 +10,7 @@ class OrganizationForm(ModelForm):
     
     class Meta:
         model = Organization
-        exclude = ('org_date_created','org_feed_hash',)
+        exclude = ('org_date_created','org_feed_hash','org_active',)
         
     def clean_org_short_name(self):
         org_short_name=self.cleaned_data['org_short_name']
@@ -32,7 +32,7 @@ class OrganizationFormEdit(ModelForm):
          widget=forms.Textarea(attrs = {'cols': '45', 'rows': '5'}))
     class Meta:
         model = Organization
-        exclude = ('org_date_created','org_short_name','org_feed_hash',)
+        exclude = ('org_date_created','org_short_name','org_feed_hash','org_active',)
         
 
 class OrganizationInviteMember(Form):
