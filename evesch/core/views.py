@@ -31,7 +31,7 @@ def index(request,template_name=None):
         try:
             current_user = User.objects.get(username=request.user)
             attending = current_user.get_attending_events()
-            user_events = Event.objects.filter(attendee__in=attending)
+            user_events = Event.objects.filter(attendee__in=attending, event_active=True)
             user_orgs = current_user.get_user_orgs().order_by('org_name')
             my_orgs_page = ePage(1)
             if request.GET.__contains__("my_orgs_page"): 
