@@ -115,10 +115,10 @@ class Event(models.Model):
 		db_column = "event_signup_deadline",
 		verbose_name = _("Date that you must register by."),
 		blank=True, null=True)
-	event_max_attendees = models.IntegerField(
-		db_column="event_max_attendees",
-		verbose_name=_("Maximum Number of Addendees"),
-		blank=True, null=True)
+	event_date = models.DateTimeField(
+		db_column="event_date",
+		db_index=True,
+		verbose_name=_("Date and Time of Event"))
 	event_creator_name = models.ForeignKey(User,
 		db_column="event_creator_name",
 		verbose_name=_("Event Creator"), related_name="event_creator")
@@ -126,14 +126,14 @@ class Event(models.Model):
 		db_column="event_created_date",
 		verbose_name=_("Event Created Date"),
 		null=True, auto_now_add=True)
-	event_date = models.DateTimeField(
-		db_column="event_date",
-		db_index=True,
-		verbose_name=_("Date and Time of Event"))
 	event_desc = models.CharField(
 		db_column="event_desc",
 		verbose_name=_("Event Description"),
 		max_length=512, blank=True, null=True)
+	event_max_attendees = models.IntegerField(
+		db_column="event_max_attendees",
+		verbose_name=_("Maximum Number of Addendees"),
+		blank=True, null=True)
 	event_priority = models.IntegerField(
 		db_column="event_priority",
 		verbose_name=_("Event Priority"),
