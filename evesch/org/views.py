@@ -247,16 +247,20 @@ def org_edit(request,org_short_name=None,template_name=None):
             message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
+        show_dialog=False
         if request.method == 'POST':
             form = OrganizationFormEdit(request.POST, instance=current_org)
             if form.is_valid():
                 form.save()
-                template_name = "core/message.html"
                 message = Message(title=_("Organization Changes Saved"), text=_("Organization Changes Saved"))
                 message.addlink(_("Continue"),current_org.get_absolute_url())
-                context = {'message':message,}
-            else:
-                context = {'org_short_name':org_short_name,'form':form,'current_org':current_org}                
+                message.addlink(_("Edit"),reverse('org_org_edit',kwargs={'org_short_name':current_org.org_short_name,}))
+                if request.POST.get("dialog",'') == "False":
+                    template_name = "core/message.html"
+                    show_dialog=False
+                else:
+                    show_dialog=True
+            context = {'org_short_name':org_short_name,'form':form,'current_org':current_org,'message':message,'show_dialog':show_dialog,}                
         else:
             form = OrganizationFormEdit(auto_id=False,instance=current_org)
             context = {'org_short_name':org_short_name,'form':form,'current_org':current_org}
@@ -302,7 +306,8 @@ def org_add(request,template_name=None):
     """ Adds an organization """
     
     current_user, message = get_current_user(request.user)
-    if not message:  
+    if not message:
+        show_dialog=False        
         if request.method == 'POST':
             form = OrganizationForm(request.POST)
             if form.is_valid():
@@ -310,12 +315,17 @@ def org_add(request,template_name=None):
                 current_org.save()
                 groups = UserGroup.objects.init_org_groups(current_org, current_user)
     
-                template_name = "core/message.html"
                 message = Message(title=_("Organization Added"), text=_("Organization Added"))
                 message.addlink(_("Continue"),current_org.get_absolute_url())
-                context = {'message':message,}
+                message.addlink(_("Edit"),reverse('org_org_edit',kwargs={'org_short_name':current_org.org_short_name,}))
+                if request.POST.get("dialog",'') == "False":
+                    template_name = "core/message.html"
+                    show_dialog=False
+                else:
+                    show_dialog=True
+                context = {'message':message,'current_org':current_org,'form':form,'show_dialog':show_dialog,}                    
             else:
-                context = { 'form':form}
+                context = { 'form':form,'show_dialog':show_dialog,}
         else:
             form = OrganizationForm()
             context = { 'form':form } 

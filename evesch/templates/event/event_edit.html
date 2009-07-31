@@ -4,14 +4,28 @@
 {% block header_page_specific %} 
 	<!-- calendar -->
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jqptTimeSelect/src/jquery.ptTimeSelect.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqptTimeSelect/src/jquery.ptTimeSelect.css" />
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqboxy/stylesheets/boxy.css" />
 	<script type="text/javascript">
 	  $(document).ready(function(){
 	   $('#id_event_signup_deadline_0').datepicker({ dateFormat: 'yy-mm-dd' });
 	   $('#id_event_date_0').datepicker({ dateFormat: 'yy-mm-dd' });
 	   $('#id_event_signup_deadline_1').ptTimeSelect();
 	   $('#id_event_date_1').ptTimeSelect();
+	   
+	   $("input#event_edit_submit").click( function() { $("form#edit_event").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
+
+{% if show_dialog %} 
+    new Boxy('\
+    <div class="popup_message">\n\
+      <ul>{% for link in message.links %}<li><a href="{{ link.link }}">{{ link.name }}</a></li>{% endfor %}</ul>\n\
+    </div>', 
+    {modal: true,  title:"{{ message.text }}", closeable: false, });
+{% endif %}
+
 	   });
+
 	</script>
 	<!-- /calendar -->
 {% endblock %}
@@ -27,12 +41,14 @@
 <div class="section"> 
 	<div class="section_title"><font>{% trans "Edit Event" %}</font></div>
 	<div class="section_body">
-		<FORM action="." method=POST>
+		<FORM id="edit_event" action="." method="POST">
+		<input type="hidden" id="dialog" name="dialog" value="False">
 		<TABLE>
 		 {{ form.as_table }}
 		</TABLE>
-		<INPUT type="submit" name="add_event" value="{% trans "Save" %}">
+		<INPUT id="event_edit_submit" type="submit" name="edit_event" value="{% trans "Save" %}">
 		</FORM>
 	</div>
 </div>
+
 {% endblock %}

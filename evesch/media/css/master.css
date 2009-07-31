@@ -467,3 +467,15 @@ ul li a.disabled_string
 {
   color: grey; 
 }
+
+
+.popup_message
+{
+ text-align: left; 
+ width: 300px;
+}
+
+.popup_message ul li
+{
+  padding: 3px;
+}

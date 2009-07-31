@@ -76,20 +76,25 @@ def event_add(request,org_short_name,template_name=None):
     if not message:
         current_user, message = get_current_user(request.user, message)
     if not message:
+        show_dialog=False
         if request.method == 'POST':
             form = EventForm(current_org,request.POST)
             if form.is_valid():
-                new_form = form.save(commit=False)
-                new_form.event_creator_name = current_user
-                new_form.event_org = current_org
-                new_form.save()
-
-                template_name = "core/message.html"
+                current_event = form.save(commit=False)
+                current_event.event_creator_name = current_user
+                current_event.event_org = current_org
+                current_event.save()
                 message = Message(title=_("Event Add Successful"), text=_("Event Add Successful"))            
                 message.addlink(_("Continue"),reverse('event_events_list',kwargs={'org_short_name':current_org.org_short_name,}))
-                context = {'message':message,}               
+                message.addlink(_("Edit"),reverse('event_event_edit',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
+                if request.POST.get("dialog",'') == "False":
+                    template_name = "core/message.html"
+                    show_dialog=False
+                else:
+                    show_dialog=True
+                context = {'message':message,'form':form,'current_org':current_org,'current_event':current_event,'show_dialog':show_dialog,}                            
             else:
-                context = {'form':form,'current_org':current_org,'org_short_name':org_short_name,'error':"update"}
+                context = {'form':form,'current_org':current_org,'org_short_name':org_short_name,'error':"update",'show_dialog':show_dialog,}
         else:
             form = EventForm(current_org)
             context = {'form':form,'current_org':current_org,'org_short_name':org_short_name}
@@ -120,18 +125,20 @@ def event_edit(request,org_short_name,event_hash,template_name=None):
             message.addlink(_("Back"),current_event.get_absolute_url())
             context = {'message':message,}
     if not message:
+        show_dialog=False
         if request.method == 'POST':
             form = EventEditForm(current_org, request.POST, instance=current_event)
             if form.is_valid():
                 form.save()
-                template_name = "core/message.html"
                 message = Message(title=_("Event Saved"), text=_("Event Saved"))
                 message.addlink(_("Continue"),current_event.get_absolute_url())
                 message.addlink(_("Edit"),reverse('event_event_edit',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
-                context = {'message':message,}
-            if not message:
-                message = None
-            context = {'form':form,'current_org':current_org,'event':current_event,'message':message,}
+                if request.POST.get("dialog",'') == "False":
+                    template_name = "core/message.html"
+                    show_dialog=False
+                else:
+                    show_dialog=True
+            context = {'form':form,'current_org':current_org,'event':current_event,'message':message,'show_dialog':show_dialog}
         else:
             form = EventEditForm(current_org,auto_id=False,instance=current_event)
             context = {'form':form,'current_org':current_org,'event':current_event,}
