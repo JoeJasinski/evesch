@@ -1476,9 +1476,9 @@ user141.set_password('1234')
 user141.save()
 user141.user_organizations.add(org1)
 print ' Created: ' + user141.username
-user_email="joo-eun.hot@evesch.com"
-user142 = User(username='joo-eun',email=user_email)
-user142.first_name = 'Joo-Eun'
+user_email="jooeun.hot@evesch.com"
+user142 = User(username='jooeun',email=user_email)
+user142.first_name = 'JooEun'
 user142.last_name = 'Hot'
 user142.is_superuser=False
 user142.is_staff=False
