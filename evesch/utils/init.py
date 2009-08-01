@@ -49,6 +49,18 @@ print " Created: " + event_type2.type_name + " for org " + org2.org_short_name
 ## Create some users
 print "Creating Users"
 
+
+user_email='joe.jasinski@gmail.com'
+user0 = User(username="demo",email=user_email)
+user0.first_name='Demo'
+user0.last_name='Doe'
+user0.is_superuser=True
+user0.is_staff=True
+user0.set_password('demo')
+user0.save()
+user0.user_organizations=[org2]
+user0.user_organizations.add(org1)
+
 user_email='joe.jasinski@gmail.com'
 user1 = User(username="joe",email=user_email)
 user1.first_name='joe'
