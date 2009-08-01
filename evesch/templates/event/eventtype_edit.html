@@ -9,11 +9,8 @@
 
 	   $("input#eventtype_edit_submit").click( function() { $("form#edit_eventtype").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
 {% if show_dialog %} 
-	    new Boxy('\
-	    <div class="popup_message">\n\
-	      <ul>{% for link in message.links %}<li><a href="{{ link.link }}">{{ link.name }}</a></li>{% endfor %}</ul>\n\
-	    </div>', 
-	    {modal: true,  title:"{{ message.text }}", closeable: false, });
+	   new Boxy('<div class="popup_message"><ul>{% for link in message.links %}<li><a href="{{ link.link }}">{{ link.name }}</a></li>{% endfor %}</ul></div>', 
+	    {modal: true,  title:"{{ message.text }}", closeable: false });
 {% endif %}	   
 	   });
 	</script>
