@@ -66,14 +66,15 @@ def evesch_login(request, template_name=None):
                 else:
                     template_name = "core/message.html"
                     message = Message(title=_("Disabled Account"), text=_("Disabled Account"))
-                    message.addlink(_("Back"),reverse('home'))
+                    message.addlink(_("Back"),reverse('account_auth_login'))
                     context = {'message':message,}
             else:
                 template_name = "core/message.html"
                 message = Message(title=_("Invalid Login"), text=_("Invalid Login"))
-                message.addlink(_("Back"),reverse('home'))
+                message.addlink(_("Back"),reverse('account_auth_login'))
                 context = {'message':message,}
-        context = {'form':form,}
+        else:
+            context = {'form':form,}
     else:
         form = EveschLoginForm()
         context = {'form':form}
