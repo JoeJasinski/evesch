@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 from django.contrib.auth import views as auth_views
 from django.conf import settings
-
+from django.views.generic.simple import direct_to_template
 from django.contrib import admin
 admin.autodiscover()
 
@@ -19,6 +19,7 @@ if settings.DEBUG:
 
 urlpatterns += patterns('evesch',
     # Uncomment this for admin:
+     ('^robots.txt$', direct_to_template, {'template': 'robots.txt' }),
      (r'^admin/(.*)', admin.site.root),
      url('^$','core.views.index', {'template_name':"index.html"},name='home'),
      (r'^org/', include('org.urls')),

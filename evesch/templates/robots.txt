@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /ajax_filtered_fields/
+Disallow: /org/ajax/
+Disallow: /org/ajax/all_orgs/
+Disallow: /org/ajax/my_orgs/
+Disallow: /org/*/ajax/members/
+Disallow: /org/*/ajax/invites/
