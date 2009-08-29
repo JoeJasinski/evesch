@@ -17,8 +17,6 @@ body {
     text-align: center; 
 }
 
-
-
 .background
 {
   margin: 0px;
@@ -28,9 +26,7 @@ body {
 }
 
 a
-{
-  color: #336644;
-}
+{color: #336644;}
 
 .body_wrap
 {
@@ -49,7 +45,6 @@ a
   -webkit-border-top-right-radius: 10px;
   border-radius: 5px;
   border: 0px solid black;
-
 }
 
 .header_banner .login_container
@@ -59,7 +54,6 @@ a
   display: inline;
   width: 400px;
   text-align: right; 
-
 }
 
 .logo a img
@@ -67,8 +61,6 @@ a
 outline: 0;
 border: 0px; 
 } 
-
-
 
 .breadcrumb
 {
@@ -85,9 +77,7 @@ border: 0px;
 }
 
 .main_container_wrap
-{
-   padding: 20px;
-}
+{padding: 20px;}
 
 .footer
 {
@@ -102,17 +92,10 @@ border: 0px;
   -webkit-border-bottom-left-radius: 10px;  
   -webkit-border-bottom-right-radius: 10px;
   border-radius: 5px;
-
 }
 
 .footer font
-{
- font-size: 9px;
-}
-
-
-
-
+{font-size: 9px;}
 
 .menu{
 	border:none;
@@ -166,7 +149,6 @@ border: 0px;
 		}
 	.menu li:hover ul{
 		display:block;
-		
 		}
 	.menu li li {
 		background:url('../images/menu/sub_sep.gif') bottom left no-repeat;
@@ -200,11 +182,8 @@ border: 0px;
 		}	
 
 
-
 .section_sidebyside
-{
-  margin-bottom: 10px;
-}
+{margin-bottom: 10px;}
 
 .section_left
 {
@@ -214,20 +193,13 @@ border: 0px;
 }
 
 #section_group_id
-{
- clear: both;
-}
+{clear: both;}
 
 .section_right
-{
-float: left; 
-}
+{float: left;}
 
 #event_types_id
-{
- width: 398px;
-}
-
+{width: 398px;}
 
 .section
 {
@@ -242,7 +214,6 @@ float: left;
   height: 18px;
   padding: 5px;
   background-color: #69e067;
-
 }
 
 .section_title font
@@ -259,9 +230,7 @@ float: left;
 }
 
 .org_list_entry
-{
-  padding: 2px;
-}
+{padding: 2px;}
 
 .org_list_entry  div
 {
@@ -271,14 +240,10 @@ float: left;
 }
 
 span.section_header_icon
-{
-  margin-left: 10px;
-}
+{margin-left: 10px;}
 
 #forgot_password
-{
-  font-size: 10px;
-}
+{font-size: 10px;}
 
 span.org_user_list
 {
@@ -292,9 +257,7 @@ span.org_user_list
 
 
 .report
-{
-  border:1px solid #69E067;
-}
+{border:1px solid #69E067;}
 .report .report_item_head
 {
   background-color: #69E067;
@@ -309,9 +272,7 @@ span.org_user_list
 }
 
 .report .report_item_body
-{
-  color: #336644; 
-}
+{color: #336644;}
 
 .report_filter
 {
@@ -332,20 +293,12 @@ span.org_user_list
   display: none;
 }
 
-
-
-
 .page_nav
-{
-  margin:4px;
-}
-
+{margin:4px;}
 
 /*** Org List Sytles ***/
 ul.all_org_list  li
-{
-  border-top: solid #69e067 1px;
-}
+{border-top: solid #69e067 1px;}
 
 ul.all_org_list
 {
@@ -373,20 +326,13 @@ ul.my_org_list  li
 }
 
 .org_name_list
-{
-  width: 200px;
-}
+{width: 200px;}
 
 .org_privacy_list
-{
-  width: 80px;
-}
+{width: 80px;}
 
 .org_desc_list
-{
-  width: 30em;
-}
-
+{width: 30em;}
 
 .org_group_list
 {
@@ -402,20 +348,13 @@ ul.my_org_list  li
 }
 
 .org_group_list li table .group_name
-{
-  width: 150px;
-}
+{width: 150px;}
 
 .org_group_list li table .group_desc
-{
-  width:30em;
-}
+{width:30em;}
 
 .org_group_list li table .group_flags
-{
-  width: 4em;
-}
-
+{width: 4em;}
 
 ul.attendee_list
 {
@@ -426,48 +365,28 @@ ul.attendee_list
 
 
 ul.attendee_list li
-{
-    border-top: solid #69e067 1px; 
-}
-
+{border-top: solid #69e067 1px; }
 
 ul.attendee_list li .att_name
-{
-  width: 100px;
-}
+{width: 100px;}
 
 ul.attendee_list li .att_date
-{
-  width: 130px;
-}
+{width: 130px;}
 
 ul.attendee_list li .att_hours
-{
-  width: 50px;
-}
+{width: 50px;}
 
 ul.attendee_list li .att_col
-{
- width: 100px;
-}
-
-
+{width: 100px;}
 
 .error_string
-{
-  color: red; 
-}
+{color: red;}
 
 .success_string
-{
-  color: green;
-}
+{color: green;}
 
 ul li a.disabled_string 
-{
-  color: gray; 
-}
-
+{color: gray; }
 
 .popup_message
 {
@@ -476,6 +395,4 @@ ul li a.disabled_string
 }
 
 .popup_message ul li
-{
-  padding: 3px;
-}
+{padding: 3px;}
