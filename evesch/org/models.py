@@ -118,13 +118,17 @@ class Organization(models.Model):
 		choices = ORG_JOIN_PRIVACY,
 		default=0,
 		verbose_name=_("Organization Join Privacy"),
+		help_text=_("<u>Public:</u> any user may join this organization.  <BR><u>Invite Only:</u> a user must receive an invitation from someone in the org.  <BR><u>Request Membership:</u> a user must request membership to join that must be confirmed by someone in the org."),
 		null=True, blank=True,)
+	org_user_can_invite = models.BooleanField(
+		verbose_name=_("Any member can invite."),
+		help_text=_("Any member of this organization can invite others to this organization."),
+		default=False)
 	org_browsable = models.BooleanField(
 		default=True,
-		verbose_name=_("List Org in browse directory"))
-	org_user_can_invite = models.BooleanField(
-		verbose_name=_("Any Org Member can invite people to this org."),
-		default=False)
+		verbose_name=_("Browsable"),
+		help_text=_("List this organization in the public Browse directory? (recommended) Authenticated users will still be able to see it."))
+
 
 	objects = OrganizationManager()
 
