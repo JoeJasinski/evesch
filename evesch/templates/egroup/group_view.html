@@ -1,10 +1,11 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
-{% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Edit Group" %}{% endblock %}
+{% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "View Group" %}{% endblock %}
 {% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a>
 &gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
 &gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
+&gt; <a href="{{ current_usergroup.get_absolute_url }}">{{ current_usergroup.group_name }}</a>
 &gt; {% trans "View Group" %}
 {% endblock %}
 {% block content %}
@@ -15,10 +16,15 @@
 		<TABLE>
 		<TR><TD>{% trans "Organization" %}: </TD><TD>{{ current_org.org_name }}</TD></TR>
 		<TR><TD>{% trans "Group" %}: </TD><TD>{{ current_usergroup.group_name }}</TD></TR>
-		{% for user in current_usergroup.group_users.all %}
-		<TR><TD>{{ user }}</TD><TD>&nbsp;</TD></TR>
-		{% endfor %}
 	    </TABLE>
+	    
+    	<div>
+		{% for user in current_usergroup.group_users.all  %}
+		 <span class="org_user_list"> &nbsp; <span style="float: right;"><a title="{% trans "Remove User from Group" %}" href=""><img alt="remove" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove_user.png"></a></span><span><a href="{{ user.get_absolute_url }}">{{ user.first_name }} {{ user.last_name }} ({{ user.username }}) </a></span></span>
+		{% endfor %}
+		<div style="clear: both"></div>
+		</div>
+	    
 	</div>
 </div>
 {% endblock %}

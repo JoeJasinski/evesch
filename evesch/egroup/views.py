@@ -85,7 +85,7 @@ def group_edit(request, org_short_name, group_hash, template_name=None):
                 return HttpResponseRedirect(current_org.get_absolute_url())
         else:
             form = UserGroupEditForm(instance=current_usergroup)
-        context = {'current_org':current_org,'form':form}
+        context = {'current_org':current_org,'form':form, 'current_usergroup':current_usergroup}
     else:
         template_name = "core/message.html"
         context = {'message':message,'current_org':current_org,}

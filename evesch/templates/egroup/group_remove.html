@@ -4,7 +4,8 @@
 {% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a> 
 &gt; <a href="{% url org_orgs_list %}">{% trans "Organization" %}s</a>
-&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
+&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a>
+&gt; <a href="{{ current_usergroup.get_absolute_url }}">{{ current_usergroup.group_name }}</a> 
 &gt; {% trans "Delete Group" %}
 {% endblock %}
 {% block content %}

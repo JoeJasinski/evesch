@@ -3,6 +3,7 @@ from django.db import models
 from org.models import Organization
 from random import sample
 from core.lib import Message
+from django.core.urlresolvers import reverse
 
 KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
@@ -65,6 +66,9 @@ class UserGroup(models.Model):
     
     def __int__(self):
         return self.pk
+
+    def get_absolute_url(self):
+        return reverse('egroup_group_view',kwargs={'org_short_name':self.org_name.org_short_name,'group_hash':self.group_hash,})
     
     def save(self):
         if not self.id:
