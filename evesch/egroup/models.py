@@ -62,7 +62,7 @@ class UserGroup(models.Model):
     objects = UserGroupManager()
 
     def __unicode__(self):
-        return "%s - %s" % (self.group_name, self.group_hash)
+        return "%s - %s - %s" % (self.org_name.org_short_name, self.group_name, self.group_hash)
     
     def __int__(self):
         return self.pk
