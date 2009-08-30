@@ -16,18 +16,21 @@ class UserGroupManager(models.Manager):
         return user_group
         
     def init_org_groups(self,org,user):
-        admin_desc_text = ugettext("Administrator Group")
-        admin_group = UserGroup(group_name= "%s - Admin Group" % (org.org_name,),
-                                group_hash= "%s_adm" % (org.org_short_name,),
+        admin_desc_text = ugettext("People in this group can administer the organization.")
+        admin_group = UserGroup(group_name= "Administrator Group",
                                 group_desc=admin_desc_text, group_removable=False, 
-                                admin_org=True, coord_events=True, org_name=org)
+                                admin_org=True, coord_events=True, invite_users=True, org_name=org)
         admin_group.save()
-        coord_desc_text = ugettext("Event Coordinator Group")
-        event_coordinator_group = UserGroup(group_name="%s - Event Coordinator Group" % (org.org_name,),
-                                group_hash="%s_crd" % (org.org_short_name,),
+        coord_desc_text = ugettext("People in this group can create and organize events.")
+        event_coordinator_group = UserGroup(group_name="Event Coordinator Group",
                                 group_desc=coord_desc_text, group_removable=False,
-                                admin_org=False, coord_events=True, org_name=org)
+                                admin_org=False, coord_events=True, invite_users=True, org_name=org)
+        coord_desc_text = ugettext("Everyone in the organization is in this group.")
         event_coordinator_group.save()
+        everyone_group = UserGroup(group_name="Everyone Group",
+                                group_desc=coord_desc_text, group_removable=False,
+                                admin_org=False, coord_events=False, invite_users=False, org_name=org)        
+        everyone_group.save()
         user.user_groups.add(admin_group)
         user.user_groups.add(event_coordinator_group)
         user.user_organizations.add(org)
@@ -53,6 +56,7 @@ class UserGroup(models.Model):
     group_removable = models.BooleanField(default=False)
     admin_org = models.BooleanField(default=False,)
     coord_events = models.BooleanField(default=False,)
+    invite_users = models.BooleanField(default=False,)
     org_name = models.ForeignKey(Organization, related_name='group_set')
     objects = UserGroupManager()
 
@@ -65,5 +69,4 @@ class UserGroup(models.Model):
     def save(self):
         if not self.id:
             self.group_hash = "".join(sample(KEYS,16))
-        
         super(UserGroup, self).save()

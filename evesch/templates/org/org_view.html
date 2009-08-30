@@ -62,13 +62,14 @@
 		<div class="section_body">
 			
 			<ul class="org_group_list">
-			 <li><TABLE><TR><TH class="group_name">{% trans "Group Name" %}</TH><TH class="group_desc">{% trans "Description" %}</TH><TH class="group_flags">{% trans "Can Admin" %}</TH><TH class="group_flags">{% trans "Can Coord" %}</TH></TR></TABLE></li>
+			 <li><TABLE><TR><TH class="group_name">{% trans "Group Name" %}</TH><TH class="group_desc">{% trans "Description" %}</TH><TH class="group_flags">{% trans "Can Admin" %}</TH><TH class="group_flags">{% trans "Can Coord" %}</TH><TH class="group_flags">{% trans "Can Invite" %}</TH></TR></TABLE></li>
 			{% for group in current_org.get_org_groups %}
 			  <li>
 			  <TABLE>
 			    <TR><TD class="group_name"><a href="{% url egroup_group_view current_org.org_short_name group.group_hash %}">{{ group.group_name }}</a></TD><TD class="group_desc">{{ group.group_desc }}</TD>
 			        <TD class="group_flags">{% if group.admin_org %}Yes{% else %}No{% endif %}</TD>
 			        <TD class="group_flags">{% if group.coord_events %}Yes{% else %}No{% endif %}</TD>
+			        <TD class="group_flags">{% if group.invite_users %}Yes{% else %}No{% endif %}</TD>
 			        <TD><a title="{% trans "Edit Group" %}" href="{% url egroup_group_edit current_org.org_short_name group.group_hash %}"><img alt="edit" style="border: solid 0px;" src="{{ MEDIA_URL }}images/edit.png"></a>
 			            <a title="{% trans "Remove Group" %}" href="{% url egroup_group_remove current_org.org_short_name group.group_hash %}"><img alt="remove" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove.png"></a></TD></TR>
 			  </TABLE>

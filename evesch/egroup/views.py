@@ -99,7 +99,13 @@ def group_remove(request, org_short_name, group_hash, template_name=None):
         current_user, message = get_current_user(request.user)
     if not message: 
         current_usergroup, message = UserGroup.objects.get_current_usergroup(group_hash)
-    if not message:   
+    if not message:
+        if not current_usergroup.group_removable:
+            template_name = "core/message.html"
+            message = Message(title=_("Cannot Remove Default Group"), text=_("You cannot remove this group since it is a default group."))
+            message.addlink(_("Back"),current_org.get_absolute_url())
+            context = {'message':message,}            
+    if not message:
         operms = current_org.org_perms(current_user) 
         if not operms['is_memberof_org']:
             template_name = "core/message.html"

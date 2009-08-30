@@ -1,5 +1,6 @@
 from euser.models import User
 from org.models import Organization
+from egroup.models import UserGroup
 from event.models import EventType, Event
 from datetime import datetime
 
@@ -1867,8 +1868,13 @@ user180.save()
 user180.user_organizations.add(org1)
 print ' Created: ' + user180.username
 
+## Create some groups
+print "Creating Groups" 
+UserGroup.objects.init_org_groups(org1, user1)
+g1 = UserGroup.objects.get(id=1)
+user2.user_groups.add(g1)
 
-
+UserGroup.objects.init_org_groups(org2, user1)
 
 ## Create some events
 print "Creating Events" 
@@ -1887,17 +1893,18 @@ event3.event_desc = "This is event 3"
 event3.save()
 print " Created: " + event3.event_name + " of type " + event_type1.type_name + " in org " + org1.org_short_name
 
-event4 = Event.objects.create_event("IWU Event 4",user2,org1,event_type1,datetime(2009,07,14,12,00,00))
+event4 = Event.objects.create_event("IWU Event 4",user2,org1,event_type1,datetime(2009,9,14,12,00,00))
 event4.event_desc = "This is event 4"
 event4.save()
 print " Created: " + event4.event_name + " of type " + event_type1.type_name + " in org " + org1.org_short_name
 
-event5 = Event.objects.create_event("IWU Event 5",user1,org1,event_type1,datetime(2009,07,14,12,00,00))
+event5 = Event.objects.create_event("IWU Event 5",user1,org1,event_type1,datetime(2009,9,14,12,00,00))
 event5.event_desc = "This is event 5"
 event5.save()
 print " Created: " + event5.event_name + " of type " + event_type1.type_name + " in org " + org1.org_short_name
 
-event6 = Event.objects.create_event("IWU Event 6",user2,org1,event_type1,datetime(2009,07,14,12,00,00))
+event6 = Event.objects.create_event("IWU Event 6",user2,org1,event_type1,datetime(2009,9,14,12,00,00))
 event6.event_desc = "This is event 6"
 event6.save()
 print " Created: " + event6.event_name + " of type " + event_type1.type_name + " in org " + org1.org_short_name
+
