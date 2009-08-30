@@ -375,7 +375,7 @@ def eventtype_add(request,org_short_name,template_name=None):
                     et1 = EventType.objects.create_eventtype(type_name=type_name, org_name=current_org, type_desc=type_desc,type_color=type_color)
                     message = Message(title=_("Add Event Type Successful"), text=_("Add Event Type Successful"))          
                     message.addlink(_("Continue"),current_org.get_absolute_url())
-                    message.addlink(_("Edit"), message.addlink(_("Edit"),reverse('event_eventtype_edit',kwargs={'org_short_name':current_org.org_short_name,'eventtype_hash':et1.type_hash,}))) 
+                    message.addlink(_("Edit"),reverse('event_eventtype_edit',kwargs={'org_short_name':current_org.org_short_name,'eventtype_hash':et1.type_hash,})) 
                     if request.POST.get("dialog",'') == "False":
                         template_name = "core/message.html"
                         show_dialog=False
