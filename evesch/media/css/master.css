@@ -297,8 +297,6 @@ span.org_user_list
 {margin:4px;}
 
 /*** Org List Sytles ***/
-ul.all_org_list  li
-{border-top: solid #69e067 1px;}
 
 ul.all_org_list
 {
@@ -306,6 +304,12 @@ ul.all_org_list
 	padding: 0px;
     margin: 0px;
 }
+
+ul.all_org_list  li
+{border-top: solid #69e067 1px;
+  padding: 2px;
+}
+
 
 ul.my_org_list  li table tr td
 {

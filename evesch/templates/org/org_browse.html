@@ -1,0 +1,29 @@
+{% extends "base_layout_01.html" %}
+{% load ellipsis %}{% load i18n %}
+{% block title %} - {% trans "Browse" %}{% endblock %}
+{% block header_page_specific %}{% endblock %}
+{% block content %}
+&nbsp;
+{% include "core/inc_anonymous_menu.html" %}
+
+<div class="section">
+	<div class="section_title"><font>{% trans "Browse Organizations" %}</font></div>
+	<div class="section_body">
+	<ul class="all_org_list">
+		{% for org in orgs %}
+		<li>
+			<TABLE>
+			  <TR><TD class="org_name_list"><a href="/org/iwu/">{{ org.org_name }}</a></TD>
+			  	  <TD class="org_desc_list">{{ org.get_org_type_display }}</TD>
+			  	  <TD class="org_desc_list">{{ org.org_desc }}</TD>
+			  </TR>
+			  <TR><TD colspan="3">{{ org.org_desc }}</TD></TR>
+			</TABLE>
+		</li>
+		{% endfor %}
+	</ul>
+	</div>
+</div>
+
+
+{% endblock %}

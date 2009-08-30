@@ -28,6 +28,9 @@ class OrganizationManager(models.Manager):
 				current_org =  None
 				message = Message(title="Org Not Found", text="The organization was not found")
 		return current_org, message
+	
+	def get_browsable_orgs(self):
+		return super(OrganizationManager, self).filter(org_browsable=True, org_active=True).order_by("org_name")
 
 class Organization(models.Model):
 
@@ -63,7 +66,7 @@ class Organization(models.Model):
 		default = True)
 	org_desc = models.CharField(
 		db_column = "org_desc",
-		verbose_name=_("Organization Description"),
+		verbose_name = _("Organization Description"),
 		max_length=512, 
 		blank=True, null=True)
 	org_email = models.EmailField(
@@ -116,6 +119,9 @@ class Organization(models.Model):
 		default=0,
 		verbose_name=_("Organization Join Privacy"),
 		null=True, blank=True,)
+	org_browsable = models.BooleanField(
+		default=True,
+		verbose_name=_("List Org in browse directory"))
 	org_user_can_invite = models.BooleanField(
 		verbose_name=_("Any Org Member can invite people to this org."),
 		default=False)

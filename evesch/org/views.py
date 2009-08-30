@@ -16,6 +16,11 @@ from euser.models import User, get_current_user
 from django.core.paginator import Paginator
 from django.db.models import Q
 
+def org_browse(request, template_name=None):
+    public_orgs = Organization.objects.get_browsable_orgs()
+    context = {'orgs':public_orgs,}
+    return render_to_response(template_name,context, context_instance=RequestContext(request))
+
 
 @login_required
 def orgs_list(request, template_name=None):       
