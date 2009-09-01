@@ -1,4 +1,4 @@
-# -*- coding: latin-1 -*-
+
 
 class CaselessDict(dict):
     """
