@@ -198,7 +198,7 @@ def event_attendee_add(request,org_short_name,event_hash,template_name=None):
         if not current_event.event_open:
             template_name = "core/message.html"
             text = _("This event is closed.  Contact the event coordinator with comments or concerns.")
-            message = Message(title=_("Event Closed", text=text))
+            message = Message(title=_("Event Closed"), text=text)
             message.addlink(_("Back"),current_event.get_absolute_url())
             context = {'message':message,} 
     if not message:
