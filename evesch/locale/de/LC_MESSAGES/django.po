@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-10 21:13-0500\n"
+"POT-Creation-Date: 2009-08-31 22:18-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,46 +16,176 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: core/views.py:47
+#: core/forms.py:10
+msgid "You must enter a valid Captcha value"
+msgstr ""
+
+#: core/forms.py:14
+msgid "Only letters acceptable"
+msgstr ""
+
+#: core/forms.py:42
+msgid "This email is already registered."
+msgstr ""
+
+#: core/forms.py:49
+msgid "You must use only letters, numbers, or an underscore"
+msgstr ""
+
+#: core/forms.py:51
+#, fuzzy
+msgid "User already exists."
+msgstr "Benutzer existiert nicht"
+
+#: core/forms.py:58 core/forms.py:87
+msgid "You must correctly enter the text in the box."
+msgstr ""
+
+#: core/forms.py:66
+msgid "Passwords to not match."
+msgstr ""
+
+#: core/forms.py:97
+msgid "No such user."
+msgstr ""
+
+#: core/forms.py:100
+msgid "This email is not registered."
+msgstr ""
+
+#: core/forms.py:102
+msgid "Must supply a username or email address"
+msgstr ""
+
+#: core/views.py:46
 msgid "User does not exist "
 msgstr "Benutzer existiert nicht"
 
-#: core/views.py:70
+#: core/views.py:68
 msgid "Disabled Account"
 msgstr "Konto deaktiviert"
 
-#: core/views.py:71 core/views.py:76 core/views.py:95 egroup/views.py:24
-#: egroup/views.py:31 egroup/views.py:72 egroup/views.py:79
-#: egroup/views.py:108 egroup/views.py:114 event/views.py:69 event/views.py:75
-#: event/views.py:114 event/views.py:121 event/views.py:156 event/views.py:163
-#: event/views.py:189 event/views.py:196 event/views.py:203 event/views.py:263
-#: event/views.py:270 event/views.py:276 event/views.py:310 event/views.py:324
-#: event/views.py:348 event/views.py:357 event/views.py:407 event/views.py:413
-#: event/views.py:452 event/views.py:458 org/views.py:150 org/views.py:180
-#: org/views.py:187 org/views.py:225 org/views.py:279 org/views.py:303
-#: report/views.py:32
+#: core/views.py:69 core/views.py:74 core/views.py:92 core/views.py:201
+#: egroup/views.py:27 egroup/views.py:34 egroup/views.py:74 egroup/views.py:80
+#: egroup/views.py:139 egroup/views.py:146 egroup/views.py:152
+#: event/views.py:68 event/views.py:74 event/views.py:118 event/views.py:125
+#: event/views.py:162 event/views.py:169 event/views.py:195 event/views.py:202
+#: event/views.py:209 event/views.py:270 event/views.py:277 event/views.py:283
+#: event/views.py:317 event/views.py:331 event/views.py:355 event/views.py:364
+#: event/views.py:421 event/views.py:427 event/views.py:473 event/views.py:479
+#: org/views.py:147 org/views.py:183 org/views.py:249 org/views.py:256
+#: org/views.py:298 org/views.py:359 org/views.py:384 report/views.py:51
 msgid "Back"
 msgstr "Zurück"
 
-#: core/views.py:75
+#: core/views.py:73
 msgid "Invalid Login"
 msgstr "Ungültige Login"
 
-#: core/views.py:94
+#: core/views.py:91
 msgid "Cannot Signup"
 msgstr "Kann nicht Signup"
 
-#: core/views.py:94
+#: core/views.py:91
 msgid "You cannot signup for a new user account while logged in."
-msgstr "Sie können keine Anmeldung für einen neuen Benutzer-Konto während eingeloggt"
+msgstr ""
+"Sie können keine Anmeldung für einen neuen Benutzer-Konto während eingeloggt"
 
-#: core/views.py:115
+#: core/views.py:153
+msgid "You have already confirmed your account.  Proceed to the login page."
+msgstr ""
+
+#: core/views.py:155
+msgid ""
+"Incorrect registration key. Please refer to your email for the correct key."
+msgstr ""
+
+#: core/views.py:165
+msgid "Success"
+msgstr ""
+
+#: core/views.py:165
+msgid ""
+"Congratulations! You have successfully registered for Evesch.com.  Please "
+"proceed to the login page."
+msgstr ""
+
+#: core/views.py:166 templates/core/inc_anonymous_menu.html:6
+#: templates/core/login.html:12 templates/core/password_reset_sent.html:9
+#: templates/core/signup_confirm.html:8 templates/core/signup_success.html:8
+msgid "Login"
+msgstr "Nr. Veranstaltungen"
+
+#: core/views.py:200
+#, fuzzy
+msgid "Cannot Reset"
+msgstr "Kann nicht Gruppe entfernen"
+
+#: core/views.py:200
+#, fuzzy
+msgid "You cannot reset your password while logged in."
+msgstr ""
+"Sie können keine Anmeldung für einen neuen Benutzer-Konto während eingeloggt"
+
+#: core/views.py:226
 msgid "Error"
 msgstr "Fehler"
 
-#: core/views.py:118
+#: core/views.py:229
 msgid "Page Not Found"
 msgstr "Seite nicht gefunden"
+
+#: core/ajax_filtered_fields/forms/fields.py:153
+msgid "other"
+msgstr ""
+
+#: core/ajax_filtered_fields/forms/fields.py:183
+#, fuzzy
+msgid "active"
+msgstr "sichern"
+
+#: core/ajax_filtered_fields/forms/fields.py:184
+msgid "inactive"
+msgstr ""
+
+#: core/ajax_filtered_fields/forms/fields.py:185
+msgid "all"
+msgstr ""
+
+#: core/django_extensions/admin/__init__.py:105
+msgid "and"
+msgstr ""
+
+#: core/django_extensions/admin/__init__.py:107
+#, python-format
+msgid ""
+"Use the left field to do %(model_name)s lookups in the fields %(field_list)s."
+msgstr ""
+
+#: core/django_extensions/db/models.py:15
+msgid "created"
+msgstr ""
+
+#: core/django_extensions/db/models.py:16
+msgid "modified"
+msgstr ""
+
+#: core/django_extensions/db/models.py:26
+msgid "title"
+msgstr ""
+
+#: core/django_extensions/db/models.py:27
+msgid "slug"
+msgstr ""
+
+#: core/django_extensions/db/models.py:28
+#, fuzzy
+msgid "description"
+msgstr "Beschreibung"
+
+#: core/django_extensions/templates/django_extensions/widgets/foreignkey_searchinput.html:4
+msgid "Lookup"
+msgstr ""
 
 #: core/pagination/templates/pagination/pagination.html:5
 #: core/pagination/templates/pagination/pagination.html:7
@@ -67,702 +197,932 @@ msgstr "zurück"
 msgid "next"
 msgstr "nächster"
 
-#: egroup/models.py:21
-msgid "Administrator Group"
-msgstr "Administrator-Gruppe"
+#: core/rosetta/templates/rosetta/languages.html:3
+#: core/rosetta/templates/rosetta/pofile.html:13 templates/index.html:4
+#: templates/index_anonymous.html:4 templates/org/orgs_list.html:4
+msgid "Home"
+msgstr "Heim"
 
-#: egroup/models.py:26
-msgid "Event Coordinator Group"
-msgstr "Veranstaltung-Koordinator der Fraktion"
+#: core/rosetta/templates/rosetta/languages.html:3
+#: core/rosetta/templates/rosetta/languages.html:4
+msgid "Language selection"
+msgstr ""
 
-#: egroup/models.py:41
+#: core/rosetta/templates/rosetta/languages.html:14
+msgid "File"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/languages.html:15
+#, fuzzy
+msgid "Messages"
+msgstr "Nachricht"
+
+#: core/rosetta/templates/rosetta/languages.html:16
+msgid "Translated"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/languages.html:17
+msgid "Obsolete"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/languages.html:18
+msgid "Progress"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/languages.html:37
+msgid "Nothing to translate!"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/languages.html:38
+msgid ""
+"You haven't specified any languages in your settings file, or haven't yet "
+"generated a batch of translation catalogs."
+msgstr ""
+
+#: core/rosetta/templates/rosetta/languages.html:39
+#, python-format
+msgid ""
+"Please refer to <a href=\"%(i18n_doc_link)s\">Django's I18N documentation</"
+"a> for a guide on how to set up internationalization for your project."
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:7
+msgid "Pick another file"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:8
+msgid "Download this catalog"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:16
+msgid "Progress: %(percent_translated)s%"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:17
+msgid "File is read-only: download the file when done editing!"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:19
+#: core/rosetta/templates/rosetta/pofile.html:44
+msgid "English"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:21
+#, python-format
+msgid "Translate into %(rosetta_i18n_lang_name)s"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:24
+#, fuzzy
+msgid "Display:"
+msgstr "Täglich"
+
+#: core/rosetta/templates/rosetta/pofile.html:25
+msgid "Untranslated only"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:26
+msgid "Translated only"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:27
+msgid "Both"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:33
+msgid "Search"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:35
+msgid "Go"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:46
+msgid "Occurrences(s)"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:67
+msgid "suggest"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:75
+#, python-format
+msgid "%(more_count)s more"
+msgid_plural "%(more_count)s more"
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/rosetta/templates/rosetta/pofile.html:87
+msgid "Save and translate next block"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:91
+msgid "Skip to page:"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:104
+msgid "Displaying:"
+msgstr ""
+
+#: core/rosetta/templates/rosetta/pofile.html:106
+#, python-format
+msgid "%(hits)s/%(message_number)s message"
+msgid_plural "%(hits)s/%(message_number)s messages"
+msgstr[0] ""
+msgstr[1] ""
+
+#: egroup/models.py:20
+msgid "People in this group can administer the organization."
+msgstr ""
+
+#: egroup/models.py:25
+msgid "People in this group can create and organize events."
+msgstr ""
+
+#: egroup/models.py:29
+msgid "Everyone in the organization is in this group."
+msgstr ""
+
+#: egroup/models.py:47
 msgid "User Group Not Found"
 msgstr "Der Benutzer-Gruppe nicht gefunden"
 
-#: egroup/models.py:41
+#: egroup/models.py:47
 msgid "The user group was not found"
 msgstr "Der Benutzer-Gruppe wurde nicht gefunden."
 
-#: egroup/views.py:23 egroup/views.py:30
+#: egroup/views.py:26 egroup/views.py:33
 msgid "Cannot Add Group"
 msgstr "Kann nicht Gruppe hinzufügen"
 
-#: egroup/views.py:23
+#: egroup/views.py:26
 msgid "You cannot add a group in an organization that you do not belong to."
-msgstr "Sie können nicht eine Gruppe in einer Organisation, die Sie gehören nicht zu."
+msgstr ""
+"Sie können nicht eine Gruppe in einer Organisation, die Sie gehören nicht zu."
 
-#: egroup/views.py:30
+#: egroup/views.py:33
 msgid "You do not have permission to add a group in this organization."
 msgstr "Sie haben keine Berechtigung, um eine Gruppe in dieser Organisation."
 
-#: egroup/views.py:43
+#: egroup/views.py:46
 msgid "Group Added"
 msgstr "Gruppe hinzugefügt"
 
-#: egroup/views.py:43
+#: egroup/views.py:46
 msgid "You have added a group"
 msgstr "Sie haben eine Gruppe."
 
-#: egroup/views.py:44 event/views.py:90 event/views.py:130 event/views.py:209
-#: event/views.py:238 event/views.py:330 event/views.py:370 event/views.py:375
-#: event/views.py:380 event/views.py:385 event/views.py:428 org/views.py:117
-#: org/views.py:125 org/views.py:146 org/views.py:196 org/views.py:218
-#: org/views.py:255
+#: egroup/views.py:47 event/views.py:88 event/views.py:215 event/views.py:246
+#: event/views.py:337 event/views.py:377 event/views.py:389 event/views.py:394
+#: event/views.py:399 event/views.py:442 org/views.py:140 org/views.py:157
+#: org/views.py:179 org/views.py:291
 msgid "Continue"
 msgstr "Weiter"
 
-#: egroup/views.py:71 egroup/views.py:78
+#: egroup/views.py:73 egroup/views.py:79
 msgid "Cannot Edit Group"
 msgstr "Kann nicht bearbeitet Gruppe"
 
-#: egroup/views.py:71
+#: egroup/views.py:73
 msgid "You cannot edit a group in an organization that you do not belong to."
-msgstr "Sie können nicht bearbeiten Sie eine Gruppe in einer Organisation, die Sie gehören nicht zu."
+msgstr ""
+"Sie können nicht bearbeiten Sie eine Gruppe in einer Organisation, die Sie "
+"gehören nicht zu."
 
-#: egroup/views.py:78
+#: egroup/views.py:79
 msgid "You do not have permission to edit a group in this organization."
-msgstr "Sie haben keine Berechtigung zum Bearbeiten Sie eine Gruppe in dieser Organisation."
+msgstr ""
+"Sie haben keine Berechtigung zum Bearbeiten Sie eine Gruppe in dieser "
+"Organisation."
 
-#: egroup/views.py:107
+#: egroup/views.py:138
+#, fuzzy
+msgid "Cannot Remove Default Group"
+msgstr "Kann nicht Gruppe entfernen"
+
+#: egroup/views.py:138
+#, fuzzy
+msgid "You cannot remove this group since it is a default group."
+msgstr ""
+"Sie können nicht entfernen Sie eine Gruppe in einer Organisation, die Sie "
+"gehören nicht zu."
+
+#: egroup/views.py:145
 msgid "Cannot Remove Group"
 msgstr "Kann nicht Gruppe entfernen"
 
-#: egroup/views.py:107
+#: egroup/views.py:145
 msgid "You cannot remove a group in an organization that you do not belong to."
-msgstr "Sie können nicht entfernen Sie eine Gruppe in einer Organisation, die Sie gehören nicht zu."
+msgstr ""
+"Sie können nicht entfernen Sie eine Gruppe in einer Organisation, die Sie "
+"gehören nicht zu."
 
-#: egroup/views.py:113 event/views.py:451 event/views.py:457
+#: egroup/views.py:151 event/views.py:472 event/views.py:478
 msgid "Cannot Remove Event Type"
 msgstr "Kann nicht entfernen Typ"
 
-#: egroup/views.py:113
+#: egroup/views.py:151
 msgid "You do not have permission to remove a group in this organization."
 msgstr "Sie haben keine Berechtigung, um eine Gruppe in dieser Organisation."
 
-#: euser/models.py:23
+#: euser/models.py:23 euser/models.py:146
 msgid "User Not Found"
 msgstr "Mitglied wurde nicht gefunden"
 
-#: euser/models.py:23
+#: euser/models.py:23 euser/models.py:146
 msgid "The user was not found. Are you logged in?"
 msgstr "Der Benutzer wurde nicht gefunden. Sind Sie angemeldet?"
 
-#: euser/models.py:39
-msgid "Is Default Email"
-msgstr "Ist Standard-E-Mail?"
-
-#: euser/models.py:62
+#: euser/models.py:42
 msgid "Instant Messenger Name"
 msgstr "Instant Messenger Name"
 
-#: euser/models.py:65
+#: euser/models.py:45
 msgid "Instant Messenger Protocol Type"
 msgstr "Instant-Messenger-Protokoll-Typ"
 
-#: euser/models.py:68
+#: euser/models.py:48
 msgid "Instant Messenger Privacy"
 msgstr "Instant-Messenger, Datenschutz"
 
-#: euser/models.py:71
+#: euser/models.py:51
 msgid "Is IM Default Name"
 msgstr "Chat-Name ist Standard?"
 
-#: euser/models.py:86 templates/euser/user_view.html:13
-msgid "Last Name"
-msgstr "Nachname"
-
-#: euser/models.py:93 templates/euser/user_view.html:12
-msgid "First Name"
-msgstr "Vorname"
-
-#: euser/models.py:100
+#: euser/models.py:66
 msgid "User Organizations"
 msgstr "User-Organisationen"
 
-#: euser/models.py:103
+#: euser/models.py:69
 msgid "User Groups"
 msgstr "User Groups"
 
-#: euser/models.py:107
+#: euser/models.py:74
 msgid "Phone Number"
 msgstr "Telefon"
 
-#: euser/models.py:112
+#: euser/models.py:79 templates/euser/user_view.html:16
 msgid "Gender"
 msgstr "Geschlecht"
 
-#: euser/models.py:115
+#: euser/models.py:82
 msgid "Optional Gender Information"
 msgstr "Optional Gender Informationen"
 
-#: euser/models.py:119
+#: euser/models.py:84
 msgid "Country"
 msgstr "Land"
 
-#: euser/models.py:121
+#: euser/models.py:86
 msgid "User's Country"
 msgstr "User's Land"
 
-#: euser/models.py:124
+#: euser/models.py:89 templates/euser/user_view.html:20
 msgid "City"
 msgstr "Stadt"
 
-#: euser/models.py:127
+#: euser/models.py:92
 msgid "User's City"
 msgstr "User's Stadt"
 
-#: euser/models.py:133
+#: euser/models.py:98 templates/euser/user_view.html:19
 msgid "About Me"
 msgstr "Über mich"
 
-#: euser/views.py:22
-msgid "User List"
-msgstr "Benutzer-Liste"
-
-#: euser/views.py:30
-msgid "Add not implemented"
+#: euser/models.py:102
+msgid "Confirmation Number"
 msgstr ""
 
-#: event/forms.py:13
+#: euser/views.py:48
+#, fuzzy
+msgid "Saved"
+msgstr "sichern"
+
+#: event/forms.py:17
 msgid "Choose a color"
 msgstr "Wählen Sie eine Farbe"
 
-#: event/forms.py:15
+#: event/forms.py:19
 msgid "Must be 6 chars long"
 msgstr "Muss 6 Zeichen lang"
 
-#: event/forms.py:19
+#: event/forms.py:23
 msgid "Must be a Hex Color value"
 msgstr "Muss eine hexadezimale Farbwert"
 
-#: event/models.py:30 templates/event/event_view.html:29
-#: templates/event/eventtype_remove.html:13
+#: event/forms.py:35
+#, fuzzy
+msgid "Must be a number"
+msgstr "Muss 6 Zeichen lang"
+
+#: event/forms.py:38
+msgid "Number out of range."
+msgstr ""
+
+#: event/models.py:33 templates/event/event_view.html:31
+#: templates/event/eventtype_remove.html:15
 msgid "Event Type"
 msgstr "Veranstaltung Typ"
 
-#: event/models.py:36
+#: event/models.py:39
 msgid "Event Type Hash"
 msgstr ""
 
-#: event/models.py:42
+#: event/models.py:45
 msgid "Event Type Description"
 msgstr "Veranstaltung Typ Beschreibung"
 
-#: event/models.py:46
+#: event/models.py:49
 msgid "Event Type Color"
 msgstr "Veranstaltung Typ Color"
 
-#: event/models.py:51
+#: event/models.py:54
 msgid "Track Hours for events of this type?"
 msgstr "Track Stunden für Veranstaltungen dieser Art?"
 
-#: event/models.py:55
+#: event/models.py:58
 msgid "Event Type Enabled"
 msgstr "Typ aktiv"
 
-#: event/models.py:56
+#: event/models.py:59
 msgid "Has the event been disabled?"
 msgstr "Hat die Veranstaltung deaktiviert?"
 
-#: event/models.py:91 templates/event/event_view.html:28
+#: event/models.py:97 templates/event/event_view.html:30
 msgid "Event Name"
 msgstr "Veranstaltung Name"
 
-#: event/models.py:96
+#: event/models.py:102
 msgid "Event Hash"
 msgstr ""
 
-#: event/models.py:102
+#: event/models.py:108
 msgid "Does the Event Exist?"
 msgstr "Ist die Veranstaltung gibt es?"
 
-#: event/models.py:106
+#: event/models.py:112
 msgid "Event open to Add Attendees"
 msgstr ""
 
-#: event/models.py:110
+#: event/models.py:116
 msgid "Date that you must register by."
 msgstr ""
 
-#: event/models.py:114
-msgid "Maximum Number of Addendees"
-msgstr ""
-
-#: event/models.py:118
-msgid "Event Creator"
-msgstr ""
-
-#: event/models.py:121 templates/event/event_view.html:36
-msgid "Event Created Date"
-msgstr ""
-
-#: event/models.py:126
+#: event/models.py:121
 msgid "Date and Time of Event"
 msgstr ""
 
-#: event/models.py:129
+#: event/models.py:124
+msgid "Event Creator"
+msgstr ""
+
+#: event/models.py:127 templates/event/event_view.html:38
+msgid "Event Created Date"
+msgstr ""
+
+#: event/models.py:131
 msgid "Event Description"
 msgstr ""
 
-#: event/models.py:133
+#: event/models.py:135
+msgid "Maximum Number of Addendees"
+msgstr ""
+
+#: event/models.py:139
 msgid "Event Priority"
 msgstr ""
 
-#: event/models.py:136
+#: event/models.py:142
 msgid "Type of Event"
 msgstr ""
 
-#: event/models.py:138
+#: event/models.py:144
 msgid "Organization Sponsoring the Event"
 msgstr ""
 
-#: event/models.py:140
+#: event/models.py:146
 msgid "Event Coordinators"
 msgstr ""
 
-#: event/models.py:142
+#: event/models.py:148
 msgid "Should we track the hours attendees spend at events?"
 msgstr ""
 
-#: event/models.py:146
+#: event/models.py:152
 msgid "Column 1 Header"
 msgstr ""
 
-#: event/models.py:150
+#: event/models.py:157
 msgid "Column 2 Header"
 msgstr ""
 
-#: event/models.py:154
+#: event/models.py:162
 msgid "Column 3 Header"
 msgstr ""
 
-#: event/models.py:158
+#: event/models.py:167
 msgid "Column 4 Header"
 msgstr ""
 
-#: event/models.py:162
+#: event/models.py:172
 msgid "Column 5 Header"
 msgstr ""
 
-#: event/models.py:166
+#: event/models.py:177
 msgid "Column 6 Header"
 msgstr ""
 
-#: event/models.py:249
+#: event/models.py:274
 msgid "User Attending"
 msgstr ""
 
-#: event/models.py:252
+#: event/models.py:277
 msgid "Event to Attend"
 msgstr ""
 
-#: event/models.py:255
+#: event/models.py:280
 msgid "Register Date"
 msgstr ""
 
-#: event/models.py:259
+#: event/models.py:284
 msgid "Attendee IP Address"
 msgstr ""
 
-#: event/models.py:263 templates/event/event_attendee_add.html:19
+#: event/models.py:288 templates/event/event_attendee_add.html:24
 msgid "Attendee Hours"
 msgstr ""
 
-#: event/models.py:267
+#: event/models.py:292
 msgid "Column 1"
 msgstr ""
 
-#: event/models.py:271
+#: event/models.py:296
 msgid "Column 2"
 msgstr ""
 
-#: event/models.py:275
+#: event/models.py:300
 msgid "Column 3"
 msgstr ""
 
-#: event/models.py:279
+#: event/models.py:304
 msgid "Column 4"
 msgstr ""
 
-#: event/models.py:283
+#: event/models.py:308
 msgid "Column 5"
 msgstr ""
 
-#: event/models.py:287
+#: event/models.py:312
 msgid "Column 6"
 msgstr ""
 
-#: event/views.py:68 event/views.py:74 report/views.py:31
+#: event/views.py:67 event/views.py:73 report/views.py:50
 msgid "Cannot Add Event"
 msgstr ""
 
-#: event/views.py:68 report/views.py:31
+#: event/views.py:67 report/views.py:50
 msgid "You cannot add an event in an organization that you do not belong to."
 msgstr ""
 
-#: event/views.py:74
+#: event/views.py:73
 msgid "You do not have permission to add an event in this organization."
 msgstr ""
 
-#: event/views.py:89
+#: event/views.py:87
 msgid "Event Add Successful"
 msgstr ""
 
-#: event/views.py:113 event/views.py:120
-msgid "Cannot Edit Event"
-msgstr ""
-
-#: event/views.py:113
-msgid "You do not have permission to edit this event"
-msgstr ""
-
-#: event/views.py:120
-msgid "You cannot edit an event in an organization that you do not belong to."
-msgstr ""
-
-#: event/views.py:129
-msgid "Event Saved"
-msgstr ""
-
-#: event/views.py:131 event/views.py:429 templates/event/inc_event_menu.html:8
+#: event/views.py:89 event/views.py:135 event/views.py:378 event/views.py:443
+#: org/views.py:266 org/views.py:330 templates/event/inc_event_menu.html:8
+#: templates/org/inc_myorgs_list_entry.html:30
 msgid "Edit"
 msgstr ""
 
-#: event/views.py:155
+#: event/views.py:117 event/views.py:124
+msgid "Cannot Edit Event"
+msgstr ""
+
+#: event/views.py:117
+msgid "You do not have permission to edit this event"
+msgstr ""
+
+#: event/views.py:124
+msgid "You cannot edit an event in an organization that you do not belong to."
+msgstr ""
+
+#: event/views.py:133
+msgid "Event Saved"
+msgstr ""
+
+#: event/views.py:134 org/views.py:265 org/views.py:329
+#: templates/event/inc_event_menu.html:7
+#: templates/event/inc_event_menu.html:13
+msgid "View"
+msgstr "anzeigen"
+
+#: event/views.py:161
 msgid "Cannot Delete Event"
 msgstr ""
 
-#: event/views.py:155
+#: event/views.py:161
 msgid "You do not have permission to delete this event"
 msgstr ""
 
-#: event/views.py:162
+#: event/views.py:168
 msgid "Cannot Remove Event"
 msgstr ""
 
-#: event/views.py:162
+#: event/views.py:168
 msgid ""
 "You cannot remove an event in an organization that you do not belong to."
 msgstr ""
 
-#: event/views.py:188
+#: event/views.py:194
 msgid "Cannot Attend Event"
 msgstr ""
 
-#: event/views.py:188
+#: event/views.py:194
 msgid ""
 "You cannot register for an event in an organization that you do not belong "
 "to."
 msgstr ""
 
-#: event/views.py:194
+#: event/views.py:200
 msgid ""
 "This event is closed.  Contact the event coordinator with comments or "
 "concerns."
 msgstr ""
 
-#: event/views.py:195
+#: event/views.py:201
 msgid "Event Closed"
 msgstr ""
 
-#: event/views.py:201
+#: event/views.py:207
 msgid "You may not register for this event after "
 msgstr ""
 
-#: event/views.py:202
+#: event/views.py:208
 msgid "Attendee Add Error"
 msgstr ""
 
-#: event/views.py:208
+#: event/views.py:214
 msgid "Already Registered"
 msgstr ""
 
-#: event/views.py:208
+#: event/views.py:214
 msgid "Attendee is already registered"
 msgstr ""
 
-#: event/views.py:237
+#: event/views.py:245
 msgid "Registration Complete"
 msgstr ""
 
-#: event/views.py:237
+#: event/views.py:245
 msgid "You have Registered for this event"
 msgstr ""
 
-#: event/views.py:242
-msgid "Form is invalid"
-msgstr ""
-
-#: event/views.py:262 event/views.py:269
+#: event/views.py:269 event/views.py:276
 msgid "Cannot Message Users"
 msgstr ""
 
-#: event/views.py:262
+#: event/views.py:269
 msgid "You cannot message users in an organization that you do not belong to."
 msgstr ""
 
-#: event/views.py:269
+#: event/views.py:276
 msgid "You cannot message users unless you are attending the event."
 msgstr ""
 
-#: event/views.py:275
+#: event/views.py:282
 msgid "No attendees"
 msgstr ""
 
-#: event/views.py:275
+#: event/views.py:282
 msgid "No attendees are signed up for this event."
 msgstr ""
 
-#: event/views.py:285
+#: event/views.py:292
 msgid "Message Sent"
 msgstr ""
 
-#: event/views.py:309 event/views.py:316 event/views.py:323
+#: event/views.py:316 event/views.py:323 event/views.py:330
 msgid "Cannot Remove User from Event"
 msgstr ""
 
-#: event/views.py:309
+#: event/views.py:316
 msgid ""
 "You cannot remove a user from  an event in an organization that you do not "
 "belong to."
 msgstr ""
 
-#: event/views.py:316
+#: event/views.py:323
 msgid "This user is not attending this event."
 msgstr ""
 
-#: event/views.py:317
+#: event/views.py:324
 msgid "Attendee does not exist"
 msgstr ""
 
-#: event/views.py:323
+#: event/views.py:330
 msgid "You do not have permission to remove this attendee."
 msgstr ""
 
-#: event/views.py:329
+#: event/views.py:336
 msgid "Attendee Removed"
 msgstr ""
 
-#: event/views.py:347 event/views.py:356
+#: event/views.py:354 event/views.py:363
 msgid "Cannot Add Event Type"
 msgstr ""
 
-#: event/views.py:347
+#: event/views.py:354
 msgid ""
 "You cannot add an event type in an organization that you do not belong to."
 msgstr ""
 
-#: event/views.py:356
+#: event/views.py:363
 msgid "You do not have permission to add an event type in this organization."
 msgstr ""
 
-#: event/views.py:369
+#: event/views.py:376
 msgid "Add Event Type Successful"
 msgstr ""
 
-#: event/views.py:374
+#: event/views.py:388
 msgid "Add Event Type Not Successful"
 msgstr ""
 
-#: event/views.py:379
+#: event/views.py:393
 msgid "Event Type already exists"
 msgstr ""
 
-#: event/views.py:384
+#: event/views.py:398
 msgid "Unknown Error"
 msgstr ""
 
-#: event/views.py:406 event/views.py:412
+#: event/views.py:420 event/views.py:426
 msgid "Cannot Edit Event Type"
 msgstr ""
 
-#: event/views.py:406
+#: event/views.py:420
 msgid "You do not have permission to edit an event type in this organization."
 msgstr ""
 
-#: event/views.py:412
+#: event/views.py:426
 msgid ""
 "You cannot edit a event type in an organization that you do not belong to."
 msgstr ""
 
-#: event/views.py:427
+#: event/views.py:441
+msgid "Event Type Save Successful"
+msgstr ""
+
+#: event/views.py:441
 msgid "Event Type Edit Successful"
 msgstr ""
 
-#: event/views.py:436
+#: event/views.py:457
 msgid "Event Type does not exist"
 msgstr ""
 
-#: event/views.py:451
+#: event/views.py:472
 msgid ""
 "You do not have permission to remove an event type in this organization."
 msgstr ""
 
-#: event/views.py:457
+#: event/views.py:478
 msgid ""
 "You cannot remove an event type in an organization that you do not belong to."
 msgstr ""
 
-#: event/views.py:471
+#: event/views.py:492
 msgid "Event Type does not exist "
 msgstr ""
 
-#: org/forms.py:18
+#: org/forms.py:19
 msgid "Org Short Name must be 3 characters or more."
 msgstr ""
 
-#: org/models.py:47
+#: org/models.py:59
 msgid "Organization Short Name"
 msgstr ""
 
-#: org/models.py:52
+#: org/models.py:64
 msgid "Organization Active"
 msgstr ""
 
-#: org/models.py:53
+#: org/models.py:65
 msgid "Does the Organization exist?"
 msgstr ""
 
-#: org/models.py:57
+#: org/models.py:69
 msgid "Organization Description"
 msgstr ""
 
-#: org/models.py:62
+#: org/models.py:74
 msgid "Organization Email"
 msgstr ""
 
-#: org/models.py:66
+#: org/models.py:78
 msgid "Organization Website"
 msgstr ""
 
-#: org/models.py:72
+#: org/models.py:84
 msgid "Organization Phone Number"
 msgstr ""
 
-#: org/models.py:81
+#: org/models.py:93
 msgid "Organization City"
 msgstr ""
 
-#: org/models.py:86
+#: org/models.py:98
 msgid "Organization State"
 msgstr ""
 
-#: org/models.py:91
+#: org/models.py:103
 msgid "Organization Zip Code"
 msgstr ""
 
-#: org/models.py:103
+#: org/models.py:115
 msgid "Organization Feed Hash"
 msgstr ""
 
-#: org/views.py:49
+#: org/models.py:120
+#, fuzzy
+msgid "Organization Join Privacy"
+msgstr "Organisation Berichte"
+
+#: org/models.py:121
+msgid ""
+"<u>Public:</u> any user may join this organization.  <BR><u>Invite Only:</u> "
+"a user must receive an invitation from someone in the org.  <BR><u>Request "
+"Membership:</u> a user must request membership to join that must be "
+"confirmed by someone in the org."
+msgstr ""
+
+#: org/models.py:124
+msgid "Any member can invite."
+msgstr ""
+
+#: org/models.py:125
+msgid "Any member of this organization can invite others to this organization."
+msgstr ""
+
+#: org/models.py:129
+#, fuzzy
+msgid "Browsable"
+msgstr "Navigieren"
+
+#: org/models.py:130
+msgid ""
+"List this organization in the public Browse directory? (recommended) "
+"Authenticated users will still be able to see it."
+msgstr ""
+
+#: org/models.py:265
+msgid "Anonymous email"
+msgstr ""
+
+#: org/models.py:269
+#, fuzzy
+msgid "Invite Hash"
+msgstr "Mitglied einladen"
+
+#: org/views.py:59
 msgid "Index"
 msgstr ""
 
-#: org/views.py:116
+#: org/views.py:77 org/views.py:101 org/views.py:217 org/views.py:427
+msgid "Cannot Be Viewed"
+msgstr ""
+
+#: org/views.py:77 org/views.py:101 org/views.py:217 org/views.py:427
+#, fuzzy
+msgid "Cannot view this page"
+msgstr "Kann nicht entfernen Typ"
+
+#: org/views.py:139
 msgid "Already a Member"
 msgstr ""
 
-#: org/views.py:116
+#: org/views.py:139
 msgid "You are already a member of this organization."
 msgstr ""
 
-#: org/views.py:124
+#: org/views.py:146
+msgid "Approval Needed"
+msgstr ""
+
+#: org/views.py:146
+msgid ""
+"In order to join this organization, you need approval from the organization "
+"admin."
+msgstr ""
+
+#: org/views.py:156
 msgid "You have Joined the organization"
 msgstr ""
 
-#: org/views.py:124
+#: org/views.py:156
 #, python-format
 msgid "Org Join Successful: %s"
 msgstr ""
 
-#: org/views.py:145
+#: org/views.py:178
 msgid "Left Organization"
 msgstr ""
 
-#: org/views.py:145
+#: org/views.py:178
 msgid "You have left the Organization"
 msgstr ""
 
-#: org/views.py:149
+#: org/views.py:182
 msgid "Not a Member"
 msgstr ""
 
-#: org/views.py:149
+#: org/views.py:182
 msgid ""
 "You cannot leave this organization because you are not a member of the "
 "organization."
 msgstr ""
 
-#: org/views.py:163
+#: org/views.py:206
 msgid "Org View"
 msgstr ""
 
-#: org/views.py:179 org/views.py:186
+#: org/views.py:248 org/views.py:255
 msgid "Can Not Edit Org"
 msgstr ""
 
-#: org/views.py:179
+#: org/views.py:248
 msgid "You cannot edit an organization that you do not belong to."
 msgstr ""
 
-#: org/views.py:186
+#: org/views.py:255
 msgid ""
 "You cannot edit this organization because you do not have permission to."
 msgstr ""
 
-#: org/views.py:195
+#: org/views.py:264
 msgid "Organization Changes Saved"
 msgstr ""
 
-#: org/views.py:217 org/views.py:224
+#: org/views.py:290 org/views.py:297
 msgid "Can Not Remove Org"
 msgstr ""
 
-#: org/views.py:217
+#: org/views.py:290
 msgid "You cannot remove an organization that you do not belong to."
 msgstr ""
 
-#: org/views.py:224
+#: org/views.py:297
 msgid ""
 "You cannot remove this organization because you do not have permission to."
 msgstr ""
 
-#: org/views.py:254
+#: org/views.py:328
 msgid "Organization Added"
 msgstr ""
 
-#: org/views.py:278
+#: org/views.py:358
 msgid "Can Not Remove Member"
 msgstr ""
 
-#: org/views.py:278
+#: org/views.py:358
 msgid "You cannot remove this member because you do not have permission to."
 msgstr ""
 
-#: org/views.py:302
+#: org/views.py:383
 msgid "Can Not Invite Member"
 msgstr ""
 
-#: org/views.py:302
+#: org/views.py:383
 msgid ""
 "You cannot invite people to this organization because you do not have "
 "permission to."
 msgstr ""
 
-#: report/views.py:37
+#: report/forms.py:6
+msgid "min_event_date_input"
+msgstr ""
+
+#: report/forms.py:7
+msgid "max_event_date_input"
+msgstr ""
+
+#: report/views.py:56
 msgid "Report grouped by User"
 msgstr ""
 
-#: report/views.py:39
+#: report/views.py:72
 msgid "Report grouped by Event Type"
 msgstr ""
 
-#: report/views.py:53
+#: report/views.py:86
 msgid "Report grouped by Event"
 msgstr ""
 
-#: report/views.py:55
+#: report/views.py:88
 msgid "Report Types"
 msgstr "Bericht Arten"
 
@@ -770,60 +1130,60 @@ msgstr "Bericht Arten"
 msgid "ERROR"
 msgstr "Heim"
 
-#: templates/index.html:4 templates/index_anonymous.html:4
-#: templates/org/orgs_list.html:4
-msgid "Home"
-msgstr "Heim"
-
-#: templates/index.html:10
+#: templates/index.html:8
 msgid "Dashboard "
 msgstr "Armaturenbrett"
 
-#: templates/index.html:13 templates/org/orgs_list.html:22
+#: templates/index.html:11 templates/org/orgs_list.html:22
 msgid "My Organizations"
 msgstr "Meine Organisationen"
 
-#: templates/index.html:13
+#: templates/index.html:11
 msgid "Manage"
 msgstr "Verwaltung"
 
-#: templates/index.html:18
+#: templates/index.html:17
 msgid "No orgs listed."
 msgstr "keine Organisationen"
 
 #: templates/index.html:24
-msgid "My Events:"
+#, fuzzy
+msgid "My Events"
 msgstr "Meine veranstaltung"
 
-#: templates/index.html:34 templates/event/events_list.html:24
+#: templates/index.html:31 templates/event/events_list.html:25
 msgid "No events listed."
 msgstr "Nr. Veranstaltungen"
 
-#: templates/index_anonymous.html:10 templates/core/signup.html:10
-msgid "Signup"
-msgstr "Anmeldung"
-
-#: templates/index_anonymous.html:11 templates/core/login.html:9
-msgid "Login"
-msgstr "Nr. Veranstaltungen"
-
-#: templates/index_anonymous.html:12
-msgid "Browse"
-msgstr "Navigieren"
-
-#: templates/index_anonymous.html:17
+#: templates/index_anonymous.html:11
 msgid "Welcome"
 msgstr "Willkommen"
 
-#: templates/core/login.html:6 templates/core/signup.html:7
-msgid "Your username and password didn't match. Please try again."
-msgstr "Ihr Benutzername und Passwort nicht übereinstimmen. Bitte versuchen Sie es erneut."
+#: templates/core/inc_anonymous_menu.html:4
+#: templates/core/password_reset_sent.html:10
+#: templates/core/signup_confirm.html:9 templates/core/signup_success.html:9
+#: templates/org/org_browse.html:3
+msgid "Browse"
+msgstr "Navigieren"
 
-#: templates/core/login.html:15
+#: templates/core/inc_anonymous_menu.html:5
+#: templates/core/password_reset_sent.html:8 templates/core/signup.html:8
+#: templates/core/signup_confirm.html:7 templates/core/signup_success.html:7
+#: templates/core/signup_success.html:14
+msgid "Signup"
+msgstr "Anmeldung"
+
+#: templates/core/login.html:6
+msgid "Your username and password didn't match. Please try again."
+msgstr ""
+"Ihr Benutzername und Passwort nicht übereinstimmen. Bitte versuchen Sie es "
+"erneut."
+
+#: templates/core/login.html:18
 msgid "Forgot your password?"
 msgstr "Haben Sie Ihr Passwort vergessen?"
 
-#: templates/core/login.html:17
+#: templates/core/login.html:20
 msgid "login"
 msgstr "Anmeldung"
 
@@ -831,22 +1191,47 @@ msgstr "Anmeldung"
 msgid "Attendees"
 msgstr "Teilnehmer"
 
-#: templates/core/message_users.html:11 templates/core/password_reset.html:13
+#: templates/core/message_users.html:11 templates/core/password_reset.html:17
 msgid "Send"
 msgstr "senden"
 
-#: templates/core/password_reset.html:7
+#: templates/core/password_reset.html:10
+#: templates/core/password_reset_sent.html:15
 msgid "Reset Password"
 msgstr "Passwort zurücksetzen"
 
-#: templates/core/signup.html:16
+#: templates/core/signup.html:15
 msgid "signup"
 msgstr "Anmeldung"
+
+#: templates/core/signup_confirm.html:14
+#, fuzzy
+msgid "Signup Confirmation"
+msgstr "Veranstaltung Informationen"
+
+#: templates/core/signup_confirm.html:18
+msgid "Please check your email to confirm your membership to this site."
+msgstr ""
+
+#: templates/core/signup_confirm.html:19
+msgid "You will receive a confirmation email from us shortly."
+msgstr ""
+
+#: templates/core/signup_confirm.html:20
+msgid ""
+"Click the confirmation link provided in that email or enter into the box "
+"below the confirmation number given in the email."
+msgstr ""
+
+#: templates/core/signup_confirm.html:23
+msgid "Confirm"
+msgstr ""
 
 #: templates/ecalendar/calendar_daily_view.html:3
 #: templates/ecalendar/calendar_monthly_view.html:3
 #: templates/egroup/group_add.html:3 templates/egroup/group_edit.html:3
 #: templates/egroup/group_remove.html:3 templates/egroup/group_remove.html:6
+#: templates/egroup/group_view.html:3 templates/egroup/group_view.html:17
 #: templates/event/event_add.html:3 templates/event/event_attendee_add.html:3
 #: templates/event/event_attendee_remove.html:3
 #: templates/event/event_remove.html:3 templates/event/event_view.html:3
@@ -864,36 +1249,40 @@ msgstr "Tägliche Veranstaltungen"
 
 #: templates/ecalendar/calendar_daily_view.html:6
 #: templates/ecalendar/calendar_monthly_view.html:8
-#: templates/egroup/group_add.html:5 templates/egroup/group_edit.html:5
-#: templates/egroup/group_remove.html:5 templates/euser/user_add.html:6
-#: templates/euser/user_view.html:6 templates/event/event_add.html:15
+#: templates/egroup/group_add.html:5 templates/egroup/group_edit.html:30
+#: templates/egroup/group_remove.html:5 templates/egroup/group_view.html:5
+#: templates/euser/user_add.html:6 templates/euser/user_settings.html:6
+#: templates/euser/user_view.html:6 templates/event/event_add.html:34
 #: templates/event/event_attendee_add.html:5
 #: templates/event/event_attendee_remove.html:5
-#: templates/event/event_edit.html:15 templates/event/event_remove.html:5
-#: templates/event/eventtype_add.html:6 templates/event/eventtype_edit.html:6
-#: templates/event/eventtype_remove.html:5 templates/org/org_add.html:5
-#: templates/org/org_edit.html:5 templates/org/org_join.html:5
-#: templates/org/org_leave.html:5 templates/org/org_member_invite.html:34
+#: templates/event/event_edit.html:33 templates/event/event_remove.html:5
+#: templates/event/eventtype_add.html:22
+#: templates/event/eventtype_edit.html:19
+#: templates/event/eventtype_remove.html:5 templates/org/org_add.html:32
+#: templates/org/org_edit.html:25 templates/org/org_join.html:5
+#: templates/org/org_leave.html:5 templates/org/org_member_invite.html:29
 #: templates/org/org_member_remove.html:5 templates/org/org_remove.html:5
-#: templates/org/org_view.html:5 templates/org/orgs_list.html:8
-#: templates/report/org_report.html:6
+#: templates/org/org_view.html:5 templates/org/orgs_list.html:7
+#: templates/report/org_report.html:22
 msgid "home"
 msgstr "Heim"
 
 #: templates/ecalendar/calendar_daily_view.html:7
 #: templates/ecalendar/calendar_monthly_view.html:9
-#: templates/egroup/group_add.html:6 templates/egroup/group_edit.html:6
-#: templates/event/event_add.html:16 templates/event/event_attendee_add.html:6
+#: templates/egroup/group_add.html:6 templates/egroup/group_edit.html:31
+#: templates/egroup/group_view.html:6 templates/event/event_add.html:35
+#: templates/event/event_attendee_add.html:6
 #: templates/event/event_attendee_remove.html:6
-#: templates/event/event_edit.html:16 templates/event/event_remove.html:6
+#: templates/event/event_edit.html:34 templates/event/event_remove.html:6
 #: templates/event/event_view.html:19 templates/event/events_list.html:9
-#: templates/event/eventtype_add.html:7 templates/event/eventtype_edit.html:7
-#: templates/event/eventtype_remove.html:6 templates/org/org_add.html:6
-#: templates/org/org_join.html:6 templates/org/org_leave.html:6
-#: templates/org/org_member_invite.html:35
+#: templates/event/eventtype_add.html:23
+#: templates/event/eventtype_edit.html:20
+#: templates/event/eventtype_remove.html:6 templates/org/org_add.html:33
+#: templates/org/org_edit.html:26 templates/org/org_join.html:6
+#: templates/org/org_leave.html:6 templates/org/org_member_invite.html:30
 #: templates/org/org_member_remove.html:6 templates/org/org_remove.html:6
-#: templates/org/org_view.html:6 templates/org/orgs_list.html:9
-#: templates/report/org_report.html:7
+#: templates/org/org_view.html:6 templates/org/orgs_list.html:8
+#: templates/report/org_report.html:23
 msgid "Organizations"
 msgstr "Organisationen"
 
@@ -901,31 +1290,31 @@ msgstr "Organisationen"
 msgid "Calendar (Daily)"
 msgstr "Kalender (täglich)"
 
-#: templates/ecalendar/calendar_daily_view.html:12
+#: templates/ecalendar/calendar_daily_view.html:14
 #: templates/ecalendar/calendar_monthly_view.html:11
-#: templates/ecalendar/calendar_monthly_view.html:15
+#: templates/ecalendar/calendar_monthly_view.html:17
 #: templates/event/inc_event_edit_menu.html:7
 #: templates/event/inc_event_menu.html:17
 msgid "Calendar"
 msgstr "Kalender"
 
-#: templates/ecalendar/calendar_daily_view.html:14
-#: templates/ecalendar/calendar_monthly_view.html:17
-#: templates/org/inc_orgs_list_entry.html:18
-msgid "Previous"
-msgstr "Zurück"
-
-#: templates/ecalendar/calendar_daily_view.html:15
-msgid "Today"
-msgstr "Heute"
-
 #: templates/ecalendar/calendar_daily_view.html:16
 #: templates/ecalendar/calendar_monthly_view.html:19
 #: templates/org/inc_orgs_list_entry.html:19
+msgid "Previous"
+msgstr "Zurück"
+
+#: templates/ecalendar/calendar_daily_view.html:17
+msgid "Today"
+msgstr "Heute"
+
+#: templates/ecalendar/calendar_daily_view.html:18
+#: templates/ecalendar/calendar_monthly_view.html:21
+#: templates/org/inc_orgs_list_entry.html:20
 msgid "Next"
 msgstr "Nächster"
 
-#: templates/ecalendar/calendar_daily_view.html:26
+#: templates/ecalendar/calendar_daily_view.html:28
 msgid "No events on this day."
 msgstr "Keine Ereignisse an diesem Tag."
 
@@ -933,97 +1322,144 @@ msgstr "Keine Ereignisse an diesem Tag."
 msgid "Monthly Calendar of Events"
 msgstr "Monatliche Veranstaltungen"
 
-#: templates/ecalendar/calendar_monthly_view.html:18
+#: templates/ecalendar/calendar_monthly_view.html:20
 msgid "Current Month"
 msgstr "Aktueller Monat"
 
-#: templates/ecalendar/calendar_monthly_view.html:24
+#: templates/ecalendar/calendar_monthly_view.html:26
 msgid "Sunday"
 msgstr "Sonntag"
 
-#: templates/ecalendar/calendar_monthly_view.html:24
+#: templates/ecalendar/calendar_monthly_view.html:26
 msgid "Monday"
 msgstr "Montag"
 
-#: templates/ecalendar/calendar_monthly_view.html:24
+#: templates/ecalendar/calendar_monthly_view.html:26
 msgid "Tuesday"
 msgstr "Dienstag"
 
-#: templates/ecalendar/calendar_monthly_view.html:24
+#: templates/ecalendar/calendar_monthly_view.html:26
 msgid "Wednesday"
 msgstr "Mittwoch"
 
-#: templates/ecalendar/calendar_monthly_view.html:24
+#: templates/ecalendar/calendar_monthly_view.html:26
 msgid "Thursday"
 msgstr "Donnerstag"
 
-#: templates/ecalendar/calendar_monthly_view.html:24
+#: templates/ecalendar/calendar_monthly_view.html:26
 msgid "Friday"
 msgstr "Freitag"
 
-#: templates/ecalendar/calendar_monthly_view.html:24
+#: templates/ecalendar/calendar_monthly_view.html:26
 msgid "Saturday"
 msgstr "Samstag"
 
 #: templates/egroup/group_add.html:3 templates/egroup/group_add.html.py:8
-#: templates/org/org_view.html:33
+#: templates/org/org_view.html:61
 msgid "Add Group"
 msgstr "Gruppe hinzufügen"
 
-#: templates/egroup/group_add.html:13
+#: templates/egroup/group_add.html:15
 msgid "Add Group for"
 msgstr "Gruppe hinzufügen für:"
 
-#: templates/egroup/group_add.html:18 templates/euser/user_add.html:12
-#: templates/event/event_add.html:29
-#: templates/event/event_attendee_add.html:27
-#: templates/event/event_view.html:48 templates/event/eventtype_add.html:19
-#: templates/event/inc_event_menu.html:14 templates/org/org_add.html:15
-#: templates/org/org_member_invite.html:46 templates/org/orgs_list.html:15
+#: templates/egroup/group_add.html:20 templates/egroup/group_edit.html:62
+#: templates/euser/user_add.html:12 templates/event/event_add.html:50
+#: templates/event/event_attendee_add.html:33
+#: templates/event/event_view.html:50 templates/event/eventtype_add.html:38
+#: templates/event/inc_event_menu.html:14 templates/org/org_add.html:45
+#: templates/org/orgs_list.html:15
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: templates/egroup/group_edit.html:3 templates/egroup/group_edit.html.py:8
-#: templates/egroup/group_edit.html:11 templates/org/org_view.html:41
+#: templates/egroup/group_edit.html:3 templates/egroup/group_edit.html:34
+#: templates/egroup/group_edit.html:39 templates/egroup/group_view.html:14
+#: templates/org/org_view.html:73
 msgid "Edit Group"
 msgstr "Gruppe bearbeiten"
 
-#: templates/egroup/group_edit.html:13
+#: templates/egroup/group_edit.html:41
 msgid "Edit Group for"
 msgstr "Bearbeiten Gruppe für:"
 
-#: templates/egroup/group_edit.html:18 templates/event/event_edit.html:28
-#: templates/event/eventtype_edit.html:19 templates/org/org_edit.html:18
+#: templates/egroup/group_edit.html:46 templates/euser/user_settings.html:16
+#: templates/event/event_edit.html:49 templates/event/eventtype_edit.html:35
+#: templates/org/org_edit.html:40
 msgid "Save"
 msgstr "sichern"
 
-#: templates/egroup/group_remove.html:3 templates/egroup/group_remove.html:8
-#: templates/egroup/group_remove.html:11
+#: templates/egroup/group_edit.html:56
+#, fuzzy
+msgid "Add Group Members"
+msgstr "Gruppe hinzufügen für:"
+
+#: templates/egroup/group_edit.html:70
+#, fuzzy
+msgid "Group Members"
+msgstr "Mitglieder"
+
+#: templates/egroup/group_edit.html:70
+msgid "Current Group Members"
+msgstr ""
+
+#: templates/egroup/group_remove.html:3 templates/egroup/group_remove.html:9
+#: templates/egroup/group_remove.html:14
 msgid "Delete Group"
 msgstr "Gruppe löschen"
 
-#: templates/egroup/group_remove.html:13 templates/org/org_view.html:36
+#: templates/egroup/group_remove.html:16 templates/org/org_view.html:65
 msgid "Group Name"
 msgstr "Name der Gruppe"
 
-#: templates/egroup/group_remove.html:14 templates/event/event_remove.html:16
-#: templates/event/eventtype_remove.html:14
+#: templates/egroup/group_remove.html:17 templates/event/event_remove.html:18
+#: templates/event/eventtype_remove.html:16
 msgid "Belonging to"
 msgstr "Die Zugehörigkeit zu"
 
-#: templates/egroup/group_remove.html:17
-#: templates/event/event_attendee_remove.html:19
-#: templates/event/event_remove.html:19
-#: templates/event/eventtype_remove.html:17 templates/org/org_remove.html:15
+#: templates/egroup/group_remove.html:20
+#: templates/event/event_attendee_remove.html:20
+#: templates/event/event_remove.html:21
+#: templates/event/eventtype_remove.html:19 templates/org/org_remove.html:17
 msgid "Are you sure you want to delete?"
 msgstr "Sind Sie sicher, dass Sie löschen möchten?"
 
-#: templates/egroup/group_remove.html:18
-#: templates/event/event_attendee_remove.html:20
-#: templates/event/event_remove.html:20
-#: templates/event/eventtype_remove.html:18
+#: templates/egroup/group_remove.html:21
+#: templates/event/event_attendee_remove.html:21
+#: templates/event/event_remove.html:22
+#: templates/event/eventtype_remove.html:20
 msgid "Delete"
 msgstr "Löschen"
+
+#: templates/egroup/group_view.html:3 templates/egroup/group_view.html.py:9
+#: templates/egroup/group_view.html:14
+#, fuzzy
+msgid "View Group"
+msgstr "Gruppe bearbeiten"
+
+#: templates/egroup/group_view.html:18
+#, fuzzy
+msgid "Group"
+msgstr "Gruppe hinzufügen"
+
+#: templates/egroup/group_view.html:19
+#, fuzzy
+msgid "Admin Organization"
+msgstr "Organisation hinzufügen"
+
+#: templates/egroup/group_view.html:20
+#, fuzzy
+msgid "Coordinate Events"
+msgstr "Bearbeiten Veranstaltung"
+
+#: templates/egroup/group_view.html:21
+#, fuzzy
+msgid "Invite Users"
+msgstr "Mitglied einladen"
+
+#: templates/egroup/group_view.html:26
+#, fuzzy
+msgid "Remove User from Group"
+msgstr "Gruppe entfernen"
 
 #: templates/euser/user_add.html:3
 msgid "Add User"
@@ -1033,87 +1469,118 @@ msgstr "Benutzer hinzufügen"
 msgid "User Add"
 msgstr "Benutzer hinzufügen"
 
-#: templates/euser/user_view.html:3 templates/euser/user_view.html.py:8
-msgid "View User Profile"
-msgstr "Benutzer-Profil"
+#: templates/euser/user_settings.html:3 templates/euser/user_settings.html:10
+#, fuzzy
+msgid "User Settings"
+msgstr "Benutzer-Liste"
 
-#: templates/euser/user_view.html:6
+#: templates/euser/user_settings.html:6 templates/euser/user_view.html:6
 msgid "user"
 msgstr "Benutzer"
 
-#: templates/euser/user_view.html:11
+#: templates/euser/user_view.html:3 templates/euser/user_view.html.py:10
+msgid "View User Profile"
+msgstr "Benutzer-Profil"
+
+#: templates/euser/user_view.html:13
 msgid "Username"
 msgstr "Benutzername"
 
 #: templates/euser/user_view.html:14
+msgid "First Name"
+msgstr "Vorname"
+
+#: templates/euser/user_view.html:15
+msgid "Last Name"
+msgstr "Nachname"
+
+#: templates/euser/user_view.html:17
 msgid "E-mail"
 msgstr "E-mail"
 
-#: templates/event/event_add.html:3 templates/event/event_add.html.py:19
+#: templates/euser/user_view.html:18
+#, fuzzy
+msgid "Phone"
+msgstr "Telefon"
+
+#: templates/euser/user_view.html:27
+#, fuzzy
+msgid "My Invites"
+msgstr "Meine veranstaltung"
+
+#: templates/euser/user_view.html:32 templates/org/inc_orgs_list_entry.html:30
+#: templates/org/org_join.html:3 templates/org/org_join.html.py:7
+#: templates/org/org_join.html:11
+msgid "Join Organization"
+msgstr "Organisation beitreten"
+
+#: templates/event/event_add.html:3 templates/event/event_add.html.py:38
 msgid "Add Event"
 msgstr "Alle Veranstaltungen"
 
-#: templates/event/event_add.html:18 templates/event/event_attendee_add.html:8
+#: templates/event/event_add.html:37 templates/event/event_attendee_add.html:8
 #: templates/event/event_attendee_remove.html:8
-#: templates/event/event_edit.html:18 templates/event/event_remove.html:8
+#: templates/event/event_edit.html:36 templates/event/event_remove.html:8
 #: templates/event/event_view.html:21 templates/event/events_list.html:11
 #: templates/event/inc_event_menu.html:11
 msgid "Events"
 msgstr "Veranstaltungen"
 
-#: templates/event/event_add.html:23
+#: templates/event/event_add.html:43
 msgid "Event Add"
 msgstr "Veranstaltung hinzufügen"
 
 #: templates/event/event_attendee_add.html:3
 #: templates/event/event_attendee_add.html:10
-#: templates/event/event_attendee_add.html:12
+#: templates/event/event_attendee_add.html:14
 msgid "Add Event Attendee"
 msgstr "Hinzufügen Veranstaltung Teilnehmer"
 
-#: templates/event/event_attendee_add.html:14
+#: templates/event/event_attendee_add.html:16
 msgid "Add user"
 msgstr "Nutzer hinzufügen"
 
-#: templates/event/event_attendee_add.html:14
+#: templates/event/event_attendee_add.html:16
 msgid "to event"
 msgstr "zu Veranstaltung"
 
-#: templates/event/event_attendee_add.html:16
+#: templates/event/event_attendee_add.html:18
 msgid "Fill out the following if applicable"
 msgstr "Füllen Sie das folgende falls zutreffend."
 
 #: templates/event/event_attendee_remove.html:3
 #: templates/event/event_attendee_remove.html:10
-#: templates/event/event_attendee_remove.html:13
+#: templates/event/event_attendee_remove.html:14
 msgid "Remove Event Attendee"
 msgstr "Entfernen Event Teilnehmer"
 
-#: templates/event/event_attendee_remove.html:15
-#: templates/event/event_remove.html:14
+#: templates/event/event_attendee_remove.html:16
+#: templates/event/event_remove.html:16
 #: templates/report/inc_org_report_eventtype.html:11
+#: templates/report/inc_org_report_user.html:11
 msgid "Event"
 msgstr "Veranstaltung"
 
-#: templates/event/event_attendee_remove.html:16
+#: templates/event/event_attendee_remove.html:17
 #: templates/report/inc_org_report_event.html:12
 #: templates/report/inc_org_report_eventtype.html:12
+#: templates/report/inc_org_report_user.html:12
 msgid "Attendee"
 msgstr "Teilnehmer"
 
-#: templates/event/event_edit.html:3 templates/event/event_edit.html.py:20
-#: templates/event/event_edit.html:22
+#: templates/event/event_edit.html:3 templates/event/event_edit.html.py:38
+#: templates/event/event_edit.html:42
 #: templates/event/inc_event_edit_menu.html:4
 msgid "Edit Event"
 msgstr "Bearbeiten Veranstaltung"
 
 #: templates/event/event_remove.html:3 templates/event/event_remove.html:10
-#: templates/event/event_remove.html:12
+#: templates/event/event_remove.html:14
 #: templates/event/inc_event_edit_menu.html:6
 msgid "Delete Event"
 msgstr "Löschen Veranstaltung"
 
-#: templates/event/event_remove.html:15 templates/event/event_view.html:32
+#: templates/event/event_remove.html:17 templates/event/event_view.html:34
 msgid "Event Date"
 msgstr "Veranstaltung Datum"
 
@@ -1121,51 +1588,51 @@ msgstr "Veranstaltung Datum"
 msgid "View Event"
 msgstr "Ansicht Veranstaltung"
 
-#: templates/event/event_view.html:25
+#: templates/event/event_view.html:27
 msgid "Event Information"
 msgstr "Veranstaltung Informationen"
 
-#: templates/event/event_view.html:30
+#: templates/event/event_view.html:32
 msgid "Event Status"
 msgstr "Veranstaltung status"
 
-#: templates/event/event_view.html:31
+#: templates/event/event_view.html:33
 msgid "Event Signup Deadline"
 msgstr "Anmeldung Frist"
 
-#: templates/event/event_view.html:33 templates/org/org_view.html:36
+#: templates/event/event_view.html:35 templates/org/org_view.html:65
 msgid "Description"
 msgstr "Beschreibung"
 
-#: templates/event/event_view.html:34
+#: templates/event/event_view.html:36
 msgid "Event Creator Name"
 msgstr "Veranstaltung Schöpfer Name"
 
-#: templates/event/event_view.html:35
+#: templates/event/event_view.html:37
 msgid "Event Coordiantors"
 msgstr "Veranstaltung Koordinatoren"
 
-#: templates/event/event_view.html:37
+#: templates/event/event_view.html:39
 msgid "Event Max Attendees"
 msgstr "Veranstaltung max Teilnehmer"
 
-#: templates/event/event_view.html:38
+#: templates/event/event_view.html:40
 msgid "Hour Tracking"
 msgstr "Stunden-Tracking"
 
-#: templates/event/event_view.html:44
+#: templates/event/event_view.html:46
 msgid "Event Attendee Information"
 msgstr "Veranstaltung Teilnehmer Informationen"
 
-#: templates/event/event_view.html:49
+#: templates/event/event_view.html:51
 msgid "Message"
 msgstr "Nachricht"
 
-#: templates/event/event_view.html:54
+#: templates/event/event_view.html:58
 msgid "Attendee Name"
 msgstr "Teilnehmer Name"
 
-#: templates/event/event_view.html:54
+#: templates/event/event_view.html:58
 msgid "Attendee Added Date"
 msgstr ""
 
@@ -1173,27 +1640,28 @@ msgstr ""
 msgid "List Events"
 msgstr "Liste Veranstaltungen"
 
-#: templates/event/eventtype_add.html:3 templates/event/eventtype_add.html:12
-#: templates/org/org_view.html:49
+#: templates/event/eventtype_add.html:3 templates/event/eventtype_add.html:30
+#: templates/org/org_view.html:40
 msgid "Add Event Type"
 msgstr ""
 
-#: templates/event/eventtype_add.html:14
+#: templates/event/eventtype_add.html:32
 msgid "Add Event Type for"
 msgstr ""
 
-#: templates/event/eventtype_edit.html:3 templates/event/eventtype_edit.html:9
-#: templates/event/eventtype_edit.html:12 templates/org/org_view.html:57
+#: templates/event/eventtype_edit.html:3
+#: templates/event/eventtype_edit.html:22
+#: templates/event/eventtype_edit.html:27 templates/org/org_view.html:48
 msgid "Edit Event Type"
 msgstr ""
 
-#: templates/event/eventtype_edit.html:14
+#: templates/event/eventtype_edit.html:29
 msgid "Edit Event Type for"
 msgstr ""
 
 #: templates/event/eventtype_remove.html:3
 #: templates/event/eventtype_remove.html:8
-#: templates/event/eventtype_remove.html:11
+#: templates/event/eventtype_remove.html:13
 msgid "Delete Event Type"
 msgstr ""
 
@@ -1206,11 +1674,6 @@ msgstr "Monatliche"
 #: templates/event/inc_event_menu.html:20
 msgid "Daily"
 msgstr "Täglich"
-
-#: templates/event/inc_event_menu.html:7
-#: templates/event/inc_event_menu.html:13
-msgid "View"
-msgstr "anzeigen"
 
 #: templates/event/inc_event_menu.html:23
 msgid "Reports"
@@ -1228,90 +1691,106 @@ msgstr ""
 msgid "by Event"
 msgstr ""
 
-#: templates/org/inc_myorgs_list_entry.html:17
-#: templates/org/inc_orgs_list_entry.html:17
+#: templates/org/inc_myorgs_list_entry.html:18
+#: templates/org/inc_org_user_list.html:16
+#: templates/org/inc_orgs_list_entry.html:18
 msgid "Page"
 msgstr "Seite"
 
-#: templates/org/inc_myorgs_list_entry.html:17
-#: templates/org/inc_orgs_list_entry.html:17
+#: templates/org/inc_myorgs_list_entry.html:18
+#: templates/org/inc_org_user_list.html:16
+#: templates/org/inc_orgs_list_entry.html:18
 msgid "of"
 msgstr "von"
 
-#: templates/org/inc_myorgs_list_entry.html:24 templates/org/org_leave.html:3
-#: templates/org/org_leave.html.py:7 templates/org/org_leave.html:9
+#: templates/org/inc_myorgs_list_entry.html:29 templates/org/org_leave.html:3
+#: templates/org/org_leave.html.py:7 templates/org/org_leave.html:11
 msgid "Leave Organization"
 msgstr "Organisation verlassen"
 
-#: templates/org/inc_myorgs_list_entry.html:24 templates/org/org_leave.html:21
+#: templates/org/inc_myorgs_list_entry.html:29 templates/org/org_leave.html:23
 msgid "Leave"
 msgstr "verlassen"
 
-#: templates/org/inc_myorgs_list_entry.html:25
-#: templates/org/org_remove.html:10
-msgid "Remove Organization"
-msgstr "Entfernen Organisation"
-
-#: templates/org/inc_myorgs_list_entry.html:25
-#: templates/org/org_member_remove.html:17
-msgid "Remove"
-msgstr "entfernen"
-
-#: templates/org/inc_orgs_list_entry.html:25 templates/org/org_join.html:3
-#: templates/org/org_join.html.py:7 templates/org/org_join.html:9
-msgid "Join Organization"
-msgstr "Organisation beitreten"
-
-#: templates/org/org_add.html:3 templates/org/org_add.html.py:7
-#: templates/org/org_add.html:9
-msgid "Add Organization"
-msgstr "Organisation hinzufügen"
-
-#: templates/org/org_edit.html:3 templates/org/org_edit.html.py:7
-#: templates/org/org_edit.html:11
+#: templates/org/inc_myorgs_list_entry.html:30 templates/org/org_edit.html:3
+#: templates/org/org_edit.html.py:27 templates/org/org_edit.html:32
 msgid "Edit Organization"
 msgstr "Bearbeiten Organisation"
 
-#: templates/org/org_edit.html:13
-msgid "RSS URL"
-msgstr "RSS-URL"
+#: templates/org/inc_myorgs_list_entry.html:31
+#: templates/org/org_remove.html:12
+msgid "Remove Organization"
+msgstr "Entfernen Organisation"
 
-#: templates/org/org_edit.html:13
-msgid "RSS"
-msgstr "RSS"
+#: templates/org/inc_myorgs_list_entry.html:31
+#: templates/org/org_member_remove.html:19
+msgid "Remove"
+msgstr "entfernen"
 
-#: templates/org/org_join.html:12 templates/org/org_leave.html:12
-#: templates/org/org_member_remove.html:14 templates/org/org_remove.html:12
-#: templates/org/org_view.html:14
-msgid "Org Name"
-msgstr "Name"
-
-#: templates/org/org_join.html:13 templates/org/org_leave.html:13
-#: templates/org/org_view.html:15
-msgid "Org Type"
-msgstr "Typ"
-
-#: templates/org/org_join.html:14 templates/org/org_leave.html:14
-#: templates/org/org_view.html:16
-msgid "Org Description"
-msgstr "Beschreibung"
-
-#: templates/org/org_join.html:21
-msgid "Join"
-msgstr "beteiligen"
-
-#: templates/org/org_member_invite.html:36
-#: templates/org/org_member_invite.html:40
-msgid "Invite Members"
-msgstr "Mitglied einladen"
-
+#: templates/org/inc_org_user_list.html:21
 #: templates/org/org_member_remove.html:3
 #: templates/org/org_member_remove.html:8
-#: templates/org/org_member_remove.html:10 templates/org/org_view.html:69
+#: templates/org/org_member_remove.html:12
 msgid "Remove Member"
 msgstr "entfernen Mitglied"
 
-#: templates/org/org_member_remove.html:13
+#: templates/org/org_add.html:3 templates/org/org_add.html.py:34
+#: templates/org/org_add.html:38
+msgid "Add Organization"
+msgstr "Organisation hinzufügen"
+
+#: templates/org/org_browse.html:10
+#, fuzzy
+msgid "Browse Organizations"
+msgstr "User-Organisationen"
+
+#: templates/org/org_edit.html:34
+msgid "RSS URL"
+msgstr "RSS-URL"
+
+#: templates/org/org_edit.html:34
+msgid "RSS"
+msgstr "RSS"
+
+#: templates/org/org_join.html:14 templates/org/org_leave.html:14
+#: templates/org/org_member_remove.html:16 templates/org/org_remove.html:14
+#: templates/org/org_view.html:19
+msgid "Org Name"
+msgstr "Name"
+
+#: templates/org/org_join.html:15 templates/org/org_leave.html:15
+#: templates/org/org_view.html:20
+msgid "Org Type"
+msgstr "Typ"
+
+#: templates/org/org_join.html:16 templates/org/org_leave.html:16
+#: templates/org/org_view.html:21
+msgid "Org Description"
+msgstr "Beschreibung"
+
+#: templates/org/org_join.html:23
+msgid "Join"
+msgstr "beteiligen"
+
+#: templates/org/org_member_invite.html:31
+#: templates/org/org_member_invite.html:36
+msgid "Invite Members"
+msgstr "Mitglied einladen"
+
+#: templates/org/org_member_invite.html:42
+#, fuzzy
+msgid "Invite"
+msgstr "Mitglied einladen"
+
+#: templates/org/org_member_invite.html:50
+msgid "Users Invited (waiting for them to confirm)"
+msgstr ""
+
+#: templates/org/org_member_invite.html:50 templates/org/org_view.html:83
+msgid "Invite User to Org"
+msgstr "laden"
+
+#: templates/org/org_member_remove.html:15
 msgid "Member"
 msgstr "Mitglied"
 
@@ -1323,85 +1802,85 @@ msgstr "löschen Organisation"
 msgid "View Organization"
 msgstr "Angesichts Organisation"
 
-#: templates/org/org_view.html:11
+#: templates/org/org_view.html:16
 msgid "Organization Information"
 msgstr "Organisation Informationen"
 
-#: templates/org/org_view.html:17
+#: templates/org/org_view.html:22
 msgid "Org Email"
 msgstr "Email"
 
-#: templates/org/org_view.html:18
+#: templates/org/org_view.html:23
 msgid "Org Website"
 msgstr "Website"
 
-#: templates/org/org_view.html:19
+#: templates/org/org_view.html:24
 msgid "Org Phone"
 msgstr "Telefon"
 
-#: templates/org/org_view.html:20
+#: templates/org/org_view.html:25
 msgid "Org City"
 msgstr "Stadt"
 
-#: templates/org/org_view.html:21
+#: templates/org/org_view.html:26
 msgid "Org State"
 msgstr "Staat"
 
-#: templates/org/org_view.html:22
+#: templates/org/org_view.html:27
 msgid "Org Zip"
 msgstr "Zip"
 
-#: templates/org/org_view.html:23
+#: templates/org/org_view.html:28
 msgid "Org Created Date"
 msgstr "Erstellungsdatum"
 
-#: templates/org/org_view.html:24
+#: templates/org/org_view.html:29
 msgid "Org Admins"
 msgstr "Administratoren"
 
-#: templates/org/org_view.html:25
+#: templates/org/org_view.html:30
 msgid "Org Event Coordinators"
 msgstr "Koordinatoren"
 
-#: templates/org/org_view.html:26
+#: templates/org/org_view.html:31
 msgid "Org Feed URL"
 msgstr "Feed URL"
 
-#: templates/org/org_view.html:27
+#: templates/org/org_view.html:32
 msgid "Org iCal URL"
 msgstr "iCal URL"
 
-#: templates/org/org_view.html:33
-msgid "Organization Groups"
-msgstr "Gruppen"
-
-#: templates/org/org_view.html:36
-msgid "Can Admin"
-msgstr "verwalten können"
-
-#: templates/org/org_view.html:36
-msgid "Can Coord"
-msgstr "koordinieren können"
-
-#: templates/org/org_view.html:42
-msgid "Remove Group"
-msgstr "Gruppe entfernen"
-
-#: templates/org/org_view.html:49
+#: templates/org/org_view.html:40
 msgid "Organization Event Types"
 msgstr "Organisation Veranstaltung Typ"
 
-#: templates/org/org_view.html:58
+#: templates/org/org_view.html:49
 msgid "Remove Event Type"
 msgstr "entfernen Veranstaltungstyp"
 
-#: templates/org/org_view.html:66
+#: templates/org/org_view.html:61
+msgid "Organization Groups"
+msgstr "Gruppen"
+
+#: templates/org/org_view.html:65
+msgid "Can Admin"
+msgstr "verwalten können"
+
+#: templates/org/org_view.html:65
+msgid "Can Coord"
+msgstr "koordinieren können"
+
+#: templates/org/org_view.html:65
+msgid "Can Invite"
+msgstr ""
+
+#: templates/org/org_view.html:74
+msgid "Remove Group"
+msgstr "Gruppe entfernen"
+
+#: templates/org/org_view.html:83
 msgid "Members"
 msgstr "Mitglieder"
-
-#: templates/org/org_view.html:66
-msgid "Invite User to Org"
-msgstr "laden"
 
 #: templates/org/orgs_list.html:33
 msgid "All Organizations"
@@ -1409,16 +1888,19 @@ msgstr "alle Organisationen"
 
 #: templates/report/inc_org_report_event.html:13
 #: templates/report/inc_org_report_eventtype.html:13
+#: templates/report/inc_org_report_user.html:13
 msgid "Date Registered"
 msgstr "Zeitpunkt registriert"
 
 #: templates/report/inc_org_report_event.html:14
 #: templates/report/inc_org_report_eventtype.html:14
+#: templates/report/inc_org_report_user.html:14
 msgid "Hours"
 msgstr "alle Organisationen"
 
-#: templates/report/inc_org_report_event.html:38
+#: templates/report/inc_org_report_event.html:42
 #: templates/report/inc_org_report_eventtype.html:39
+#: templates/report/inc_org_report_user.html:39
 msgid "No Events"
 msgstr "keine Veranstaltungen"
 
@@ -1426,18 +1908,40 @@ msgstr "keine Veranstaltungen"
 msgid "No Event Types"
 msgstr "Keine Termine Arten"
 
-#: templates/report/org_report.html:8
+#: templates/report/inc_org_report_user.html:43
+#, fuzzy
+msgid "No Users"
+msgstr "Benutzer hinzufügen"
+
+#: templates/report/org_report.html:24
 msgid "Organization Reports"
 msgstr "Organisation Berichte"
 
-#: templates/report/org_report.html:16
+#: templates/report/org_report.html:37
+msgid "Filter"
+msgstr ""
+
+#: templates/report/org_report.html:41
+msgid "Filter Results"
+msgstr ""
+
+#: templates/report/org_report.html:47
 msgid "Report Grouped By User"
 msgstr "Bericht gruppiert nach User"
 
-#: templates/report/org_report.html:17
+#: templates/report/org_report.html:48
 msgid "Report Grouped By Event Type"
 msgstr "Bericht gruppiert nach Typ"
 
-#: templates/report/org_report.html:18
+#: templates/report/org_report.html:49
 msgid "Report Grouped by Event"
 msgstr "Bericht gruppiert nach Veranstaltungen"
+
+#~ msgid "Administrator Group"
+#~ msgstr "Administrator-Gruppe"
+
+#~ msgid "Event Coordinator Group"
+#~ msgstr "Veranstaltung-Koordinator der Fraktion"
+
+#~ msgid "Is Default Email"
+#~ msgstr "Ist Standard-E-Mail?"
