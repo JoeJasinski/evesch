@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from euser.models import User, get_current_user
 from euser.forms import UserForm
 from event.models import EventType
+from org.models import Organization
 from event.forms import EventTypeForm
 from euser.forms import UserForm
 from django.shortcuts import render_to_response
@@ -55,15 +56,24 @@ def user_settings(request, template_name=None):
     return render_to_response(template_name,context, context_instance=RequestContext(request))
 
 @login_required
-def lookup_users(request, template_name=None):
+def lookup_users(request, org_short_name=None, template_name=None):
     users = []
     
     if request.GET.__contains__("q"): 
         try:
             q  = request.GET['q']
-            users = User.objects.filter(Q(username__contains=q) | Q(last_name__contains=q) | Q(first_name__contains=q)).order_by('username')[:10]
+            users = User.objects.filter(Q(username__contains=q) | Q(last_name__contains=q) | Q(first_name__contains=q)).order_by('username')
         except ValueError:
             pass
+        
+        if org_short_name:
+            current_org, message = Organization.objects.get_current_org(org_short_name)
+            if not message:
+                users = users.filter(user_organizations__org_short_name=org_short_name)[:10]                                        
+            else:
+                users = []
+        else:
+           users = users[:10]
     
     context = {'users':users,}
     return render_to_response(template_name,context, context_instance=RequestContext(request))

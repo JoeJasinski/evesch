@@ -16,8 +16,11 @@ from euser.models import User, get_current_user
 from django.core.paginator import Paginator
 from django.db.models import Q
 
-def org_browse(request, template_name=None):
+def org_browse(request, filter_abc=None, template_name=None):
     public_orgs = Organization.objects.get_browsable_orgs()
+    if filter_abc:
+        raise AssertionError(filter_abc)
+        public_orgs = public_orgs.filter(org_name__istartswith=filter_abc)
     context = {'orgs':public_orgs,}
     return render_to_response(template_name,context, context_instance=RequestContext(request))
 

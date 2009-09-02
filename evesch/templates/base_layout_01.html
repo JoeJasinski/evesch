@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% block base_layout %}
 <div class="background">
 	<!-- Start Base Layout -->
@@ -10,7 +11,7 @@
 		 <div class="breadcrumb">{% block breadcrumb %}<a href="{% url home %}">home</a>{% endblock %}</div>
 		 <div class="main_container_wrap">{% block content %}{% endblock %}</div>
 		</div>
-		<div class="footer"><font>All Images and Content Copright Joseph J. Jasinski 2009</font></div>
+		<div class="footer"><font>{% trans "All Images and Content Copyright Joseph J. Jasinski 2009" %}</font></div>
 	</div>
 </div>
 

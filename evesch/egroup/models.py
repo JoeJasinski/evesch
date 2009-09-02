@@ -66,6 +66,9 @@ class UserGroup(models.Model):
     
     def __int__(self):
         return self.pk
+    
+    def get_groupusers(self):
+        return self.group_users.all()
 
     def get_absolute_url(self):
         return reverse('egroup_group_view',kwargs={'org_short_name':self.org_name.org_short_name,'group_hash':self.group_hash,})

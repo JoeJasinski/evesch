@@ -111,29 +111,19 @@ class User(User):
         return "%s" % (self.username)
     
     def get_user_orgs(self):
-        if not hasattr(self, '_user_orgs'):
-            self._user_orgs = self.user_organizations.filter(org_active=True)
-        return self._user_orgs
+        return self.user_organizations.filter(org_active=True)
 
     def get_user_groups(self):
-        if not hasattr(self, '_user_groups'):
-            self._user_groups = self.user_groups.all()
-        return self._user_groups
+        return self.user_groups.all()
     
     def get_attending_events(self):
-        if not hasattr(self, '_attending_events'):
-            self._attending_events = self.attendee_set.all()
-        return self._attending_events
+        return self.attendee_set.all()
     
     def get_org_invites(self):
-        if not hasattr(self, '_org_invites'):
-            self._org_invites = self.user_invites_set.all()
-        return self._org_invites
+        return self.user_invites_set.all()
 
     def get_org_invites_count(self):
-        if not hasattr(self, '_org_invites_count'):
-            self._org_invites_count = self.user_invites_set.count()
-        return self._org_invites_count
+        return self.user_invites_set.count()
             
     def save(self):
         super(User, self).save()

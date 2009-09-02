@@ -47,7 +47,7 @@
 	<div class="section_body">
 		<div class="menu">
 		<ul class="nav">
-		 <li>{% if current_event.is_within_signup_deadline %}<strong><a href="{% url event_attendee_add current_org.org_short_name current_event.event_hash %}">{% trans "Add" %}</a></strong>{% else %}<strong><a class="disabled_string">{% trans "Add" %}</a></strong>{% endif %}</li>
+		 {% if not current_event.event_perms.is_attending_event %}<li>{% if current_event.is_within_signup_deadline %}<strong><a href="{% url event_attendee_add current_org.org_short_name current_event.event_hash %}">{% trans "Attend" %}</a></strong>{% else %}<strong><a class="disabled_string">{% trans "Add" %}</a></strong>{% endif %}</li>{% endif %}
 		 <li><strong><a href="{% url event_attendees_message current_org.org_short_name current_event.event_hash %}">{% trans "Message" %}</a></strong></li>
 		</ul>
 		</div>

@@ -11,16 +11,19 @@
 {% block content %}
 {% include "event/inc_event_menu.html" %}
 <div class="section">
-	<div class="section_title"><font>{% trans "View Group" %}</font></div>
+	<div class="section_title"><font>{% trans "View Group" %}</font>{% if current_org.org_perms.can_edit_group %}<a title="{% trans "Edit Group" %}" href="{% url egroup_group_edit current_org.org_short_name current_usergroup.group_hash %}"><img alt="edit" style="border: solid 0px;" src="{{ MEDIA_URL }}images/edit.png"></a>{% endif %}</div>
 	<div class="section_body">
 		<TABLE>
 		<TR><TD>{% trans "Organization" %}: </TD><TD>{{ current_org.org_name }}</TD></TR>
 		<TR><TD>{% trans "Group" %}: </TD><TD>{{ current_usergroup.group_name }}</TD></TR>
+		<TR><TD>{% trans "Admin Organization" %}: </TD><TD>{% if current_usergroup.admin_org %}Yes{% else %}No{% endif %}</TD></TR>
+		<TR><TD>{% trans "Coordinate Events" %}: </TD><TD>{% if current_usergroup.coord_events %}Yes{% else %}No{% endif %}</TD></TR>
+		<TR><TD>{% trans "Invite Users" %}: </TD><TD>{% if current_usergroup.invite_users %}Yes{% else %}No{% endif %}</TD></TR>
 	    </TABLE>
 	    
     	<div>
 		{% for user in current_usergroup.group_users.all  %}
-		 <span class="org_user_list"> &nbsp; <span style="float: right;"><a title="{% trans "Remove User from Group" %}" href=""><img alt="remove" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove_user.png"></a></span><span><a href="{{ user.get_absolute_url }}">{{ user.first_name }} {{ user.last_name }} ({{ user.username }}) </a></span></span>
+		 <span class="org_user_list"> &nbsp; <span style="float: right;">&nbsp;</span><span><a href="{{ user.get_absolute_url }}">{{ user.first_name }} {{ user.last_name }} ({{ user.username }}) </a></span></span>
 		{% endfor %}
 		<div style="clear: both"></div>
 		</div>

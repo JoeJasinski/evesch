@@ -81,6 +81,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.doc.XViewMiddleware',
     'core.pagination.middleware.PaginationMiddleware',
     'core.middleware.StripWhitespaceMiddleware.StripWhitespaceMiddleware',
+    'core.middleware.threadlocals.ThreadLocals',
 #    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 

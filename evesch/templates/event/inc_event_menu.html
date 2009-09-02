@@ -5,13 +5,13 @@
  <li><strong><a href="{{ current_org.get_absolute_url }}">{% trans "Organization" %}</a></strong>
   <ul>
     <li><a href="{{ current_org.get_absolute_url }}">{% trans "View" %}</a></li>
-    <li><a href="{% url org_org_edit current_org.org_short_name %}">{% trans "Edit" %}</a></li>
+    {% if current_org.org_perms.can_edit_org %}<li><a href="{% url org_org_edit current_org.org_short_name %}">{% trans "Edit" %}</a></li>{% endif %}
   </ul>
  </li>
  <li><strong><a href="{% url event_events_list current_org.org_short_name %}">{% trans "Events" %}</a></strong>
    <ul>
     <li><a href="{% url event_events_list current_org.org_short_name %}">{% trans "View" %}</a></li>
-    <li><a href="{% url event_event_add current_org.org_short_name %}">{% trans "Add" %}</a></li>
+    {% if current_org.org_perms.can_add_event %}<li><a href="{% url event_event_add current_org.org_short_name %}">{% trans "Add" %}</a></li>{% endif %}
    </ul>
  </li>
  <li><strong><a href="{% url ecalendar_calendar_monthly_view current_org.org_short_name %}{% if current_event %}?year={{ current_event.event_date.year }}&month={{ current_event.event_date.month }}{% endif %}">{% trans "Calendar" %}</a></strong>

@@ -1,6 +1,31 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Edit Group" %}{% endblock %}
+{% block header_page_specific %}
+
+    <link rel="stylesheet" href="{{ MEDIA_URL }}js/jqtokenautocomplete/token-input-facebook.css" type="text/css" />
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jqtokenautocomplete/jquery.tokeninput.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+    
+        $("#add_user_form").tokenInput("{% url euser_ajax_lookup_org_users current_org.org_short_name %}", {
+            classes: {
+                tokenList: "token-input-list-facebook",
+                token: "token-input-token-facebook",
+                tokenDelete: "token-input-delete-token-facebook",
+                selectedToken: "token-input-selected-token-facebook",
+                highlightedToken: "token-input-highlighted-token-facebook",
+                dropdown: "token-input-dropdown-facebook",
+                dropdownItem: "token-input-dropdown-item-facebook",
+                dropdownItem2: "token-input-dropdown-item2-facebook",
+                selectedDropdownItem: "token-input-selected-dropdown-item-facebook",
+                inputToken: "token-input-input-token-facebook"
+            }
+        });
+        
+ 	});
+   	</script>       
+{% endblock %}
 {% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a>
 &gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
@@ -16,10 +41,39 @@
 		{% trans "Edit Group for" %}: {{ current_org.org_name }}
 		<FORM action="." method=POST>
 		<TABLE>
-		 {{ form.as_table }}
+		 {{ edit_form.as_table }}
 		</TABLE>
 		<INPUT type="submit" name=save_group value="{% trans "Save" %}">
 		</FORM>
 	</div>
 </div>
+
+<div class="section"> 
+	<div class="section_title"><font>{% trans "Add Group Members" %}</font></div>
+	<div class="section_body">
+		<FORM action="." method="POST">
+		<TABLE>
+		  <tr><td>&nbsp;</td><td>{% trans "Type the name of users in this organization that you want to add to this group." %}</td></tr>
+		  {{ group_add_member_form.as_table }}
+		</TABLE>
+	    <INPUT type="submit" name="add_group_members" value="{% trans "Add" %}">
+		</FORM>
+		<div id="info"></div>
+	</div>
+</div>
+
+{% if current_usergroup.group_users.all %}
+<div class="section">
+	<div class="section_title"><font>{% trans "Group Members" %}</font><span class="section_header_icon"><a title="{% trans "Current Group Members" %}" href="{% url org_org_member_invite current_org.org_short_name %}"></a></span></div>
+	<div class="section_body">
+		<div id="org_user_list_container">
+		{% with groupusers as members %}
+			{% include  "egroup/inc_group_user_list.html" %}
+		{% endwith %}
+	    </div>
+		<div style="clear: both"></div>
+	</div>
+</div>
+{% endif %}
+
 {% endblock %}

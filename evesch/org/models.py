@@ -3,6 +3,7 @@ from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
 from random import sample
 from core.lib import Message
+from core.middleware import threadlocals 
 from euser.models import User
 from django.core.urlresolvers import reverse
 
@@ -120,10 +121,6 @@ class Organization(models.Model):
 		verbose_name=_("Organization Join Privacy"),
 		help_text=_("<u>Public:</u> any user may join this organization.  <BR><u>Invite Only:</u> a user must receive an invitation from someone in the org.  <BR><u>Request Membership:</u> a user must request membership to join that must be confirmed by someone in the org."),
 		null=True, blank=True,)
-	org_user_can_invite = models.BooleanField(
-		verbose_name=_("Any member can invite."),
-		help_text=_("Any member of this organization can invite others to this organization."),
-		default=False)
 	org_browsable = models.BooleanField(
 		default=True,
 		verbose_name=_("Browsable"),
@@ -139,9 +136,7 @@ class Organization(models.Model):
 		return "%s" % (self.org_name)
 
 	def get_events(self):
-		if not hasattr(self, '_events'):
-			self._events = self.event_set.filter(event_active=True)
-		return self._events
+		return self.event_set.filter(event_active=True)
 
 	def get_eventtypes(self):
 		return self.eventtype_set.filter(type_active=True)
@@ -150,39 +145,33 @@ class Organization(models.Model):
 		return self.group_set.all()
 
 	def get_org_admin_groups(self):
-		if not hasattr(self, '_org_admin_groups'):
-			self._org_admin_groups = self.group_set.filter(admin_org=True)
-		return self._org_admin_groups
+		return self.group_set.filter(admin_org=True)
 
 	def get_coordinator_groups(self):
-		if not hasattr(self, '_coordinator_groups'):
-			self._coordinator_groups = self.group_set.filter(coord_events=True)
-		return self._coordinator_groups
+		return self.group_set.filter(coord_events=True)
+
+	def get_orginvite_groups(self):
+		return self.group_set.filter(invite_users=True)
 
 	def get_members(self):
-		if not hasattr(self, '_members'):
-			self._members = self.org_users.all()
-		return self._members
+		return self.org_users.all()
 	
 	def get_member_count(self):
-		if not hasattr(self, '_members'):
-			self._members = self.org_users.all()
-		return	self._members.count()
-		
+		return self.org_users.all().count()
 
 	def get_admin_users(self):
 		from euser.models import User
-		if not hasattr(self, '_admin_users'):
-			self._admin_users =  User.objects.filter(user_groups__in=self.get_org_admin_groups())
-		return self._admin_users
+		return User.objects.filter(user_groups__in=self.get_org_admin_groups())
 		#return self.get_members().filter(user_groups__in=self.get_org_admin_groups())
 		# not sure if the commented syntax works.  Check
 		
 	def get_coordinator_users(self):
 		from euser.models import User
-		if not hasattr(self, '_coordinator_users'):
-			self._coordinator_users = User.objects.filter(user_groups__in=self.get_coordinator_groups())
-		return self._coordinator_users
+		return User.objects.filter(user_groups__in=self.get_coordinator_groups())
+
+	def get_orginvite_users(self):
+		from euser.models import User
+		return User.objects.filter(user_groups__in=self.get_orginvite_groups())
 
 	def get_current_event(self, event_hash, message=None):
 		if message:
@@ -201,7 +190,7 @@ class Organization(models.Model):
 	def is_member(self,user):
 		return self.org_users.filter(id=user.id)	
 
-	def org_perms(self,user):
+	def org_perms(self,user=None):
 		permissions = {
 		'can_add_event':False,   # user can create event in current org
 		'can_remove_org':False,  # user can remove the current org
@@ -212,58 +201,66 @@ class Organization(models.Model):
 		'can_remove_type':False, # user can remove event type from current org
 		'can_edit_type':False,   # user can edit event_type in current_rog
 		'can_edit_group':False,  # user can edit the groups in the org
+		'can_remove_groupmember':False, # user can remove a member of the group
 		'can_add_group':False,   # user can add groups to this org
 		'can_remove_group':False, # user can remove groups in this org
 		'can_remove_users':False, # user can remove users in theis org
 		'can_invite_users':False, # user can invite users to theis org
 		}
 
-		permissions['is_memberof_org'] = self.is_member(user)
-		if user.is_superuser == 1:
-			permissions['can_add_event'] = True
-			permissions['can_remove_org'] = True
-			permissions['can_join_org'] = True
-			permissions['can_edit_org'] = True
-			permissions['can_add_type'] = True
-			permissions['can_remove_type'] = True
-			permissions['can_edit_type'] = True
-			permissions['can_edit_group'] = True
-			permissions['can_add_group'] = True
-			permissions['can_remove_group'] = True
-			permissions['can_remove_users'] = True
-			permissions['can_invite_users'] = True
-		elif self.get_admin_users().filter(id=user.id):
-			permissions['can_add_event'] = True
-			permissions['can_remove_org'] = True
-			permissions['can_join_org'] = True
-			permissions['can_edit_org'] = True
-			permissions['can_add_type'] = True
-			permissions['can_remove_type'] = True
-			permissions['can_edit_type'] = True
-			permissions['can_edit_group'] = True
-			permissions['can_add_group'] = True
-			permissions['can_remove_group'] = True
-			permissions['can_remove_users'] = True
-			permissions['can_invite_users'] = True			
-		elif self.get_coordinator_users().filter(id=user.id):
-			permissions['can_add_event'] = True
-			permissions['can_join_org'] = True
-			if self.org_join_privacy == 0:
-				permissions['can_join_org'] = True	
-			elif self.org_join_privacy == 1 or self.org_join_privacy == 2:
-				from org.models import OrgInvite
-				if  OrgInvite.objects.filter(org=self, user=user, direction=True) > 0:
-					permissions['can_join_org'] = True
-		else:
-			if self.org_join_privacy == 0:
-				permissions['can_join_org'] = True	
-			if self.org_join_privacy == 1 or self.org_join_privacy == 2:
-				from org.models import OrgInvite
-				if  OrgInvite.objects.filter(org=self, user=user, direction=True) > 0:
-					permissions['can_join_org'] = True
-		
-		if self.org_user_can_invite == True:
-			permissions['can_invite_users'] = True
+		if not user:
+			user=threadlocals.get_current_user()
+		if user:
+			permissions['is_memberof_org'] = self.is_member(user)
+			if user.is_superuser == 1:
+				permissions['can_add_event'] = True
+				permissions['can_remove_org'] = True
+				permissions['can_join_org'] = True
+				permissions['can_edit_org'] = True
+				permissions['can_add_type'] = True
+				permissions['can_remove_type'] = True
+				permissions['can_edit_type'] = True
+				permissions['can_edit_group'] = True
+				permissions['can_remove_groupmember'] = True
+				permissions['can_add_group'] = True
+				permissions['can_remove_group'] = True
+				permissions['can_remove_users'] = True
+				permissions['can_invite_users'] = True
+			elif self.get_admin_users().filter(id=user.id):
+				permissions['can_add_event'] = True
+				permissions['can_remove_org'] = True
+				permissions['can_join_org'] = True
+				permissions['can_edit_org'] = True
+				permissions['can_add_type'] = True
+				permissions['can_remove_type'] = True
+				permissions['can_edit_type'] = True
+				permissions['can_edit_group'] = True
+				permissions['can_remove_groupmember'] = True
+				permissions['can_add_group'] = True
+				permissions['can_remove_group'] = True
+				permissions['can_remove_users'] = True
+				permissions['can_invite_users'] = True			
+			elif self.get_coordinator_users().filter(id=user.id):
+				permissions['can_add_event'] = True
+				permissions['can_join_org'] = True
+				if self.org_join_privacy == 0:
+					permissions['can_join_org'] = True	
+				elif self.org_join_privacy == 1 or self.org_join_privacy == 2:
+					from org.models import OrgInvite
+					if  OrgInvite.objects.filter(org=self, user=user, direction=True) > 0:
+						permissions['can_join_org'] = True
+			else:
+				if self.org_join_privacy == 0:
+					permissions['can_join_org'] = True	
+				if self.org_join_privacy == 1 or self.org_join_privacy == 2:
+					from org.models import OrgInvite
+					if  OrgInvite.objects.filter(org=self, user=user, direction=True) > 0:
+						permissions['can_join_org'] = True
+			
+			if self.get_orginvite_users():
+				permissions['can_invite_users'] = True
+		#else:
+		#	raise AssertionError(threadlocals.get_current_user())
 		
 		return permissions
 

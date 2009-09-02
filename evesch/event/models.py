@@ -4,6 +4,7 @@ from euser.models import User
 from datetime import datetime
 from random import sample
 from core.exceptions import EventTypeExistsException
+from core.middleware import threadlocals 
 from django.utils.translation import ugettext_lazy as _
 from core.lib import text_vs_bg
 from django.core.urlresolvers import reverse
@@ -233,27 +234,29 @@ class Event(models.Model):
 	def is_additional_signup_info(self):
 		return self.att_header_col1 or self.att_header_col2 or self.att_header_col3 or self.att_header_col4 or self.att_header_col5 or self.att_header_col6 or self.event_track_hours
 	
-	def event_perms(self, user):
-	    permissions = {
+	def event_perms(self, user=False):
+		permissions = {
 	        'can_remove_event':False,
 	        'can_edit_event':False,
 	        'can_join_event':True,
 	        'is_attending_event':False,
 	        'can_message_event':False,
 	        }
-	    
-	    permissions['is_attending_event'] = self.is_attending(user)
-	    if user.is_superuser == 1:
-	        permissions['can_remove_event'] = True
-	        permissions['can_edit_event'] = True
-	        permissions['can_message_event'] = True
-	        permissions['can_join_event'] = True
-	    else: 
-	        permissions['can_remove_event'] = self.is_event_coordinator(user) or self.is_creator(user)
-	        permissions['can_edit_event'] = self.is_event_coordinator(user) or self.is_creator(user)
-	        permissions['can_message_event'] = permissions['is_attending_event']
-	
-	    return permissions
+		if not user:
+			user=threadlocals.get_current_user()
+		if user:
+		    permissions['is_attending_event'] = self.is_attending(user)
+		    if user.is_superuser == 1:
+		        permissions['can_remove_event'] = True
+		        permissions['can_edit_event'] = True
+		        permissions['can_message_event'] = True
+		        permissions['can_join_event'] = True
+		    else: 
+		        permissions['can_remove_event'] = self.is_event_coordinator(user) or self.is_creator(user)
+		        permissions['can_edit_event'] = self.is_event_coordinator(user) or self.is_creator(user)
+		        permissions['can_message_event'] = permissions['is_attending_event']
+		
+		return permissions
 	
 	
 	def save(self):
