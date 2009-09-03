@@ -241,6 +241,11 @@ class Event(models.Model):
 		        permissions['can_edit_event'] = True
 		        permissions['can_message_event'] = True
 		        permissions['can_join_event'] = True
+		    if self.event_org.get_admin_users().filter(id=user.id):
+		        permissions['can_remove_event'] = True
+		        permissions['can_edit_event'] = True
+		        permissions['can_message_event'] = True
+		        permissions['can_join_event'] = True		    	
 		    else: 
 		        permissions['can_remove_event'] = self.is_event_coordinator(user) or self.is_creator(user)
 		        permissions['can_edit_event'] = self.is_event_coordinator(user) or self.is_creator(user)
