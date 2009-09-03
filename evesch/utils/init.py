@@ -27,6 +27,36 @@ org2.org_type = 4
 org2.save()
 print " Created: " + org2.org_name
 
+org3 = Organization(org_name='Northwestern University', org_short_name='nwu',)
+org3.org_desc = 'This is a private university'
+org3.org_phone = '312-555-1212'
+org3.org_email = 'nwu@evesch.com'
+org3.org_city = 'Chicago'
+org3.org_state = 'Illinois'
+org3.org_type = 4
+org3.save()
+print " Created: " + org3.org_name
+
+org4 = Organization(org_name='University of Chicago', org_short_name='uofc',)
+org4.org_desc = 'This is a private university'
+org4.org_phone = '312-555-1212'
+org4.org_email = 'uofc@evesch.com'
+org4.org_city = 'Chicago'
+org4.org_state = 'Illinois'
+org4.org_type = 4
+org4.save()
+print " Created: " + org4.org_name
+
+org5 = Organization(org_name='School of the Art Institute', org_short_name='ai',)
+org5.org_desc = 'This is a private university'
+org5.org_phone = '312-555-1212'
+org5.org_email = 'ai@evesch.com'
+org5.org_city = 'Chicago'
+org5.org_state = 'Illinois'
+org5.org_type = 4
+org5.save()
+print " Created: " + org5.org_name
+
 ## Create some event types
 print "Creating EventTypes"
 event_type1 = EventType.objects.create_eventtype("Charity",org1)
@@ -51,12 +81,12 @@ print " Created: " + event_type2.type_name + " for org " + org2.org_short_name
 print "Creating Users"
 
 
-user_email='joe.jasinski@gmail.com'
+user_email='demo@evesch.com'
 user0 = User(username="demo",email=user_email)
 user0.first_name='Demo'
 user0.last_name='Doe'
-user0.is_superuser=True
-user0.is_staff=True
+user0.is_superuser=False
+user0.is_staff=False
 user0.set_password('demo')
 user0.save()
 user0.user_organizations=[org2]
@@ -68,18 +98,18 @@ user1.first_name='joe'
 user1.last_name='jasinski'
 user1.is_superuser=True
 user1.is_staff=True
-user1.set_password('1234')
+user1.set_password('pl3ase')
 user1.save()
 user1.user_organizations=[org2]
 user1.user_organizations.add(org1)
 print " Created: " + user1.username
 
-user_email='joe.jasinski@gmail.com'
+user_email='john.jasinski@gmail.com'
 user2 = User(username="john",email=user_email)
 user2.first_name='john'
 user2.last_name='jasinski'
-user2.is_superuser=True
-user2.is_staff=True
+user2.is_superuser=False
+user2.is_staff=False
 user2.set_password('1234')
 user2.save()
 user2.user_organizations=[org2]
@@ -96,6 +126,7 @@ user3.is_staff=False
 user3.set_password('1234')
 user3.save()
 user3.user_organizations.add(org1)
+user3.user_organizations.add(org2)
 print ' Created: ' + user3.username
 user_email="jacinta.hot@evesch.com"
 user4 = User(username='jacinta',email=user_email)
@@ -106,6 +137,7 @@ user4.is_staff=False
 user4.set_password('1234')
 user4.save()
 user4.user_organizations.add(org1)
+user4.user_organizations.add(org2)
 print ' Created: ' + user4.username
 user_email="jacinthe.hot@evesch.com"
 user5 = User(username='jacinthe',email=user_email)
@@ -116,6 +148,7 @@ user5.is_staff=False
 user5.set_password('1234')
 user5.save()
 user5.user_organizations.add(org1)
+user5.user_organizations.add(org2)
 print ' Created: ' + user5.username
 user_email="jacki.hot@evesch.com"
 user6 = User(username='jacki',email=user_email)
@@ -126,6 +159,7 @@ user6.is_staff=False
 user6.set_password('1234')
 user6.save()
 user6.user_organizations.add(org1)
+user6.user_organizations.add(org2)
 print ' Created: ' + user6.username
 user_email="jackie.hot@evesch.com"
 user7 = User(username='jackie',email=user_email)
@@ -1871,10 +1905,11 @@ print ' Created: ' + user180.username
 ## Create some groups
 print "Creating Groups" 
 UserGroup.objects.init_org_groups(org1, user1)
-g1 = UserGroup.objects.get(id=1)
+g1 = UserGroup.objects.all()[0]
 user2.user_groups.add(g1)
+user0.user_groups.add(g1)
+UserGroup.objects.init_org_groups(org2, user2)
 
-UserGroup.objects.init_org_groups(org2, user1)
 
 ## Create some events
 print "Creating Events" 
