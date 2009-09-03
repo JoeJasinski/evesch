@@ -42,9 +42,9 @@
 					<TABLE>
 					<TR><TH>Type</TH><TH>Description</TH><TH>Color</TH><TH>&nbsp;</TH><TH>&nbsp;</TH></TR>
 					{% for org_eventtype in org_eventtypes %}
-					  <TR><TD><a href="{% url event_events_list current_org.org_short_name %}?event_type={{ org_eventtype.type_name }}">{{ org_eventtype.type_name  }}</a></TD>
-					      <TD>{{ org_eventtype.type_desc|ellipsis:30 }}</TD>
-					      <TD style="background-color: #{{ org_eventtype.type_color }};color: #{{ org_eventtype.contrast }}">{{ org_eventtype.type_color }}</TD>
+					  <TR><TD class="eventtype_name"><a href="{% url event_events_list current_org.org_short_name %}?event_type={{ org_eventtype.type_name }}">{{ org_eventtype.type_name  }}</a></TD>
+					      <TD class="eventtype_desc">{{ org_eventtype.type_desc|ellipsis:30 }}</TD>
+					      <TD class="eventtype_color" style="background-color: #{{ org_eventtype.type_color }};color: #{{ org_eventtype.contrast }}">{{ org_eventtype.type_color }}</TD>
 					      <TD>{% if current_org.org_perms.can_edit_type %}<a title="{% trans "Edit Event Type" %}" href="{% url event_eventtype_edit current_org.org_short_name org_eventtype.type_hash %}"><img alt="edit" style="border: solid 0px;" src="{{ MEDIA_URL }}images/edit.png"></a>{% endif %}&nbsp;</TD>
 					      <TD>{% if current_org.org_perms.can_remove_type %}<a title="{% trans "Remove Event Type" %}" href="{% url event_eventtype_remove current_org.org_short_name org_eventtype.type_hash %}"><img alt="remove" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove.png"></a>{% endif %}&nbsp;</TD>
 					  </TR>

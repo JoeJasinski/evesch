@@ -331,7 +331,7 @@ ul.my_org_list  li
 }
 
 .org_name_list
-{width: 200px;}
+{width: 200px; height: 20px}
 
 .org_privacy_list
 {width: 80px;}
@@ -353,7 +353,7 @@ ul.my_org_list  li
 }
 
 .org_group_list li table .group_name
-{width: 150px;}
+{width: 150px; height: 20px;}
 
 .org_group_list li table .group_desc
 {width:30em;}
@@ -368,6 +368,16 @@ ul.attendee_list
     margin: 0px;
 }
 
+table .eventtype_name
+{
+  width: 100px;
+  height: 20px;
+}
+
+table .eventtype_desc
+{
+ width: 180px;
+}
 
 ul.attendee_list li
 {border-top: solid #69e067 1px; }
