@@ -324,10 +324,16 @@ def event_attendee_remove(request,org_short_name,event_hash,att_name,template_na
             context = {'error':_("Attendee does not exist"),'org_short_name':org_short_name}
             return render_to_response("error.html",context,context_instance=RequestContext(request))
     if not message:
-        if current_user.id == current_attendee.id:
-            pass
-        else: 
-            aperms = current_attendee.att_perms(current_user)
+        aperms = current_attendee.att_perms(current_user)
+        #raise AssertionError(str(current_user.id) + " - " + str(current_attendee.att_name.id))
+        if current_user.id == current_attendee.att_name.id:
+            if current_event.event_date  < datetime.today():
+                if not aperms['can_remove_attendee_after_event']:
+                    template_name = "core/message.html"
+                    message = Message(title=_("Cannot Remove User from Event"), text=_("You cannot remove yourself from the event after the event has taken place."))
+                    message.addlink(_("Back"),current_event.get_absolute_url())
+                    context = {'message':message,}
+        else:  
             if not aperms['can_remove_attendee']:
                 template_name = "core/message.html"
                 message = Message(title=_("Cannot Remove User from Event"), text=_("You do not have permission to remove this attendee."))

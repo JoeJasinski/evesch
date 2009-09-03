@@ -329,7 +329,8 @@ class Attendee(models.Model):
 	
 	def att_perms(self, user=None):
 		permissions = {
-	        'can_remove_attendee':False,           
+	        'can_remove_attendee':False,  
+	        'can_remove_attendee_after_event':False,         
 	        }
 		if not user:
 			user=threadlocals.get_current_user()
@@ -338,10 +339,13 @@ class Attendee(models.Model):
 
 			if user.is_superuser == 1:
 				permissions['can_remove_attendee'] = True
+				permissions['can_remove_attendee_after_event'] = True
 			elif event.event_org.get_admin_users().filter(id=user.id):
 				permissions['can_remove_attendee'] = True
+				permissions['can_remove_attendee_after_event'] = True
 			elif event.is_creator(user) or event.is_event_coordinator(user):
 				permissions['can_remove_attendee'] = True
+				permissions['can_remove_attendee_after_event'] = True
 			else:
 				permissions['can_remove_attendee'] = self.is_attending(user)
 		return permissions
