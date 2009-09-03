@@ -257,7 +257,7 @@ class Organization(models.Model):
 					if  OrgInvite.objects.filter(org=self, user=user, direction=True) > 0:
 						permissions['can_join_org'] = True
 			
-			if self.get_orginvite_users():
+			if self.get_orginvite_users().filter(id=user.id):
 				permissions['can_invite_users'] = True
 		#else:
 		#	raise AssertionError(threadlocals.get_current_user())
