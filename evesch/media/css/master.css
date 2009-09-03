@@ -248,6 +248,7 @@ span.section_header_icon
 span.org_user_list
 {
   width: 166px;
+  height: 20px;
   float: left;
   border: solid #ffa100 1px;
   padding: 5px;
