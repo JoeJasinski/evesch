@@ -78,7 +78,7 @@
 				    {% if current_event.att_header_col4 %}<TD class="att_col">{{ attendee.att_col4 }}</TD>{% endif %}
 				    {% if current_event.att_header_col5 %}<TD class="att_col">{{ attendee.att_col5 }}</TD>{% endif %}
 				    {% if current_event.att_header_col6 %}<TD class="att_col">{{ attendee.att_col6 }}</TD>{% endif %}
-				    <TD><a href="{% url event_attendee_remove current_org.org_short_name current_event.event_hash attendee.att_name %}"><img alt="remove" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove_user.png"></a></TD>
+				    <TD>{% if attendee.att_perms.can_remove_attendee %}<a href="{% url event_attendee_remove current_org.org_short_name current_event.event_hash attendee.att_name %}"><img alt="remove" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove_user.png"></a>{% endif %}</TD>
 				</TR>	   
 			   </TABLE>
 		   </li></ul>

@@ -324,12 +324,16 @@ def event_attendee_remove(request,org_short_name,event_hash,att_name,template_na
             context = {'error':_("Attendee does not exist"),'org_short_name':org_short_name}
             return render_to_response("error.html",context,context_instance=RequestContext(request))
     if not message:
-        aperms = current_attendee.att_perms(current_user)
-        if not aperms['can_remove_attendee']:
-            template_name = "core/message.html"
-            message = Message(title=_("Cannot Remove User from Event"), text=_("You do not have permission to remove this attendee."))
-            message.addlink(_("Back"),current_event.get_absolute_url())
-            context = {'message':message,}
+        if current_user.id == current_attendee.id:
+            pass
+        else: 
+            aperms = current_attendee.att_perms(current_user)
+            if not aperms['can_remove_attendee']:
+                template_name = "core/message.html"
+                message = Message(title=_("Cannot Remove User from Event"), text=_("You do not have permission to remove this attendee."))
+                message.addlink(_("Back"),current_event.get_absolute_url())
+                context = {'message':message,}
+    if not message:         
         if request.method == 'POST':
             current_attendee.delete()
             template_name = "core/message.html"

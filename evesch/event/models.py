@@ -198,29 +198,19 @@ class Event(models.Model):
 		return "%s" % (self.event_name)
 	
 	def get_attendees(self):
-		if not hasattr(self, '_attendees'):
-			self._attendees = self.attendee_set.all()
-		return self._attendees
+		return self.attendee_set.all()
 	
 	def get_attendee_count(self):
-		if not hasattr(self, '_attendee_count'):
-			self._attendee_count = self.attendee_set.count()
-		return self._attendee_count
+		return self.attendee_set.count()
 	
 	def get_event_coordinators(self):
-		if not hasattr(self, '_event_coordinators'):
-			self._event_coordinators = self.event_coordinators.all()
-		return self._event_coordinators
+		return self.event_coordinators.all()
 
 	def is_attending(self, user):
-		if not hasattr(self, '_is_attending'):
-			self._is_attending = self.attendee_set.filter(att_name=user)
-		return self._is_attending
+		return self.attendee_set.filter(att_name=user)
 	
 	def is_event_coordinator(self,user):
-		if not hasattr(self, '_is_event_coordinator'):
-			self._is_event_coordinator = self.event_coordinators.filter(username=user)
-		return self._is_event_coordinator
+		return self.event_coordinators.filter(username=user)
 
 	def is_creator(self,user):
 		if self.event_creator_name.id == user.id:
@@ -326,21 +316,32 @@ class Attendee(models.Model):
 	#class Meta:
 	#	db_table="Attendees"
 	def is_attending(self, user):
-		return self.att_name == user
+		return self.att_name.id == user.user.id
 
 	def __unicode__(self):
 		return "%s" % (self.att_name)
 
+	#def display_users(self):
+	#	return "%s - %s" % (threadlocals.get_current_user().user.id, self.att_name.id)
+
 	#def __int__(self):
 	#	return self.id
 	
-	def att_perms(self, user):
-	    permissions = {
+	def att_perms(self, user=None):
+		permissions = {
 	        'can_remove_attendee':False,           
 	        }
-	    if user.is_superuser == 1:
-	        permissions['can_remove_attendee'] = True
-	    else:
-	        permissions['can_remove_attendee'] = self.is_attending(user)
-	        
-	    return permissions
+		if not user:
+			user=threadlocals.get_current_user()
+		if user:
+			event = self.att_event
+
+			if user.is_superuser == 1:
+				permissions['can_remove_attendee'] = True
+			elif event.event_org.get_admin_users().filter(id=user.id):
+				permissions['can_remove_attendee'] = True
+			elif event.is_creator(user) or event.is_event_coordinator(user):
+				permissions['can_remove_attendee'] = True
+			else:
+				permissions['can_remove_attendee'] = self.is_attending(user)
+		return permissions
