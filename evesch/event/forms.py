@@ -46,6 +46,17 @@ class EventTypeForm(forms.ModelForm):
         model = EventType
         exclude = ('org_name','type_hash','type_active')
 
+    def __init__(self, current_org, *args, **kwargs):
+        self._current_org = current_org
+        super(EventTypeForm, self).__init__(*args, **kwargs)
+
+    def clean_type_name(self):
+        #raise forms.ValidationError(self.instance)
+        type_name_input = self.cleaned_data['type_name']
+        if int(EventType.objects.filter(type_name__iexact=type_name_input, org_name=self._current_org).exclude(id=self.instance.id).count() >= 1):
+            raise forms.ValidationError(u"Type Name already exists.")
+        return type_name_input
+
 class EventForm(forms.ModelForm):
     event_desc = forms.CharField(
          widget=forms.Textarea(attrs = {'cols': '30', 'rows': '5'}))

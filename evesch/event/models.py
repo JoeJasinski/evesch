@@ -50,10 +50,10 @@ class EventType(models.Model):
 		verbose_name=_("Event Type Color"),
 		max_length=15, 
 		blank=True, null=True)
-	type_track_hours = models.NullBooleanField(
+	type_track_hours = models.BooleanField(
 		db_column="type_track_hours",
 		verbose_name=_("Track Hours for events of this type?"),
-		default = False, blank=True, null=True)
+		default = False)
 	org_name = models.ForeignKey(Organization)
 	type_active = models.BooleanField(
 		verbose_name = _("Event Type Enabled"),

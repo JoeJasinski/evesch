@@ -376,42 +376,25 @@ def eventtype_add(request,org_short_name,template_name=None):
     if not message:
         show_dialog=False
         if request.method == 'POST':
-            form = EventTypeForm(request.POST)
+            form = EventTypeForm(current_org, request.POST)
             if form.is_valid():
-                type_name = form.cleaned_data['type_name']
-                type_desc = form.cleaned_data['type_desc']
-                type_color = form.cleaned_data['type_color']
-                try:
-                    et1 = EventType.objects.create_eventtype(type_name=type_name, org_name=current_org, type_desc=type_desc,type_color=type_color)
-                    message = Message(title=_("Add Event Type Successful"), text=_("Add Event Type Successful"))          
-                    message.addlink(_("Continue"),current_org.get_absolute_url())
-                    message.addlink(_("Edit"),reverse('event_eventtype_edit',kwargs={'org_short_name':current_org.org_short_name,'eventtype_hash':et1.type_hash,})) 
-                    if request.POST.get("dialog",'') == "False":
-                        template_name = "core/message.html"
-                        show_dialog=False
-                    else:
-                        show_dialog=True
-                    context = {'message':message,'form':form,'message':message,'current_org':current_org,'show_dialog':show_dialog,}                     
-                    
-                except ObjectDoesNotExist:
+                event_type = form.save(commit=False)
+                event_type.org_name = current_org
+                event_type.save()
+                message = Message(title=_("Add Event Type Successful"), text=_("Add Event Type Successful"))          
+                message.addlink(_("Continue"),current_org.get_absolute_url())
+                message.addlink(_("Edit"),reverse('event_eventtype_edit',kwargs={'org_short_name':current_org.org_short_name,'eventtype_hash':event_type.type_hash,})) 
+                if request.POST.get("dialog",'') == "False":
                     template_name = "core/message.html"
-                    message = Message(title=_("Add Event Type Not Successful"), text=_("Add Event Type Not Successful"))           
-                    message.addlink(_("Continue"),current_org.get_absolute_url())
-                    context = {'message':message,}                     
-                except EventTypeExistsException:
-                    template_name = "core/message.html"
-                    message = Message(title=_("Event Type already exists"), text=_("Event Type already exists"))
-                    message.addlink(_("Continue"),current_org.get_absolute_url())
-                    context = {'message':message,}                                         
-                except: 
-                    template_name = "core/message.html"
-                    message = Message(title=_("Unknown Error"), text=_("Unknown Error"))
-                    message.addlink(_("Continue"),current_org.get_absolute_url())
-                    context = {'message':message,}                           
+                    show_dialog=False
+                else:
+                    show_dialog=True
+                context = {'message':message,'form':form,'message':message,'current_org':current_org,'show_dialog':show_dialog,}                     
+                                          
             else:
                 context = {'form':form, 'current_org':current_org}
         else:    
-            form = EventTypeForm()
+            form = EventTypeForm(current_org)
             context = {'form':form, 'org_short_name':org_short_name,'current_org':current_org}
                 #raise AssertionError        
     else:
@@ -441,13 +424,9 @@ def eventtype_edit(request, org_short_name,eventtype_hash,template_name=None):
             event_type = current_org.eventtype_set.get(type_hash=eventtype_hash, type_active=True)
             show_dialog=False
             if request.method == 'POST':
-                form = EventTypeForm(request.POST)
+                form = EventTypeForm(current_org, request.POST, instance=event_type)
                 if form.is_valid():
-                    event_type.type_name = form.cleaned_data['type_name']
-                    event_type.type_desc = form.cleaned_data['type_desc']
-                    event_type.type_color = form.cleaned_data['type_color']
-                    #event_type.type_active = form.cleaned_data['type_active']
-                    event_type.save()
+                    form.save()
                     message = Message(title=_("Event Type Save Successful"), text=_("Event Type Edit Successful"))
                     message.addlink(_("Continue"),current_org.get_absolute_url())
                     message.addlink(_("Edit"),reverse('event_eventtype_edit',kwargs={'org_short_name':current_org.org_short_name,'eventtype_hash':event_type.type_hash}))
@@ -460,7 +439,7 @@ def eventtype_edit(request, org_short_name,eventtype_hash,template_name=None):
                 else:
                     context = {'current_org':current_org,'event_type':event_type,'form':form}
             else:
-                form = EventTypeForm(auto_id=False,instance=event_type)
+                form = EventTypeForm(current_org, auto_id=False,instance=event_type)
                 context = {'current_org':current_org,'event_type':event_type,'form':form}
         except ObjectDoesNotExist:
             template_name = "error.html"
