@@ -1909,7 +1909,9 @@ g1 = UserGroup.objects.all()[0]
 user2.user_groups.add(g1)
 user0.user_groups.add(g1)
 UserGroup.objects.init_org_groups(org2, user2)
-
+UserGroup.objects.init_org_groups(org3, user2)
+UserGroup.objects.init_org_groups(org4, user2)
+UserGroup.objects.init_org_groups(org5, user2)
 
 ## Create some events
 print "Creating Events" 
