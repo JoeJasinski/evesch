@@ -235,22 +235,26 @@ class Event(models.Model):
 		if not user:
 			user=threadlocals.get_current_user()
 		if user:
+		    operms = self.event_org.org_perms()
 		    permissions['is_attending_event'] = self.is_attending(user)
 		    if user.is_superuser == 1:
-		        permissions['can_remove_event'] = True
-		        permissions['can_edit_event'] = True
-		        permissions['can_message_event'] = True
-		        permissions['can_join_event'] = True
+		    	if operms['is_memberof_org']:
+			        permissions['can_remove_event'] = True
+			        permissions['can_edit_event'] = True
+			        permissions['can_message_event'] = True
+			        permissions['can_join_event'] = True
 		    if self.event_org.get_admin_users().filter(id=user.id):
-		        permissions['can_remove_event'] = True
-		        permissions['can_edit_event'] = True
-		        permissions['can_message_event'] = True
-		        permissions['can_join_event'] = True		    	
+		    	if operms['is_memberof_org']:
+			        permissions['can_remove_event'] = True
+			        permissions['can_edit_event'] = True
+			        permissions['can_message_event'] = True
+			        permissions['can_join_event'] = True		    	
 		    else: 
-		        permissions['can_remove_event'] = self.is_event_coordinator(user) or self.is_creator(user)
-		        permissions['can_edit_event'] = self.is_event_coordinator(user) or self.is_creator(user)
-		        permissions['can_message_event'] = permissions['is_attending_event']
-		
+		    	if operms['is_memberof_org']:
+			        permissions['can_remove_event'] = self.is_event_coordinator(user) or self.is_creator(user)
+			        permissions['can_edit_event'] = self.is_event_coordinator(user) or self.is_creator(user)
+			        permissions['can_message_event'] = permissions['is_attending_event']
+			
 		return permissions
 	
 	
