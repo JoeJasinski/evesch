@@ -35,16 +35,14 @@
 			</div>
 		</div>
 		<div class="section_right">
-
 			<div class="section" id="event_types_id">
 				<div class="section_title"><font>{% trans "Organization Event Types" %}</font><span class="section_header_icon">{% if current_org.org_perms.can_add_type %}<a title="{% trans "Add Event Type" %}" href="{% url event_eventtype_add current_org.org_short_name %}"><img alt="add" style="border: solid 0px;" src="{{ MEDIA_URL }}images/add.png"></a>{% endif %}</span></div>
 				<div class="section_body">
 					<TABLE>
-					<TR><TH>Type</TH><TH>Description</TH><TH>Color</TH><TH>&nbsp;</TH><TH>&nbsp;</TH></TR>
+					<TR><TH>Type</TH><TH>Description</TH><TH>&nbsp;</TH><TH>&nbsp;</TH></TR>
 					{% for org_eventtype in org_eventtypes %}
-					  <TR><TD class="eventtype_name"><a href="{% url event_events_list current_org.org_short_name %}?event_type={{ org_eventtype.type_name }}">{{ org_eventtype.type_name  }}</a></TD>
+					  <TR><TD class="eventtype_name" style="background-color: #{{ org_eventtype.type_color }};"><a style="color: #{{ org_eventtype.contrast }};" href="{% url event_events_list current_org.org_short_name %}?event_type={{ org_eventtype.type_name }}">{{ org_eventtype.type_name  }}</a></TD>
 					      <TD class="eventtype_desc">{{ org_eventtype.type_desc|ellipsis:30 }}</TD>
-					      <TD class="eventtype_color" style="background-color: #{{ org_eventtype.type_color }};color: #{{ org_eventtype.contrast }}">{{ org_eventtype.type_color }}</TD>
 					      <TD>{% if current_org.org_perms.can_edit_type %}<a title="{% trans "Edit Event Type" %}" href="{% url event_eventtype_edit current_org.org_short_name org_eventtype.type_hash %}"><img alt="edit" style="border: solid 0px;" src="{{ MEDIA_URL }}images/edit.png"></a>{% endif %}&nbsp;</TD>
 					      <TD>{% if current_org.org_perms.can_remove_type %}<a title="{% trans "Remove Event Type" %}" href="{% url event_eventtype_remove current_org.org_short_name org_eventtype.type_hash %}"><img alt="remove" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove.png"></a>{% endif %}&nbsp;</TD>
 					  </TR>
@@ -52,7 +50,6 @@
 					</TABLE>
 				</div>
 			</div>
-	
 		</div>
 		<div style="clear: both;"></div>
 	</div>
@@ -60,7 +57,6 @@
 	<div class="section" id="section_group_id">
 		<div class="section_title"><font>{% trans "Organization Groups" %}</font><span class="section_header_icon">{% if current_org.org_perms.can_add_group %}<a title="{% trans "Add Group" %}" href="{% url egroup_group_add current_org.org_short_name %}"><img alt="add" style="border: solid 0px;" src="{{ MEDIA_URL }}images/add.png"></a>{% endif %}</span></div>
 		<div class="section_body">
-			
 			<ul class="org_group_list">
 			 <li><TABLE><TR><TH class="group_name">{% trans "Group Name" %}</TH><TH class="group_desc">{% trans "Description" %}</TH><TH class="group_flags">{% trans "Can Admin" %}</TH><TH class="group_flags">{% trans "Can Coord" %}</TH><TH class="group_flags">{% trans "Can Invite" %}</TH></TR></TABLE></li>
 			{% for group in current_org.get_org_groups %}
