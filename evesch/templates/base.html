@@ -1,7 +1,11 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
-  "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  "http://www.w3.org/TR/html4/loose.dtd">
 <HTML>
   <HEAD>
+    <TITLE> EVEnt SCHeduler {% block title %} - Home{% endblock %}</TITLE>
+    <META NAME="author" CONTENT="Joe J. Jasinski"> 
+    <META NAME="keywords" CONTENT="event, events, scheduler, evesch, planning, planner, organization">
+    <META NAME="description" CONTENT="Plan organization events quickly and easily."> 
+    <link rel="icon" type="image/png"  href="{{ MEDIA_URL }}images/favicon.png">
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/master.css">
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqui/css/smoothness/jquery-ui-1.7.1.custom.css">
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jqui/js/jquery-1.3.2.min.js"></script>
@@ -9,12 +13,9 @@
      <!--[if lte IE 6]><script type="text/javascript" src="{{ MEDIA_URL }}js/jqsupersleight/supersleight.plugin.js"></script>
      <script type="text/javascript"> $(document).ready(function(){ $('img').supersleight({shim: '{{ MEDIA_URL }}js/jqsupersleight/x.gif'}); });</script>
      <![endif]-->
-    <TITLE> EVEnt SCHeduler {% block title %} - Home{% endblock %}</TITLE>
-    <link rel="icon" type="image/png"  href="{{ MEDIA_URL }}images/favicon.png">
     {% block header_page_specific %}{% endblock %}
   </HEAD>
   <BODY>
-    {% block base_layout %}
-    {% endblock %}
+    {% block base_layout %}{% endblock %}
   </BODY>
 </HTML>
