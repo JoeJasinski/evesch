@@ -1,5 +1,5 @@
 /***********************************************************************
- * FILE: jquery.ptTimeSelect.js
+ * FILE: jquery.ptTimeSelect.js    
  * 
  * 		jQuery plug in for displaying a popup that allows a user
  * 		to define a time and set that time back to a form's input
