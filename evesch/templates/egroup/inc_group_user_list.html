@@ -13,9 +13,11 @@
 			
 			});
 			</script>
-			<div> {% trans "Page" %} {{ members.curr }} {% trans "of" %} {{ members.num_pages }}</div>
-			<span>{% if members.prev %}<a id="members_prev" href=".?members_page={{ members.prev }}" onClick="return false;">Previous</a>{% else %}Previous{% endif %}</span>
-			<span>{% if members.next %}<a id="members_next" href=".?members_page={{ members.next }}" onClick="return false;">Next</a>{% else %}Next{% endif %}</span>
+			<div class="page_nav"> 
+				<div>{% trans "Page" %} {{ members.curr }} {% trans "of" %} {{ members.num_pages }}</div>
+				<span>{% if members.prev %}<a id="members_prev" href=".?members_page={{ members.prev }}" onClick="return false;">Previous</a>{% else %}Previous{% endif %}</span>
+				<span>{% if members.next %}<a id="members_next" href=".?members_page={{ members.next }}" onClick="return false;">Next</a>{% else %}Next{% endif %}</span>
+			</div>
 			<div>
 			{% for user in members.current_page.object_list  %}
 			 <span class="org_user_list"> &nbsp; <span style="float: right;">{% if current_org.org_perms.can_remove_groupmember %}<a title="{% trans "Remove Group Member" %}" href="{% url egroup_groupuser_remove current_org.org_short_name current_usergroup.group_hash user.username %}"><img alt="remove" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove_user.png"></a>{% endif %}</span><span><a href="{{ user.get_absolute_url }}">{{ user.first_name }} {{ user.last_name }} ({{ user.username }}) </a></span></span>

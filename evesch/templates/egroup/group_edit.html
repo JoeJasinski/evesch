@@ -64,7 +64,7 @@
 
 {% if current_usergroup.group_users.all %}
 <div class="section">
-	<div class="section_title"><font>{% trans "Group Members" %}</font><span class="section_header_icon"><a title="{% trans "Current Group Members" %}" href="{% url org_org_member_invite current_org.org_short_name %}"></a></span></div>
+	<div class="section_title"><font>{% trans "Group Members" %}</font><span class="section_title_icon"><a title="{% trans "Current Group Members" %}" href="{% url org_org_member_invite current_org.org_short_name %}"></a></span></div>
 	<div class="section_body">
 		<div id="org_user_list_container">
 		{% with groupusers as members %}

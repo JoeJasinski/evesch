@@ -6,6 +6,7 @@
   <ul>
     <li><a href="{{ current_org.get_absolute_url }}">{% trans "View" %}</a></li>
     {% if current_org.org_perms.can_edit_org %}<li><a href="{% url org_org_edit current_org.org_short_name %}">{% trans "Edit" %}</a></li>{% endif %}
+    {% if not current_org.org_perms.is_memberof_org %}<li><a href="{% url org_org_join current_org.org_short_name %}">{% trans "Join" %}</a></li>{% endif %}
   </ul>
  </li>
  <li><strong><a href="{% url event_events_list current_org.org_short_name %}">{% trans "Events" %}</a></strong>

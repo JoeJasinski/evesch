@@ -50,7 +50,7 @@ class UserGroupManager(models.Manager):
 class UserGroup(models.Model):
     
     group_name = models.CharField(
-        max_length=96,)
+        max_length=40,)
     group_hash = models.SlugField(
         max_length=16)
     group_desc = models.TextField(blank=True,null=True)

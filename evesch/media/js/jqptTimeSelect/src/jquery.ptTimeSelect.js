@@ -1,5 +1,5 @@
 /***********************************************************************
- * FILE: jquery.ptTimeSelect.js    
+ * FILE: jquery.ptTimeSelect.js
  * 
  * 		jQuery plug in for displaying a popup that allows a user
  * 		to define a time and set that time back to a form's input
@@ -208,8 +208,7 @@ jQuery.ptTimeSelect.options = {
 		onFocusDisplay: true,
 		zIndex: 10,
 		onBeforeShow: undefined,
-		onClose: undefined,
-        hourFormat: '24'
+		onClose: undefined
 };
 
 /***********************************************************************
@@ -228,12 +227,14 @@ jQuery.ptTimeSelect.options = {
  * 
  * 		none
  */
-jQuery.ptTimeSelect.setHr = function(h) 
-{
-	if ( h.toLowerCase() == "am" ||	h.toLowerCase() == "pm") 
-    { jQuery('#ptTimeSelectUserSelAmPm').empty().append(h); } 
-    else 
-    { jQuery('#ptTimeSelectUserSelHr').empty().append(h); }
+jQuery.ptTimeSelect.setHr = function(h) {
+	if (	h.toLowerCase() == "am"
+		||	h.toLowerCase() == "pm"
+	) {
+		jQuery('#ptTimeSelectUserSelAmPm').empty().append(h);
+	} else {
+		jQuery('#ptTimeSelectUserSelHr').empty().append(h);
+	}
 }/* END setHr() function */
 	
 /***********************************************************************
@@ -251,8 +252,9 @@ jQuery.ptTimeSelect.setHr = function(h)
  * 
  * 		none
  */
-jQuery.ptTimeSelect.setMin = function(m) 
-{	jQuery('#ptTimeSelectUserSelMin').empty().append(m); }/* END setMin() function */
+jQuery.ptTimeSelect.setMin = function(m) {
+	jQuery('#ptTimeSelectUserSelMin').empty().append(m);
+}/* END setMin() function */
 	
 /***********************************************************************
  * METHOD: jQuery.ptTimeSelect.setTime()
@@ -269,18 +271,17 @@ jQuery.ptTimeSelect.setMin = function(m)
  * 
  * 		none
  */
-jQuery.ptTimeSelect.setTime = function() 
-{	//var tSel = jQuery('#ptTimeSelectUserSelHr').text()
-	//			+ ":" + jQuery('#ptTimeSelectUserSelMin').text()
-	//			+ " " + jQuery('#ptTimeSelectUserSelAmPm').text()
-    var hours = parseFloat(jQuery('#ptTimeSelectUserSelHr').text());;
-    if ( jQuery('#ptTimeSelectUserSelAmPm').text().toLowerCase() == "pm") 
-    { hours =  hours + 12; }
-
-    var tSel = hours.toString()  + ":" + jQuery('#ptTimeSelectUserSelMin').text();           
-
-	jQuery(".isPtTimeSelectActive").val(tSel).removeClass("isPtTimeSelectActive");
+jQuery.ptTimeSelect.setTime = function() {
+	var tSel = jQuery('#ptTimeSelectUserSelHr').text()
+				+ ":"
+				+ jQuery('#ptTimeSelectUserSelMin').text()
+				+ " "
+				+ jQuery('#ptTimeSelectUserSelAmPm').text()
+	jQuery(".isPtTimeSelectActive")
+		.val(tSel)
+		.removeClass("isPtTimeSelectActive");
 	this.closeCntr();
+	
 }/* END setTime() function */
 	
 /***********************************************************************
@@ -330,11 +331,14 @@ jQuery.ptTimeSelect.openCntr = function (ele) {
 	cntr.find("#ptTimeSelectUserSelHr").empty().append(hr);
 	cntr.find("#ptTimeSelectUserSelMin").empty().append(min);
 	cntr.find("#ptTimeSelectUserSelAmPm").empty().append(tm);
-	cntr.find(".ptTimeSelectTimeLabelsCntr .ptTimeSelectLeftPane").empty().append(opt.hoursLabel);
-	cntr.find(".ptTimeSelectTimeLabelsCntr .ptTimeSelectRightPane").empty().append(opt.minutesLabel);
+	cntr.find(".ptTimeSelectTimeLabelsCntr .ptTimeSelectLeftPane")
+		.empty().append(opt.hoursLabel);
+	cntr.find(".ptTimeSelectTimeLabelsCntr .ptTimeSelectRightPane")
+		.empty().append(opt.minutesLabel);
 	cntr.find("#ptTimeSelectSetButton a").empty().append(opt.setButtonLabel);
-	if (opt.onBeforeShow) 
-    {  opt.onBeforeShow(i, cntr); }
+	if (opt.onBeforeShow) {
+		opt.onBeforeShow(i, cntr);
+	}
 	cntr.slideDown("fast");
 		
 }/* END openCntr() function */
@@ -362,7 +366,8 @@ jQuery.ptTimeSelect.closeCntr = function(i) {
 					i = $(".isPtTimeSelectActive");
 				}
 				if (i) {
-					var opt = i.removeClass("isPtTimeSelectActive").data("ptTimeSelectOptions");
+					var opt = i.removeClass("isPtTimeSelectActive")
+								.data("ptTimeSelectOptions");
 					if (opt && opt.onClose) {
 						opt.onClose(i);
 					}

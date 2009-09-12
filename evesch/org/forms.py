@@ -28,7 +28,7 @@ class OrganizationJoinForm(Form):
     pass
 
 class OrganizationFormEdit(ModelForm):
-    org_desc = forms.CharField(max_length=512,
+    org_desc = forms.CharField(label=_("Organization Description"), max_length=512,
          widget=forms.Textarea(attrs = {'cols': '45', 'rows': '5'}))
     class Meta:
         model = Organization
