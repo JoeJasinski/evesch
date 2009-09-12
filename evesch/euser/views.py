@@ -69,7 +69,7 @@ def lookup_users(request, org_short_name=None, template_name=None):
         if org_short_name:
             current_org, message = Organization.objects.get_current_org(org_short_name)
             if not message:
-                users = users.filter(user_organizations__org_short_name=org_short_name)[:10]                                        
+                users = users.filter(user_organizations__org_short_name=org_short_name)[:10]                                     
             else:
                 users = []
         else:
