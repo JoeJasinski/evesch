@@ -1,6 +1,6 @@
 from django.db import models
 from org.models import Organization
-from euser.models import User
+from euser.models import eUser
 from datetime import datetime
 from random import sample
 from core.exceptions import EventTypeExistsException
@@ -34,7 +34,7 @@ class EventType(models.Model):
 		verbose_name=_("Event Type"),
 		#db_index=True,
 		unique=False,
-		max_length=64)
+		max_length=32)
 	type_hash = models.CharField(
 		db_column = "type_hash",
 		verbose_name=_("Event Type Hash"),
@@ -120,7 +120,7 @@ class Event(models.Model):
 		db_column="event_date",
 		db_index=True,
 		verbose_name=_("Date and Time of Event"))
-	event_creator_name = models.ForeignKey(User,
+	event_creator_name = models.ForeignKey(eUser,
 		db_column="event_creator_name",
 		verbose_name=_("Event Creator"), related_name="event_creator")
 	event_created_date = models.DateTimeField(
@@ -143,7 +143,7 @@ class Event(models.Model):
 		verbose_name=_("Type of Event"))
 	event_org = models.ForeignKey(Organization, 
 		verbose_name=_("Organization Sponsoring the Event"))
-	event_coordinators = models.ManyToManyField(User,
+	event_coordinators = models.ManyToManyField(eUser,
 		verbose_name=_("Event Coordinators"))
 	event_track_hours = models.BooleanField(
 		verbose_name=_("Should we track the hours attendees spend at events?"),
@@ -261,10 +261,10 @@ class Event(models.Model):
 	def save(self):
 		if not self.id:
 			self.event_hash = "".join(sample(KEYS,8))
-			if not self.event_signup_deadline:
-				self.event_signup_deadline = self.event_date
 			if not self.event_desc:
-				self.event_desc = ""
+				self.event_desc = ""	
+		if not self.event_signup_deadline:
+			self.event_signup_deadline = self.event_date
 		super(Event, self).save()
 
 class AttendeeManager(models.Manager):
@@ -272,7 +272,7 @@ class AttendeeManager(models.Manager):
 		pass
 
 class Attendee(models.Model):
-	att_name = models.ForeignKey(User, 
+	att_name = models.ForeignKey(eUser, 
 		verbose_name=_("User Attending"))
 	att_event = models.ForeignKey(Event,
 		#related_name="event_attendees",
@@ -325,7 +325,7 @@ class Attendee(models.Model):
 	#class Meta:
 	#	db_table="Attendees"
 	def is_attending(self, user):
-		return self.att_name.id == user.user.id
+		return self.att_name.id == user.id
 
 	def __unicode__(self):
 		return "%s" % (self.att_name)

@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from core.lib import Message
-from euser.models import User, get_current_user
+from euser.models import eUser, get_current_user
 from org.models import Organization
 from django.contrib.auth.decorators import login_required
 from event.models import EventType

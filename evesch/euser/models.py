@@ -55,7 +55,7 @@ class UserIM(models.Model):
         return "%s - %s" % (self.im_name, self.im_protocol_type)
 
 
-class User(User):
+class eUser(User):
     GENDER_CHOICES = (
         (1,u'Male'),
         (2,u'Female'),
@@ -126,10 +126,10 @@ class User(User):
         return self.user_invites_set.count()
             
     def save(self):
-        super(User, self).save()
+        super(eUser, self).save()
 
     def set_password(self, raw_password):
-        super(User, self).set_password(raw_password)
+        super(eUser, self).set_password(raw_password)
 
     def get_absolute_url(self):
         return reverse('euser_user_view',kwargs={'username':self.username,})
@@ -140,7 +140,7 @@ def get_current_user(username, message=None):
         return None, message
     else:
         try:
-            current_user = User.objects.get(username=username)
+            current_user = eUser.objects.get(username=username)
         except:
             current_user = None
             message = Message(title=_("User Not Found"), text=_("The user was not found. Are you logged in?"))

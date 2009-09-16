@@ -7,7 +7,7 @@ from django.template import RequestContext
 from euser.models import get_current_user
 from egroup.models import UserGroup
 from org.models import Organization
-from euser.models import User
+from euser.models import eUser
 from egroup.forms import UserGroupEditForm, UserGroupForm, GroupAddMemberForm
 from core.lib import Message, ePage
 from django.core.urlresolvers import reverse
@@ -110,7 +110,7 @@ def group_edit(request, org_short_name, group_hash, template_name=None):
                     new_user_list = []
                     for user in user_list:
                         new_user_list.append(user.strip().strip(','))
-                    new_group_users = User.objects.filter(username__in=new_user_list)
+                    new_group_users = eUser.objects.filter(username__in=new_user_list)
                     for user in new_group_users:
                         user.user_groups.add(current_usergroup)
                     #raise AssertionError(new_group_users)

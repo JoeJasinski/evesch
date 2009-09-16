@@ -65,6 +65,7 @@ ADMIN_MEDIA_PREFIX = '/admin/media/'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '@+@m7a_u8)0*i$a#-rhfc+m&h$=@rqza8x^g8yaw&*3#34f5ml(9gd41jh'
 
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.load_template_source',
@@ -110,9 +111,9 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'core.django_extensions',  # adds extra manage.py utils http://code.google.com/p/django-command-extensions/
     'django_evolution',
+    'org',    
     'egroup',
     'euser',
-    'org',
     'core',
     'event',
     'calendar',

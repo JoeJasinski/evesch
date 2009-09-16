@@ -96,11 +96,6 @@
 	
 	
 	
-
-	
-	
-	
-	
 	<div class="section" id="members_id">
 		<div class="section_title"><font>{% trans "Members" %} ({{ current_org.get_member_count }})</font><span class="section_title_icon">{% if current_org.org_perms.can_invite_users %}<a title="{% trans "Invite User to Org" %}" href="{% url org_org_member_invite current_org.org_short_name %}"><img class="img_join" alt="add" style="border: solid 0px;" src="{{ MEDIA_URL }}images/join.png"></a>{% endif %}</span></div>
 		<div class="section_body">

@@ -1,11 +1,11 @@
-from django.db import models
 from datetime import datetime
+from django.db import models
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from random import sample
 from core.lib import Message
 from core.middleware import threadlocals 
-from euser.models import User
-from django.core.urlresolvers import reverse
+
 
 KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
@@ -160,18 +160,18 @@ class Organization(models.Model):
 		return self.org_users.all().count()
 
 	def get_admin_users(self):
-		from euser.models import User
-		return User.objects.filter(user_groups__in=self.get_org_admin_groups())
+		from euser.models import eUser
+		return eUser.objects.filter(user_groups__in=self.get_org_admin_groups())
 		#return self.get_members().filter(user_groups__in=self.get_org_admin_groups())
 		# not sure if the commented syntax works.  Check
 		
 	def get_coordinator_users(self):
-		from euser.models import User
-		return User.objects.filter(user_groups__in=self.get_coordinator_groups())
+		from euser.models import eUser
+		return eUser.objects.filter(user_groups__in=self.get_coordinator_groups())
 
 	def get_orginvite_users(self):
-		from euser.models import User
-		return User.objects.filter(user_groups__in=self.get_orginvite_groups())
+		from euser.models import eUser
+		return eUser.objects.filter(user_groups__in=self.get_orginvite_groups())
 
 	def get_current_event(self, event_hash, message=None):
 		if message:
@@ -267,14 +267,15 @@ class Organization(models.Model):
 
 	def save(self):
 		if len(str(self.org_feed_hash)) != 20:
-			self.org_feed_hash = "".join(sample(KEYS,20))
+			self.org_feed_hash = str("").join(sample(KEYS,20))
 		if not self.org_date_created:
 			self.org_date_created = datetime.now()
 		super(Organization, self).save()
 
+from euser.models import eUser
 class OrgInvite(models.Model):
 	org = models.ForeignKey(Organization, related_name="invite_set")
-	user = models.ForeignKey( User, blank=True, null=True, related_name="user_invites_set")
+	user = models.ForeignKey( eUser, blank=True, null=True, related_name="user_invites_set")
 	email = models.EmailField(_(u'Anonymous email'), blank=True, null=True)
 	direction = models.BooleanField(default=True)
 	invite_hash = models.CharField(

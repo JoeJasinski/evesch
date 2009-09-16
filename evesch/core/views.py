@@ -10,7 +10,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from event.models import Attendee, Event
-from euser.models import User, get_current_user_by_email, get_current_user
+from euser.models import eUser, get_current_user_by_email, get_current_user
 from django.http import HttpResponseRedirect, HttpResponse
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
@@ -29,7 +29,7 @@ def index(request,template_name=None):
     #raise AssertionError(request.user)
     if request.user.is_authenticated():
         try:
-            current_user = User.objects.get(username=request.user)
+            current_user = eUser.objects.get(username=request.user)
             attending = current_user.get_attending_events()
             user_events = Event.objects.filter(attendee__in=attending, event_active=True)
             user_orgs = current_user.get_user_orgs().order_by('org_name')
@@ -100,7 +100,7 @@ def evesch_signup(request, template_name=None):
                 post_email = form.cleaned_data['email']
                 post_username = form.cleaned_data['username']
                 post_password = form.cleaned_data['password']
-                user = User(username=post_username,email=post_email)
+                user = eUser(username=post_username,email=post_email)
                 user.first_name = post_username
                 user.last_name = ''
                 user.is_superuser=False
@@ -144,7 +144,7 @@ def evesch_signup_confirm(request, template_name=None):
             security_hash_post = form.cleaned_data['security_hash']
 
             try:
-                user =  User.objects.get(security_hash=security_hash_post)
+                user =  eUser.objects.get(security_hash=security_hash_post)
                 if user.is_active == False: 
                     user.is_active = True
                     user.save()

@@ -24,7 +24,7 @@
 	    
     	<div>
 		{% for user in current_usergroup.group_users.all  %}
-		 <span class="org_user_list"> &nbsp; <span style="float: right;">&nbsp;</span><span><a href="{{ user.get_absolute_url }}">{{ user.first_name }} {{ user.last_name }} ({{ user.username }}) </a></span></span>
+		 <div class="org_user_list"> &nbsp; <span style="float: right;">&nbsp;</span><span><a href="{{ user.get_absolute_url }}">{{ user.first_name }} {{ user.last_name }} ({{ user.username }}) </a></span></div>
 		{% endfor %}
 		<div style="clear: both"></div>
 		</div>

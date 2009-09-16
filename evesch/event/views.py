@@ -12,7 +12,7 @@ from core.exceptions import EventTypeExistsException
 from core.forms import MessageForm
 from event.models import Event,EventType,Attendee
 from event.forms import EventForm, EventEditForm, EventTypeForm, AttendeeForm
-from euser.models import User, get_current_user
+from euser.models import eUser, get_current_user
 from org.models import Organization
 
 
@@ -318,7 +318,7 @@ def event_attendee_remove(request,org_short_name,event_hash,att_name,template_na
             context = {'message':message,}
     if not message:
         try:
-            current_attendee = current_event.attendee_set.get(att_name=User.objects.get(username=att_name))
+            current_attendee = current_event.attendee_set.get(att_name=eUser.objects.get(username=att_name))
         except ObjectDoesNotExist:
             message = Message(title=_("Cannot Remove User from Event"), text=_("This user is not attending this event."))
             context = {'error':_("Attendee does not exist"),'org_short_name':org_short_name}

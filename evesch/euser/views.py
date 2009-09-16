@@ -1,7 +1,7 @@
 # Create your views here.
 #from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from euser.models import User, get_current_user
+from euser.models import eUser, get_current_user
 from euser.forms import UserForm
 from event.models import EventType
 from org.models import Organization
@@ -18,7 +18,7 @@ def get_or_create_profile(self,user):
     try:
         profile = user.get_profile()
     except ObjectDoesNotExist:
-        profile = User(username=user,phone='')
+        profile = eUser(username=user,phone='')
         profile.save()
     return profile
 
@@ -62,7 +62,7 @@ def lookup_users(request, org_short_name=None, template_name=None):
     if request.GET.__contains__("q"): 
         try:
             q  = request.GET['q']
-            users = User.objects.filter(Q(username__contains=q) | Q(last_name__contains=q) | Q(first_name__contains=q)).order_by('username')
+            users = eUser.objects.filter(Q(username__contains=q) | Q(last_name__contains=q) | Q(first_name__contains=q)).order_by('username')
         except ValueError:
             pass
         

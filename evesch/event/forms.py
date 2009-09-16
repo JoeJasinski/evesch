@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from core.widgets import DateTimeWidget
 from core.ajax_filtered_fields.forms import ManyToManyByLetter
 from django.conf import settings
-from euser.models import User
+from euser.models import eUser
 import datetime
 import re 
 
@@ -131,7 +131,7 @@ class EventTypeForm(forms.ModelForm):
     def clean_type_name(self):
         #raise forms.ValidationError(self.instance)
         type_name_input = self.cleaned_data['type_name']
-        if int(EventType.objects.filter(type_name__iexact=type_name_input, org_name=self._current_org).exclude(id=self.instance.id).count() >= 1):
+        if int(EventType.objects.filter(type_name__iexact=type_name_input, type_active=True, org_name=self._current_org).exclude(id=self.instance.id).count() >= 1):
             raise forms.ValidationError(_("Type Name already exists."))
         return type_name_input
 
@@ -140,7 +140,7 @@ class EventForm(forms.ModelForm):
          widget=forms.Textarea(attrs = {'cols': '30', 'rows': '5'}))
     event_type = forms.ModelChoiceField(queryset=EventType.objects.none())
     event_date = EveschSplitDateTimeField(widget=forms.SplitDateTimeWidget(time_format="%H:%M", attrs={'id':"id_event_date"}))
-    event_signup_deadline = EveschSplitDateTimeField(widget=forms.SplitDateTimeWidget(time_format="%H:%M", attrs={'id':"id_event_signup_deadline"}))
+    event_signup_deadline = EveschSplitDateTimeField(required=False, widget=forms.SplitDateTimeWidget(time_format="%H:%M", attrs={'id':"id_event_signup_deadline"}))
     
     #event_coordinators = ManyToManyByLetter(User, field_name="username")
 
@@ -171,7 +171,7 @@ class EventEditForm(forms.ModelForm):
 
     event_desc = forms.CharField(max_length=512, widget=forms.Textarea(attrs = {'cols':'45','rows':'5'}))
     event_date =            EveschSplitDateTimeField(widget=forms.SplitDateTimeWidget(time_format='%H:%M', attrs={'id':"id_event_date"}))
-    event_signup_deadline = EveschSplitDateTimeField(widget=forms.SplitDateTimeWidget(time_format='%H:%M', attrs={'id':"id_event_signup_deadline"}))
+    event_signup_deadline = EveschSplitDateTimeField(required=False, widget=forms.SplitDateTimeWidget(time_format='%H:%M', attrs={'id':"id_event_signup_deadline"}))
 
     class Meta:
         model = Event

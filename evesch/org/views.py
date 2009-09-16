@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from core.lib import Message, ePage
 from egroup.models import UserGroup
-from euser.models import User, get_current_user
+from euser.models import eUser, get_current_user
 from django.core.paginator import Paginator
 from django.db.models import Q
 
@@ -66,6 +66,7 @@ def orgs_list(request, template_name=None):
     else:
         template_name = "core/message.html"
         context = {'message':message }
+        
     return render_to_response(template_name,context, context_instance=RequestContext(request))
 
 
@@ -378,7 +379,7 @@ def org_member_remove(request,org_short_name=None, username=None, template_name=
 @login_required
 def org_member_invite(request,org_short_name=None, template_name=None):
     current_user, message = get_current_user(request.user)
-    invited_users = User.objects.none()
+    invited_users = eUser.objects.none()
     if not message:
         current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:
@@ -397,7 +398,7 @@ def org_member_invite(request,org_short_name=None, template_name=None):
     if not message:
         invited_users_page = ePage(1)
         org_invites = current_org.invite_set.all()
-        invited_users = User.objects.filter(user_invites_set__in=org_invites)       
+        invited_users = eUser.objects.filter(user_invites_set__in=org_invites)       
         if request.method == 'POST':
             form = OrganizationInviteMember(request.POST)
             if form.is_valid():
@@ -405,7 +406,7 @@ def org_member_invite(request,org_short_name=None, template_name=None):
                 new_user_list = []
                 for user in user_list:
                     new_user_list.append(user.strip().strip(','))
-                new_invited_users = User.objects.filter(username__in=new_user_list).exclude(user_invites_set__in=org_invites)
+                new_invited_users = eUser.objects.filter(username__in=new_user_list).exclude(user_invites_set__in=org_invites)
                 for user in new_invited_users:
                     i = OrgInvite()
                     i.user = user
@@ -449,7 +450,7 @@ def org_list_invites(request,org_short_name,template_name=None):
                 invited_users_page.curr = 1 
 
         org_invites = current_org.invite_set.all()
-        invited_users = User.objects.filter(user_invites_set__in=org_invites)   
+        invited_users = eUser.objects.filter(user_invites_set__in=org_invites)   
         invited_users_page.set_pages(Paginator(invited_users, 5))
         context = {'current_org':current_org,'invited_users':invited_users_page,'ajax_page_members':reverse('org_org_invites_list_ajax', kwargs={'org_short_name':current_org.org_short_name,})}
 

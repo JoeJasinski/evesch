@@ -1,4 +1,4 @@
-from euser.models import User
+from euser.models import eUser as User
 from org.models import Organization
 from egroup.models import UserGroup
 from event.models import EventType, Event

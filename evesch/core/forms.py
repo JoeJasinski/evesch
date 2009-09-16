@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 import re
-from euser.models import User
+from euser.models import eUser
 
 class CaptchaField(forms.CharField):
  
@@ -38,7 +38,7 @@ class SignupForm(forms.Form):
 
     def clean_email(self):
         post_email = self.cleaned_data['email']
-        if User.objects.filter(email=post_email):
+        if eUser.objects.filter(email=post_email):
             raise forms.ValidationError(_("This email is already registered."))
         return post_email
 
@@ -47,7 +47,7 @@ class SignupForm(forms.Form):
         p = re.compile('^\w+$')
         if not p.match(post_username):
             raise forms.ValidationError(_("You must use only letters, numbers, or an underscore"))
-        if User.objects.filter(username=post_username):
+        if eUser.objects.filter(username=post_username):
            raise forms.ValidationError(_("User already exists."))  
         return post_username
     
@@ -93,10 +93,10 @@ class PasswordResetForm(forms.Form):
         post_email = cleaned_data.get("email")
         if post_username or post_email:
             if post_username:
-                if not User.objects.filter(username=post_username):
+                if not eUser.objects.filter(username=post_username):
                     raise forms.ValidationError(_("No such user."))  
             else:
-                if not User.objects.filter(email=post_email):
+                if not eUser.objects.filter(email=post_email):
                     raise forms.ValidationError(_("This email is not registered."))
         else:
             raise forms.ValidationError(_("Must supply a username or email address"))
