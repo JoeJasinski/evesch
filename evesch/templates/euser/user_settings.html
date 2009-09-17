@@ -1,7 +1,25 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "User Settings" %}{% endblock %}
+{% block header_page_specific %} 
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqboxy/stylesheets/boxy.css" />
+	<script type="text/javascript">
+		$(document).ready(function(){
+	   $("input#org_edit_submit").click( function() { $("form#edit_org").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
 
+{% if show_dialog %} 
+	    new Boxy('\
+	    <div class="popup_message">\n\
+	      <ul>{% for link in message.links %}<li><a href="{{ link.link }}">{{ link.name }}</a></li>{% endfor %}</ul>\n\
+	    </div>', 
+	    {modal: true,  title:"{{ message.text }}", closeable: false });
+{% endif %}
+
+		});
+	</script>
+
+{% endblock %}
 {% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a>  &gt; {% trans "user" %} &gt; <a href="{{ request.user.euser.get_absolute_url }}">{{ current_user.username }}</a>
 {% endblock %}
@@ -13,7 +31,7 @@
 	<TABLE>
 	<TR><TD>{{ request.user }}</TD><TD>&nbsp;</TD></TR>
 	{{ form }}
-	<TR><TD><INPUT type="submit" name="save_settings" value="{% trans "Save" %}"></TD><TD>&nbsp;<font class="success_string">{{ message }}</font></TD></TR>
+	<TR><TD><INPUT type="submit" name="save_settings" value="{% trans "Save" %}"></TD><TD>&nbsp;<font class="success_string">{{ quick_message }}</font></TD></TR>
 	</FORM>
 	</TABLE>
 	</div>

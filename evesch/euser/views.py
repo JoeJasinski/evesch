@@ -9,6 +9,7 @@ from event.forms import EventTypeForm
 from euser.forms import UserForm
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.db.models import Q
@@ -41,14 +42,23 @@ def user_settings(request, template_name=None):
     quick_message = ""
     current_user, message = get_current_user(request.user)
     if not message:
+        show_dialog=False
         if request.method == 'POST':
                 form = UserForm(request.POST, instance=current_user)
                 if form.is_valid():
                     form.save()
+                    message = Message(title=_("Settings Saved"), text=_("Settings Saved"))
+                    message.addlink(_("View"),reverse('euser_user_view',kwargs={'username':current_user.username,}))
+                    message.addlink(_("Edit"),reverse('euser_user_settings'))
                     quick_message = _("Saved")
+                    if request.POST.get("dialog",'') == "False":
+                        template_name = "core/message.html"
+                        show_dialog=False
+                    else:
+                        show_dialog=True
         else:
                 form = UserForm(instance=current_user)
-        context = {'current_user':current_user,'form':form,'message':quick_message,}
+        context = {'current_user':current_user,'form':form,'quick_message':quick_message,'message':message,'show_dialog':show_dialog,}
     else:
         template_name = "core/message.html"
         context = {'message':message,}
