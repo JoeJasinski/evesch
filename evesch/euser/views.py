@@ -12,7 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.db.models import Q
-
+from core.lib import Message
 
 def get_or_create_profile(self,user):
     try:
@@ -58,22 +58,29 @@ def user_settings(request, template_name=None):
 @login_required
 def lookup_users(request, org_short_name=None, template_name=None):
     users = []
-    
-    if request.GET.__contains__("q"): 
-        try:
-            q  = request.GET['q']
-            users = eUser.objects.filter(Q(username__contains=q) | Q(last_name__contains=q) | Q(first_name__contains=q)).order_by('username')
-        except ValueError:
-            pass
-        
-        if org_short_name:
+      
+    if org_short_name:
+        current_user, message = get_current_user(request.user)
+        if not message:
             current_org, message = Organization.objects.get_current_org(org_short_name)
-            if not message:
-                users = users.filter(user_organizations__org_short_name=org_short_name)[:10]                                     
-            else:
-                users = []
-        else:
-           users = users[:10]
+        if not message:
+            operms = current_org.org_perms(current_user) 
+            if not operms['is_memberof_org']:
+                message = Message(title=_("Cannot View Group"), text=_("You are not a member of this org"))
+        if not message:
+            if request.GET.__contains__("q"): 
+                try:
+                    q  = request.GET['q']
+                    users = (current_org.get_invited_users() | current_org.get_members()).filter(Q(username__contains=q) | Q(last_name__contains=q) | Q(first_name__contains=q)).order_by('username')[:10]
+                except ValueError:
+                    pass              
+    else:
+        if request.GET.__contains__("q"): 
+            try:
+                q  = request.GET['q']
+                users = eUser.objects.filter(Q(username__contains=q) | Q(last_name__contains=q) | Q(first_name__contains=q)).order_by('username')[:10]
+            except ValueError:
+                pass
     
     context = {'users':users,}
     return render_to_response(template_name,context, context_instance=RequestContext(request))

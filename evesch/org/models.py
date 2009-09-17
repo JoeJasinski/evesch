@@ -164,12 +164,19 @@ class Organization(models.Model):
 		return eUser.objects.filter(user_groups__in=self.get_org_admin_groups())
 		#return self.get_members().filter(user_groups__in=self.get_org_admin_groups())
 		# not sure if the commented syntax works.  Check
-		
+	
+	# UNTESTED - was on the train and had to go before testing
+	def get_invited_users(self):
+		from euser.models import eUser	
+		return eUser.objects.filter(user_invites_set__in=self.invite_set.all())
+	
+	
 	def get_coordinator_users(self):
 		from euser.models import eUser
 		return eUser.objects.filter(user_groups__in=self.get_coordinator_groups())
 
 	def get_orginvite_users(self):
+		""" Get users who can invite people to the org """
 		from euser.models import eUser
 		return eUser.objects.filter(user_groups__in=self.get_orginvite_groups())
 
