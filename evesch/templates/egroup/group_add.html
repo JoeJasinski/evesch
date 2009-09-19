@@ -1,6 +1,26 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Add Group" %}{% endblock %}
+{% block header_page_specific %}
+
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqboxy/stylesheets/boxy.css" />
+    <script type="text/javascript">
+    $(document).ready(function(){
+    
+ 		$("input#group_add_submit").click( function() { $("form#add_group").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
+
+{% if show_dialog %} 
+	    new Boxy('\
+	    <div class="popup_message">\n\
+	      <ul>{% for link in message.links %}<li><a href="{{ link.link }}">{{ link.name }}</a></li>{% endfor %}</ul>\n\
+	    </div>', 
+	    {modal: true,  title:"{{ message.text }}", closeable: false });   
+{% endif %}
+    
+ 	});
+   	</script>       
+{% endblock %}
 {% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a>
 &gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
@@ -13,11 +33,12 @@
 	<div class="section_title"><font>Add Group</font></div>
 	<div class="section_body">
 		{% trans "Add Group for" %}: {{ current_org.org_name }}
-		<FORM action="." method=POST>
+		<FORM id="add_group" action="." method=POST>
+		<input type="hidden" id="dialog" name="dialog" value="False">
 		<TABLE>
 		 {{ form.as_table }}
 		</TABLE>
-		<INPUT type="submit" name="add_eventtype" value="{% trans "Add" %}">
+		<INPUT id="group_add_submit" type="submit" name="add_eventtype" value="{% trans "Add" %}">
 		</FORM>
 	</div>
 </div>

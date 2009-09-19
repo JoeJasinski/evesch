@@ -34,20 +34,24 @@ def group_add(request,org_short_name,template_name=None):
             message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
+        show_dialog=False
         if request.method == 'POST':
             form = UserGroupForm(request.POST)
             if form.is_valid():
-                new_form = form.save(commit=False)
-                new_form.org_name = current_org
-                new_form.group_removable=True
-                new_form.save()
+                new_group= form.save(commit=False)
+                new_group.org_name = current_org
+                new_group.group_removable=True
+                new_group.save()
                 
-                template_name = "core/message.html"
                 message = Message(title=_("Group Added"), text=_("You have added a group"))
-                message.addlink(_("Continue"),current_org.get_absolute_url())
-            #form = EventTypeForm(request.POST)
-            #if form.is_valid():
-                context = {'current_org':current_org,'message':message}
+                message.addlink(_("View"),current_org.get_absolute_url())
+                message.addlink(_("Edit"),reverse('egroup_group_edit',kwargs={'org_short_name':current_org.org_short_name,'group_hash':new_group.group_hash}))
+                if request.POST.get("dialog",'') == "False":
+                    template_name = "core/message.html"
+                    show_dialog=False
+                else:
+                    show_dialog=True
+                context = {'current_org':current_org,'form':form,'message':message,'show_dialog':show_dialog,}
             else:
                 context = {'current_org':current_org,'form':form,}
         else:
@@ -91,6 +95,7 @@ def group_edit(request, org_short_name, group_hash, template_name=None):
         
         group_add_member_form = GroupAddMemberForm()
         edit_form = UserGroupEditForm(instance=current_usergroup)
+        show_dialog=False
         if request.method == 'POST':
             
             #form.org_name = current_org
@@ -102,7 +107,15 @@ def group_edit(request, org_short_name, group_hash, template_name=None):
                 edit_form = UserGroupEditForm(request.POST,instance=current_usergroup)
                 if edit_form.is_valid():
                     edit_form.save()
-                    return HttpResponseRedirect(current_org.get_absolute_url())
+                    message = Message(title=_("Group Changes Saved"), text=_("Group Changes Saved"))
+                    message.addlink(_("View"),reverse('egroup_group_view',kwargs={'org_short_name':current_org.org_short_name,'group_hash':current_usergroup.group_hash}))
+                    message.addlink(_("Edit"),reverse('egroup_group_edit',kwargs={'org_short_name':current_org.org_short_name,'group_hash':current_usergroup.group_hash}))
+                    #return HttpResponseRedirect(current_org.get_absolute_url())
+                    if request.POST.get("dialog",'') == "False":
+                        template_name = "core/message.html"
+                        show_dialog=False
+                    else:
+                        show_dialog=True
             elif action == 'group_member_add':
                 group_add_member_form = GroupAddMemberForm(request.POST)
                 if group_add_member_form.is_valid():             
@@ -118,7 +131,7 @@ def group_edit(request, org_short_name, group_hash, template_name=None):
                 pass
         else:
             pass
-        context = {'current_org':current_org,'edit_form':edit_form, 'group_add_member_form':group_add_member_form, 'current_usergroup':current_usergroup, 'groupusers':groupuser_page }
+        context = {'current_org':current_org,'edit_form':edit_form, 'group_add_member_form':group_add_member_form, 'current_usergroup':current_usergroup, 'groupusers':groupuser_page,'message':message,'show_dialog':show_dialog, }
     else:
         template_name = "core/message.html"
         context = {'message':message,'current_org':current_org,}

@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqboxy/stylesheets/boxy.css" />
 	<script type="text/javascript">
 		$(document).ready(function(){
-	   $("input#org_edit_submit").click( function() { $("form#edit_org").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
+	   $("input#user_edit_submit").click( function() { $("form#edit_user").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
 
 {% if show_dialog %} 
 	    new Boxy('\
@@ -27,11 +27,12 @@
 <div class="section">
 	<div class="section_title"><font>{% trans "User Settings" %}</font></div>
 	<div class="section_body">
-	<FORM action="." method="POST">
+	<FORM id="edit_user" action="." method="POST">
+	<input type="hidden" id="dialog" name="dialog" value="False">
 	<TABLE>
 	<TR><TD>{{ request.user }}</TD><TD>&nbsp;</TD></TR>
 	{{ form }}
-	<TR><TD><INPUT type="submit" name="save_settings" value="{% trans "Save" %}"></TD><TD>&nbsp;<font class="success_string">{{ quick_message }}</font></TD></TR>
+	<TR><TD><INPUT id="user_edit_submit" type="submit" name="save_settings" value="{% trans "Save" %}"></TD><TD>&nbsp;<font class="success_string">{{ quick_message }}</font></TD></TR>
 	</FORM>
 	</TABLE>
 	</div>

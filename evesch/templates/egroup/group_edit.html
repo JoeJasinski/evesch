@@ -5,6 +5,8 @@
 
     <link rel="stylesheet" href="{{ MEDIA_URL }}js/jqtokenautocomplete/token-input-facebook.css" type="text/css" />
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jqtokenautocomplete/jquery.tokeninput.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqboxy/stylesheets/boxy.css" />
     <script type="text/javascript">
     $(document).ready(function(){
     
@@ -22,7 +24,19 @@
                 inputToken: "token-input-input-token-facebook"
             }
         });
-        
+    
+ 		$("input#group_edit_submit").click( function() { $("form#edit_group").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
+
+{% if show_dialog %} 
+	    new Boxy('\
+	    <div class="popup_message">\n\
+	      <ul>{% for link in message.links %}<li><a href="{{ link.link }}">{{ link.name }}</a></li>{% endfor %}</ul>\n\
+	    </div>', 
+	    {modal: true,  title:"{{ message.text }}", closeable: false });   
+{% endif %}
+
+ 
+    
  	});
    	</script>       
 {% endblock %}
@@ -39,11 +53,12 @@
 	<div class="section_title"><font>{% trans "Edit Group" %}</font></div>
 	<div class="section_body">
 		{% trans "Edit Group for" %}: {{ current_org.org_name }}
-		<FORM action="." method=POST>
+		<FORM id="edit_group" action="." method=POST>
+		<input type="hidden" id="dialog" name="dialog" value="False">
 		<TABLE>
 		 {{ edit_form.as_table }}
 		</TABLE>
-		<INPUT type="submit" name=save_group value="{% trans "Save" %}">
+		<INPUT id="group_edit_submit" type="submit" name=save_group value="{% trans "Save" %}">
 		</FORM>
 	</div>
 </div>
@@ -56,7 +71,7 @@
 		  <tr><td>&nbsp;</td><td>{% trans "Type the name of users in this organization that you want to add to this group." %}</td></tr>
 		  {{ group_add_member_form.as_table }}
 		</TABLE>
-	    <INPUT type="submit" name="add_group_members" value="{% trans "Add" %}">
+	    <INPUT  type="submit" name="add_group_members" value="{% trans "Add" %}">
 		</FORM>
 		<div id="info"></div>
 	</div>
