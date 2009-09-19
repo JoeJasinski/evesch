@@ -84,8 +84,9 @@ def event_add(request,org_short_name,template_name=None):
                 current_event.event_creator_name = current_user
                 current_event.event_org = current_org
                 current_event.save()
-                message = Message(title=_("Event Add Successful"), text=_("Event Add Successful"))            
-                message.addlink(_("Continue"),reverse('event_events_list',kwargs={'org_short_name':current_org.org_short_name,}))
+                message = Message(title=_("Event Add Successful"), text=_("Event Add Successful"))
+                message.addlink(_("Attend"),reverse('event_attendee_add',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))      
+                message.addlink(_("View"),reverse('event_event_view',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
                 message.addlink(_("Edit"),reverse('event_event_edit',kwargs={'org_short_name':current_org.org_short_name,'event_hash':current_event.event_hash}))
                 if request.POST.get("dialog",'') == "False":
                     template_name = "core/message.html"
@@ -204,8 +205,9 @@ def event_attendee_add(request,org_short_name,event_hash,template_name=None):
     if not message:
         if not current_event.is_within_signup_deadline():
             template_name = "core/message.html"
-            text = _("You may not register for this event after " + current_event.event_signup_deadline.strftime("%A %m/%d/%Y"))
-            message = Message(title=_("Attendee Add Error", text=text))
+            #raise AssertionError()
+            text = _("You may not register for this event after %s" ) % (current_event.event_signup_deadline.strftime("%A %m/%d/%Y"))
+            message = Message(title=_("Attendee Add Error"), text=text)
             message.addlink(_("Back"),current_event.get_absolute_url())
             context = {'message':message,}
     if not message:
