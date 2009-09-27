@@ -5,6 +5,9 @@ from org.models import Organization
 from egroup.models import UserGroup
 from core.lib import Message
 from django.core.urlresolvers import reverse
+from random import sample
+
+KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 PRIVACY_TYPES = (
            (1,u'All_View'),
@@ -102,6 +105,10 @@ class eUser(User):
         verbose_name = _("Confirmation Number"),
         blank=True, null=True,
         max_length = 24)
+    user_feed_hash =  models.CharField(
+        max_length=24,
+        verbose_name=_("User Feed Hash"),
+        null=True, blank=True,)
     objects = UserManager()
     
    # class Meta:
@@ -133,7 +140,11 @@ class eUser(User):
 
     def get_absolute_url(self):
         return reverse('euser_user_view',kwargs={'username':self.username,})
-    
+ 
+    def save(self):
+        if not self.id:
+            self.user_feed_hash = "".join(sample(KEYS,24))
+        super(eUser, self).save()
         
 def get_current_user(username, message=None):
     if message:
