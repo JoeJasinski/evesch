@@ -1,0 +1,17 @@
+Critical 
+- Fix Reports
+- Make forms custom and easier to use
+- make event edit/add many to many helper fields more friendly and optional
+- Fix the missing AM/PM time field on edit existing events
+- Add search boxes
+- Add pagination where needed
+
+Optional
+- Rounded Corners
+
+Feature Adds
+- Forum 
+- anonymous invite
+- Add theme
+- make calendar more interactive
+
