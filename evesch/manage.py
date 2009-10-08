@@ -10,7 +10,3 @@ except ImportError:
 if __name__ == "__main__":
     execute_manager(settings)
 
-    import sys
-    if sys.argv[1]=='syncdb':
-	   from utils.init import * 
-	   pass
