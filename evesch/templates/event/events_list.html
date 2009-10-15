@@ -13,7 +13,9 @@
 {% block content %}
 {% include "event/inc_event_menu.html" %}
 
-<div class="section_title"><font>{{ heading }}</font></div>
+<div class="section">
+    <div class="section_title"><font>{{ heading }}</font></div>
+	<div class="section_body">
 {% if events %}   
    {% autopaginate events 20 %}
    {% paginate %}
@@ -24,5 +26,6 @@
 {% else %}
    {% trans "No events listed." %}
 {% endif %}
-   
+    </div>
+ </div>
 {% endblock %}

@@ -12,7 +12,7 @@
 	
 	<div class="section_sidebyside"> 
 	    <div class="section_leftcol">
-			<div class="section"> 
+			<div class="section">
 				<div class="section_title"><font>{% trans "Organization Information" %}</font><span class="section_title_icon">{% if current_org.org_perms.can_edit_org %}<a title="{% trans "Edit Organization" %}" href="{% url org_org_edit current_org.org_short_name %}"><img class="img_edit" alt="add" style="border: solid 0px;" src="{{ MEDIA_URL }}images/edit.png"></a>{% endif %}</span></div>
 				<div class="section_body">
 					<TABLE>
@@ -24,19 +24,15 @@
 					 {% if current_org.org_city %}<TR><TD>{% trans "City" %}:</TD><TD>{{ current_org.org_city }}</TD></TR>{% endif %}
 					 {% if current_org.org_state %}<TR><TD>{% trans "State" %}:</TD><TD>{{ current_org.org_state }}</TD></TR>{% endif %}
 					 {% if current_org.org_zip %}<TR><TD>{% trans "Zip" %}:</TD><TD>{{ current_org.org_zip }}</TD></TR>{% endif %}
-					 <TR><TD>{% trans "Created Date" %}:</TD><TD>{{ current_org.org_date_created|date:"D m/d/Y h:i a" }}</TD></TR>
+					 <TR><TD>{% trans "Created" %}:</TD><TD>{{ current_org.org_date_created|date:"D m/d/Y h:i a" }}</TD></TR>
 					 <TR><TD>{% trans "Admins" %}:</TD><TD>{% for admin in current_org.get_admin_users   %}<span><a href="{{ admin.get_absolute_url }}">{{ admin }}</a>&nbsp; </span>{% endfor %}</TD></TR>
 					 <TR><TD>{% trans "Event Coordinators" %}:</TD><TD>{% for coord in current_org.get_coordinator_users   %}<span><a href="{{ coord.get_absolute_url }}">{{ coord }}</a></span>&nbsp; {% endfor %}</TD></TR>
 					 <TR><TD>{% trans "Feed URL" %}</TD><TD><a href="{% url core_feed_org_rss current_org.org_short_name current_org.org_feed_hash %}"><img alt="rss" style="border: solid 0px;" src="{{ MEDIA_URL }}images/rss_icon.png"></a></TD></TR>
 					 <TR><TD>{% trans "iCal URL" %}</TD><TD><a href="{% url core_feed_org_ics current_org.org_short_name current_org.org_feed_hash %}"><img alt="ical" width="25" style="border: solid 0px;" src="{{ MEDIA_URL }}images/ical_icon.png"></a></TD></TR>
 					</TABLE>
-				</div>
+				</div> 
 			</div>
 			
-			
-
-
-
 
 			<div class="section" id="section_group_id">
 				<div class="section_title"><font>{% trans "Organization Groups" %}</font><span class="section_title_icon">{% if current_org.org_perms.can_add_group %}<a title="{% trans "Add Group" %}" href="{% url egroup_group_add current_org.org_short_name %}"><img class="img_add" alt="add" style="border: solid 0px;" src="{{ MEDIA_URL }}images/add.png"></a>{% endif %}</span></div>
@@ -85,16 +81,13 @@
 					  </TR>
 					{% endfor %}
 					</TABLE>
-				</div>
+				</div> 
 			</div>		
 			
 			
 		</div>
 		<div style="clear: both;"></div>
 	</div>
-	
-	
-	
 	
 	<div class="section" id="members_id">
 		<div class="section_title"><font>{% trans "Members" %} ({{ current_org.get_member_count }})</font><span class="section_title_icon">{% if current_org.org_perms.can_invite_users %}<a title="{% trans "Invite User to Org" %}" href="{% url org_org_member_invite current_org.org_short_name %}"><img class="img_join" alt="add" style="border: solid 0px;" src="{{ MEDIA_URL }}images/join.png"></a>{% endif %}</span></div>
