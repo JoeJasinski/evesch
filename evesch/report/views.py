@@ -8,11 +8,11 @@ from org.models import Organization
 from django.contrib.auth.decorators import login_required
 from event.models import EventType
 from report.forms import ReportFilterForm
-from datetime import datetime
+from datetime import datetime, timedelta
 
 @login_required
 def org_reports(request,org_short_name, type='generic', template_name=None):
-    min_event_date = datetime.date
+    min_event_date = datetime.today() - timedelta(120)
     max_event_date = datetime.date
     if request.method == 'POST': 
         form = ReportFilterForm(initial=request.POST)
