@@ -9,7 +9,6 @@
 {% block content %}
 <div class="core_content">
 	{% include "event/inc_event_menu.html" %}
-	
 	<div class="section_sidebyside"> 
 	    <div class="section_leftcol">
 			<div class="section">
@@ -32,8 +31,6 @@
 					</TABLE>
 				</div> 
 			</div>
-			
-
 			<div class="section" id="section_group_id">
 				<div class="section_title"><span class="section_title_icon">{% if current_org.org_perms.can_add_group %}<a title="{% trans "Add Group" %}" href="{% url egroup_group_add current_org.org_short_name %}"><img class="img_add" alt="add" style="border: solid 0px;" src="{{ MEDIA_URL }}images/add.png"></a>{% endif %}</span><font>{% trans "Organization Groups" %}</font></div>
 				<div class="section_body">
@@ -55,9 +52,6 @@
 					</ul>
 				</div>
 			</div>
-	
-			
-			
 		</div>
 		<div class="section_rightcol">
 			<div class="section" id="section_org_description_id">
@@ -66,8 +60,6 @@
 				 <pre class="org_description">{{ current_org.org_desc }}</pre>
 				</div>
 			</div>
-			
-			
 			<div class="section" id="section_event_types_id">
 				<div class="section_title"><span class="section_title_icon">{% if current_org.org_perms.can_add_type %}<a title="{% trans "Add Event Type" %}" href="{% url event_eventtype_add current_org.org_short_name %}"><img class="img_add" alt="add" style="border: solid 0px;" src="{{ MEDIA_URL }}images/add.png"></a>{% endif %}</span><font>{% trans "Organization Event Types" %}</font></div>
 				<div class="section_body">
@@ -83,12 +75,9 @@
 					</TABLE>
 				</div> 
 			</div>		
-			
-			
 		</div>
 		<div style="clear: both;"></div>
 	</div>
-	
 	<div class="section" id="members_id">
 		<div class="section_title"><span class="section_title_icon">{% if current_org.org_perms.can_invite_users %}<a title="{% trans "Invite User to Org" %}" href="{% url org_org_member_invite current_org.org_short_name %}"><img class="img_join" alt="add" style="border: solid 0px;" src="{{ MEDIA_URL }}images/join.png"></a>{% endif %}</span><font>{% trans "Members" %} ({{ current_org.get_member_count }})</font></div>
 		<div class="section_body">
