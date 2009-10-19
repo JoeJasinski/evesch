@@ -5,7 +5,9 @@
 {% block header_page_specific %}<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/event_list_entry.css">{% endblock %}
 {% block content %}
 
-<div class="section_title"><font>{% trans "Dashboard " %} - <a href="{{ request.user.euser.get_absolute_url }}">{{ request.user }}</a></font></div>
+<div class="section">
+    <div class="section_title"><font>{% trans "Dashboard " %} - <a href="{{ request.user.euser.get_absolute_url }}">{{ request.user }}</a></font></div>
+</div>
 
 <div class="section">
 	<div class="section_title"><font>{% trans "My Organizations" %} ({{ num_user_orgs }}) - <a style="font-size: 12px;" href="{% url org_orgs_list %}">{% trans "Manage" %}</a></font></div>
