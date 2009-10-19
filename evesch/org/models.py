@@ -195,7 +195,7 @@ class Organization(models.Model):
 		return reverse('org_org_view',kwargs={'org_short_name':self.org_short_name,})
 
 	def is_member(self,user):
-		if self.org_users.filter(id=user.id).iterator():
+		if self.org_users.filter(id=user.id):
 			return True
 		else:
 			return False	
@@ -237,7 +237,7 @@ class Organization(models.Model):
 					permissions['can_remove_group'] = True
 					permissions['can_remove_users'] = True
 					permissions['can_invite_users'] = True
-			elif self.get_admin_users().filter(id=user.id).iterator():
+			elif self.get_admin_users().filter(id=user.id):
 				permissions['can_join_org'] = True
 				if permissions['is_memberof_org']:
 					permissions['can_add_event'] = True
@@ -252,7 +252,7 @@ class Organization(models.Model):
 					permissions['can_remove_group'] = True
 					permissions['can_remove_users'] = True
 					permissions['can_invite_users'] = True			
-			elif self.get_coordinator_users().filter(id=user.id).iterator():
+			elif self.get_coordinator_users():
 				permissions['can_join_org'] = True
 				if permissions['is_memberof_org']:
 					permissions['can_add_event'] = True
@@ -265,7 +265,7 @@ class Organization(models.Model):
 						permissions['can_join_org'] = True
 						
 			if permissions['is_memberof_org']:
-				if self.get_orginvite_users().filter(id=user.id).iterator():
+				if self.get_orginvite_users().filter(id=user.id):
 					permissions['can_invite_users'] = True
 		#else:
 		#	raise AssertionError(threadlocals.get_current_user())
