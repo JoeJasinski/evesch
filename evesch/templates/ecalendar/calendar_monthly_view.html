@@ -3,6 +3,11 @@
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Monthly Calendar of Events" %}{% endblock %}
 {% block header_page_specific %} 
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/org_cal_mon.css" />
+	<script type="text/javascript">
+	 $(document).ready(function() { $(".event_container").click(function(){ window.location = $(this).attr("url"); return false; }); 
+	 $(".event_container").hover(function () { $(this).css("border","solid 1px #8F0000"); }, function () { $(this).css("border","solid 1px #1a88c9"); });
+	 }); 
+    </script>
 {% endblock %}
 {% block breadcrumb %}
 <a href="{% url home %}">{% trans "home" %}</a> 
@@ -28,7 +33,7 @@
 	   <TR>
 	     {% for day in week %}
 	     <TD class=org_cal_mon_cell>
-	       {% ifnotequal day.date 0 %}<div class="org_cal_mon_num"><a href="{% url ecalendar_calendar_daily_view current_org.org_short_name %}?year={{ month.year }}&month={{ month.month }}&day={{ day.date }}">{{ day.date }}</a></div><BR>{% for event in day.events %}<a href="{{ event.get_absolute_url }}">{{ event.event_name|ellipsis:25 }}</a><BR>{% endfor %}{% endifnotequal %}
+	       {% ifnotequal day.date 0 %}<div class="org_cal_mon_num"><a href="{% url ecalendar_calendar_daily_view current_org.org_short_name %}?year={{ month.year }}&month={{ month.month }}&day={{ day.date }}">{{ day.date }}</a></div><BR>{% for event in day.events %}<div class="event_container" url="{{ event.get_absolute_url }}" style="border:solid 1px #1a88c9;margin:2px;padding:3px;background-color: #{{ event.event_type.type_color }}"><a class="launch" style="text-decoration:none;color: #{{event.event_type.contrast}}" href="{{ event.get_absolute_url }}">{{ event.event_name|ellipsis:25 }}</a></div>{% endfor %}{% endifnotequal %}
 	     </TD>{% endfor %}
 	   </TR>{% endfor %}
 	</TABLE>

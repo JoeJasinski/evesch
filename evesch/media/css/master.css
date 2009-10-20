@@ -168,9 +168,9 @@ div.org_user_list
   background-color: #f2e5b7;
 }
 
-.report {border:1px solid #69E067;}
-.report .report_item_head {background-color: #69E067; color: black; padding: 3px;}
-.report .report_item_subhead {background-color: #CCFFCC;color: #336644;}
+.report {border:1px solid #1a88c9;}
+.report .report_item_head {background-color: #105178; color: black; padding: 3px;}
+.report .report_item_subhead {background-color: #1a88c9;color: white;}
 .report .report_item_body {color: #336644;}
 .report_filter{margin: 5px;display:none;}
 
@@ -206,22 +206,11 @@ ul.my_org_list li{border-top: solid #1a88c9 1px;padding: 2px;}
 .org_group_list li table .group_flags{width: 4em; vertical-align: top;}
 .org_group_list li table .group_actions{vertical-align: top;}
 
-table .eventtype_name
-{
-  width: 100px;
-  padding: 4px;
-  vertical-align:top;
-}
+table .eventtype_name{width: 100px;padding: 4px;vertical-align:top;}
+table .eventtype_desc{width: 180px;padding: 4px;vertical-align:top;}
 
-table .eventtype_desc
-{
- width: 180px;
- padding: 4px;
- vertical-align:top;
-}
-
-ul.attendee_list {list-style-type: none;	padding: 0px;margin: 0px;}
-ul.attendee_list li {border-top: solid #69e067 1px; }
+ul.attendee_list {list-style-type: none;padding: 0px;margin: 0px;}
+ul.attendee_list li {border-top: solid #1a88c9 1px;}
 ul.attendee_list li .att_name {width: 100px;}
 ul.attendee_list li .att_date {width: 130px;}
 ul.attendee_list li .att_hours {width: 50px;}
