@@ -68,7 +68,7 @@ def user_settings(request, template_name=None):
 @login_required
 def lookup_users(request, org_short_name=None, template_name=None):
     users = []
-      
+    
     if org_short_name:
         current_user, message = get_current_user(request.user)
         if not message:
@@ -81,14 +81,14 @@ def lookup_users(request, org_short_name=None, template_name=None):
             if request.GET.__contains__("q"): 
                 try:
                     q  = request.GET['q']
-                    users = (current_org.get_invited_users() | current_org.get_members()).filter(Q(username__contains=q) | Q(last_name__contains=q) | Q(first_name__contains=q)).order_by('username')[:10]
+                    users = (current_org.get_invited_users() | current_org.get_members()).filter(Q(username__icontains=q) | Q(last_name__icontains=q) | Q(first_name__icontains=q)).order_by('username')[:10]
                 except ValueError:
                     pass              
     else:
         if request.GET.__contains__("q"): 
             try:
                 q  = request.GET['q']
-                users = eUser.objects.filter(Q(username__contains=q) | Q(last_name__contains=q) | Q(first_name__contains=q)).order_by('username')[:10]
+                users = eUser.objects.filter(Q(username__icontains=q) | Q(last_name__icontains=q) | Q(first_name__icontains=q)).order_by('username')[:10]
             except ValueError:
                 pass
     
