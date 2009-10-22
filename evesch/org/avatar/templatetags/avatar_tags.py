@@ -1,21 +1,17 @@
 import urllib
 
 from django import template
-from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.utils.hashcompat import md5_constructor
 
-from avatar import AVATAR_DEFAULT_URL, AVATAR_GRAVATAR_BACKUP
+from org.avatar import AVATAR_DEFAULT_URL, AVATAR_GRAVATAR_BACKUP
+
+from org.models import Organization
 
 register = template.Library()
 
-def avatar_url(user, size=80):
-    if not isinstance(user, User):
-        try:
-            user = User.objects.get(username=user)
-        except User.DoesNotExist:
-            return AVATAR_DEFAULT_URL
-    avatars = user.avatar_set.order_by('-date_uploaded')
+def avatar_url(org, size=300):
+    avatars = org.avatar_set.order_by('-date_uploaded')
     primary = avatars.filter(primary=True)
     if primary.count() > 0:
         avatar = primary[0]
@@ -28,28 +24,20 @@ def avatar_url(user, size=80):
             avatar.create_thumbnail(size)
         return avatar.avatar_url(size)
     else:
-        if AVATAR_GRAVATAR_BACKUP:
-            return "http://www.gravatar.com/avatar/%s/?%s" % (
-                md5_constructor(user.email).hexdigest(),
-                urllib.urlencode({'s': str(size)}),)
-        else:
-            return AVATAR_DEFAULT_URL
+        return AVATAR_DEFAULT_URL
 register.simple_tag(avatar_url)
 
-def avatar(user, size=80):
-    if not isinstance(user, User):
-        try:
-            user = User.objects.get(username=user)
-            alt = unicode(user)
-            url = avatar_url(user, size)
-        except User.DoesNotExist:
-            url = AVATAR_DEFAULT_URL
-            alt = _("Default Avatar")
-    else:
-        alt = unicode(user)
-        url = avatar_url(user, size)
-    return """<img src="%s" alt="%s" width="%s" height="%s" />""" % (url, alt,
-        size, size)
+def avatar(org_short_name, size=300):
+
+    try:
+        org = Organization.objects.get(org_short_name=org_short_name)
+        alt = unicode(org.org_name)
+        url = avatar_url(org, size)
+    except Organization.DoesNotExist:
+        url = AVATAR_DEFAULT_URL
+        alt = _("Default Avatar")
+
+    return """<img src="%s" alt="%s" width="%s" height="%s" />""" % (url, alt, size, "225")
 register.simple_tag(avatar)
 
 def render_avatar(avatar, size=80):

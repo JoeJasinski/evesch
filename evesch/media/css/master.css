@@ -10,7 +10,6 @@ body {
 	letter-spacing: normal;
 	text-decoration: none;
 	text-transform: none;
-	text-align: center;
 	text-indent: 0ex;
 	padding: 0px;
 	margin: 0px;
@@ -46,13 +45,7 @@ a {color: #105178;}
 .header_banner .login_container a{color: #fff; }
 .logo a img{outline: 0;border: 0px;} 
 
-.breadcrumb
-{
-  padding: 8px;
-  background-color: #FFFACF;
-  border-top: solid 1px #FFA100;
-  border-bottom: solid 1px #FFA100;
-}
+.breadcrumb{padding: 8px;background-color: #FFFACF;border-top: solid 1px #FFA100;border-bottom: solid 1px #FFA100;}
 
 .main_container{background-color:white;padding: 0px;  border: solid 1px #1a88c9; }
 .main_container_wrap{padding: 20px;}
@@ -72,59 +65,32 @@ a {color: #105178;}
 .menu li{float:left;padding:0px;}
 .menu li a{
 	background:#1a88c9 url("../images/menu/seperator.gif") bottom right no-repeat;
-	color:#ffffff;
-	display:block;
-	font-weight:normal;
-	line-height:25px;
-	margin:0px;
-	padding:0px 25px;
-	text-align:center;
-	text-decoration:none;}
+	color:#ffffff;display:block;font-weight:normal;line-height:25px;
+	margin:0px;padding:0px 25px;text-align:center;text-decoration:none;}
 .menu li a:hover, .menu ul li:hover a{
 	background: #105178 url("../images/menu/hover.png") bottom center no-repeat;
-	color:#FFFFFF;
-	text-decoration:none;}
+	color:#FFFFFF;text-decoration:none;}
 .menu li ul{
-	background:#105178;
-	display:none;
-	height:auto;
-	padding:0px;
-	margin:0px;
-	border:0px;
-	position:absolute;
-	width:150px;
-	z-index:200;
-}
+	background:#105178;display:none;height:auto;padding:0px;margin:0px;
+	border:0px;position:absolute;width:150px;z-index:200;}
 .menu li:hover ul{display:block;}
 .menu li li {
- border-top: solid black 1px;
-	background:url('../images/menu/sub_sep.gif') bottom left no-repeat;
-	display:block;
-	float:none;
-	margin:0px;
-	padding:0px;
-	width:150px;}
+    border-top: solid black 1px;background:url('../images/menu/sub_sep.gif') bottom left no-repeat;
+	display:block;float:none;margin:0px;padding:0px;width:150px;}
 .menu li:hover li a{background:none;}
 .menu li ul a{
-	display:block;
-	height:25px;
-	font-size:12px;
-	font-style:normal;
-	margin:0px;
-	padding:0px 10px 0px 15px;
+	display:block;height:25px;font-size:12px;
+	font-style:normal;margin:0px;padding:0px 10px 0px 15px;
 	text-align:left;}
 .menu li ul a:hover, .menu li ul li:hover a{
 	background:#105178 url('../images/menu/hover_sub.png') center left no-repeat;
-	border:0px;
-	color:#ffffff;
-	text-decoration:none;}
+	border:0px;color:#ffffff;text-decoration:none;}
 .menu p{clear:left;}	
-
 
 .section_sidebyside {margin-bottom: 10px;}
 .section_leftcol{float: left; margin-right: 10px; width: 350px;}
 .section_rightcol{float: left; margin-left: 10px;}
-#section_group_id {clear: both; width: 350px;}
+#section_group_id {clear: both; width: 388px;}
 #section_event_types_id {width: 388px;}
 #section_org_description_id {width: 388px;}
 
@@ -140,11 +106,11 @@ img.img_join {width: 15px;}
 
 .org_list_entry {padding: 2px;}
 .org_list_entry  div {display: inline;width: 450px;border: solid black 1px;}
-
+#org_picture {text-align: center; padding: 10px;} 
+#org_picture img {border: solid #1a88c9 1px; margin-left: auto;margin-right: auto; display: block;}
 .org_description
 {
- padding: 0px;
- margin: 0px;
+ padding: 5px;margin: 0px;
  font-family: Verdana, Arial, Helvetica, sans-serif;
  /* Thanks: http://archivist.incutio.com/viewlist/css-discuss/55677 */
  white-space: pre-wrap;       /* css-3 should we be so lucky... */
@@ -159,13 +125,8 @@ img.img_join {width: 15px;}
 
 div.org_user_list
 {
-  width: 164px;
-  height: 20px;
-  float: left;
-  border: solid #ffa100 1px;
-  padding: 5px;
-  margin: 4px;
-  background-color: #f2e5b7;
+  width: 164px;height: 20px;float: left;border: solid #ffa100 1px;
+  padding: 5px;margin: 4px;background-color: #f2e5b7;
 }
 
 .report {border:1px solid #1a88c9;}
@@ -176,13 +137,7 @@ div.org_user_list
 
 #filter_toggle{margin: 5px;}
 
-.logo_text
-{
- position: absolute; 
- z-index: 10; 
- left: 1000; 
- display: none;
-}
+.logo_text{position: absolute; z-index: 10;left: 1000;display: none;}
 
 .page_nav{margin:4px 4px 8px 4px; width: 200px;}
 .page_nav div{margin-bottom: 4px;} 

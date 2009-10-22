@@ -1,27 +1,18 @@
 import os.path
 
-from avatar.models import Avatar, avatar_file_path
-from avatar.forms import PrimaryAvatarForm, DeleteAvatarForm
+from org.avatar.models import Avatar, avatar_file_path
+from org.avatar.forms import PrimaryAvatarForm, DeleteAvatarForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext as _
-
+from euser.models import get_current_user
+from core.lib import Message
 from django.db.models import get_app
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
-
-try:
-    notification = get_app('notification')
-except ImproperlyConfigured:
-    notification = None
-
-try:
-    from friends.models import Friendship
-    friends = True
-except ImportError:
-    friends = False
+from org.models import Organization
 
 def _get_next(request):
     """
@@ -42,86 +33,111 @@ def _get_next(request):
         next = request.path
     return next
 
-def change(request, extra_context={}, next_override=None):
-    avatars = Avatar.objects.filter(user=request.user).order_by('-primary')
-    if avatars.count() > 0:
-        avatar = avatars[0]
-        kwargs = {'initial': {'choice': avatar.id}}
+def change(request, org_short_name, extra_context={}, next_override=None):
+    message = None
+    current_org, message = Organization.objects.get_current_org(org_short_name, message)
+    if not message:    
+        current_user, message = get_current_user(request.user)
+    if not message:
+        operms = current_org.org_perms(current_user)
+        if not operms['is_memberof_org']:
+            template_name = "core/message.html"
+            message = Message(title=_("Can Not Edit Org Photo"), text=_("You cannot edit an organization that you do not belong to."))
+            message.addlink(_("Back"),current_org.get_absolute_url())
+            context = {'message':message,}
+    if not message:
+        if not operms['can_edit_org']:
+            template_name = "core/message.html"
+            message = Message(title=_("Can Not Edit Org Photo"), text=_("You cannot edit this organization because you do not have permission to."))
+            message.addlink(_("Back"),current_org.get_absolute_url())
+            context = {'message':message,}
+    if not message:
+        avatars = Avatar.objects.filter(org=current_org).order_by('-primary')
+        if avatars.count() > 0:
+            avatar = avatars[0]
+            kwargs = {'initial': {'choice': avatar.id}}
+        else:
+            avatar = None
+            kwargs = {}
+        primary_avatar_form = PrimaryAvatarForm(request.POST or None, org=current_org, **kwargs)
+        if request.method == "POST":
+            updated = False
+            if 'avatar' in request.FILES:
+                path = avatar_file_path(org_short_name=current_org.org_short_name,filename=request.FILES['avatar'].name)
+                avatar = Avatar(org = current_org, primary = True, avatar = path,)
+                new_file = avatar.avatar.storage.save(path, request.FILES['avatar'])
+                avatar.save()
+                updated = True
+                request.user.message_set.create(message=_("Successfully uploaded a new organization photo."))
+            if 'choice' in request.POST and primary_avatar_form.is_valid():
+                avatar = Avatar.objects.get(id=primary_avatar_form.cleaned_data['choice'])
+                avatar.primary = True
+                avatar.save()
+                updated = True
+                request.user.message_set.create(message=_("Successfully updated the organization photo."))
+            return HttpResponseRedirect(next_override or _get_next(request))
+        template_name='avatar/change.html'
+        context = { 'current_org':current_org, 'avatar': avatar, 'avatars': avatars,'primary_avatar_form': primary_avatar_form,
+                  'next': next_override or _get_next(request), }
     else:
-        avatar = None
-        kwargs = {}
-    primary_avatar_form = PrimaryAvatarForm(request.POST or None, user=request.user, **kwargs)
-    if request.method == "POST":
-        updated = False
-        if 'avatar' in request.FILES:
-            path = avatar_file_path(user=request.user, 
-                filename=request.FILES['avatar'].name)
-            avatar = Avatar(
-                user = request.user,
-                primary = True,
-                avatar = path,
-            )
-            new_file = avatar.avatar.storage.save(path, request.FILES['avatar'])
-            avatar.save()
-            updated = True
-            request.user.message_set.create(
-                message=_("Successfully uploaded a new avatar."))
-        if 'choice' in request.POST and primary_avatar_form.is_valid():
-            avatar = Avatar.objects.get(id=
-                primary_avatar_form.cleaned_data['choice'])
-            avatar.primary = True
-            avatar.save()
-            updated = True
-            request.user.message_set.create(
-                message=_("Successfully updated your avatar."))
-        if updated and notification:
-            notification.send([request.user], "avatar_updated", {"user": request.user, "avatar": avatar})
-            notification.send((x['friend'] for x in Friendship.objects.friends_for_user(request.user)), "avatar_friend_updated", {"user": request.user, "avatar": avatar})
-        return HttpResponseRedirect(next_override or _get_next(request))
-    return render_to_response(
-        'avatar/change.html',
-        extra_context,
-        context_instance = RequestContext(
-            request,
-            { 'avatar': avatar, 
-              'avatars': avatars,
-              'primary_avatar_form': primary_avatar_form,
-              'next': next_override or _get_next(request), }
-        )
-    )
+        template_name = "core/message.html"
+        context = {'message':message } 
+    return render_to_response(template_name,context,context_instance=RequestContext(request))
+
 change = login_required(change)
 
-def delete(request, extra_context={}, next_override=None):
-    avatars = Avatar.objects.filter(user=request.user).order_by('-primary')
-    if avatars.count() > 0:
-        avatar = avatars[0]
-    else:
-        avatar = None
-    delete_avatar_form = DeleteAvatarForm(request.POST or None, user=request.user)
-    if request.method == 'POST':
-        if delete_avatar_form.is_valid():
-            ids = delete_avatar_form.cleaned_data['choices']
-            if unicode(avatar.id) in ids and avatars.count() > len(ids):
-                for a in avatars:
-                    if unicode(a.id) not in ids:
-                        a.primary = True
-                        a.save()
-                        notification.send([request.user], "avatar_updated", {"user": request.user, "avatar": a})
-                        notification.send((x['friend'] for x in Friendship.objects.friends_for_user(request.user)), "avatar_friend_updated", {"user": request.user, "avatar": a})
-                        break
-            Avatar.objects.filter(id__in=ids).delete()
-            request.user.message_set.create(
-                message=_("Successfully deleted the requested avatars."))
-            return HttpResponseRedirect(next_override or _get_next(request))
-    return render_to_response(
-        'avatar/confirm_delete.html',
-        extra_context,
-        context_instance = RequestContext(
-            request,
-            { 'avatar': avatar, 
-              'avatars': avatars,
-              'delete_avatar_form': delete_avatar_form,
-              'next': next_override or _get_next(request), }
+def delete(request, org_short_name, extra_context={}, next_override=None):
+    message = None
+    current_org, message = Organization.objects.get_current_org(org_short_name, message)
+    if not message:    
+        current_user, message = get_current_user(request.user)
+    if not message:
+        operms = current_org.org_perms(current_user)
+        if not operms['is_memberof_org']:
+            template_name = "core/message.html"
+            message = Message(title=_("Can Not Edit Org Photo"), text=_("You cannot edit an organization that you do not belong to."))
+            message.addlink(_("Back"),current_org.get_absolute_url())
+            context = {'message':message,}
+    if not message:
+        if not operms['can_edit_org']:
+            template_name = "core/message.html"
+            message = Message(title=_("Can Not Edit Org Photo"), text=_("You cannot edit this organization because you do not have permission to."))
+            message.addlink(_("Back"),current_org.get_absolute_url())
+            context = {'message':message,}
+    if not message:        
+        avatars = Avatar.objects.filter(org=current_org).order_by('-primary')
+        if avatars.count() > 0:
+            avatar = avatars[0]
+        else:
+            avatar = None
+        delete_avatar_form = DeleteAvatarForm(request.POST or None, org=current_org)
+        if request.method == 'POST':
+            if delete_avatar_form.is_valid():
+                ids = delete_avatar_form.cleaned_data['choices']
+                if unicode(avatar.id) in ids and avatars.count() > len(ids):
+                    for a in avatars:
+                        if unicode(a.id) not in ids:
+                            a.primary = True
+                            a.save()
+                            break
+                Avatar.objects.filter(id__in=ids).delete()
+                request.user.message_set.create(
+                    message=_("Successfully deleted the requested avatars."))
+                return HttpResponseRedirect(next_override or _get_next(request))
+        return render_to_response(
+            'avatar/confirm_delete.html',
+            extra_context,
+            context_instance = RequestContext(
+                request,
+                { 'avatar': avatar, 
+                  'avatars': avatars,
+                  'current_org':current_org,
+                  'delete_avatar_form': delete_avatar_form,
+                  'next': next_override or _get_next(request), }
+            )
         )
-    )
+    else:
+        template_name = "core/message.html"
+        context = {'message':message } 
+    return render_to_response('avatar/confirm_delete.html',context,context_instance=RequestContext(request))
 change = login_required(change)

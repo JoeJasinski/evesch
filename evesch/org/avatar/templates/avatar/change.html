@@ -1,21 +1,54 @@
-{% extends "avatar/base.html" %}
-{% load avatar_tags %}
+{% extends "avatar/org_photo_base.html" %}
+{% load i18n %}{% load avatar_tags %}
+{% block title %} - Edit Organization Photo {{ current_org.org_short_name }}{% endblock %}
+{% block header_page_specific %} 
+<style rel="stylesheet" type="text/css">
+ul.photo_list  { padding: 0px; margin: 0px; } 
+ul.photo_list li ul li { background-color: white; border: solid 1px #1a88c9; display: block; float:left; margin: 5px; padding: 5px; }
+ul.photo_list li { list-style-type:none;  } 
+ul.photo_list ul {list-style-type: none; margin: 0px; padding: 0px; } 
+.photo_add_box { margin: 15px; }
+.photo_choose_box { margin: 15px; }
+.photo_box { margin: 15px; }
+</style>
+{% endblock %}
+{% block breadcrumb %}
+	<a href="{% url home %}">{% trans "home" %}</a> 
+	&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+	&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> &gt; {% trans "Edit Organization Photo" %}
+{% endblock %}
+{% block org_photo_content %}
 
-{% block content %}
-    <p>Your current avatar: </p>
-    {% avatar user %}
-    {% if not avatars %}
-        <p>You do not yet have an avatar.  Please upload one now.</p>
-    {% else %}
-        <form method="POST" action="">
-            <ul>
-                {{ primary_avatar_form.as_ul }}
-            </ul>
-            <input type="submit" value="Choose new Default" />
-        </form>
-    {% endif %}
-    <form enctype="multipart/form-data" method="POST" action="">
-        <input type="file" name="avatar" value="Avatar Image" />
-        <input type="submit" value="Upload New Image" />
-    </form>
+<div class="section">
+	<div class="section_title"><font>{% trans "Photo Add/Edit" %}</font></div>
+	<div class="section_body">
+		<div class="photo_box">
+	    <p>{% trans "Your current organization photo:" %} </p>
+	    {% avatar current_org.org_short_name %}
+	    </div>
+		<div class="photo_choose_box">
+	    {% if not avatars %}
+	        <p>{% trans "You do not yet have an organization photo. You may upload one now." %}</p>
+	    {% else %}
+	        <form method="POST" action=".">
+	            <ul class="photo_list">
+	                {{ primary_avatar_form.as_ul }}
+	            </ul>
+	            <div style="clear: both;"></div>
+	            <input type="submit" value="{% trans "Choose Default" %}" />
+	        </form>
+	    {% endif %}
+	    </div>
+	    <div class="photo_add_box">
+		    <form enctype="multipart/form-data" method="POST" action=".">
+		        <input type="file" name="avatar" value="Avatar Image" />
+		        <div style="clear: both;"></div>
+		        <input type="submit" value="{% trans "Upload Image" %}" />
+		    </form>
+	    </div>
+    	<div style="clear: both;"></div>
+	</div> 
+</div>
+    
+    
 {% endblock %}

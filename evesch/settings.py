@@ -21,6 +21,7 @@ DATABASE_HOST = 'localhost'             # Set to empty string for localhost. Not
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
 DATABASE_OPTIONS = {
+     'unix_socket' : '/tmp/mysql.sock',
      "init_command": "SET storage_engine=INNODB",
      }
 
@@ -110,8 +111,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'core.django_extensions',  # adds extra manage.py utils http://code.google.com/p/django-command-extensions/
-    'django_evolution',
-    'org',    
+    'org',
+    'org.avatar',
     'egroup',
     'euser',
     'core',
@@ -123,6 +124,7 @@ INSTALLED_APPS = (
     'core.ajax_filtered_fields', 
     'core.rosetta',   # used for easily editing i18n files
     'report',
+#    'south',
 )
 
 

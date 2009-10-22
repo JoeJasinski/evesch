@@ -1,15 +1,39 @@
-{% extends "avatar/base.html" %}
+{% extends "avatar/org_photo_base.html" %}
+{% load i18n %}
+{% block title %} - Delete Organization Photo {{ current_org.org_short_name }}{% endblock %}
+{% block header_page_specific %} 
+<style rel="stylesheet" type="text/css">
+ul.photo_list  { padding: 0px; margin: 0px; } 
+ul.photo_list li ul li { background-color: white; border: solid 1px #1a88c9; display: block; float:left; margin: 5px; padding: 5px; }
+ul.photo_list li { list-style-type:none;  } 
+ul.photo_list ul {list-style-type: none; margin: 0px; padding: 0px; } 
+</style>
+{% endblock %}
+{% block breadcrumb %}
+	<a href="{% url home %}">{% trans "home" %}</a> 
+	&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+	&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> &gt; {% trans "Delete Organization Photo" %}
+{% endblock %}
+{% block org_photo_content %}
+<div class="section">
+	<div class="section_title"><font>{% trans "Photo Delete" %}</font></div>
+	<div class="section_body">
 
-{% block content %}
-    <p>Please select the avatars that you would like to delete.</p>
+	<div class="photo_choose_box">
+    <p>{% trans "Please select the organization photos that you would like to delete." %}</p>
     {% if not avatars %}
-        <p>You have no avatars to delete.  Please <a href="{% url avatar_change %}">upload one</a> now.</p>
+        <p>{% trans "You have no photos to delete.  Please" %} <a href="{% url org_org_edit_photo current_org.org_short_name %}">upload one</a> now." </p>
     {% else %}
         <form method="POST" action="">
-            <ul>
+            <ul class="photo_list">
                 {{ delete_avatar_form.as_ul }}
             </ul>
-            <input type="submit" value="Delete These" />
+            <div style="clear: both;"></div>
+            <input type="submit" value="{% trans "Delete These" %}" />
         </form>
     {% endif %}
+    </div>
+    
+	</div> 
+</div>    
 {% endblock %}
