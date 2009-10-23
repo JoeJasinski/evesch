@@ -14,6 +14,9 @@ from django.db.models import get_app
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 from org.models import Organization
+from random import sample
+
+KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 def _get_next(request):
     """
@@ -71,8 +74,8 @@ def change(request, org_short_name, extra_context={}, next_override=None):
                     message.addlink(_("Delete Photos"),reverse('org_org_delete_photo',kwargs={'org_short_name':current_org.org_short_name}))
                     context = {'message':message,}
                 if not message:   
-                    path = avatar_file_path(org_short_name=current_org.org_short_name,filename=request.FILES['avatar'].name)
-                    avatar = Avatar(org = current_org, primary = True, avatar = path,)
+                    path = avatar_file_path(org_short_name=current_org.org_short_name,filename="".join(sample(KEYS,12)) + ".jpg")
+                    avatar = Avatar(org=current_org, primary=True, avatar=path,)
                     new_file = avatar.avatar.storage.save(path, request.FILES['avatar'])
                     avatar.save()
                     updated = True
