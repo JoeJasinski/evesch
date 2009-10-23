@@ -156,7 +156,7 @@ ul.my_org_list li{border-top: solid #1a88c9 1px;padding: 2px;}
 
 .org_group_list{list-style-type: none;padding: 0px;margin: 0px;}
 .org_group_list li{border-top: solid #1a88c9 1px;padding: 4px 0px;}
-.org_group_list li table .group_name{width: 28em; vertical-align: top; padding: 0px;}
+.org_group_list li table .group_name{width: 30em; vertical-align: top; padding: 0px;}
 .org_group_list li table .group_desc{vertical-align: top; padding-top: 6px; padding-bottom: 4px; }
 .org_group_list li table .group_flags{width: 4em; vertical-align: top;}
 .org_group_list li table .group_actions{vertical-align: top;}
