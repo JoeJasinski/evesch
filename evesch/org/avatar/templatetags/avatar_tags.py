@@ -37,12 +37,12 @@ def avatar(org_short_name, size=300):
         url = AVATAR_DEFAULT_URL
         alt = _("Default Avatar")
 
-    return """<img src="%s" alt="%s" width="%s" height="%s" />""" % (url, alt, size, "225")
+    return """<img src="%s" alt="%s" width="%s" height="%s" />""" % (url, alt, size, ((size * 3) / 4))
 register.simple_tag(avatar)
 
 def render_avatar(avatar, size=80):
     if not avatar.thumbnail_exists(size):
         avatar.create_thumbnail(size)
     return """<img src="%s" alt="%s" width="%s" height="%s" />""" % (
-        avatar.avatar_url(size), str(avatar), size, size)
+        avatar.avatar_url(size), str(avatar), size, ((size * 3) / 4))
 register.simple_tag(render_avatar)

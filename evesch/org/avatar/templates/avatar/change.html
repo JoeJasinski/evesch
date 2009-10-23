@@ -10,6 +10,7 @@ ul.photo_list ul {list-style-type: none; margin: 0px; padding: 0px; }
 .photo_add_box { margin: 15px; }
 .photo_choose_box { margin: 15px; }
 .photo_box { margin: 15px; }
+.photo_box img { border: solid 1px #1a88c9; } 
 </style>
 {% endblock %}
 {% block breadcrumb %}
@@ -40,10 +41,11 @@ ul.photo_list ul {list-style-type: none; margin: 0px; padding: 0px; }
 	    {% endif %}
 	    </div>
 	    <div class="photo_add_box">
+	        <p>{% trans "Upload a photo:" %} </p>
 		    <form enctype="multipart/form-data" method="POST" action=".">
 		        <input type="file" name="avatar" value="Avatar Image" />
 		        <div style="clear: both;"></div>
-		        <input type="submit" value="{% trans "Upload Image" %}" />
+		        <input type="submit" value="{% trans "Upload" %}" />
 		    </form>
 	    </div>
     	<div style="clear: both;"></div>

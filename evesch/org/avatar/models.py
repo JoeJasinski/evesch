@@ -46,15 +46,18 @@ class Avatar(models.Model):
         except IOError:
             return # What should we do here?  Render a "sorry, didn't work" img?
         (w, h) = image.size
-        if w != size or h != size:
-            # if h / w > 0.75:
-            if w > h:
-                diff = (w - h) / 2
-                image = image.crop((diff, 0, w - diff, h))
+            
+        width = size
+        if w != width or h != ((width * 3) / 4):
+            #if taller than ratio...
+            if h / w > 0.75:
+                h1 = ((w * 3) / 4)
+                image = image.crop((0, (h / 2) - (h1 / 2), w, (h / 2) + (h1 / 2) ))
             else:
-                diff = (h - w) / 2
-                image = image.crop((0, diff, w, h - diff))
-            image = image.resize((size, size), AVATAR_RESIZE_METHOD)
+                w1 = ((h * 4) / 3)
+                image = image.crop(( ( w / 2 ) - (w1 / 2), 0, ( w / 2 ) + (w1 / 2), h ))
+            image = image.resize((width, ((width * 3) / 4)), AVATAR_RESIZE_METHOD)
+        
             if image.mode != "RGB":
                 image = image.convert("RGB")
             thumb = StringIO()

@@ -8,6 +8,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext as _
 from euser.models import get_current_user
+from django.core.urlresolvers import reverse
 from core.lib import Message
 from django.db.models import get_app
 from django.core.exceptions import ImproperlyConfigured
@@ -63,12 +64,23 @@ def change(request, org_short_name, extra_context={}, next_override=None):
         if request.method == "POST":
             updated = False
             if 'avatar' in request.FILES:
-                path = avatar_file_path(org_short_name=current_org.org_short_name,filename=request.FILES['avatar'].name)
-                avatar = Avatar(org = current_org, primary = True, avatar = path,)
-                new_file = avatar.avatar.storage.save(path, request.FILES['avatar'])
-                avatar.save()
-                updated = True
-                request.user.message_set.create(message=_("Successfully uploaded a new organization photo."))
+                if avatars.count() >= 4:
+                    template_name = "core/message.html"
+                    message = Message(title=_("Max uploads reached"), text=_("You cannot upload more than 4 photos."))
+                    message.addlink(_("Back"),reverse('org_org_edit_photo',kwargs={'org_short_name':current_org.org_short_name}))
+                    message.addlink(_("Delete Photos"),reverse('org_org_delete_photo',kwargs={'org_short_name':current_org.org_short_name}))
+                    context = {'message':message,}
+                if not message:   
+                    path = avatar_file_path(org_short_name=current_org.org_short_name,filename=request.FILES['avatar'].name)
+                    avatar = Avatar(org = current_org, primary = True, avatar = path,)
+                    new_file = avatar.avatar.storage.save(path, request.FILES['avatar'])
+                    avatar.save()
+                    updated = True
+                    request.user.message_set.create(message=_("Successfully uploaded a new organization photo."))
+                else:
+                    template_name = "core/message.html"
+                    context = {'message':message }
+                    return render_to_response(template_name,context,context_instance=RequestContext(request))                     
             if 'choice' in request.POST and primary_avatar_form.is_valid():
                 avatar = Avatar.objects.get(id=primary_avatar_form.cleaned_data['choice'])
                 avatar.primary = True
@@ -76,6 +88,7 @@ def change(request, org_short_name, extra_context={}, next_override=None):
                 updated = True
                 request.user.message_set.create(message=_("Successfully updated the organization photo."))
             return HttpResponseRedirect(next_override or _get_next(request))
+        
         template_name='avatar/change.html'
         context = { 'current_org':current_org, 'avatar': avatar, 'avatars': avatars,'primary_avatar_form': primary_avatar_form,
                   'next': next_override or _get_next(request), }
