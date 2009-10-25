@@ -1,7 +1,7 @@
 import os.path
 
 from org.avatar.models import Avatar, avatar_file_path
-from org.avatar.forms import PrimaryAvatarForm, DeleteAvatarForm
+from org.avatar.forms import PrimaryAvatarForm, DeleteAvatarForm, UploadAvatarForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -63,7 +63,8 @@ def change(request, org_short_name, extra_context={}, next_override=None):
         else:
             avatar = None
             kwargs = {}
-        primary_avatar_form = PrimaryAvatarForm(request.POST or None, org=current_org, **kwargs)
+        primary_avatar_form = PrimaryAvatarForm( None, org=current_org, **kwargs)
+        upload_avatar_form = UploadAvatarForm()
         if request.method == "POST":
             updated = False
             if 'avatar' in request.FILES:
@@ -72,29 +73,35 @@ def change(request, org_short_name, extra_context={}, next_override=None):
                     message = Message(title=_("Max uploads reached"), text=_("You cannot upload more than 4 photos."))
                     message.addlink(_("Back"),reverse('org_org_edit_photo',kwargs={'org_short_name':current_org.org_short_name}))
                     message.addlink(_("Delete Photos"),reverse('org_org_delete_photo',kwargs={'org_short_name':current_org.org_short_name}))
-                    context = {'message':message,}
-                if not message:   
-                    path = avatar_file_path(org_short_name=current_org.org_short_name,filename="".join(sample(KEYS,12)) + ".jpg")
-                    avatar = Avatar(org=current_org, primary=True, avatar=path,)
-                    new_file = avatar.avatar.storage.save(path, request.FILES['avatar'])
-                    avatar.save()
-                    updated = True
-                    request.user.message_set.create(message=_("Successfully uploaded a new organization photo."))
+                if not message:
+                    #raise AssertionError(request.POST, request.FILES)
+                    upload_avatar_form = UploadAvatarForm(request.POST, request.FILES)
+                    #raise AssertionError(request.POST, request.FILES, upload_avatar_form)
+                    if upload_avatar_form.is_valid():
+                        path = avatar_file_path(org_short_name=current_org.org_short_name,filename="".join(sample(KEYS,12)) + ".jpg")
+                        avatar = Avatar(org=current_org, primary=True, avatar=path,)
+                        new_file = avatar.avatar.storage.save(path, request.FILES['avatar'])
+                        avatar.save()
+                        updated = True
+                        request.user.message_set.create(message=_("Successfully uploaded a new organization photo."))
+                        return HttpResponseRedirect(next_override or _get_next(request))
                 else:
                     template_name = "core/message.html"
                     context = {'message':message }
                     return render_to_response(template_name,context,context_instance=RequestContext(request))                     
-            if 'choice' in request.POST and primary_avatar_form.is_valid():
-                avatar = Avatar.objects.get(id=primary_avatar_form.cleaned_data['choice'])
-                avatar.primary = True
-                avatar.save()
-                updated = True
-                request.user.message_set.create(message=_("Successfully updated the organization photo."))
-            return HttpResponseRedirect(next_override or _get_next(request))
+            if 'choice' in request.POST:
+                primary_avatar_form = PrimaryAvatarForm(request.POST or None, org=current_org, **kwargs)
+                if primary_avatar_form.is_valid():
+                    avatar = Avatar.objects.get(id=primary_avatar_form.cleaned_data['choice'])
+                    avatar.primary = True
+                    avatar.save()
+                    updated = True
+                    request.user.message_set.create(message=_("Successfully updated the organization photo."))
+                    return HttpResponseRedirect(next_override or _get_next(request))
         
         template_name='avatar/change.html'
         context = { 'current_org':current_org, 'avatar': avatar, 'avatars': avatars,'primary_avatar_form': primary_avatar_form,
-                  'next': next_override or _get_next(request), }
+                  'upload_avatar_form':upload_avatar_form,'next': next_override or _get_next(request), }
     else:
         template_name = "core/message.html"
         context = {'message':message } 

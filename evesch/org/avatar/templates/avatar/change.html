@@ -8,9 +8,13 @@ ul.photo_list li ul li { background-color: white; border: solid 1px #1a88c9; dis
 ul.photo_list li { list-style-type:none;  } 
 ul.photo_list ul {list-style-type: none; margin: 0px; padding: 0px; } 
 .photo_add_box { margin: 15px; }
+ul.photo_add  { padding: 0px; margin: 0px; } 
+ul.photo_add li { list-style-type: none; } 
+ul.photo_add li input { display: block; margin: 5px; } 
 .photo_choose_box { margin: 15px; }
 .photo_box { margin: 15px; }
 .photo_box img { border: solid 1px #1a88c9; } 
+.photo_remove_box { margin: 15px; }
 </style>
 {% endblock %}
 {% block breadcrumb %}
@@ -41,14 +45,19 @@ ul.photo_list ul {list-style-type: none; margin: 0px; padding: 0px; }
 	    {% endif %}
 	    </div>
 	    <div class="photo_add_box">
-	        <p>{% trans "Upload a photo:" %} </p>
 		    <form enctype="multipart/form-data" method="POST" action=".">
-		        <input type="file" name="avatar" value="Avatar Image" />
+		        <!-- <input type="file" name="avatar" value="Avatar Image" /> -->
+		        <ul class="photo_add">
+		        {{ upload_avatar_form.as_ul }}
+		        </ul>
 		        <div style="clear: both;"></div>
 		        <input type="submit" value="{% trans "Upload" %}" />
 		    </form>
 	    </div>
     	<div style="clear: both;"></div>
+	    <div class="photo_remove_box">
+			<a href="{% url org_org_delete_photo current_org.org_short_name %}">Delete Photos</a>
+	    </div>
 	</div> 
 </div>
     
