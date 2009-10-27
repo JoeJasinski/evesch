@@ -74,9 +74,7 @@ def change(request, org_short_name, extra_context={}, next_override=None):
                     message.addlink(_("Back"),reverse('org_org_edit_photo',kwargs={'org_short_name':current_org.org_short_name}))
                     message.addlink(_("Delete Photos"),reverse('org_org_delete_photo',kwargs={'org_short_name':current_org.org_short_name}))
                 if not message:
-                    #raise AssertionError(request.POST, request.FILES)
                     upload_avatar_form = UploadAvatarForm(request.POST, request.FILES)
-                    #raise AssertionError(request.POST, request.FILES, upload_avatar_form)
                     if upload_avatar_form.is_valid():
                         path = avatar_file_path(org_short_name=current_org.org_short_name,filename="".join(sample(KEYS,12)) + ".jpg")
                         avatar = Avatar(org=current_org, primary=True, avatar=path,)
@@ -144,19 +142,12 @@ def delete(request, org_short_name, extra_context={}, next_override=None):
                             a.save()
                             break
                 Avatar.objects.filter(id__in=ids).delete()
-                request.user.message_set.create(
-                    message=_("Successfully deleted the requested avatars."))
+                request.user.message_set.create(message=_("Successfully deleted the requested avatars."))
                 return HttpResponseRedirect(next_override or _get_next(request))
-        return render_to_response(
-            'avatar/confirm_delete.html',
-            extra_context,
-            context_instance = RequestContext(
-                request,
-                { 'avatar': avatar, 
-                  'avatars': avatars,
-                  'current_org':current_org,
-                  'delete_avatar_form': delete_avatar_form,
-                  'next': next_override or _get_next(request), }
+        return render_to_response('avatar/confirm_delete.html',extra_context,
+            context_instance = RequestContext(request,
+                { 'avatar': avatar, 'avatars': avatars,'current_org':current_org,
+                  'delete_avatar_form': delete_avatar_form,'next': next_override or _get_next(request), }
             )
         )
     else:
