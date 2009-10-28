@@ -45,8 +45,8 @@ class UploadAvatarForm(forms.Form):
         content_type = photo_data.content_type
         if content_type:
             main, sub = content_type.split('/')
-            if not (main == 'image' and sub in ['jpeg', 'gif', 'png','pjpeg','jpg']):
-                raise forms.ValidationError(_('JPEG, PNG, GIF only. ') + str(sub))
+            if not (main == 'image' and sub in ['jpeg', 'gif', 'png','pjpeg',]):
+                raise forms.ValidationError(_('JPEG, PNG, GIF only. '))
             
         size = photo_data.size
         if size > settings.MAX_PHOTO_UPLOAD_SIZE * 1024:
