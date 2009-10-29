@@ -127,4 +127,5 @@ INSTALLED_APPS = (
 #    'south',
 )
 
-
+# max size for profie photo uploads (in KB)
+MAX_PHOTO_UPLOAD_SIZE = 2000
