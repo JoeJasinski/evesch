@@ -23,7 +23,8 @@ ul.photo_add li input { display: block; margin: 5px; }
 	&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> &gt; {% trans "Edit Organization Photo" %}
 {% endblock %}
 {% block org_photo_content %}
-
+<div class="page_heading"> {{ current_org.org_name }} </div>
+{% include "event/inc_event_menu.html" %}
 <div class="section">
 	<div class="section_title"><font>{% trans "Photo Add/Edit" %}</font></div>
 	<div class="section_body">
