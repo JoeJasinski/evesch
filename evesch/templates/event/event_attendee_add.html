@@ -10,6 +10,8 @@
 &gt; {% trans "Add Event Attendee" %}
 {% endblock %}
 {% block content %}
+<div class="page_heading"> {{ current_org.org_name }} </div>
+{% include "event/inc_event_edit_menu.html" %}
 <div class="section">
 	<div class="section_title"><font>{% trans "Add Event Attendee" %}</font></div>
 	<div class="section_body">

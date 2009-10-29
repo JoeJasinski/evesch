@@ -30,7 +30,7 @@ class UserGroupManager(models.Manager):
         event_coordinator_group.save()
         everyone_group = UserGroup(group_name="Everyone Group",
                                 group_desc=coord_desc_text, group_removable=False,
-                                admin_org=False, coord_events=False, invite_users=False, org_name=org)        
+                                admin_org=False, coord_events=False, invite_users=False, meta=1, org_name=org)        
         everyone_group.save()
         user.user_groups.add(admin_group)
         user.user_groups.add(event_coordinator_group)
@@ -49,6 +49,11 @@ class UserGroupManager(models.Manager):
 
 class UserGroup(models.Model):
     
+    GROUP_META = (
+        (0,'None'),
+        (1,'Everyone'),
+    )
+
     group_name = models.CharField(
         max_length=40,)
     group_hash = models.SlugField(
@@ -58,6 +63,7 @@ class UserGroup(models.Model):
     admin_org = models.BooleanField(default=False,)
     coord_events = models.BooleanField(default=False,)
     invite_users = models.BooleanField(default=False,)
+    meta = models.IntegerField(default=0, choices=GROUP_META)
     org_name = models.ForeignKey(Organization, related_name='group_set')
     objects = UserGroupManager()
 
@@ -67,8 +73,11 @@ class UserGroup(models.Model):
     def __int__(self):
         return self.pk
     
-    def get_groupusers(self):
-        return self.group_users.all()
+    def get_members(self):
+        if self.meta == 1:
+            return self.org_name.get_members()
+        else:
+            return self.group_users.all()
 
     def get_absolute_url(self):
         return reverse('egroup_group_view',kwargs={'org_short_name':self.org_name.org_short_name,'group_hash':self.group_hash,})

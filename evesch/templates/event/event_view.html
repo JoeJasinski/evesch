@@ -22,6 +22,7 @@
 &gt; {{ current_event.event_name }}
 {% endblock %}
 {% block content %}
+<div class="page_heading"> {{ current_org.org_name }} </div>
 {% include "event/inc_event_edit_menu.html" %}
 <div class="section"> 
 	<div class="section_title"><font>{% trans "Event Information" %}</font></div>

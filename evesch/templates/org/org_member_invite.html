@@ -31,6 +31,7 @@
 &gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> &gt; {% trans "Invite Members" %}
 {% endblock %}
 {% block content %}
+<div class="page_heading"> {{ current_org.org_name }} </div>
 {% include "event/inc_event_menu.html" %}
 <div class="section"> 
 	<div class="section_title"><font>{% trans "Invite Members" %}</font></div>

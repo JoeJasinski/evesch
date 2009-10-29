@@ -44,7 +44,7 @@ def group_add(request,org_short_name,template_name=None):
                 new_group.save()
                 
                 message = Message(title=_("Group Added"), text=_("You have added a group"))
-                message.addlink(_("View"),current_org.get_absolute_url())
+                message.addlink(_("View"),new_group.get_absolute_url())
                 message.addlink(_("Edit"),reverse('egroup_group_edit',kwargs={'org_short_name':current_org.org_short_name,'group_hash':new_group.group_hash}))
                 if request.POST.get("dialog",'') == "False":
                     template_name = "core/message.html"
@@ -85,20 +85,18 @@ def group_edit(request, org_short_name, group_hash, template_name=None):
             context = {'message':message,}
     if not message:
         groupuser_page = ePage(1)
-        if request.GET.__contains__("groupuser_page"): 
+        if request.GET.__contains__("members_page"): 
             try:
-                groupuser_page.curr  = int(request.GET['groupuser_page'])
+                groupuser_page.curr  = int(request.GET['members_page'])
             except:
                 groupuser_page.curr = 1
-        groupusers = current_usergroup.get_groupusers()
+        groupusers = current_usergroup.get_members()
         groupuser_page.set_pages(Paginator(groupusers, 48))
         
         group_add_member_form = GroupAddMemberForm()
         edit_form = UserGroupEditForm(instance=current_usergroup)
         show_dialog=False
         if request.method == 'POST':
-            
-            #form.org_name = current_org
             action = request.POST.get('action','')
             p = re.compile('^[\w]{1,20}$')
             if not p.match(action):
@@ -126,12 +124,12 @@ def group_edit(request, org_short_name, group_hash, template_name=None):
                     new_group_users = eUser.objects.filter(username__in=new_user_list)
                     for user in new_group_users:
                         user.user_groups.add(current_usergroup)
-                    #raise AssertionError(new_group_users)
+                        return HttpResponseRedirect(reverse('egroup_group_edit', kwargs={'org_short_name':current_org.org_short_name,'group_hash':current_usergroup.group_hash}))
             else:
                 pass
         else:
             pass
-        context = {'current_org':current_org,'edit_form':edit_form, 'group_add_member_form':group_add_member_form, 'current_usergroup':current_usergroup, 'groupusers':groupuser_page,'message':message,'show_dialog':show_dialog, }
+        context = {'current_org':current_org,'edit_form':edit_form, 'group_add_member_form':group_add_member_form, 'current_usergroup':current_usergroup, 'groupusers':groupuser_page,'message':message,'show_dialog':show_dialog, 'ajax_page_members': reverse('egroup_group_user_list_ajax', kwargs={'org_short_name':current_org.org_short_name,'group_hash':current_usergroup.group_hash}) }
     else:
         template_name = "core/message.html"
         context = {'message':message,'current_org':current_org,}
@@ -185,18 +183,46 @@ def group_view(request, org_short_name, group_hash, template_name=None):
         current_usergroup, message = UserGroup.objects.get_current_usergroup(group_hash)
     if not message: 
         groupuser_page = ePage(1)
-        if request.GET.__contains__("groupuser_page"): 
+        if request.GET.__contains__("members_page"): 
             try:
-                groupuser_page.curr  = int(request.GET['groupuser_page'])
+                groupuser_page.curr  = int(request.GET['members_page'])
             except:
                 groupuser_page.curr = 1
-        groupusers = current_usergroup.get_groupusers()
+        groupusers = current_usergroup.get_members()
         groupuser_page.set_pages(Paginator(groupusers, 48))
-        context = {'current_org':current_org,'current_usergroup':current_usergroup,'groupusers':groupuser_page}
+        context = {'current_org':current_org,'current_usergroup':current_usergroup,'groupusers':groupuser_page, 'ajax_page_members': reverse('egroup_group_user_list_ajax', kwargs={'org_short_name':current_org.org_short_name,'group_hash':current_usergroup.group_hash})}
     else:
         template_name = "core/message.html"
         context = {'message':message,'current_org':current_org,}
     return render_to_response(template_name,context, context_instance=RequestContext(request))
+
+@login_required
+def group_members(request,org_short_name,group_hash,template_name=None):
+    message = None
+    if not request.is_ajax():
+        template_name = "core/message.html"
+        message = Message(title=_("Cannot Be Viewed"), text=_("Cannot view this page" ))          
+        context = {'message':message,}
+    if not message:
+        current_org, message = Organization.objects.get_current_org(org_short_name)
+    if not message: 
+        current_usergroup, message = UserGroup.objects.get_current_usergroup(group_hash)
+    if not message:
+        members_page = ePage(1)
+        if request.GET.__contains__("members_page"): 
+            try:
+                members_page.curr  = int(request.GET['members_page'])
+                #raise AssertionError(members_page.curr)
+            except:
+                members_page.curr = 1
+        members = current_usergroup.get_members()
+        members_page.set_pages(Paginator(members, 48))
+        context = {'current_org':current_org,'members':members_page,'ajax_page_members': reverse('egroup_group_user_list_ajax', kwargs={'org_short_name':current_org.org_short_name,'group_hash':current_usergroup.group_hash})}
+    else:
+        template_name = "core/message.html"
+        context = {'message':message }  
+    return render_to_response(template_name,context,context_instance=RequestContext(request))
+
 
  
 @login_required

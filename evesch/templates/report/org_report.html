@@ -24,6 +24,7 @@
 &gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> &gt; {% trans "Organization Reports" %}
 {% endblock %}
 {% block content %}
+<div class="page_heading"> {{ current_org.org_name }} </div>
 {% include "event/inc_event_menu.html" %}
 
 <div class="section"> 

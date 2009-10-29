@@ -6,14 +6,14 @@ class UserGroupForm(forms.ModelForm):
          widget=forms.Textarea(attrs = {'cols': '30', 'rows': '5'}))
     class Meta:
         model = UserGroup
-        exclude = ['org_name','group_removable','group_hash',]
+        exclude = ['org_name','group_removable','group_hash','meta']
             
 class UserGroupEditForm(forms.ModelForm):
     group_desc = forms.CharField(widget=forms.Textarea(attrs = {'cols': '30', 'rows': '5'}))
     action = forms.CharField(widget=forms.HiddenInput(attrs={'value':'group_edit'}))
     class Meta:
         model = UserGroup
-        exclude = ['org_name','group_hash','group_removable',]
+        exclude = ['org_name','group_hash','group_removable','meta']
 
 class GroupAddMemberForm(forms.Form):
     user_list = forms.CharField(required=False, max_length=512,
