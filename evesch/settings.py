@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     'core.ajax_filtered_fields', 
     'core.rosetta',   # used for easily editing i18n files
     'report',
+    'post',
 #    'south',
 )
 

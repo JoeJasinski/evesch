@@ -211,19 +211,21 @@ def org_view(request,org_short_name,template_name=None):
 
 @login_required
 def org_members(request,org_short_name,template_name=None):
-    message = None
-    if not request.is_ajax():
-        template_name = "core/message.html"
-        message = Message(title=_("Cannot Be Viewed"), text=_("Cannot view this page" ))          
-        context = {'message':message,}
+    current_org, message = Organization.objects.get_current_org(org_short_name)
+    if not message:    
+        current_user, message = get_current_user(request.user)
     if not message:
-        current_org, message = Organization.objects.get_current_org(org_short_name)
+        operms = current_org.org_perms(current_user)
+        if not operms['is_memberof_org']:
+            template_name = "core/message.html"
+            message = Message(title=_("Can Not Edit Org"), text=_("You cannot view members of an organization that you do not belong to."))
+            message.addlink(_("Back"),current_org.get_absolute_url())
+            context = {'message':message,}
     if not message:
         members_page = ePage(1)
         if request.GET.__contains__("members_page"): 
             try:
                 members_page.curr  = int(request.GET['members_page'])
-                #raise AssertionError(members_page.curr)
             except:
                 members_page.curr = 1
         members = current_org.get_members()

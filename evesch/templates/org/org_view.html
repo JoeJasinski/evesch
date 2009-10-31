@@ -35,6 +35,7 @@
 					 <TR><TD>{% trans "Created" %}:</TD><TD>{{ current_org.org_date_created|date:"D m/d/Y h:i a" }}</TD></TR>
 					 <TR><TD>{% trans "Admins" %}:</TD><TD>{% for admin in current_org.get_admin_users   %}<span><a href="{{ admin.get_absolute_url }}">{{ admin }}</a>&nbsp; </span>{% endfor %}</TD></TR>
 					 <TR><TD>{% trans "Event Coordinators" %}:</TD><TD>{% for coord in current_org.get_coordinator_users   %}<span><a href="{{ coord.get_absolute_url }}">{{ coord }}</a></span>&nbsp; {% endfor %}</TD></TR>
+					 <TR><TD>{% trans "Members" %}:</TD><TD><a href="{% url org_org_members current_org.org_short_name %}">({{ current_org.get_member_count }})</a></TD></TR>
 					 <TR><TD>{% trans "Feed URL" %}</TD><TD><a href="{% url core_feed_org_rss current_org.org_short_name current_org.org_feed_hash %}"><img alt="rss" style="border: solid 0px;" src="{{ MEDIA_URL }}images/rss_icon.png"></a></TD></TR>
 					 <TR><TD>{% trans "iCal URL" %}</TD><TD><a href="{% url core_feed_org_ics current_org.org_short_name current_org.org_feed_hash %}"><img alt="ical" width="25" style="border: solid 0px;" src="{{ MEDIA_URL }}images/ical_icon.png"></a></TD></TR>
 					</TABLE>
@@ -93,6 +94,7 @@
 		</div>
 		<div style="clear: both;"></div>
 	</div>
+	{% comment %}
 	<div class="section" id="members_id">
 		<div class="section_title"><span class="section_title_icon">{% if current_org.org_perms.can_invite_users %}<a title="{% trans "Invite User to Org" %}" href="{% url org_org_member_invite current_org.org_short_name %}"><img class="img_join" alt="add" style="border: solid 0px;" src="{{ MEDIA_URL }}images/join.png"></a>{% endif %}</span><font>{% trans "Members" %} ({{ current_org.get_member_count }})</font></div>
 		<div class="section_body">
@@ -101,5 +103,6 @@
 		    </div>
 		</div>
 	</div>
+	{% endcomment %}
 </div>
 {% endblock %}

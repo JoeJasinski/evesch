@@ -67,6 +67,7 @@
 <div class="section"> 
 	<div class="section_title"><font>{% trans "Add Group Members" %}</font></div>
 	<div class="section_body">
+{% ifnotequal current_usergroup.meta 1 %}	
 		<FORM action="." method="POST">
 		<TABLE>
 		  <tr><td>&nbsp;</td><td>{% trans "Type the name of users in this organization that you want to add to this group." %}</td></tr>
@@ -74,6 +75,12 @@
 		</TABLE>
 	    <INPUT  type="submit" name="add_group_members" value="{% trans "Add" %}">
 		</FORM>
+{% else %}
+		<div style="margin:5px;">
+        {% trans "You cannot edit members of this group since this group represents all users in this organization. " %}
+	    {% trans "To add or remove members in this organization, visit the invite users page: " %}<a href="{% url org_org_member_invite current_org.org_short_name %}">Invite Users</a>
+		</div>
+{% endifnotequal %}
 		<div id="info"></div>
 	</div>
 </div>

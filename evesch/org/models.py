@@ -300,3 +300,4 @@ class OrgInvite(models.Model):
 			return "%s invited to %s" % (self.user, self.org)
 		else:
 			return "%s invited to %s" % (self.email, self.org)
+
