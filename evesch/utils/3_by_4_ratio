@@ -1,0 +1,42 @@
+2 cases: 
+- taller than 3/4
+- wider than 3/4
+
+def crop43(w, h):
+	#if taller than ratio...
+	if h / w > 0.75:
+		# taller than wide ratio
+		#h/w = h/w
+		#3/4 = 500/200
+		#.75 = 2.5
+		#h / w = 3 / 4
+		h1 = ((w * 3) / 4)
+		#top_left  =  (0, (h / 2) - (h1 / 2) )
+		#bot_right =  (w, (h / 2) + (h1 / 2) )
+		coords  =  (0, (h / 2) - (h1 / 2), w, (h / 2) + (h1 / 2) )
+	else:
+		# wider than tall ratio
+		#h/w = h/w
+		#3/4 = 200/500
+		#.75 = .4
+		#w / h = 4 / 3
+		w1 = ((h * 4) / 3)
+		#top_left =   ( ( w / 2 ) - (w1 / 2) , 0 )
+		#bot_right =  ( ( w / 2 ) + (w1 / 2) , h )
+		coords =   ( ( w / 2 ) - (w1 / 2), 0, ( w / 2 ) + (w1 / 2), h )
+	return coords
+
+def testcrop(x1,y1,x2,y2):
+	return ((y2 - y1) / (x2 - x1))
+	
+	
+width = size
+if w != width or h != (width * 3) / 4):
+	#if taller than ratio...
+	if h / w > 0.75:
+		h1 = ((w * 3) / 4)
+		image = image.crop((0, (h / 2) - (h1 / 2), w, (h / 2) + (h1 / 2) ))
+	else:
+		w1 = ((h * 4) / 3)
+		image = image.crop(( ( w / 2 ) - (w1 / 2), 0, ( w / 2 ) + (w1 / 2), h ))
+	image = image.resize((width, ((width * 3) / 4)), AVATAR_RESIZE_METHOD)

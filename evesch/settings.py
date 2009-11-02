@@ -122,6 +122,7 @@ INSTALLED_APPS = (
     'core.pagination',
 #    'core.debug_toolbar',  # adds debug toolbar that shows various stats
     'core.ajax_filtered_fields', 
+    'core.compress',
     'core.rosetta',   # used for easily editing i18n files
     'report',
     'post',
@@ -130,3 +131,28 @@ INSTALLED_APPS = (
 
 # max size for profie photo uploads (in KB)
 MAX_PHOTO_UPLOAD_SIZE = 2000
+
+###################################
+# the django-compress module config
+###################################
+# ativates the compression. 
+COMPRESS = True
+# auto compress changed css/js  
+COMPRESS_AUTO = True
+COMPRESS_VERSION = True
+#CSSTIDY_BINARY = sys.path.insert(0, os.path.join(PROJECT_ROOT, "utils/tar/csstidy/cpp/release/csstidy/csstidy"))
+COMPRESS_CSS = {
+    'base': {
+        'source_filenames': ('css/master.css', 'js/jqui/css/smoothness/jquery-ui-1.7.1.custom.css'),
+        'output_filename': 'css/base.?.css',
+    },
+    
+    # other CSS groups goes here
+}
+
+COMPRESS_JS = {
+    'base': {
+        'source_filenames': ('js/jqui/js/jquery-1.3.2.min.js', 'js/jqui/js/jquery-ui-1.7.1.custom.min.js', 'js/curvycorners/curvycorners.js',),
+        'output_filename': 'js/base.?.js',
+    }
+}

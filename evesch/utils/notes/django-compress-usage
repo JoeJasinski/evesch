@@ -1,0 +1,8 @@
+#http://code.google.com/p/django-compress/wiki/Installation
+#This will re-compress base.js and base.css using csstidy (external c++ program) and jsmin (builtin)
+
+# creates compressed js/css
+python ./manage.py synccompress
+
+# recreates and overwrites 
+python ./manage.py synccompress --force
