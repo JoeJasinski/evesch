@@ -25,7 +25,10 @@
 {% endblock %}
 {% block content %}
 <div class="section">
-	<div class="section_title"><font>{% trans "User Settings" %}</font></div>
+    <div class="page_heading">Profile for {{ current_user.username }}</font></div>
+</div>
+<div class="section">
+	<div class="section_title"><font>{% trans "Edit User Settings" %}</font></div>
 	<div class="section_body">
 	<FORM id="edit_user" action="." method="POST">
 	<input type="hidden" id="dialog" name="dialog" value="False">
