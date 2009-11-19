@@ -1,0 +1,6 @@
+boxy - creates facebook style popup box upon making changes to pages. 
+curvycorners - used to make rounded corners in div elements; works back to ie6, but not opera 10
+django_debug_toolbar - used for debugging; overlays a toolbar for testing purposes
+django-ajax-filtered-fields - 
+django-extensions - nice tool for adding enhancements to management commands (show_urls, resetdb, shell_plus,e tc)
+ericflo-django-avatar - module for adding a user profile images.  Highly modified for org photos

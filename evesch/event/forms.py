@@ -12,81 +12,6 @@ import re
 
 from django.forms.widgets import  SplitDateTimeWidget, SplitHiddenDateTimeWidget
 
-
-class Time12Field(forms.CharField):
-    def clean(self, post_time):
-
-        pa = re.compile('^\s*$')
-        if pa.match(post_time):
-            raise forms.ValidationError(_("Must enter a time"))
-        p = re.compile('^\s*(?P<hour>\d{1,2})\:(?P<min>\d{2})\s*(?P<ap>am|pm)?\s*$', re.IGNORECASE)
-        if not p.match(post_time):
-            raise forms.ValidationError(_("Not a valid time"))
-        m = p.search(post_time)
-        hour = m.group('hour')
-        try:
-            hour = int(hour)
-            if not ( hour >= 0 and  hour < 24 ):
-                raise forms.ValidationError("Invalid Hour")
-        except ValueError:
-            raise forms.ValidationError("something bad happened.")
-
-        min = m.group('min')
-        try:
-            min = int(min)
-            if not ( min >= 0 and min < 60):
-                raise forms.ValidationError("Invalid Minute")
-        except ValueError:
-            raise forms.ValidationError("something bad happened")
-
-        ap = m.group('ap')
-        if hour > 12:
-            ap = ''
-        if ap:
-            # convert to 24H time else assume 24H time
-            if ap.lower() == 'pm' and hour != 12:
-                hour = int(hour) + 12
-            elif ap.lower() == 'am' and hour == 12:
-                hour = int(hour) + 12
-            if hour == 24:
-                hour = 0
-
-        cleaned_time = datetime.time(hour, min)
-        #cleaned_time = str(hour) + ":" + str(min)
-
-        return cleaned_time
-
-EMPTY_VALUES = (None, '')
-class EveschSplitDateTimeField(forms.MultiValueField):
-    widget = forms.widgets.SplitDateTimeWidget
-    hidden_widget = forms.widgets.SplitHiddenDateTimeWidget
-    default_error_messages = {
-        'invalid_date': _(u'Enter a valid date.'),
-        'invalid_time': _(u'Enter a valid time.'),
-    }
-
-    def __init__(self, input_date_formats=None, input_time_formats=None, *args, **kwargs):
-        errors = self.default_error_messages.copy()
-        if 'error_messages' in kwargs:
-            errors.update(kwargs['error_messages'])
-        fields = (
-            forms.DateField(input_formats=input_date_formats, error_messages={'invalid': errors['invalid_date']}),
-            Time12Field( error_messages={'invalid': errors['invalid_time']}),
-        )
-        super(EveschSplitDateTimeField, self).__init__(fields, *args, **kwargs)
-
-    def compress(self, data_list):
-        if data_list:
-            # Raise a validation error if time or date is empty
-            # (possible if SplitDateTimeField has required=False).
-            if data_list[0] in EMPTY_VALUES:
-                raise ValidationError(self.error_messages['invalid_date'])
-            if data_list[1] in EMPTY_VALUES:
-                raise ValidationError(self.error_messages['invalid_time'])
-            return datetime.datetime.combine(*data_list)
-        return None
-
-
 class ColorField(forms.CharField):
  
     def clean(self, value):
@@ -136,12 +61,10 @@ class EventTypeForm(forms.ModelForm):
         return type_name_input
 
 class EventForm(forms.ModelForm):
-    event_desc = forms.CharField(
-         widget=forms.Textarea(attrs = {'cols': '30', 'rows': '5'}))
+    event_desc = forms.CharField(widget=forms.Textarea(attrs = {'cols': '30', 'rows': '5'}))
     event_type = forms.ModelChoiceField(queryset=EventType.objects.none())
-    event_date = EveschSplitDateTimeField(widget=forms.SplitDateTimeWidget(time_format="%H:%M", attrs={'id':"id_event_date"}))
-    event_signup_deadline = EveschSplitDateTimeField(required=False, widget=forms.SplitDateTimeWidget(time_format="%H:%M", attrs={'id':"id_event_signup_deadline"}))
-    
+    event_date = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'id':'id_event_date',},format="%m/%d/%Y %H:%M"))
+    event_signup_deadline = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'id':'id_event_signup_deadline',},format="%m/%d/%Y %H:%M"))    
     #event_coordinators = ManyToManyByLetter(User, field_name="username")
 
 
@@ -170,8 +93,8 @@ class EventEditForm(forms.ModelForm):
         self.fields["event_type"].queryset = EventType.objects.filter(org_name=current_org, type_active=True)
 
     event_desc = forms.CharField(max_length=512, widget=forms.Textarea(attrs = {'cols':'45','rows':'5'}))
-    event_date =            EveschSplitDateTimeField(widget=forms.SplitDateTimeWidget(time_format='%H:%M', attrs={'id':"id_event_date"}))
-    event_signup_deadline = EveschSplitDateTimeField(required=False, widget=forms.SplitDateTimeWidget(time_format='%H:%M', attrs={'id':"id_event_signup_deadline"}))
+    event_date = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'id':'id_event_date',},format="%m/%d/%Y %H:%M"))
+    event_signup_deadline = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'id':'id_event_signup_deadline',},format="%m/%d/%Y %H:%M"))
 
     class Meta:
         model = Event
