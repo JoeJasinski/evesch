@@ -46,3 +46,11 @@ def render_avatar(avatar, size=80):
     return """<img src="%s" alt="%s" width="%s" height="%s" />""" % (
         avatar.avatar_url(size), str(avatar), size, ((size * 3) / 4))
 register.simple_tag(render_avatar)
+
+
+def any_avatar_url(avatar, size=300):
+    try: 
+        return avatar.avatar_url(size)
+    except:
+        return AVATAR_DEFAULT_URL
+register.simple_tag(any_avatar_url)

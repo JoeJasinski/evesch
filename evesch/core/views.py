@@ -40,7 +40,7 @@ def index(request,template_name=None):
                 except:
                     my_orgs_page.curr = 1 
             my_orgs_page.set_pages(Paginator(user_orgs, 3))
-            context = {'user_events':user_events,'num_user_events':user_events.count(),'my_orgs_page':my_orgs_page,'num_user_orgs':user_orgs.count(),'ajax_page_my':reverse('org_orgs_list_my_ajax',kwargs={}),}
+            context = {'user_events':user_events,'current_user':current_user,'num_user_events':user_events.count(),'my_orgs_page':my_orgs_page,'num_user_orgs':user_orgs.count(),'ajax_page_my':reverse('org_orgs_list_my_ajax',kwargs={}),}
         except ObjectDoesNotExist:
             template_name = "error.html"
             context = {'error':_("User does not exist ") } 

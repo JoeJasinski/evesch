@@ -11,7 +11,7 @@ from core.lib import Message
 from core.exceptions import EventTypeExistsException
 from core.forms import MessageForm
 from event.models import Event,EventType,Attendee
-from event.forms import EventForm, EventEditForm, EventTypeForm, AttendeeForm
+from event.forms import EventForm, EventTypeForm, AttendeeForm
 from euser.models import eUser, get_current_user
 from org.models import Organization
 
@@ -128,7 +128,7 @@ def event_edit(request,org_short_name,event_hash,template_name=None):
     if not message:
         show_dialog=False
         if request.method == 'POST':
-            form = EventEditForm(current_org, request.POST, instance=current_event)
+            form = EventForm(current_org, request.POST, instance=current_event)
             if form.is_valid():
                 form.save()
                 message = Message(title=_("Event Saved"), text=_("Event Saved"))
@@ -141,7 +141,7 @@ def event_edit(request,org_short_name,event_hash,template_name=None):
                     show_dialog=True
             context = {'form':form,'current_org':current_org,'event':current_event,'message':message,'show_dialog':show_dialog}
         else:
-            form = EventEditForm(current_org,auto_id=False,instance=current_event)
+            form = EventForm(current_org,auto_id=False,instance=current_event)
             context = {'form':form,'current_org':current_org,'event':current_event,}
     else:
         template_name = "core/message.html"

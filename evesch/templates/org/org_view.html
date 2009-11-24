@@ -1,6 +1,15 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}{% load ellipsis %}{% load avatar_tags %}
 {% block title %} - Organization {{ current_org.org_short_name }}{% endblock %}
+{% block header_page_specific %} 
+	<script type="text/javascript">
+	  jQuery(document).ready(function(){
+	    jQuery(".org_picture_thumbs img").hover(
+	      function () { jQuery("#org_picture_large img").attr("src",jQuery(this).attr("url2"));}
+	    );
+	   });
+	</script>
+{% endblock %}
 {% block breadcrumb %}
 	<a href="{% url home %}">{% trans "home" %}</a> 
 	&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
@@ -16,7 +25,17 @@
 			<div class="section">
 				<div class="section_title"><span class="section_title_icon">{% if current_org.org_perms.can_edit_org %}<a title="{% trans "Delete Photo" %}" href="{% url org_org_delete_photo current_org.org_short_name %}"><img class="img_edit" alt="remove photo" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove.png"></a><a title="{% trans "Edit Photo" %}" href="{% url org_org_edit_photo current_org.org_short_name %}"><img class="img_edit" alt="edit_image" style="border: solid 0px;" src="{{ MEDIA_URL }}images/edit.png"></a>{% endif %}</span><font>{% trans "Photo" %}</font></div>
 				<div class="section_body" id="org_picture">
-					    {% avatar current_org.org_short_name %}
+					    <div id="org_picture_large">{% avatar current_org.org_short_name %}</div>
+					    {% ifnotequal current_org.avatar_set.count 1 %}
+					    <div class="org_picture_thumbs">
+						    <TABLE><TR>
+						    {% for any_avatar in current_org.avatar_set.all %}
+						       <TD><img src="{% any_avatar_url any_avatar 40 %}" url2="{% any_avatar_url any_avatar 300 %}" alt="avatar" width="40"></TD>
+						    {% endfor %}
+						    </TR></TABLE>
+					    </div>
+					    <div style="clear: both;"></div>
+					    {% endifnotequal %}
 				</div> 
 			</div>
 	    

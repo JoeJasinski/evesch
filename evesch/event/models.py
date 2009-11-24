@@ -91,7 +91,15 @@ class EventManager(models.Manager):
 					  event_type=event_type,
 					  event_date=event_date)
 		return event
-		
+
+
+COLUMN_TYPES = (
+	(0,'Textbox'),
+	(1,'Checkbox'),
+	(2,'Dropdown'),
+	(3,'Number'),
+)
+
 class Event(models.Model):
 	event_name = models.CharField(
 		db_column="event_name",
@@ -148,36 +156,36 @@ class Event(models.Model):
 	event_track_hours = models.BooleanField(
 		verbose_name=_("Should we track the hours attendees spend at events?"),
 		default=False)
-	att_header_col1 = models.CharField(
-		max_length=20,
-		verbose_name=_("Column 1 Header"),
-		blank=True, null=True,)
-	att_require_col1 = models.BooleanField(u'Required',default=False)
-	att_header_col2 = models.CharField(
-		max_length=20,
-		verbose_name=_("Column 2 Header"),
-		blank=True, null=True,)
-	att_require_col2 = models.BooleanField(u'Required',default=False)
-	att_header_col3 = models.CharField(
-		max_length=20,
-		verbose_name=_("Column 3 Header"),
-		blank=True, null=True,)
-	att_require_col3 = models.BooleanField(u'Required',default=False)
-	att_header_col4 = models.CharField(
-		max_length=20,
-		verbose_name=_("Column 4 Header"),
-		blank=True, null=True,)
-	att_require_col4 = models.BooleanField(u'Required',default=False)
-	att_header_col5 = models.CharField(
-		max_length=20,
-		verbose_name=_("Column 5 Header"),
-		blank=True, null=True,)
-	att_require_col5 = models.BooleanField(u'Required',default=False)
-	att_header_col6 = models.CharField(
-		max_length=20,
-		verbose_name=_("Column 6 Header"),
-		blank=True, null=True,)	
-	att_require_col6 = models.BooleanField(u'Required',default=False)
+	att_header_col1 = models.CharField(max_length=20,verbose_name=_("Column 1 Header"),blank=True, null=True,)
+	att_require_col1 = models.BooleanField(_('Required'),default=False)
+	att_type_col1 = models.IntegerField(_("Custom Field Type 1"), default=0, choices=COLUMN_TYPES)
+	att_type_drop_col1 = models.CharField(_("Custom Field Type 1 Dropdown"),blank=True, null=True, max_length=255)
+
+	att_header_col2 = models.CharField(max_length=20,verbose_name=_("Column 2 Header"),blank=True, null=True,)
+	att_require_col2 = models.BooleanField(_('Required'),default=False)
+	att_type_col2 = models.IntegerField(_("Custom Field Type 2"), default=0, choices=COLUMN_TYPES)
+	att_type_drop_col2 = models.CharField(_("Custom Field Type 2 Dropdown"),blank=True, null=True, max_length=255)
+	
+	att_header_col3 = models.CharField(max_length=20,verbose_name=_("Column 3 Header"),blank=True, null=True,)
+	att_require_col3 = models.BooleanField(_('Required'),default=False)
+	att_type_col3 = models.IntegerField(_("Custom Field Type 3"), default=0, choices=COLUMN_TYPES)
+	att_type_drop_col3 = models.CharField(_("Custom Field Type 3 Dropdown"),blank=True, null=True, max_length=255)
+	
+	att_header_col4 = models.CharField(max_length=20,verbose_name=_("Column 4 Header"),blank=True, null=True,)
+	att_require_col4 = models.BooleanField(_('Required'),default=False)
+	att_type_col4 = models.IntegerField(_("Custom Field Type 4"), default=0, choices=COLUMN_TYPES)
+	att_type_drop_col4 = models.CharField(_("Custom Field Type 4 Dropdown"),blank=True, null=True, max_length=255)
+	
+	att_header_col5 = models.CharField(max_length=20,verbose_name=_("Column 5 Header"),blank=True, null=True,)
+	att_require_col5 = models.BooleanField(_('Required'),default=False)
+	att_type_col5 = models.IntegerField(_("Custom Field Type 5"), default=0, choices=COLUMN_TYPES)
+	att_type_drop_col5 = models.CharField(_("Custom Field Type 5 Dropdown"),blank=True, null=True, max_length=255)
+	
+	att_header_col6 = models.CharField(max_length=20,verbose_name=_("Column 6 Header"),blank=True, null=True,)	
+	att_require_col6 = models.BooleanField(_('Required'),default=False)
+	att_type_col6 = models.IntegerField(_("Custom Field Type 6"), default=0, choices=COLUMN_TYPES)
+	att_type_drop_col6 = models.CharField(_("Custom Field Type 6 Dropdown"), blank=True, null=True, max_length=255)
+	
 	objects = EventManager()
 	#class Meta:
 	#	db_table="Events"

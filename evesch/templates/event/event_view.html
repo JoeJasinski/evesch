@@ -5,11 +5,12 @@
 <style>
   .event_status_closed { color: red; }
   .event_status_open { color: green; }
+  .register_by { color: red; font-size: 10px; margin: 3px;}
 </style>
 <script type="text/javascript">
  $(document).ready(function()
  {
-  {% if not current_event.is_within_signup_deadline %} $("#attendee_add").attr('disabled', 'disabled'); {% endif %}
+  {% if not current_event.is_within_signup_deadline %} jQuery("#attendee_add").attr('disabled', 'disabled'); {% endif %}
  });
  
 </script>
@@ -22,70 +23,94 @@
 &gt; {{ current_event.event_name }}
 {% endblock %}
 {% block content %}
-<div class="page_heading"> {{ current_org.org_name }} </div>
-{% include "event/inc_event_edit_menu.html" %}
-<div class="section"> 
-	<div class="section_title"><font>{% trans "Event Information" %}</font></div>
-	<div class="section_body">
-		<TABLE>
-		 <TR><TD>{% trans "Event Name" %}:</TD><TD>{{ current_event.event_name }}</TD></TR>
-		 <TR><TD>{% trans "Event Type" %}:</TD><TD  style="background-color: #{{ current_event.event_type.type_color }};"><a  style="color: #{{ current_event.event_type.contrast }};" href="{% url event_events_list current_org.org_short_name %}?event_type={{ current_event.event_type }}">{{ current_event.event_type }}</a></TD></TR>
-		 <TR><TD>{% trans "Event Status" %}:</TD><TD>{% ifequal current_event.event_open 1 %}<div class=event_status_open>Open</div>{% else %}<div class=event_status_closed>Closed</div>{% endifequal %}</TD></TR>
-		 <TR><TD>{% trans "Event Signup Deadline" %}:</TD><TD>{{ current_event.event_signup_deadline|date:"D m/d/Y h:i a" }}</TD></TR>
-		 <TR><TD>{% trans "Event Date" %}:</TD><TD>{{ current_event.event_date|date:"D m/d/Y h:i a" }}</TD></TR>
-		 <TR><TD>{% trans "Description" %}:</TD><TD>{{ current_event.event_desc }}</TD></TR>
-		 <TR><TD>{% trans "Event Creator Name" %}:</TD><TD><a href="{{ current_event.event_creator_name.get_absolute_url }}">{{ current_event.event_creator_name }}</a></TD></TR>
-		 <TR><TD>{% trans "Event Coordiantors" %}:</TD><TD>{% for coordinator in current_event.get_event_coordinators %}<div><a href="{{ coordinator.get_absolute_url }}">{{ coordinator }}</a></div>{% endfor %}</TD></TR>
-		 <TR><TD>{% trans "Event Created Date" %}:</TD><TD>{{ current_event.event_created_date|date:"D m/d/Y h:i a" }}</TD></TR>
-		 <TR><TD>{% trans "Event Max Attendees" %}:</TD><TD>{{ current_event.max_attendees }}</TD></TR>
-		 <TR><TD>{% trans "Hour Tracking" %}:</TD><TD>{% ifequal current_event.event_track_hours 1 %}Tracking Hours{% else %}Hour Tracking Disabled{% endifequal %}</TD></TR>
-		</TABLE>
-	</div>
-</div>
 
-<div class="section"> 
-	<div class="section_title"><font>{% trans "Event Attendee Information" %}</font></div>
-	<div class="section_body">
-		<div class="menu">
-		<ul class="nav">
-		 {% if not current_event.event_perms.is_attending_event %}<li>{% if current_event.is_within_signup_deadline %}<strong><a href="{% url event_attendee_add current_org.org_short_name current_event.event_hash %}">{% trans "Attend" %}</a></strong>{% else %}<strong><a class="disabled_string">{% trans "Attend" %}</a></strong>{% endif %}</li>{% endif %}
-		 <li><strong><a href="{% url event_attendees_message current_org.org_short_name current_event.event_hash %}">{% trans "Message" %}</a></strong></li>
-		</ul>
+<div class="core_content">
+	<div class="page_heading"> {{ current_org.org_name }} </div>
+	{% include "event/inc_event_edit_menu.html" %}
+
+
+	<div class="section_sidebyside"> 
+	    <div class="section_leftcol">
+
+			<div class="section"> 
+				<div class="section_title"><font>{% trans "Event Information" %}</font></div>
+				<div class="section_body">
+					<TABLE>
+					 <TR><TD>{% trans "Event Name" %}:</TD><TD>{{ current_event.event_name }}</TD></TR>
+					 <TR><TD>{% trans "Type" %}:</TD><TD  style="background-color: #{{ current_event.event_type.type_color }};"><a  style="color: #{{ current_event.event_type.contrast }};" href="{% url event_events_list current_org.org_short_name %}?event_type={{ current_event.event_type }}">{{ current_event.event_type }}</a></TD></TR>
+					 <TR><TD>{% trans "Event Status" %}:</TD><TD>{% ifequal current_event.event_open 1 %}<div class=event_status_open>Open</div>{% else %}<div class=event_status_closed>Closed</div>{% endifequal %}</TD></TR>
+					 <TR><TD>{% trans "Date" %}:</TD><TD>{{ current_event.event_date|date:"l, F d, Y" }}</TD></TR>
+					 <TR><TD>{% trans "Time" %}:</TD><TD>{{ current_event.event_date|date:"h:i a" }}</TD></TR>
+					 <TR><TD>{% trans "Creator Name" %}:</TD><TD><a href="{{ current_event.event_creator_name.get_absolute_url }}">{{ current_event.event_creator_name }}</a></TD></TR>
+					 <TR><TD>{% trans "Coordinators" %}:</TD><TD>{% for coordinator in current_event.get_event_coordinators %}<div><a href="{{ coordinator.get_absolute_url }}">{{ coordinator }}</a></div>{% endfor %}</TD></TR>
+					 <TR><TD>{% trans "Created Date" %}:</TD><TD>{{ current_event.event_created_date|date:"D m/d/Y h:i a" }}</TD></TR>
+					 <TR><TD>{% trans "Max Attendees" %}:</TD><TD>{{ current_event.max_attendees }}</TD></TR>
+					 <TR><TD>{% trans "Hour Tracking" %}:</TD><TD>{% ifequal current_event.event_track_hours 1 %}Tracking Hours{% else %}Hour Tracking Disabled{% endifequal %}</TD></TR>
+					</TABLE>
+					{% if not current_event.event_perms.is_attending_event %}<div class="register_by">* Registration ends {{ current_event.event_signup_deadline|date:"l, F d, Y h:i a" }}</div>{% endif %}
+				</div>
+			</div>
+		
 		</div>
-	
-		<div>
-		   <ul class="attendee_list"><li>
-			   <TABLE>
-				<TR><TH class="att_name">{% trans "Attendee Name" %}</TH><TH class="att_date">{% trans "Attendee Added Date" %}</TH>
-					{% if current_event.event_track_hours %}<TH class="att_hours">Hours</TH>{% endif %}
-				    {% if current_event.att_header_col1 %}<TH class="att_col">{{ current_event.att_header_col1 }}</TH>{% endif %}
-				    {% if current_event.att_header_col2 %}<TH class="att_col">{{ current_event.att_header_col2 }}</TH>{% endif %}
-				    {% if current_event.att_header_col3 %}<TH class="att_col">{{ current_event.att_header_col3 }}</TH>{% endif %}
-				    {% if current_event.att_header_col4 %}<TH class="att_col">{{ current_event.att_header_col4 }}</TH>{% endif %}
-				    {% if current_event.att_header_col5 %}<TH class="att_col">{{ current_event.att_header_col5 }}</TH>{% endif %}
-				    {% if current_event.att_header_col6 %}<TH class="att_col">{{ current_event.att_header_col6 }}</TH>{% endif %}
-				    <TH>&nbsp;</TH>
-				</TR>
-			   </TABLE>
-		  </li></ul>
-		   {% for attendee in attendees %}
-		   <ul class="attendee_list"><li>
-			   <TABLE>
-				<TR><TD class="att_name"><a href="{{ attendee.att_name.get_absolute_url }}">{{ attendee.att_name }}</a></TD><TD class="att_date">{{ attendee.att_added_date|date:"D m/d/Y h:i a" }}</TD>
-					{% if current_event.event_track_hours %}<TD class="att_hours">{{ attendee.att_hours }}</TD>{% endif %}
-				    {% if current_event.att_header_col1 %}<TD class="att_col">{{ attendee.att_col1 }}</TD>{% endif %}
-				    {% if current_event.att_header_col2 %}<TD class="att_col">{{ attendee.att_col2 }}</TD>{% endif %}
-				    {% if current_event.att_header_col3 %}<TD class="att_col">{{ attendee.att_col3 }}</TD>{% endif %}
-				    {% if current_event.att_header_col4 %}<TD class="att_col">{{ attendee.att_col4 }}</TD>{% endif %}
-				    {% if current_event.att_header_col5 %}<TD class="att_col">{{ attendee.att_col5 }}</TD>{% endif %}
-				    {% if current_event.att_header_col6 %}<TD class="att_col">{{ attendee.att_col6 }}</TD>{% endif %}
-				    <TD>{% if attendee.att_perms.can_remove_attendee %}<a href="{% url event_attendee_remove current_org.org_short_name current_event.event_hash attendee.att_name %}"><img alt="remove" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove_user.png"></a>{% endif %}</TD>
-				</TR>	   
-			   </TABLE>
-		   </li></ul>
-		   {% endfor %}
+		<div class="section_rightcol">
+		
+			<div class="section" id="">
+				<div class="section_title"><font>{% trans "Description" %}</font></div>
+				<div class="section_body">
+				 <pre class="event_description">{{ current_event.event_desc }}</pre>
+				</div>
+			</div>
+			
+		</div>
+		<div style="clear: both;"></div>
+		<div class="section"> 
+			<div class="section_title"><font>{% trans "Event Attendee Information" %}</font></div>
+			<div class="section_body">
+				<div class="button_list">
+					<ul>
+					 {% if not current_event.event_perms.is_attending_event %}<li>{% if current_event.is_within_signup_deadline %}<strong><a href="{% url event_attendee_add current_org.org_short_name current_event.event_hash %}">{% trans "Attend" %}</a></strong>{% else %}<strong><a class="disabled_string">{% trans "Attend" %}</a></strong>{% endif %}</li>{% endif %}
+					 <li><strong><a href="{% url event_attendees_message current_org.org_short_name current_event.event_hash %}">{% trans "Message" %}</a></strong></li>
+					</ul>
+				</div>
+			    <div style="clear: both;"></div>
+				<div>
+				   <ul class="attendee_list"><li>
+					   <TABLE>
+						<TR><TH class="att_name">{% trans "Attendee Name" %}</TH><TH class="att_date">{% trans "Attendee Added Date" %}</TH>
+							{% if current_event.event_track_hours %}<TH class="att_hours">Hours</TH>{% endif %}
+						    {% if current_event.att_header_col1 %}<TH class="att_col">{{ current_event.att_header_col1 }}</TH>{% endif %}
+						    {% if current_event.att_header_col2 %}<TH class="att_col">{{ current_event.att_header_col2 }}</TH>{% endif %}
+						    {% if current_event.att_header_col3 %}<TH class="att_col">{{ current_event.att_header_col3 }}</TH>{% endif %}
+						    {% if current_event.att_header_col4 %}<TH class="att_col">{{ current_event.att_header_col4 }}</TH>{% endif %}
+						    {% if current_event.att_header_col5 %}<TH class="att_col">{{ current_event.att_header_col5 }}</TH>{% endif %}
+						    {% if current_event.att_header_col6 %}<TH class="att_col">{{ current_event.att_header_col6 }}</TH>{% endif %}
+						    <TH>&nbsp;</TH>
+						</TR>
+					   </TABLE>
+				  </li></ul>
+				   {% for attendee in attendees %}
+				   <ul class="attendee_list"><li>
+					   <TABLE>
+						<TR><TD class="att_name"><a href="{{ attendee.att_name.get_absolute_url }}">{{ attendee.att_name }}</a></TD><TD class="att_date">{{ attendee.att_added_date|date:"D m/d/Y h:i a" }}</TD>
+							{% if current_event.event_track_hours %}<TD class="att_hours">{{ attendee.att_hours }}</TD>{% endif %}
+						    {% if current_event.att_header_col1 %}<TD class="att_col">{{ attendee.att_col1 }}</TD>{% endif %}
+						    {% if current_event.att_header_col2 %}<TD class="att_col">{{ attendee.att_col2 }}</TD>{% endif %}
+						    {% if current_event.att_header_col3 %}<TD class="att_col">{{ attendee.att_col3 }}</TD>{% endif %}
+						    {% if current_event.att_header_col4 %}<TD class="att_col">{{ attendee.att_col4 }}</TD>{% endif %}
+						    {% if current_event.att_header_col5 %}<TD class="att_col">{{ attendee.att_col5 }}</TD>{% endif %}
+						    {% if current_event.att_header_col6 %}<TD class="att_col">{{ attendee.att_col6 }}</TD>{% endif %}
+						    <TD>{% if attendee.att_perms.can_remove_attendee %}<a href="{% url event_attendee_remove current_org.org_short_name current_event.event_hash attendee.att_name %}"><img alt="remove" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove_user.png"></a>{% endif %}</TD>
+						</TR>	   
+					   </TABLE>
+				   </li></ul>
+				   {% endfor %}
+				</div>
+				
+			</div>
+			
 		</div>
 		
 	</div>
+
 </div>
 {% endblock %}

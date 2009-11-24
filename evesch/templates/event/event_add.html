@@ -8,11 +8,11 @@
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqboxy/stylesheets/boxy.css" />
 	<script type="text/javascript">
-	  $(document).ready(function(){
+	  jQuery(document).ready(function(){
 
-	   $("input#event_add_submit").click( function() { $("form#add_event").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
+	   jQuery("input#event_add_submit").click( function() { jQuery("form#add_event").submit( function(){ jQuery("input#dialog").attr("value","True"); return true; }); }); 
 
-		 $('#id_event_date').datepicker({  
+		 jQuery('#id_event_date').datepicker({  
 		     duration: '',  
 		     showTime: true,  
 		     constrainInput: false,  
@@ -22,7 +22,7 @@
 		     time24h: true  
 		  });  
 
-		 $('#id_event_signup_deadline').datepicker({  
+		 jQuery('#id_event_signup_deadline').datepicker({  
 		     duration: '',  
 		     showTime: true,  
 		     constrainInput: false,  
@@ -31,6 +31,24 @@
 		     altTimeField: '',  
 		     time24h: true  
 		  });  
+
+		 function DialogShowHide(val, i)
+		 {
+		   var drop_box_part = "id_att_type_drop_col" + i;
+		   var drop_box = "input#" + drop_box_part;
+		   $(drop_box).attr("disabled",(val=="2")?"":"disabled");
+		   (val=="2")?jQuery(drop_box).show():jQuery(drop_box).hide();		   
+		   (val=="2")?jQuery('label[for=' + drop_box_part + ']').show():jQuery("label[for=' + drop_box_part + ']").hide(); 
+		 }
+
+		for (i=1;i<=6;i++)
+		{ DialogShowHide($("#id_att_type_col" + i).attr("value"), i);	 }
+		 jQuery("#id_att_type_col1").change(function() { DialogShowHide($(this).val(), 1); });
+		 jQuery("#id_att_type_col2").change(function() { DialogShowHide($(this).val(), 2); });
+		 jQuery("#id_att_type_col3").change(function() { DialogShowHide($(this).val(), 3); });
+		 jQuery("#id_att_type_col4").change(function() { DialogShowHide($(this).val(), 4); });
+		 jQuery("#id_att_type_col5").change(function() { DialogShowHide($(this).val(), 5); });
+		 jQuery("#id_att_type_col6").change(function() { DialogShowHide($(this).val(), 6); });
 
 {% if show_dialog %} 
     new Boxy('\

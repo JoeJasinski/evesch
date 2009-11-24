@@ -5,8 +5,9 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class OrganizationForm(ModelForm):
-    org_desc = forms.CharField(max_length=512,
-         widget=forms.Textarea(attrs = {'cols': '45', 'rows': '5'}))
+    def __init__(self, *args, **kwargs):
+        super(OrganizationForm, self).__init__(*args, **kwargs)
+        self.fields['org_desc'].widget = forms.Textarea(attrs = {'cols': '45', 'rows': '5'}) 
     
     class Meta:
         model = Organization
@@ -28,12 +29,13 @@ class OrganizationJoinForm(Form):
     pass
 
 class OrganizationFormEdit(ModelForm):
-    org_desc = forms.CharField(label=_("Organization Description"), max_length=512,
-         widget=forms.Textarea(attrs = {'cols': '45', 'rows': '5'}))
     class Meta:
         model = Organization
         exclude = ('org_date_created','org_short_name','org_feed_hash','org_active',)
-        
+
+    def __init__(self, *args, **kwargs):
+        super(OrganizationFormEdit, self).__init__(*args, **kwargs)
+        self.fields['org_desc'].widget = forms.Textarea(attrs = {'cols': '45', 'rows': '5'})        
 
 class OrganizationInviteMember(Form):
     invite_list = forms.CharField(required=False, max_length=512,
