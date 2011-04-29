@@ -1,3 +1,5 @@
+This project is aimed at allowing organizations to create and manage events of different category types. 
+
 Requires:
 Django 1.1.1
 Python 2.5 (or 2.6)
