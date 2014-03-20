@@ -151,6 +151,7 @@ INSTALLED_APPS = (
     'pagination',
     'compressor',
     'django_extensions',
+    'django_forms_bootstrap',
     'south',
 
     'evesch.core',

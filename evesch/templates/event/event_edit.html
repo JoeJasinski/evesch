@@ -1,5 +1,6 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
+{% load bootstrap_tags %}
 {% block title %} - {% trans "Edit Event" %}{% endblock %}
 {% block extra_head %}{{ block.super }}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/timepicker/css/ui-lightness/jquery-ui-1.7.2.custom.css" />
@@ -22,7 +23,7 @@
 		<form id="edit_event" action="." method="post">{% csrf_token %}
 		<input type="hidden" id="dialog" name="dialog" value="False">
 		<table>
-		 {{ form.as_table }}
+		 {{ form|as_bootstrap }}
 		</table>
 		<button id="event_edit_submit" name="edit_event" class="btn btn-default" type="submit">{% trans 'Save' %}</button>
 		</form>

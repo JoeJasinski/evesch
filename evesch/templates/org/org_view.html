@@ -31,7 +31,6 @@
 						    <table><tr>
 						    {% for any_avatar in current_org.avatar_set.all %}
 						       <td>
-						       	{# <img src="{% any_avatar_url any_avatar 40 %}" url2="{% any_avatar_url any_avatar 300 %}" alt="avatar" width="40"> #}
 					       		{% thumbnail avatar.avatar "40x40" crop="center" as im %}<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
 					       		{% endthumbnail %}	
 						       </td>
