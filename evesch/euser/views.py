@@ -16,14 +16,6 @@ from evesch.event.forms import EventTypeForm
 from evesch.euser.forms import UserForm
 from evesch.core.lib import Message
 
-def get_or_create_profile(self,user):
-    try:
-        profile = user.get_profile()
-    except ObjectDoesNotExist:
-        profile = get_user_model()(username=user,phone='')
-        profile.save()
-    return profile
-
 @login_required
 def user_view(request,username, template_name=None):
     current_user, message = get_current_user(username)
