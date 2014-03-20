@@ -23,15 +23,15 @@
 			<ul class="my_org_list">
 			{% for org in my_orgs_page.current_page.object_list %}
 			 <li>
-			  <TABLE>
-			  <TR><TD class="org_name_list"><a href="{{ org.get_absolute_url }}">{{ org.org_name }}</a></TD>
-			  	  <TD class="org_desc_list">{{ org.org_desc|ellipsis:40 }}</TD>
-			      <TD> <a title="{% trans "Leave Organization" %}" href="{% url 'org_org_leave' org.org_short_name %}"><img alt="{% trans "Leave" %}" style="border: solid 0px;" src="{{ STATIC_URL }}images/leave.png"></a></TD>
-			      <TD>{% if org.user_perms.can_edit_org %}<a title="{% trans "Edit Organization" %}" href="{% url 'org_org_edit' org.org_short_name %}"><img class="img_edit" alt="{% trans "Edit" %}" style="border: solid 0px;" src="{{ STATIC_URL }}images/edit.png"></a>{% else %}&nbsp;{% endif %}</TD>			      
-			      <TD>{% if org.user_perms.can_remove_org %}<a title="{% trans "Remove Organization" %}" href="{% url 'org_org_remove' org.org_short_name %}"><img class="img_remove" alt="{% trans "Remove" %}" style="border: solid 0px;" src="{{ STATIC_URL }}images/remove.png"></a>{% else %}&nbsp;{% endif %}</TD>
-			  </TR>
-			  <TR><TD colspan="4">{{ org.org_city }}&nbsp;{{ org.org_state}}</TD></TR>
-			  </TABLE>
+			  <table>
+			  <tr><td class="org_name_list"><a href="{{ org.get_absolute_url }}">{{ org.org_name }}</a></td>
+			  	  <td class="org_desc_list">{{ org.org_desc|ellipsis:40 }}</td>
+			      <td> <a title="{% trans "Leave Organization" %}" href="{% url 'org_org_leave' org.org_short_name %}"><img alt="{% trans "Leave" %}" style="border: solid 0px;" src="{{ STATIC_URL }}images/leave.png"></a></td>
+			      <td>{% if org.user_perms.can_edit_org %}<a title="{% trans "Edit Organization" %}" href="{% url 'org_org_edit' org.org_short_name %}"><img class="img_edit" alt="{% trans "Edit" %}" style="border: solid 0px;" src="{{ STATIC_URL }}images/edit.png"></a>{% else %}&nbsp;{% endif %}</td>			      
+			      <td>{% if org.user_perms.can_remove_org %}<a title="{% trans "Remove Organization" %}" href="{% url 'org_org_remove' org.org_short_name %}"><img class="img_remove" alt="{% trans "Remove" %}" style="border: solid 0px;" src="{{ STATIC_URL }}images/remove.png"></a>{% else %}&nbsp;{% endif %}</td>
+			  </tr>
+			  <tr><td colspan="4">{{ org.org_city }}&nbsp;{{ org.org_state}}</td></tr>
+			  </table>
 			</li>
 			{% endfor %}
 			</ul>

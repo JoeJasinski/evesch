@@ -14,23 +14,23 @@
 
 <div class="section"> 
 	<div class="section_title"><font>{% trans "Calendar" %}</font></div>
-	<TABLE align="center"><TR>
-	<TD><a href="{% url 'ecalendar_calendar_monthly_view' current_org.org_short_name %}?year={{ year_prev }}&month={{ month_prev }}">{% trans "Previous" %}</a></TD>
-	<TD><a href="{% url 'ecalendar_calendar_monthly_view' current_org.org_short_name %}">{% trans "Current Month" %}</a></TD>
-	<TD><a href="{% url 'ecalendar_calendar_monthly_view' current_org.org_short_name %}?year={{ year_next }}&month={{ month_next }}">{% trans "Next" %}</a></TD>
-	</TABLE>
+	<table align="center"><tr>
+	<td><a href="{% url 'ecalendar_calendar_monthly_view' current_org.org_short_name %}?year={{ year_prev }}&month={{ month_prev }}">{% trans "Previous" %}</a></td>
+	<td><a href="{% url 'ecalendar_calendar_monthly_view' current_org.org_short_name %}">{% trans "Current Month" %}</a></td>
+	<td><a href="{% url 'ecalendar_calendar_monthly_view' current_org.org_short_name %}?year={{ year_next }}&month={{ month_next }}">{% trans "Next" %}</a></td>
+	</table>
 	
 	<div align="center">{{  month|date:"F Y"}}</div>
-	<TABLE align="center">
-	   <TR class="org_cal_mon_head"><TH>{% trans "Sunday" %}</TH><TH>{% trans "Monday" %}</TH><TH>{% trans "Tuesday" %}</TH><TH>{% trans "Wednesday" %}</TH><TH>{% trans "Thursday" %}</TH><TH>{% trans "Friday" %}</TH><TH>{% trans "Saturday" %}</TH></TR>
+	<table align="center">
+	   <tr class="org_cal_mon_head"><th>{% trans "Sunday" %}</th><th>{% trans "Monday" %}</th><th>{% trans "Tuesday" %}</th><th>{% trans "Wednesday" %}</th><th>{% trans "Thursday" %}</th><th>{% trans "Friday" %}</th><th>{% trans "Saturday" %}</th></tr>
 	   {% for week in monthcal %}
-	   <TR>
+	   <tr>
 	     {% for day in week %}
-	     <TD class=org_cal_mon_cell>
+	     <td class=org_cal_mon_cell>
 	       {% ifnotequal day.date 0 %}<div class="org_cal_mon_num"><a href="{% url 'ecalendar_calendar_daily_view' current_org.org_short_name %}?year={{ month.year }}&month={{ month.month }}&day={{ day.date }}">{{ day.date }}</a></div><BR>{% for event in day.events %}<div class="event_container" url="{{ event.get_absolute_url }}" style="border:solid 1px #1a88c9;margin:2px;padding:3px;background-color: #{{ event.event_type.type_color }}"><a class="launch" style="text-decoration:none;color: #{{event.event_type.contrast}}" href="{{ event.get_absolute_url }}">{{ event.event_name|ellipsis:25 }}</a></div>{% endfor %}{% endifnotequal %}
-	     </TD>{% endfor %}
-	   </TR>{% endfor %}
-	</TABLE>
+	     </td>{% endfor %}
+	   </tr>{% endfor %}
+	</table>
 </div>
 	
 {% endblock %}

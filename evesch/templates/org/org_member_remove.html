@@ -11,10 +11,10 @@
 <div class="section">
 	<div class="section_title"><font>{% trans "Remove Member" %}</font></div>
 	<div class="section_body">
-		<TABLE>
-	     <TR><TD>{% trans "Member" %}:</TD><TD>{{ current_member.username }}</TD></TR>
-		 <TR><TD>{% trans "Org Name" %}:</TD><TD>{{ current_org.org_name }}</TD></TR>
-		</TABLE>
+		<table>
+	     <tr><td>{% trans "Member" %}:</td><td>{{ current_member.username }}</td></tr>
+		 <tr><td>{% trans "Org Name" %}:</td><td>{{ current_org.org_name }}</td></tr>
+		</table>
 		<form action="." method="post">{% csrf_token %}
 		<button class="btn btn-default" name="org_member_remove" type="submit">{% trans 'Remove' %}</button>
 		</form>

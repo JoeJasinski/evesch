@@ -22,17 +22,17 @@
 		<table>
 		{{ form }}
 		<!--
-		<TR><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
-		{% if current_event.event_track_hours %}<TR><TH><label for="id_att_hours">{% trans "Attendee Hours" %}</label></TH><TD>{{ form.att_hours }}</TD></TR>{% endif %}
-		{% if current_event.att_header_col1 %} <TR><TH><label for="id_att_col1">{{ current_event.att_header_col1 }}</label></TH><TD>{{ form.att_col1 }}</TD></TR>{% endif %}
-		{% if current_event.att_header_col2 %} <TR><TH><label for="id_att_col2">{{ current_event.att_header_col2 }}</label></TH><TD>{{ form.att_col2 }}</TD></TR>{% endif %}
-		{% if current_event.att_header_col3 %} <TR><TH><label for="id_att_col3">{{ current_event.att_header_col3 }}</label></TH><TD>{{ form.att_col3 }}</TD></TR>{% endif %}
-		{% if current_event.att_header_col4 %} <TR><TH><label for="id_att_col4">{{ current_event.att_header_col4 }}</label></TH><TD>{{ form.att_col4 }}</TD></TR>{% endif %}
-		{% if current_event.att_header_col5 %} <TR><TH><label for="id_att_col5">{{ current_event.att_header_col5 }}</label></TH><TD>{{ form.att_col5 }}</TD></TR>{% endif %}
-		{% if current_event.att_header_col6 %} <TR><TH><label for="id_att_col6">{{ current_event.att_header_col6 }}</label></TH><TD>{{ form.att_col6 }}</TD></TR>{% endif %}
+		<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+		{% if current_event.event_track_hours %}<tr><th><label for="id_att_hours">{% trans "Attendee Hours" %}</label></th><td>{{ form.att_hours }}</td></tr>{% endif %}
+		{% if current_event.att_header_col1 %} <tr><th><label for="id_att_col1">{{ current_event.att_header_col1 }}</label></th><td>{{ form.att_col1 }}</td></tr>{% endif %}
+		{% if current_event.att_header_col2 %} <tr><th><label for="id_att_col2">{{ current_event.att_header_col2 }}</label></th><td>{{ form.att_col2 }}</td></tr>{% endif %}
+		{% if current_event.att_header_col3 %} <tr><th><label for="id_att_col3">{{ current_event.att_header_col3 }}</label></th><td>{{ form.att_col3 }}</td></tr>{% endif %}
+		{% if current_event.att_header_col4 %} <tr><th><label for="id_att_col4">{{ current_event.att_header_col4 }}</label></th><td>{{ form.att_col4 }}</td></tr>{% endif %}
+		{% if current_event.att_header_col5 %} <tr><th><label for="id_att_col5">{{ current_event.att_header_col5 }}</label></th><td>{{ form.att_col5 }}</td></tr>{% endif %}
+		{% if current_event.att_header_col6 %} <tr><th><label for="id_att_col6">{{ current_event.att_header_col6 }}</label></th><td>{{ form.att_col6 }}</td></tr>{% endif %}
 		-->
 		</table>
-		<input type="submit" name="add_event_attendee" value="{% trans "Add" %}">
+	    <button name="add_event_attendee" class="btn btn-default" type="submit">{% trans 'Add' %}</button>
 		</form>
 	</div>
 </div>

@@ -31,12 +31,12 @@
 			<div class="section">
 				<div class="section_title"><font>{% trans "My Invites" %} ({{ current_user.get_org_invites_count }})</font></div>
 				<div class="section_body">
-					<TABLE>
+					<table>
 					{% for invite in user_org_invites %}
-					 <TR><TD><a href="{{ current_org.get_absolute_url }}">{{ invite.org }}</a></TD>
-					     <TD><a title="{% trans "Join Organization" %}" href="{% url 'org_org_join' invite.org.org_short_name %}"><img alt="Join" style="border: solid 0px;" src="{{ STATIC_URL }}images/join.png"></a></TD></TR>
+					 <tr><td><a href="{{ current_org.get_absolute_url }}">{{ invite.org }}</a></td>
+					     <td><a title="{% trans "Join Organization" %}" href="{% url 'org_org_join' invite.org.org_short_name %}"><img alt="Join" style="border: solid 0px;" src="{{ STATIC_URL }}images/join.png"></a></td></tr>
 					{% endfor %}
-					</TABLE>
+					</table>
 				</div>
 			 </div>
 			{% endif %}

@@ -11,9 +11,9 @@
 	<div class="section_title"><font>{% trans "Leave Organization" %}</font></div>
 	<div class="section_body">
 		<table>
-		 <TR><TD>{% trans "Org Name" %}:</TD><TD>{{ current_org.org_name }}</TD></TR>
-		 <TR><TD>{% trans "Org Type" %}:</TD><TD>{{ current_org.get_org_type_display }}</TD></TR>
-		 <TR><TD>{% trans "Org Description" %}:</TD><TD>{{ current_org.org_desc }}</TD></TR>
+		 <tr><td>{% trans "Org Name" %}:</td><td>{{ current_org.org_name }}</td></tr>
+		 <tr><td>{% trans "Org Type" %}:</td><td>{{ current_org.get_org_type_display }}</td></tr>
+		 <tr><td>{% trans "Org Description" %}:</td><td>{{ current_org.org_desc }}</td></tr>
 		</table>
 		
 		<form action="." method="post">{% csrf_token %}

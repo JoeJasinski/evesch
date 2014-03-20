@@ -1,45 +1,45 @@
 {% load i18n %}
 {% load color_correct %}
-		<TABLE class="report">	
+		<table class="report">	
 		{% if org_w.eventtypes %}
 		{% for event_type in org_w.eventtypes %}
-			<TR height="18px;" class="report_item_head">
-			 <TH bgcolor="#{{ event_type.eventtype.type_color }}"><font color="#{{ event_type.eventtype.type_color|color_correct }}">{{ event_type.eventtype }}</font></TH>
-			 <TH colspan="9">&nbsp;</TH>		 
-			</TR>
-			<TR class="report_item_subhead">
-			 <TH style="width:100px;">{% trans "Event" %}</TH>
-			 <TH style="width:100px;">{% trans "Attendee" %}</TH>
-			 <TH style="width:150px;">{% trans "Date Registered" %}</TH>
-			 <TH style="width:80px;">{% trans "Hours" %}</TH>
-			 <TH style="width:80px;">{{ event.att_header_col1 }}</TH>
-			 <TH style="width:80px;">{{ event.att_header_col2 }}</TH>
-			 <TH style="width:80px;">{{ event.att_header_col3 }}</TH>
-			 <TH style="width:80px;">{{ event.att_header_col4 }}</TH>
-			 <TH style="width:80px;">{{ event.att_header_col5 }}</TH>
-			 <TH style="width:80px;">{{ event.att_header_col6 }}</TH>
-			</TR>
+			<tr height="18px;" class="report_item_head">
+			 <th bgcolor="#{{ event_type.eventtype.type_color }}"><font color="#{{ event_type.eventtype.type_color|color_correct }}">{{ event_type.eventtype }}</font></th>
+			 <th colspan="9">&nbsp;</th>		 
+			</tr>
+			<tr class="report_item_subhead">
+			 <th style="width:100px;">{% trans "Event" %}</th>
+			 <th style="width:100px;">{% trans "Attendee" %}</th>
+			 <th style="width:150px;">{% trans "Date Registered" %}</th>
+			 <th style="width:80px;">{% trans "Hours" %}</th>
+			 <th style="width:80px;">{{ event.att_header_col1 }}</th>
+			 <th style="width:80px;">{{ event.att_header_col2 }}</th>
+			 <th style="width:80px;">{{ event.att_header_col3 }}</th>
+			 <th style="width:80px;">{{ event.att_header_col4 }}</th>
+			 <th style="width:80px;">{{ event.att_header_col5 }}</th>
+			 <th style="width:80px;">{{ event.att_header_col6 }}</th>
+			</tr>
 		   {% if event_type.events %}
 		   {% for event in event_type.events %}
 		      {% for attendee in event.get_attendees %}
-		      <TR><TD><a href="{{ event.get_absolute_url }}">{{ event.event_name }}</a></TD>
-		          <TD>{{ attendee.att_name.first_name }} {{attendee.att_name.last_name }} ({{ attendee.att_name }})</TD>
-				  <TD>{{ attendee.att_added_date|date:"D m/d/Y h:i a" }}</TD>
-				  <TD>{{ attendee.att_hours }}</TD>
-				  <TD>{{ attendee.att_col1 }}</TD>
-				  <TD>{{ attendee.att_col2 }}</TD>
-				  <TD>{{ attendee.att_col3 }}</TD>
-				  <TD>{{ attendee.att_col4 }}</TD>
-				  <TD>{{ attendee.att_col5 }}</TD>
-				  <TD>{{ attendee.att_col6 }}</TD>
-		      </TR>
+		      <tr><td><a href="{{ event.get_absolute_url }}">{{ event.event_name }}</a></td>
+		          <td>{{ attendee.att_name.first_name }} {{attendee.att_name.last_name }} ({{ attendee.att_name }})</td>
+				  <td>{{ attendee.att_added_date|date:"D m/d/Y h:i a" }}</td>
+				  <td>{{ attendee.att_hours }}</td>
+				  <td>{{ attendee.att_col1 }}</td>
+				  <td>{{ attendee.att_col2 }}</td>
+				  <td>{{ attendee.att_col3 }}</td>
+				  <td>{{ attendee.att_col4 }}</td>
+				  <td>{{ attendee.att_col5 }}</td>
+				  <td>{{ attendee.att_col6 }}</td>
+		      </tr>
 		      {% endfor %}
 		   {% endfor %}
 		   {% else %}
-		      <TR><TD  colspan="10">{% trans "No Events" %}</TD></TR>		     
+		      <tr><td  colspan="10">{% trans "No Events" %}</td></tr>		     
 		   {% endif %}
 		{% endfor %}
 		{% else %}
-		  <TR><TD>{% trans "No Event Types" %}</TD></TR>
+		  <tr><td>{% trans "No Event Types" %}</td></tr>
 		{% endif %}
-		</TABLE>
+		</table>

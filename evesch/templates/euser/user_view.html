@@ -12,18 +12,18 @@
 <div class="section">
 	<div class="section_title"><span class="section_title_icon">{% if myprofile %}<a title="{% trans "Edit User Settings" %}" href="{% url 'euser_user_settings' %}"><img class="img_edit" alt="add" style="border: solid 0px;" src="{{ STATIC_URL }}images/edit.png"></a>{% endif %}</span><font>{% trans "Info" %}</font></div>
 	<div class="section_body">
-		<TABLE>
-		 <TR><TD>{% trans "Username" %}:</TD><TD>{{ current_user.username }}</TD></TR>
-		 <TR><TD>{% trans "First Name" %}:</TD><TD>{{ current_user.first_name }}</TD></TR>
-		 <TR><TD>{% trans "Last Name" %}:</TD><TD>{{ current_user.last_name }}</TD></TR>
-		 {% if current_user.gender %}<TR><TD>{% trans "Gender" %}:</TD><TD>{{ current_user.get_gender_display }}</TD></TR>{% endif %}
-		 {% if current_user.email %}<TR><TD>{% trans "E-mail" %}:</TD><TD>{{ current_user.email }}</TD></TR>{% endif %}
-		 {% if current_user.phone %}<TR><TD>{% trans "Phone" %}:</TD><TD>{{ current_user.phone }}</TD></TR>{% endif %}
-		 {% if current_user.about %}<TR><TD>{% trans "About Me" %}:</TD><TD>{{ current_user.about }}</TD></TR>{% endif %}
-		 {% if current_user.city %}<TR><TD>{% trans "City" %}:</TD><TD>{{ current_user.city }}</TD></TR>{% endif %}
-		 {% if myprofile %}<TR><TD>{% trans "User Feed URL" %}</TD><TD><a href="{% url 'core_feed_user_rss' current_user.username current_user.user_feed_hash %}"><img alt="rss" style="border: solid 0px;" src="{{ STATIC_URL }}images/rss_icon.png"></a></TD></TR>{% endif %}
-		 {% if myprofile %}<TR><TD>{% trans "User iCal URL" %}:</TD><TD><a href="{% url 'core_feed_user_ics' current_user.username current_user.user_feed_hash %}"><img alt="ical" width="25" style="border: solid 0px;" src="{{ STATIC_URL }}images/ical_icon.png"></a></TD></TR>{% endif %}
-		</TABLE>
+		<table>
+		 <tr><td>{% trans "Username" %}:</td><td>{{ current_user.username }}</td></tr>
+		 <tr><td>{% trans "First Name" %}:</td><td>{{ current_user.first_name }}</td></tr>
+		 <tr><td>{% trans "Last Name" %}:</td><td>{{ current_user.last_name }}</td></tr>
+		 {% if current_user.gender %}<tr><td>{% trans "Gender" %}:</td><td>{{ current_user.get_gender_display }}</td></tr>{% endif %}
+		 {% if current_user.email %}<tr><td>{% trans "E-mail" %}:</td><td>{{ current_user.email }}</td></tr>{% endif %}
+		 {% if current_user.phone %}<tr><td>{% trans "Phone" %}:</td><td>{{ current_user.phone }}</td></tr>{% endif %}
+		 {% if current_user.about %}<tr><td>{% trans "About Me" %}:</td><td>{{ current_user.about }}</td></tr>{% endif %}
+		 {% if current_user.city %}<tr><td>{% trans "City" %}:</td><td>{{ current_user.city }}</td></tr>{% endif %}
+		 {% if myprofile %}<tr><td>{% trans "User Feed URL" %}</td><td><a href="{% url 'core_feed_user_rss' current_user.username current_user.user_feed_hash %}"><img alt="rss" style="border: solid 0px;" src="{{ STATIC_URL }}images/rss_icon.png"></a></td></tr>{% endif %}
+		 {% if myprofile %}<tr><td>{% trans "User iCal URL" %}:</td><td><a href="{% url 'core_feed_user_ics' current_user.username current_user.user_feed_hash %}"><img alt="ical" width="25" style="border: solid 0px;" src="{{ STATIC_URL }}images/ical_icon.png"></a></td></tr>{% endif %}
+		</table>
 	</div>
  </div>
 

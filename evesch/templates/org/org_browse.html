@@ -13,13 +13,13 @@
 	<ul class="all_org_list">
 		{% for org in orgs %}
 		<li>
-			<TABLE>
-			  <TR><TD class="org_name_list"><a href="/org/iwu/">{{ org.org_name }}</a></TD>
-			  	  <TD class="org_desc_list">{{ org.get_org_type_display }}</TD>
-			  	  <TD class="org_desc_list">{{ org.org_desc }}</TD>
-			  </TR>
-			  <TR><TD colspan="3">{{ org.org_city }} {{ org.org_state }}</TD></TR>
-			</TABLE>
+			<table>
+			  <tr><td class="org_name_list"><a href="/org/iwu/">{{ org.org_name }}</a></td>
+			  	  <td class="org_desc_list">{{ org.get_org_type_display }}</td>
+			  	  <td class="org_desc_list">{{ org.org_desc }}</td>
+			  </tr>
+			  <tr><td colspan="3">{{ org.org_city }} {{ org.org_state }}</td></tr>
+			</table>
 		</li>
 		{% endfor %}
 	</ul>
