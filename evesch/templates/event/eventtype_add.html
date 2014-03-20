@@ -41,6 +41,7 @@
 	      <ul>{% for link in message.links %}<li><a href="{{ link.link }}">{{ link.name }}</a></li>{% endfor %}</ul>\n\
 	    </div>', 
 	    {modal: true,  title:"{{ message.text }}", closeable: false });
-{% endif %}	   
+{% endif %}	  
 	   });
 	</script>
+{% endblock %}
