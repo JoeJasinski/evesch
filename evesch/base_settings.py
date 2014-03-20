@@ -90,6 +90,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 
@@ -149,6 +150,7 @@ INSTALLED_APPS = (
     'south',
     'rosetta',   # used for easily editing i18n files
     'pagination',
+    'compressor',
     'django_extensions',
     'south',
 
@@ -169,6 +171,19 @@ INSTALLED_APPS = (
 
 # max size for profie photo uploads (in KB)
 MAX_PHOTO_UPLOAD_SIZE = 2000
+
+
+COMPRESS_ENABLED = True
+COMPRESS_OUTPUT_DIR = ''
+COMPRESS_PRECOMPILERS = (
+    ('text/less', 'lessc {infile} {outfile}'),
+)
+COMPRESS_CSS_FILTERS = [
+    'compressor.filters.cssmin.CSSMinFilter'
+]
+COMPRESS_JS_FILTERS = [
+    'compressor.filters.jsmin.JSMinFilter'
+]
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
