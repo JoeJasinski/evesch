@@ -1,31 +1,8 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Add Organization" %}{% endblock %}
-{% block extra_head %}{{ block.super }}
-<script type="text/javascript" src="{{ STATIC_URL }}js/urlify.js"></script>  
-<script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+{% block extra_head %}{{ block.super }}  
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/jqboxy/stylesheets/boxy.css" />
-<script type="text/javascript">
- $(document).ready(function()
- {
-    document.getElementById("id_org_short_name").onchange = function() { this._changed = true; };
-    document.getElementById("id_org_name").onkeyup = function() {
-        var e = document.getElementById("id_org_short_name");
-        if (!e._changed) { e.value = URLify(document.getElementById("id_org_name").value, 50); }
-    }
- 
- 	   $("input#org_add_submit").click( function() { $("form#add_org").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
-
-{% if show_dialog %} 
-    new Boxy('\
-    <div class="popup_message">\n\
-      <ul>{% for link in message.links %}<li><a href="{{ link.link }}">{{ link.name }}</a></li>{% endfor %}</ul>\n\
-    </div>', 
-    {modal: true,  title:"{{ message.text }}", closeable: false });
-{% endif %}   
-    
- });
-</script>
 {% endblock %}
 
 {% block breadcrumb %}
@@ -49,4 +26,32 @@
 
 
 
+{% endblock %}
+
+
+
+{% block extra_foot %}{{ block.super }}
+<script type="text/javascript" src="{{ STATIC_URL }}js/urlify.js"></script>  
+<script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+<script type="text/javascript">
+ $(document).ready(function()
+ {
+    document.getElementById("id_org_short_name").onchange = function() { this._changed = true; };
+    document.getElementById("id_org_name").onkeyup = function() {
+        var e = document.getElementById("id_org_short_name");
+        if (!e._changed) { e.value = URLify(document.getElementById("id_org_name").value, 50); }
+    }
+ 
+ 	   $("input#org_add_submit").click( function() { $("form#add_org").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
+
+{% if show_dialog %} 
+    new Boxy('\
+    <div class="popup_message">\n\
+      <ul>{% for link in message.links %}<li><a href="{{ link.link }}">{{ link.name }}</a></li>{% endfor %}</ul>\n\
+    </div>', 
+    {modal: true,  title:"{{ message.text }}", closeable: false });
+{% endif %}   
+    
+ });
+</script>
 {% endblock %}

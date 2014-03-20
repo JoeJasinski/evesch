@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from evesch.core.lib import Message
-from evesch.euser.models import eUser, get_current_user
+from evesch.euser.models import get_current_user
 from evesch.org.models import Organization
 from evesch.event.models import EventType
 from evesch.report.forms import ReportFilterForm

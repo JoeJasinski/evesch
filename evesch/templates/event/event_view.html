@@ -7,13 +7,6 @@
   .event_status_open { color: green; }
   .register_by { color: red; font-size: 10px; margin: 3px;}
 </style>
-<script type="text/javascript">
- $(document).ready(function()
- {
-  {% if not current_event.is_within_signup_deadline %} jQuery("#attendee_add").attr('disabled', 'disabled'); {% endif %}
- });
- 
-</script>
 {% endblock %}
 {% block breadcrumb %}
 <a href="{% url 'home' %}">home</a> 
@@ -113,4 +106,15 @@
 	</div>
 
 </div>
+{% endblock %}
+
+
+{% block extra_foot %}{{ block.super }}
+<script type="text/javascript">
+ $(document).ready(function()
+ {
+  {% if not current_event.is_within_signup_deadline %} jQuery("#attendee_add").attr('disabled', 'disabled'); {% endif %}
+ });
+ 
+</script>
 {% endblock %}

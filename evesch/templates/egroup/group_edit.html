@@ -2,43 +2,8 @@
 {% load i18n %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Edit Group" %}{% endblock %}
 {% block extra_head %}{{ block.super }}
-
     <link rel="stylesheet" href="{{ STATIC_URL }}js/jqtokenautocomplete/token-input-facebook.css" type="text/css" />
-    <script type="text/javascript" src="{{ STATIC_URL }}js/jqtokenautocomplete/jquery.tokeninput.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/jqboxy/stylesheets/boxy.css" />
-    <script type="text/javascript">
-    $(document).ready(function(){
-    
-        $("#add_user_form").tokenInput("{% url 'euser_ajax_lookup_org_users' current_org.org_short_name %}", {
-            classes: {
-                tokenList: "token-input-list-facebook",
-                token: "token-input-token-facebook",
-                tokenDelete: "token-input-delete-token-facebook",
-                selectedToken: "token-input-selected-token-facebook",
-                highlightedToken: "token-input-highlighted-token-facebook",
-                dropdown: "token-input-dropdown-facebook",
-                dropdownItem: "token-input-dropdown-item-facebook",
-                dropdownItem2: "token-input-dropdown-item2-facebook",
-                selectedDropdownItem: "token-input-selected-dropdown-item-facebook",
-                inputToken: "token-input-input-token-facebook"
-            }
-        });
-    
- 		$("input#group_edit_submit").click( function() { $("form#edit_group").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
-
-{% if show_dialog %} 
-	    new Boxy('\
-	    <div class="popup_message">\n\
-	      <ul>{% for link in message.links %}<li><a href="{{ link.link }}">{{ link.name }}</a></li>{% endfor %}</ul>\n\
-	    </div>', 
-	    {modal: true,  title:"{{ message.text }}", closeable: false });   
-{% endif %}
-
- 
-    
- 	});
-   	</script>       
 {% endblock %}
 {% block breadcrumb %}
 <a href="{% url 'home' %}">{% trans "home" %}</a>
@@ -98,5 +63,39 @@
 	</div>
 </div>
 {% endif %}
+{% endblock %}
 
+{% block extra_foot %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jqtokenautocomplete/jquery.tokeninput.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+    <script type="text/javascript">
+    $(document).ready(function(){
+    
+        $("#add_user_form").tokenInput("{% url 'euser_ajax_lookup_org_users' current_org.org_short_name %}", {
+            classes: {
+                tokenList: "token-input-list-facebook",
+                token: "token-input-token-facebook",
+                tokenDelete: "token-input-delete-token-facebook",
+                selectedToken: "token-input-selected-token-facebook",
+                highlightedToken: "token-input-highlighted-token-facebook",
+                dropdown: "token-input-dropdown-facebook",
+                dropdownItem: "token-input-dropdown-item-facebook",
+                dropdownItem2: "token-input-dropdown-item2-facebook",
+                selectedDropdownItem: "token-input-selected-dropdown-item-facebook",
+                inputToken: "token-input-input-token-facebook"
+            }
+        });
+    
+ 		$("input#group_edit_submit").click( function() { $("form#edit_group").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
+
+{% if show_dialog %} 
+	    new Boxy('\
+	    <div class="popup_message">\n\
+	      <ul>{% for link in message.links %}<li><a href="{{ link.link }}">{{ link.name }}</a></li>{% endfor %}</ul>\n\
+	    </div>', 
+	    {modal: true,  title:"{{ message.text }}", closeable: false });   
+{% endif %}
+    
+ 	});
+   	</script> 
 {% endblock %}

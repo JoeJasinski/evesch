@@ -275,7 +275,6 @@ class Organization(models.Model):
 			self.org_date_created = datetime.now()
 		super(Organization, self).save(*args, **kwargs)
 
-from evesch.euser.models import eUser
 class OrgInvite(models.Model):
 	org = models.ForeignKey(Organization, related_name="invite_set")
 	user = models.ForeignKey( settings.AUTH_USER_MODEL, blank=True, null=True, related_name="user_invites_set")

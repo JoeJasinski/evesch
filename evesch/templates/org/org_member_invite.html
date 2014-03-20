@@ -1,29 +1,8 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {{ message.title }}{% endblock %}
-    {% block extra_head %}{{ block.super }}
+{% block extra_head %}{{ block.super }}
     <link rel="stylesheet" href="{{ STATIC_URL }}js/jqtokenautocomplete/token-input-facebook.css" type="text/css" />
-    <script type="text/javascript" src="{{ STATIC_URL }}js/jqtokenautocomplete/jquery.tokeninput.js"></script>
-	<script type="text/javascript">
-    $(document).ready(function(){
-
-        $("#invite_member_form").tokenInput("{% url 'euser_ajax_lookup_users' %}", {
-            classes: {
-                tokenList: "token-input-list-facebook",
-                token: "token-input-token-facebook",
-                tokenDelete: "token-input-delete-token-facebook",
-                selectedToken: "token-input-selected-token-facebook",
-                highlightedToken: "token-input-highlighted-token-facebook",
-                dropdown: "token-input-dropdown-facebook",
-                dropdownItem: "token-input-dropdown-item-facebook",
-                dropdownItem2: "token-input-dropdown-item2-facebook",
-                selectedDropdownItem: "token-input-selected-dropdown-item-facebook",
-                inputToken: "token-input-input-token-facebook"
-            }
-        });
-
-	});
-   	</script>
 {% endblock %}
 {% block breadcrumb %}
 <a href="{% url 'home' %}">{% trans "home" %}</a> 
@@ -61,4 +40,28 @@
 {% endif %}
 
 
+{% endblock %}
+
+{% block extra_foot %}{{ block.super }}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jqtokenautocomplete/jquery.tokeninput.js"></script>
+	<script type="text/javascript">
+    $(document).ready(function(){
+
+        $("#invite_member_form").tokenInput("{% url 'euser_ajax_lookup_users' %}", {
+            classes: {
+                tokenList: "token-input-list-facebook",
+                token: "token-input-token-facebook",
+                tokenDelete: "token-input-delete-token-facebook",
+                selectedToken: "token-input-selected-token-facebook",
+                highlightedToken: "token-input-highlighted-token-facebook",
+                dropdown: "token-input-dropdown-facebook",
+                dropdownItem: "token-input-dropdown-item-facebook",
+                dropdownItem2: "token-input-dropdown-item2-facebook",
+                selectedDropdownItem: "token-input-selected-dropdown-item-facebook",
+                inputToken: "token-input-input-token-facebook"
+            }
+        });
+
+	});
+   	</script>
 {% endblock %}

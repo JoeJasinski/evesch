@@ -1,14 +1,7 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}{% load ellipsis %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Monthly Calendar of Events" %}{% endblock %}
-{% block extra_head %}{{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/org_cal_mon.css" />
-	<script type="text/javascript">
-	 $(document).ready(function() { $(".event_container").click(function(){ window.location = $(this).attr("url"); return false; }); 
-	 $(".event_container").hover(function () { $(this).css("border","solid 1px #8F0000"); }, function () { $(this).css("border","solid 1px #1a88c9"); });
-	 }); 
-    </script>
-{% endblock %}
+
 {% block breadcrumb %}
 <a href="{% url 'home' %}">{% trans "home" %}</a> 
 &gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
@@ -40,4 +33,14 @@
 	</TABLE>
 </div>
 	
+{% endblock %}
+
+
+{% block extra_foot %}{{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/org_cal_mon.css" />
+	<script type="text/javascript">
+	 $(document).ready(function() { $(".event_container").click(function(){ window.location = $(this).attr("url"); return false; }); 
+	 $(".event_container").hover(function () { $(this).css("border","solid 1px #8F0000"); }, function () { $(this).css("border","solid 1px #1a88c9"); });
+	 }); 
+    </script>
 {% endblock %}

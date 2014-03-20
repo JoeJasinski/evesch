@@ -1,25 +1,8 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Add Group" %}{% endblock %}
-{% block extra_head %}{{ block.super }}
-
-    <script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/jqboxy/stylesheets/boxy.css" />
-    <script type="text/javascript">
-    $(document).ready(function(){
-    
- 		$("input#group_add_submit").click( function() { $("form#add_group").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
-
-{% if show_dialog %} 
-	    new Boxy('\
-	    <div class="popup_message">\n\
-	      <ul>{% for link in message.links %}<li><a href="{{ link.link }}">{{ link.name }}</a></li>{% endfor %}</ul>\n\
-	    </div>', 
-	    {modal: true,  title:"{{ message.text }}", closeable: false });   
-{% endif %}
-    
- 	});
-   	</script>       
+{% block extra_head %}{{ block.super }}   
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/jqboxy/stylesheets/boxy.css" />      
 {% endblock %}
 {% block breadcrumb %}
 <a href="{% url 'home' %}">{% trans "home" %}</a>
@@ -43,4 +26,25 @@
 		</form>
 	</div>
 </div>
+{% endblock %}
+
+
+{% block extra_foot %}{{ block.super }}
+
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+    <script type="text/javascript">
+    $(document).ready(function(){
+    
+ 		$("input#group_add_submit").click( function() { $("form#add_group").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
+
+{% if show_dialog %} 
+	    new Boxy('\
+	    <div class="popup_message">\n\
+	      <ul>{% for link in message.links %}<li><a href="{{ link.link }}">{{ link.name }}</a></li>{% endfor %}</ul>\n\
+	    </div>', 
+	    {modal: true,  title:"{{ message.text }}", closeable: false });   
+{% endif %}
+    
+ 	});
+   	</script>       
 {% endblock %}

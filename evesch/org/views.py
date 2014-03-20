@@ -410,7 +410,7 @@ def org_member_invite(request,org_short_name=None, template_name=None):
                 new_user_list = []
                 for user in user_list:
                     new_user_list.append(user.strip().strip(','))
-                new_invited_users = eUser.objects.filter(username__in=new_user_list).exclude(user_invites_set__in=org_invites)
+                new_invited_users = get_user_model().objects.filter(username__in=new_user_list).exclude(user_invites_set__in=org_invites)
                 for user in new_invited_users:
                     i = OrgInvite()
                     i.user = user

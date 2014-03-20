@@ -3,7 +3,7 @@ import urllib
 from django import template
 from django.utils.translation import ugettext as _
 
-from evesch.org.avatar import AVATAR_DEFAULT_URL, AVATAR_GRAVATAR_BACKUP
+from evesch.org.avatar import AVATAR_DEFAULT_URL
 
 from evesch.org.models import Organization
 
