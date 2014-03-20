@@ -1,4 +1,4 @@
-import random
+import random, sha, os
 import threading
 from datetime import datetime
 from django.core.mail import send_mail
@@ -169,16 +169,16 @@ def evesch_signup_success(request, template_name=None):
 
 def evesch_captcha(request):
     from random import choice
-    import Image, ImageDraw, ImageFont, sha
+    from PIL import Image, ImageDraw, ImageFont
     SALT = settings.SECRET_KEY[:20]
     imgtext = ''.join([choice('QWERTYUOPASDFGHJKLZXCVBNM') for i in range(5)])
     request.session['signup_captcha'] = imgtext
 
     imghash = sha.new(SALT+imgtext).hexdigest()
-    im=Image.open(settings.MEDIA_ROOT + 'images/captcha_box.jpg')
+    im=Image.open(os.path.join(settings.STATIC_ROOT, 'images','captcha_box.jpg'))
     (bg_width, bg_height) = im.size
     draw=ImageDraw.Draw(im)
-    font=ImageFont.truetype(settings.MEDIA_ROOT + 'fonts/AfterShock.ttf', 44)
+    font=ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'AfterShock.ttf'), 44)
     (txt_width, txt_height) = draw.textsize(imgtext, font=font) 
     draw.text(((bg_width / 2 ) - (txt_width / 2), (bg_height / 2) - (txt_height / 2) ),imgtext, font=font, fill=(100,100,50))
 

@@ -19,10 +19,10 @@
 		{% trans "Event Date" %}: {{ current_event.event_date }}<BR>
 		{% trans "Belonging to" %}: {{ current_org.org_name }}
 		<BR><BR>
-		<FORM action="." method=POST>
+		<form action="." method="post">{% csrf_token %}
 		{% trans "Are you sure you want to delete?" %}
-		<INPUT type="submit" name=remove_event value="{% trans "Delete" %}">
-		</FORM>
+		<input type="submit" name=remove_event value="{% trans "Delete" %}">
+		</form>
 	</div>
 </div>
 {% endblock %}

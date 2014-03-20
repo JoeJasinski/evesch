@@ -36,7 +36,7 @@ ul.photo_add li input { display: block; margin: 5px; }
 	    {% if not avatars %}
 	        <p>{% trans "You do not yet have an organization photo. You may upload one now." %}</p>
 	    {% else %}
-	        <form method="POST" action=".">{% csrf_token %}
+	        <form method="post" action=".">{% csrf_token %}
 	            <ul class="photo_list">
 	                {{ primary_avatar_form.as_ul }}
 	            </ul>
@@ -46,7 +46,7 @@ ul.photo_add li input { display: block; margin: 5px; }
 	    {% endif %}
 	    </div>
 	    <div class="photo_add_box">
-		    <form enctype="multipart/form-data" method="POST" action=".">
+		    <form enctype="multipart/form-data" method="POST" action=".">{% csrf_token %}
 		        <!-- <input type="file" name="avatar" value="Avatar Image" /> -->
 		        <ul class="photo_add">
 		        {{ upload_avatar_form.as_ul }}

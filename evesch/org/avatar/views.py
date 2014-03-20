@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import get_app
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
+from django.contrib import messages
 from evesch.core.lib import Message
 from evesch.euser.models import get_current_user
 from evesch.org.models import Organization
@@ -80,7 +81,7 @@ def change(request, org_short_name, extra_context={}, next_override=None):
                         new_file = avatar.avatar.storage.save(path, request.FILES['avatar'])
                         avatar.save()
                         updated = True
-                        request.user.message_set.create(message=_("Successfully uploaded a new organization photo."))
+                        messages.add_message(request, messages.INFO, _("Successfully uploaded a new organization photo."))
                         return HttpResponseRedirect(next_override or _get_next(request))
                 else:
                     template_name = "core/message.html"
@@ -93,7 +94,7 @@ def change(request, org_short_name, extra_context={}, next_override=None):
                     avatar.primary = True
                     avatar.save()
                     updated = True
-                    request.user.message_set.create(message=_("Successfully updated the organization photo."))
+                    messages.add_message(request, messages.INFO, _("Successfully updated the organization photo."))
                     return HttpResponseRedirect(next_override or _get_next(request))
         
         template_name='avatar/change.html'
@@ -141,7 +142,7 @@ def delete(request, org_short_name, extra_context={}, next_override=None):
                             a.save()
                             break
                 Avatar.objects.filter(id__in=ids).delete()
-                request.user.message_set.create(message=_("Successfully deleted the requested avatars."))
+                messages.add_message(request, messages.INFO, _("Successfully deleted the requested avatars."))
                 return HttpResponseRedirect(next_override or _get_next(request))
         return render_to_response('avatar/confirm_delete.html',extra_context,
             context_instance = RequestContext(request,

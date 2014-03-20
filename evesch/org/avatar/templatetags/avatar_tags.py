@@ -2,11 +2,10 @@ import urllib
 
 from django import template
 from django.utils.translation import ugettext as _
-from django.utils.hashcompat import md5_constructor
 
-from org.avatar import AVATAR_DEFAULT_URL, AVATAR_GRAVATAR_BACKUP
+from evesch.org.avatar import AVATAR_DEFAULT_URL, AVATAR_GRAVATAR_BACKUP
 
-from org.models import Organization
+from evesch.org.models import Organization
 
 register = template.Library()
 

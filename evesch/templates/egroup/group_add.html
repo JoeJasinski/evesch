@@ -34,7 +34,7 @@
 	<div class="section_title"><font>Add Group</font></div>
 	<div class="section_body">
 		{% trans "Add Group for" %}: {{ current_org.org_name }}
-		<form id="add_group" action="." method=POST>{% csrf_token %}
+		<form id="add_group" action="." method="post">{% csrf_token %}
 		<input type="hidden" id="dialog" name="dialog" value="False">
 		<table>
 		 {{ form.as_table }}

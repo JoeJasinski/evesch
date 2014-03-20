@@ -26,7 +26,7 @@ ul.photo_list ul {list-style-type: none; margin: 0px; padding: 0px; }
     {% if not avatars %}
         <p>{% trans "You have no photos to delete.  Please" %} <a href="{% url 'org_org_edit_photo' current_org.org_short_name %}">upload one</a> now." </p>
     {% else %}
-        <form method="POST" action="">{% csrf_token %}
+        <form method="post" action="">{% csrf_token %}
             <ul class="photo_list">
                 {{ delete_avatar_form.as_ul }}
             </ul>

@@ -19,7 +19,7 @@
 		{% trans "Please check your email to confirm your membership to this site." %}
 		{% trans "You will receive a confirmation email from us shortly." %}
 		{% trans "Click the confirmation link provided in that email or enter into the box below the confirmation number given in the email." %}</p></div>
-		<form action="." method="POST">{% csrf_token %}
+		<form action="." method="post">{% csrf_token %}
 		{{ form }}
 		<input type="submit" name="submit_security_hash" value="{% trans "Confirm" %}">
 		</form>

@@ -23,7 +23,7 @@
 	    <div class="section_leftcol">
 
 			<div class="section">
-				<div class="section_title"><span class="section_title_icon">{% if current_org.org_perms.can_edit_org %}<a title="{% trans "Delete Photo" %}" href="{% url 'org_org_delete_photo' current_org.org_short_name %}"><img class="img_edit" alt="remove photo" style="border: solid 0px;" src="{{ STATIC_URL }}images/remove.png"></a><a title="{% trans "Edit Photo" %}" href="{% url org_org_edit_photo current_org.org_short_name %}"><img class="img_edit" alt="edit_image" style="border: solid 0px;" src="{{ MEDIA_URL }}images/edit.png"></a>{% endif %}</span><font>{% trans "Photo" %}</font></div>
+				<div class="section_title"><span class="section_title_icon">{% if current_org.org_perms.can_edit_org %}<a title="{% trans "Delete Photo" %}" href="{% url 'org_org_delete_photo' current_org.org_short_name %}"><img class="img_edit" alt="remove photo" style="border: solid 0px;" src="{{ STATIC_URL }}images/remove.png"></a><a title="{% trans "Edit Photo" %}" href="{% url 'org_org_edit_photo' current_org.org_short_name %}"><img class="img_edit" alt="edit_image" style="border: solid 0px;" src="{{ STATIC_URL }}images/edit.png"></a>{% endif %}</span><font>{% trans "Photo" %}</font></div>
 				<div class="section_body" id="org_picture">
 					    <div id="org_picture_large">{% avatar current_org.org_short_name %}</div>
 					    {% ifnotequal current_org.avatar_set.count 1 %}

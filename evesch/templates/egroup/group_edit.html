@@ -68,7 +68,7 @@
 	<div class="section_title"><font>{% trans "Add Group Members" %}</font></div>
 	<div class="section_body">
 {% ifnotequal current_usergroup.meta 1 %}	
-		<form action="." method="POST">{% csrf_token %}
+		<form action="." method="post">{% csrf_token %}
 		<table>
 		  <tr><td>&nbsp;</td><td>{% trans "Type the name of users in this organization that you want to add to this group." %}</td></tr>
 		  {{ group_add_member_form.as_table }}

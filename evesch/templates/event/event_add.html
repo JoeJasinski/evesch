@@ -77,13 +77,13 @@
 <div class="section"> 
 	<div class="section_title"><font>{% trans "Event Add" %}</font></div>
 	<div class="section_body">
-		<FORM id="add_event" action="." method=POST>
+		<form id="add_event" action="." method="post">{% csrf_token %}
 		<input type="hidden" id="dialog" name="dialog" value="False">
-		<TABLE>
+		<table>
 		 {{ form.as_table }}
-		</TABLE>
-		<INPUT id="event_add_submit" type="submit" name="add_event" value="{% trans "Add" %}">
-		</FORM>
+		</table>
+		<input id="event_add_submit" type="submit" name="add_event" value="{% trans "Add" %}">
+		</form>
 	</div>
 </div>
 {% endblock %}

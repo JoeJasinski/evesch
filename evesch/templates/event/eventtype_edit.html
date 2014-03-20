@@ -28,7 +28,7 @@
 	<div class="section_title"><font>{% trans "Edit Event Type" %}</font></div>
 	<div class="section_body">
 		{% trans "Edit Event Type for" %}: {{ current_org.org_name }}
-		<form id="edit_eventtype" action="." method="post">
+		<form id="edit_eventtype" action="." method="post">{% csrf_token %}
 		<input type="hidden" id="dialog" name="dialog" value="False">
 		<table>
 		 {{ form.as_table }}
