@@ -1,9 +1,7 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Add Event Type" %}{% endblock %}
-{% block extra_head %}{{ block.super }} 
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/jqboxy/stylesheets/boxy.css" />
-{% endblock %}
+
 {% block breadcrumb %}
 <a href="{% url 'home' %}">{% trans "home" %}</a>
 &gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
@@ -29,8 +27,7 @@
 {% endblock %}
 
 
-{% block extra_foot %}{{ block.super }}<script type="text/javascript" src="{{ STATIC_URL }}js/jscolor/jscolor.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>   
+{% block extra_foot %}{{ block.super }}<script type="text/javascript" src="{{ STATIC_URL }}js/jscolor/jscolor.js"></script>  
 	<script type="text/javascript">
 	  $(document).ready(function(){
 

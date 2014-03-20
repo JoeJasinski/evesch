@@ -3,7 +3,6 @@
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Add Event" %}{% endblock %}
 {% block extra_head %}{{ block.super }}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/timepicker/css/ui-lightness/jquery-ui-1.7.2.custom.css" />  
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/jqboxy/stylesheets/boxy.css" />
 {% endblock %}
 {% block breadcrumb %}
 <a href="{% url 'home' %}">{% trans "home" %}</a> 
@@ -32,8 +31,7 @@
 
 {% block extra_foot %}{{ block.super }}
 	<!-- calendar -->
-	<script type="text/javascript" src="{{ STATIC_URL }}js/timepicker/js/timepicker.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+	<script type="text/javascript" src="{{ STATIC_URL }}js/timepicker/js/timepicker.js"></script>   
 	<script type="text/javascript">
 	  jQuery(document).ready(function(){
 
@@ -89,5 +87,4 @@
 	</script>
 	<!-- /calendar -->
 	<script type="text/javascript" src="/admin/jsi18n/"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/base.js"></script>
 {% endblock %}

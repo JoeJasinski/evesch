@@ -1,9 +1,7 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "User Settings" %}{% endblock %}
-{% block extra_head %}{{ block.super }}   
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/jqboxy/stylesheets/boxy.css" />
-{% endblock %}
+
 {% block breadcrumb %}
 <a href="{% url 'home' %}">{% trans "home" %}</a>  &gt; {% trans "user" %} &gt; <a href="{{ request.user.get_absolute_url }}">{{ current_user.username }}</a>
 {% endblock %}
@@ -29,8 +27,7 @@
 {% endblock %}
 
 
-{% block extra_foot %}{{ block.super }}
-    <script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+{% block extra_foot %}{{ block.super }}   
 	<script type="text/javascript">
 		$(document).ready(function(){
 	   $("input#user_edit_submit").click( function() { $("form#edit_user").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 

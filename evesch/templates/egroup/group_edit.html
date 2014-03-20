@@ -3,7 +3,6 @@
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Edit Group" %}{% endblock %}
 {% block extra_head %}{{ block.super }}
     <link rel="stylesheet" href="{{ STATIC_URL }}js/jqtokenautocomplete/token-input-facebook.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/jqboxy/stylesheets/boxy.css" />
 {% endblock %}
 {% block breadcrumb %}
 <a href="{% url 'home' %}">{% trans "home" %}</a>
@@ -67,7 +66,6 @@
 
 {% block extra_foot %}
     <script type="text/javascript" src="{{ STATIC_URL }}js/jqtokenautocomplete/jquery.tokeninput.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
     <script type="text/javascript">
     $(document).ready(function(){
     
