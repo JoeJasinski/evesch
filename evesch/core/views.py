@@ -16,11 +16,11 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator
 from django.conf import settings
 from evesch.event.models import Attendee, Event
-from evesch.euser.models import eUser, get_current_user_by_email, get_current_user
+from evesch.euser.models import get_current_user_by_email, get_current_user
 from evesch.core.forms import EveschLoginForm, SignupForm, PasswordResetForm, SignupConfirmForm
 from evesch.core.lib import Message, ePage
 from evesch.org.models import Organization
-
+from django.contrib.auth import get_user_model
 
 KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
@@ -28,7 +28,7 @@ def index(request,template_name=None):
     #raise AssertionError(request.user)
     if request.user.is_authenticated():
         try:
-            current_user = eUser.objects.get(username=request.user)
+            current_user = get_user_model().objects.get(username=request.user)
             attending = current_user.get_attending_events()
             user_events = Event.objects.filter(attendee__in=attending, event_active=True)
             user_orgs = current_user.get_user_orgs().order_by('org_name')
@@ -99,7 +99,7 @@ def evesch_signup(request, template_name=None):
                 post_email = form.cleaned_data['email']
                 post_username = form.cleaned_data['username']
                 post_password = form.cleaned_data['password']
-                user = eUser(username=post_username,email=post_email)
+                user = get_user_model()(username=post_username,email=post_email)
                 user.first_name = post_username
                 user.last_name = ''
                 user.is_superuser=False
@@ -143,7 +143,7 @@ def evesch_signup_confirm(request, template_name=None):
             security_hash_post = form.cleaned_data['security_hash']
 
             try:
-                user =  eUser.objects.get(security_hash=security_hash_post)
+                user =  get_user_model().objects.get(security_hash=security_hash_post)
                 if user.is_active == False: 
                     user.is_active = True
                     user.save()

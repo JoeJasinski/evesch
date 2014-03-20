@@ -6,12 +6,13 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 from evesch.core.lib import Message
 from evesch.core.exceptions import EventTypeExistsException
 from evesch.core.forms import MessageForm
 from evesch.event.models import Event,EventType,Attendee
 from evesch.event.forms import EventForm, EventTypeForm, AttendeeForm
-from evesch.euser.models import eUser, get_current_user
+from evesch.euser.models import get_current_user
 from evesch.org.models import Organization
 
 
@@ -319,7 +320,7 @@ def event_attendee_remove(request,org_short_name,event_hash,att_name,template_na
             context = {'message':message,}
     if not message:
         try:
-            current_attendee = current_event.attendee_set.get(att_name=eUser.objects.get(username=att_name))
+            current_attendee = current_event.attendee_set.get(att_name=get_user_model().objects.get(username=att_name))
         except ObjectDoesNotExist:
             message = Message(title=_("Cannot Remove User from Event"), text=_("This user is not attending this event."))
             context = {'error':_("Attendee does not exist"),'org_short_name':org_short_name}

@@ -9,9 +9,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib.auth import get_user_model
 from evesch.core.lib import Message, ePage
 from evesch.egroup.models import UserGroup
-from evesch.euser.models import eUser, get_current_user
+from evesch.euser.models import get_current_user
 from evesch.org.models import Organization, OrgInvite
 from evesch.event.models import EventType
 from evesch.org.forms import OrganizationForm, OrganizationFormEdit, OrganizationJoinForm, OrganizationInviteMember
@@ -382,7 +383,7 @@ def org_member_remove(request,org_short_name=None, username=None, template_name=
 @login_required
 def org_member_invite(request,org_short_name=None, template_name=None):
     current_user, message = get_current_user(request.user)
-    invited_users = eUser.objects.none()
+    invited_users = get_user_model().objects.none()
     if not message:
         current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:
@@ -401,7 +402,7 @@ def org_member_invite(request,org_short_name=None, template_name=None):
     if not message:
         invited_users_page = ePage(1)
         org_invites = current_org.invite_set.all()
-        invited_users = eUser.objects.filter(user_invites_set__in=org_invites)       
+        invited_users = get_user_model().objects.filter(user_invites_set__in=org_invites)       
         if request.method == 'POST':
             form = OrganizationInviteMember(request.POST)
             if form.is_valid():
@@ -453,7 +454,7 @@ def org_list_invites(request,org_short_name,template_name=None):
                 invited_users_page.curr = 1 
 
         org_invites = current_org.invite_set.all()
-        invited_users = eUser.objects.filter(user_invites_set__in=org_invites)   
+        invited_users = get_user_model().objects.filter(user_invites_set__in=org_invites)   
         invited_users_page.set_pages(Paginator(invited_users, 5))
         context = {'current_org':current_org,'invited_users':invited_users_page,'ajax_page_members':reverse('org_org_invites_list_ajax', kwargs={'org_short_name':current_org.org_short_name,})}
 

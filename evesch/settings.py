@@ -15,12 +15,12 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-AUTH_PROFILE_MODULE = 'evesch.core.User'
+AUTH_USER_MODEL = 'euser.eUser'
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(ENVIRONMENT_ROOT, 'data', 'aradar.db'),
+        'NAME': os.path.join(ENVIRONMENT_ROOT, 'data', 'evesch.db'),
         # The following settings are not used with sqlite3:
         'USER': 'evesch',
         'PASSWORD': '',
@@ -151,11 +151,11 @@ INSTALLED_APPS = (
     'django_extensions',
     'south',
 
+    'evesch.core',
     'evesch.org',
     'evesch.org.avatar',
     'evesch.egroup',
     'evesch.euser',
-    'evesch.core',
     'evesch.event',
     'evesch.ecalendar',
     'evesch.core.feed',

@@ -3,11 +3,12 @@ from random import sample
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import get_user_model
 from evesch.org.models import Organization
-from evesch.euser.models import eUser
 from evesch.core.exceptions import EventTypeExistsException
 from evesch.core.middleware import threadlocals 
 from evesch.core.lib import text_vs_bg
+from django.conf import settings
 
 #from django.contrib.auth.models import User
 
@@ -65,10 +66,10 @@ class EventType(models.Model):
 	def contrast(self):
 	   return text_vs_bg(self.type_color)
 
-	def save(self):
+	def save(self, *args, **kwargs):
 		if not self.id:
 			self.type_hash =  "".join(sample(KEYS,8))
-		super(EventType, self).save()
+		super(EventType, self).save(*args, **kwargs)
 		
 	objects = EventTypeManager()
 
@@ -129,7 +130,7 @@ class Event(models.Model):
 		db_column="event_date",
 		db_index=True,
 		verbose_name=_("Date and Time of Event"))
-	event_creator_name = models.ForeignKey(eUser,
+	event_creator_name = models.ForeignKey(settings.AUTH_USER_MODEL,
 		db_column="event_creator_name",
 		verbose_name=_("Event Creator"), related_name="event_creator")
 	event_created_date = models.DateTimeField(
@@ -152,7 +153,7 @@ class Event(models.Model):
 		verbose_name=_("Type of Event"))
 	event_org = models.ForeignKey(Organization, 
 		verbose_name=_("Organization Sponsoring the Event"))
-	event_coordinators = models.ManyToManyField(eUser,
+	event_coordinators = models.ManyToManyField(settings.AUTH_USER_MODEL,
 		verbose_name=_("Event Coordinators"))
 	event_track_hours = models.BooleanField(
 		verbose_name=_("Should we track the hours attendees spend at events?"),
@@ -267,21 +268,21 @@ class Event(models.Model):
 		return permissions
 	
 	
-	def save(self):
+	def save(self, *args, **kwargs):
 		if not self.id:
 			self.event_hash = "".join(sample(KEYS,8))
 			if not self.event_desc:
 				self.event_desc = ""	
 		if not self.event_signup_deadline:
 			self.event_signup_deadline = self.event_date
-		super(Event, self).save()
+		super(Event, self).save(*args, **kwargs)
 
 class AttendeeManager(models.Manager):
 	def exists(self, attendee):
 		pass
 
 class Attendee(models.Model):
-	att_name = models.ForeignKey(eUser, 
+	att_name = models.ForeignKey(settings.AUTH_USER_MODEL, 
 		verbose_name=_("User Attending"))
 	att_event = models.ForeignKey(Event,
 		#related_name="event_attendees",

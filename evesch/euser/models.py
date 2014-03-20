@@ -2,7 +2,8 @@ from random import sample
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import User, UserManager
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth import get_user_model
 from evesch.org.models import Organization
 from evesch.egroup.models import UserGroup
 from evesch.core.lib import Message
@@ -21,7 +22,7 @@ def get_current_user_by_email(email, message=None):
         return None, message
     else:
         try:
-            current_user = User.objects.get(email=email)
+            current_user = get_user_model().objects.get(email=email)
         except:
             current_user = None
             message = Message(title=_("User Not Found"), text=_("The user was not found. Are you logged in?"))
@@ -59,10 +60,11 @@ class UserIM(models.Model):
         return "%s - %s" % (self.im_name, self.im_protocol_type)
 
 
-class eUser(User):
+class eUser(AbstractUser):
     GENDER_CHOICES = (
         (1,u'Male'),
         (2,u'Female'),
+        (3,u'Other'),
     )
 
     user_organizations = models.ManyToManyField(Organization, 
@@ -95,7 +97,7 @@ class eUser(User):
         max_length=64,
         help_text = _("User's City"))
     im_names = models.ForeignKey(UserIM,
-        related_name = u"user_im_names",                   
+        related_name = u"user_im_names",
         blank=True,null=True) 
     about = models.CharField(
         db_column = u"about",
@@ -110,7 +112,6 @@ class eUser(User):
         max_length=24,
         verbose_name=_("User Feed Hash"),
         null=True, blank=True,)
-    objects = UserManager()
     
    # class Meta:
     #    db_table="EveschUsers"
@@ -132,21 +133,22 @@ class eUser(User):
 
     def get_org_invites_count(self):
         return self.user_invites_set.count()
-            
-    def save(self):
-        super(eUser, self).save()
 
     def set_password(self, raw_password):
         super(eUser, self).set_password(raw_password)
 
     def get_absolute_url(self):
         return reverse('euser_user_view',kwargs={'username':self.username,})
- 
-    def save(self):
+
+    def save(self, *args, **kwargs):
         if not self.id:
             self.user_feed_hash = "".join(sample(KEYS,24))
-        super(eUser, self).save()
-        
+        super(eUser, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = _('User')
+        verbose_name_plural = _('Users')
+    
 def get_current_user(username, message=None):
     if message:
         return None, message

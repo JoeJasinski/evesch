@@ -3,7 +3,7 @@ from django.core.management.base import NoArgsCommand
 from evesch.org.models import Organization
 from evesch.egroup.models import UserGroup
 from evesch.event.models import EventType, Event
-
+from django.contrib.auth import get_user_model
 
 class Command(NoArgsCommand):
 	help = "Setup Users for Testing"
@@ -93,8 +93,7 @@ class Command(NoArgsCommand):
 		## Create some users
 		print "Creating Users"
 		
-		
-		from euser.models import eUser as User
+		User = get_user_model()
 		
 		#Create custom users
 		user_email='demo@evesch.com'

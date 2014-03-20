@@ -8,7 +8,6 @@ from evesch.event.models import  EventType, Event, Attendee
 from evesch.org.models import Organization
 from evesch.core.widgets import DateTimeWidget
 from evesch.core.ajax_filtered_fields.forms import ManyToManyByLetter
-from evesch.euser.models import eUser
 
 
 from django.forms.widgets import  SplitDateTimeWidget, SplitHiddenDateTimeWidget

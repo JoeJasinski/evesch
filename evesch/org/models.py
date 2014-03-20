@@ -2,10 +2,11 @@ from datetime import datetime
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import get_user_model
 from random import sample
 from evesch.core.lib import Message
 from evesch.core.middleware import threadlocals 
-
+from django.conf import settings
 
 KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
@@ -159,25 +160,21 @@ class Organization(models.Model):
 		return self.org_users.all().count()
 
 	def get_admin_users(self):
-		from evesch.euser.models import eUser
-		return eUser.objects.filter(user_groups__in=self.get_org_admin_groups())
+		return get_user_model().objects.filter(user_groups__in=self.get_org_admin_groups())
 		#return self.get_members().filter(user_groups__in=self.get_org_admin_groups())
 		# not sure if the commented syntax works.  Check
 	
 	# UNTESTED - was on the train and had to go before testing
-	def get_invited_users(self):
-		from evesch.euser.models import eUser	
-		return eUser.objects.filter(user_invites_set__in=self.invite_set.all())
+	def get_invited_users(self):	
+		return get_user_model().objects.filter(user_invites_set__in=self.invite_set.all())
 	
 	
 	def get_coordinator_users(self):
-		from evesch.euser.models import eUser
-		return eUser.objects.filter(user_groups__in=self.get_coordinator_groups())
+		return get_user_model().objects.filter(user_groups__in=self.get_coordinator_groups())
 
 	def get_orginvite_users(self):
 		""" Get users who can invite people to the org """
-		from evesch.euser.models import eUser
-		return eUser.objects.filter(user_groups__in=self.get_orginvite_groups())
+		return get_user_model().objects.filter(user_groups__in=self.get_orginvite_groups())
 
 	def get_current_event(self, event_hash, message=None):
 		if message:
@@ -271,17 +268,17 @@ class Organization(models.Model):
 		
 		return permissions
 
-	def save(self):
+	def save(self, *args, **kwargs):
 		if len(str(self.org_feed_hash)) != 20:
 			self.org_feed_hash = str("").join(sample(KEYS,20))
 		if not self.org_date_created:
 			self.org_date_created = datetime.now()
-		super(Organization, self).save()
+		super(Organization, self).save(*args, **kwargs)
 
 from evesch.euser.models import eUser
 class OrgInvite(models.Model):
 	org = models.ForeignKey(Organization, related_name="invite_set")
-	user = models.ForeignKey( eUser, blank=True, null=True, related_name="user_invites_set")
+	user = models.ForeignKey( settings.AUTH_USER_MODEL, blank=True, null=True, related_name="user_invites_set")
 	email = models.EmailField(_(u'Anonymous email'), blank=True, null=True)
 	direction = models.BooleanField(default=True)
 	invite_hash = models.CharField(
@@ -289,10 +286,10 @@ class OrgInvite(models.Model):
 		max_length=20, verbose_name=_("Invite Hash"),
 		null=True, blank=True,)
 	
-	def save(self):
+	def save(self, *args, **kwargs):
 		if len(str(self.invite_hash)) != 20:
 			self.invite_hash = "".join(sample(KEYS,20))
-		super(OrgInvite, self).save()
+		super(OrgInvite, self).save(*args, **kwargs)
 	
 	def __unicode__(self):
 		if self.user:

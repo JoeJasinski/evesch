@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 from evesch.euser.models import get_current_user
 from evesch.egroup.models import UserGroup
 from evesch.org.models import Organization
-from evesch.euser.models import eUser
+from django.contrib.auth import get_user_model
 from evesch.egroup.forms import UserGroupEditForm, UserGroupForm, GroupAddMemberForm
 from evesch.core.lib import Message, ePage
 
@@ -121,7 +121,7 @@ def group_edit(request, org_short_name, group_hash, template_name=None):
                     new_user_list = []
                     for user in user_list:
                         new_user_list.append(user.strip().strip(','))
-                    new_group_users = eUser.objects.filter(username__in=new_user_list)
+                    new_group_users = get_user_model().objects.filter(username__in=new_user_list)
                     for user in new_group_users:
                         user.user_groups.add(current_usergroup)
                         return HttpResponseRedirect(reverse('egroup_group_edit', kwargs={'org_short_name':current_org.org_short_name,'group_hash':current_usergroup.group_hash}))

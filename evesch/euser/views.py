@@ -7,7 +7,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.db.models import Q
-from evesch.euser.models import eUser, get_current_user
+from django.contrib.auth import get_user_model
+from evesch.euser.models import get_current_user
 from evesch.euser.forms import UserForm
 from evesch.event.models import EventType
 from evesch.org.models import Organization
@@ -19,7 +20,7 @@ def get_or_create_profile(self,user):
     try:
         profile = user.get_profile()
     except ObjectDoesNotExist:
-        profile = eUser(username=user,phone='')
+        profile = get_user_model()(username=user,phone='')
         profile.save()
     return profile
 
@@ -88,7 +89,7 @@ def lookup_users(request, org_short_name=None, template_name=None):
         if request.GET.__contains__("q"): 
             try:
                 q  = request.GET['q']
-                users = eUser.objects.filter(Q(username__icontains=q) | Q(last_name__icontains=q) | Q(first_name__icontains=q)).order_by('username')[:10]
+                users = get_user_model().objects.filter(Q(username__icontains=q) | Q(last_name__icontains=q) | Q(first_name__icontains=q)).order_by('username')[:10]
             except ValueError:
                 pass
     
