@@ -224,5 +224,3 @@ def evesch_password_reset_sent(request, template_name=None):
 def error(request,template_name):
     return render_to_response("error.html",{'error':_("Error")})
 
-def page_not_found(request,template_name):
-    return render_to_response(template_name,{'message':_("Page Not Found")},context_instance=RequestContext(request))

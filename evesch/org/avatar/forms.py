@@ -33,9 +33,8 @@ class UploadAvatarForm(forms.Form):
     avatar = forms.ImageField(required=False, label=_("Upload a photo"))
 
     def clean_avatar(self):
-
-        if self.cleaned_data.get('avatar'):
-            photo_data = self.cleaned_data['avatar']
+        photo_data  = self.cleaned_data.get('avatar')
+        if photo_data:
             if 'error' in photo_data:
                 raise forms.ValidationError(_('Upload a valid image. The file you uploaded was either not an image or a corrupted image.'))
 
@@ -55,4 +54,4 @@ class UploadAvatarForm(forms.Form):
         #if height > settings.MAX_PHOTO_HEIGHT:
         #    raise forms.ValidationError(_('Max height is %s' % settings.MAX_PHOTO_HEIGHT))       
            
-        return self.cleaned_data['avatar']
+        return photo_data

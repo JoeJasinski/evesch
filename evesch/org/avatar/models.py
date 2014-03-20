@@ -18,7 +18,7 @@ except ImportError:
     import Image
 
 def upload_file_path(instance, filename):
-    path =  os.path.abspath(os.path.join(settings.STATIC_ROOT, instance.org.org_short_name, filename))
+    path =  os.path.abspath(os.path.join(settings.MEDIA_ROOT, instance.org.org_short_name, filename))
     return path
 
 class Avatar(models.Model):
@@ -33,5 +33,4 @@ class Avatar(models.Model):
     def save(self, *args, **kwargs):
         super(Avatar, self).save(*args, **kwargs)
         if self.primary:
-            avatars = Avatar.objects.filter(org=self.org, primary=True).exclude(id=self.id)
-            avatars.update(primary=False)
+            Avatar.objects.filter(org=self.org, primary=True).exclude(id=self.id).update(primary=False)

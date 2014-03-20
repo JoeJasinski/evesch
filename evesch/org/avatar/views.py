@@ -76,11 +76,8 @@ def change(request, org_short_name, extra_context={}, next_override=None):
                 if not message:
                     upload_avatar_form = UploadAvatarForm(request.POST, request.FILES)
                     if upload_avatar_form.is_valid():
-                        #path = upload_file_path(org_short_name=current_org.org_short_name,filename="".join(sample(KEYS,12)) + ".jpg")
-                        avatar = Avatar(org=current_org, primary=True, avatar=upload_avatar_form.cleaned_data['avatar'],)
-                        #new_file = avatar.avatar.storage.save(path, request.FILES['avatar'])
-                        #avatar.save()
-                        avatar.save()
+                        photo = Avatar(org=current_org, primary=True, avatar=upload_avatar_form.cleaned_data['avatar'],)
+                        photo.save()
                         updated = True
                         messages.add_message(request, messages.INFO, _("Successfully uploaded a new organization photo."))
                         return HttpResponseRedirect(next_override or _get_next(request))

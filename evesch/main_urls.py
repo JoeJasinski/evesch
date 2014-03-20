@@ -20,5 +20,4 @@ urlpatterns += patterns('',
      (r'^user/', include('evesch.euser.urls')),
      (r'^accounts/', include('evesch.core.urls')),
      (r'^ajax_filtered_fields/', include('evesch.core.ajax_filtered_fields.urls')),
-     url('.*','evesch.core.views.page_not_found', {'template_name':"error.html"}, name='core_page_not_found'),
 )

@@ -10,10 +10,9 @@
      <!--[if lte IE 6]><script type="text/javascript" src="{{ STATIC_URL }}js/jqsupersleight/supersleight.plugin.js"></script>
      <script type="text/javascript"> $(document).ready(function(){ $('img').supersleight({shim: '{{ STATIC_URL }}js/jqsupersleight/x.gif'}); });</script>
      <![endif]-->
-    {% block extra_head %}
      <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}css/master.css">
      <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}js/jqui/css/smoothness/jquery-ui-1.7.1.custom.css">
-    {% endblock %}
+     {% block extra_head %}{% endblock %}
   </head>
   <body>
     {% block base_layout %}{% endblock %}
