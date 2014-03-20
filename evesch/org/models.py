@@ -168,6 +168,8 @@ class Organization(models.Model):
 	def get_invited_users(self):	
 		return get_user_model().objects.filter(user_invites_set__in=self.invite_set.all())
 	
+	def get_primary_avatar(self):
+		return self.avatar_set.filter(primary=True)
 	
 	def get_coordinator_users(self):
 		return get_user_model().objects.filter(user_groups__in=self.get_coordinator_groups())

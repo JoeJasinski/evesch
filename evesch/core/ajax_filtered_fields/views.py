@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.http import HttpResponse, Http404
-
+import json
 from ajax_filtered_fields import utils
 
 def json_index(request):
@@ -20,7 +20,6 @@ def json_index(request):
             model = get_model(app_label, object_name)
             
             if model is not None:
-                from django.utils import simplejson
                 # get the lookup dict
                 lookup_string = request.GET.get('lookup_string', '')
                 lookup_dict = utils.stringToLookup(lookup_string)
@@ -31,7 +30,7 @@ def json_index(request):
                 objects = utils.getObjects(model, lookup_dict, select_related)
                 # get the raw data and dump the json
                 raw_data = [(i.pk, unicode(i)) for i in objects]
-                data = simplejson.dumps(raw_data)
+                data = json.dumps(raw_data)
                 # return data with the right content type
                 return HttpResponse(data, content_type="application/json")
                 

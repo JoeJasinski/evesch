@@ -1,5 +1,6 @@
 {% extends "avatar/org_photo_base.html" %}
-{% load i18n %}{% load avatar_tags %}
+{% load i18n %}
+{% load thumbnail %}
 {% block title %} - Edit Organization Photo {{ current_org.org_short_name }}{% endblock %}
 {% block extra_head %}{{ block.super }}
 <style rel="stylesheet" type="text/css">
@@ -30,7 +31,11 @@ ul.photo_add li input { display: block; margin: 5px; }
 	<div class="section_body">
 		<div class="photo_box">
 	    <p>{% trans "Your current organization photo:" %} </p>
-	    {% avatar current_org.org_short_name %}
+	    {% for avatar in current_org.get_primary_avatar %}
+	    {% thumbnail avatar.avatar "300x300" crop="center" as im %}
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+        {% endthumbnail %}
+        {% endfor %}
 	    </div>
 		<div class="photo_choose_box">
 	    {% if not avatars %}
@@ -41,12 +46,12 @@ ul.photo_add li input { display: block; margin: 5px; }
 	                {{ primary_avatar_form.as_ul }}
 	            </ul>
 	            <div style="clear: both;"></div>
-	            <input type="submit" value="{% trans "Choose Default" %}" />
+	            <input type="submit" value="{% trans 'Choose Default' %}" />
 	        </form>
 	    {% endif %}
 	    </div>
 	    <div class="photo_add_box">
-		    <form enctype="multipart/form-data" method="POST" action=".">{% csrf_token %}
+		    <form enctype="multipart/form-data" method="post" action=".">{% csrf_token %}
 		        <!-- <input type="file" name="avatar" value="Avatar Image" /> -->
 		        <ul class="photo_add">
 		        {{ upload_avatar_form.as_ul }}

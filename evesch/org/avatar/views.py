@@ -13,7 +13,7 @@ from django.contrib import messages
 from evesch.core.lib import Message
 from evesch.euser.models import get_current_user
 from evesch.org.models import Organization
-from evesch.org.avatar.models import Avatar, avatar_file_path
+from evesch.org.avatar.models import Avatar, upload_file_path
 from evesch.org.avatar.forms import PrimaryAvatarForm, DeleteAvatarForm, UploadAvatarForm
 
 KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -76,9 +76,10 @@ def change(request, org_short_name, extra_context={}, next_override=None):
                 if not message:
                     upload_avatar_form = UploadAvatarForm(request.POST, request.FILES)
                     if upload_avatar_form.is_valid():
-                        path = avatar_file_path(org_short_name=current_org.org_short_name,filename="".join(sample(KEYS,12)) + ".jpg")
-                        avatar = Avatar(org=current_org, primary=True, avatar=path,)
-                        new_file = avatar.avatar.storage.save(path, request.FILES['avatar'])
+                        #path = upload_file_path(org_short_name=current_org.org_short_name,filename="".join(sample(KEYS,12)) + ".jpg")
+                        avatar = Avatar(org=current_org, primary=True, avatar=upload_avatar_form.cleaned_data['avatar'],)
+                        #new_file = avatar.avatar.storage.save(path, request.FILES['avatar'])
+                        #avatar.save()
                         avatar.save()
                         updated = True
                         messages.add_message(request, messages.INFO, _("Successfully uploaded a new organization photo."))

@@ -3,12 +3,9 @@ from django.forms import widgets
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.conf import settings
+from django.utils.html import mark_safe
+from sorl.thumbnail import get_thumbnail
 
-def avatar_img(avatar, size):
-    if not avatar.thumbnail_exists(size):
-        avatar.create_thumbnail(size)
-    return mark_safe("""<img src="%s" alt="%s" width="%s" height="%s" />""" % 
-        (avatar.avatar_url(size), unicode(avatar), size, ((size * 3) / 4)))
 
 class PrimaryAvatarForm(forms.Form):
     
@@ -18,7 +15,7 @@ class PrimaryAvatarForm(forms.Form):
         super(PrimaryAvatarForm, self).__init__(*args, **kwargs)
         avatars = org.avatar_set.all()
         self.fields['choice'] = forms.ChoiceField(label=_("Available Photos"),
-            choices=[(c.id, avatar_img(c, size)) for c in org.avatar_set.all()],
+            choices=[(c.id, mark_safe('<img src="%s" alt="org photo">' % get_thumbnail(c.avatar, "%sx%s" % (size, size)).url)) for c in org.avatar_set.all()],
             widget=widgets.RadioSelect)
 
 class DeleteAvatarForm(forms.Form):
@@ -29,11 +26,11 @@ class DeleteAvatarForm(forms.Form):
         super(DeleteAvatarForm, self).__init__(*args, **kwargs)
         avatars = org.avatar_set.all()
         self.fields['choices'] = forms.MultipleChoiceField(label=_("Available Photos"),
-            choices=[(c.id, avatar_img(c, size)) for c in org.avatar_set.all()],
+            choices=[(c.id, mark_safe('<img src="%s" alt="org photo">' % get_thumbnail(c.avatar, "%sx%s" % (size, size)).url)) for c in org.avatar_set.all()],
             widget=widgets.CheckboxSelectMultiple)
 
 class UploadAvatarForm(forms.Form):
-    avatar = forms.ImageField(required=False, label="Upload a photo")
+    avatar = forms.ImageField(required=False, label=_("Upload a photo"))
 
     def clean_avatar(self):
 

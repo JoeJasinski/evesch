@@ -18,20 +18,20 @@ ul.photo_list ul {list-style-type: none; margin: 0px; padding: 0px; }
  <div class="page_heading"> {{ current_org.org_name }} </div>
 {% include "event/inc_event_menu.html" %}
 <div class="section">
-	<div class="section_title"><font>{% trans "Photo Delete" %}</font></div>
+	<div class="section_title"><font>{% trans 'Photo Delete' %}</font></div>
 	<div class="section_body">
 
 	<div class="photo_choose_box">
     <p>{% trans "Please select the organization photos that you would like to delete." %}</p>
     {% if not avatars %}
-        <p>{% trans "You have no photos to delete.  Please" %} <a href="{% url 'org_org_edit_photo' current_org.org_short_name %}">upload one</a> now." </p>
+        <p>{% trans "You have no photos to delete.  Please" %} <a href="{% url 'org_org_edit_photo' current_org.org_short_name %}">{% trans "upload one" %}</a> {% trans "now." %}</p>
     {% else %}
         <form method="post" action="">{% csrf_token %}
             <ul class="photo_list">
                 {{ delete_avatar_form.as_ul }}
             </ul>
             <div style="clear: both;"></div>
-            <input type="submit" value="{% trans "Delete These" %}" />
+            <input type="submit" value="{% trans 'Delete These' %}" />
         </form>
     {% endif %}
     </div>
