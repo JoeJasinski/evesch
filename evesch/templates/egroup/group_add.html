@@ -1,10 +1,10 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Add Group" %}{% endblock %}
-{% block header_page_specific %}
+{% block extra_head %}{{ block.super }}
 
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqboxy/stylesheets/boxy.css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/jqboxy/stylesheets/boxy.css" />
     <script type="text/javascript">
     $(document).ready(function(){
     
@@ -22,8 +22,8 @@
    	</script>       
 {% endblock %}
 {% block breadcrumb %}
-<a href="{% url home %}">{% trans "home" %}</a>
-&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+<a href="{% url 'home' %}">{% trans "home" %}</a>
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
 &gt; {% trans "Add Group" %}
 {% endblock %}
@@ -34,13 +34,13 @@
 	<div class="section_title"><font>Add Group</font></div>
 	<div class="section_body">
 		{% trans "Add Group for" %}: {{ current_org.org_name }}
-		<FORM id="add_group" action="." method=POST>
+		<form id="add_group" action="." method=POST>{% csrf_token %}
 		<input type="hidden" id="dialog" name="dialog" value="False">
-		<TABLE>
+		<table>
 		 {{ form.as_table }}
-		</TABLE>
-		<INPUT id="group_add_submit" type="submit" name="add_eventtype" value="{% trans "Add" %}">
-		</FORM>
+		</table>
+		<input id="group_add_submit" type="submit" name="add_eventtype" value="{% trans "Add" %}">
+		</form>
 	</div>
 </div>
 {% endblock %}

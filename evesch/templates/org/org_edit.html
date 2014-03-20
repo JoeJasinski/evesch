@@ -1,9 +1,9 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Edit Organization" %}{% endblock %}
-{% block header_page_specific %} 
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqboxy/stylesheets/boxy.css" />
+{% block extra_head %}{{ block.super }}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/jqboxy/stylesheets/boxy.css" />
 	<script type="text/javascript">
 		$(document).ready(function(){
 	   $("input#org_edit_submit").click( function() { $("form#edit_org").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
@@ -22,8 +22,8 @@
 {% endblock %}
 
 {% block breadcrumb %}
-<a href="{% url home %}">{% trans "home" %}</a> 
-&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+<a href="{% url 'home' %}">{% trans "home" %}</a> 
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> &gt; {% trans "Edit Organization" %}
 {% endblock %}
 {% block content %}
@@ -32,14 +32,14 @@
 <div class="section"> 
 	<div class="section_title"><font>{% trans "Edit Organization" %}</font></div>
 	<div class="section_body">
-		<strong>{% trans "RSS URL" %}</strong>: <a href="{% url core_feed_org_rss current_org.org_short_name current_org.org_feed_hash %}">{% trans "RSS" %}</a>
-		<FORM id="edit_org" action="." method="POST">
+		<strong>{% trans "RSS URL" %}</strong>: <a href="{% url 'core_feed_org_rss' current_org.org_short_name current_org.org_feed_hash %}">{% trans "RSS" %}</a>
+		<form id="edit_org" action="." method="post">{% csrf_token %}
 		<input type="hidden" id="dialog" name="dialog" value="False">
-		<TABLE>
+		<table>
 		 {{ form.as_table }}
-		</TABLE>
-		<INPUT id="org_edit_submit" type="submit" name="org_edit" value="{% trans "Save" %}">
-		</FORM>
+		</table>
+		<input id="org_edit_submit" type="submit" name="org_edit" value="{% trans "Save" %}">
+		</form>
 	</div>
 </div>
 {% endblock %}

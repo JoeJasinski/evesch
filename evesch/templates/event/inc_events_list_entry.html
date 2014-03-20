@@ -5,7 +5,7 @@
 	  <div>
 		<span class="event_name"><a href="{{ event.get_absolute_url }}">{{ event.event_name }}</a></span>
 		<div>-</div>
-		<div class="event_type" style="background-color: #{{ event.event_type.type_color }};"><a style="color: #{{ event.event_type.contrast }};" href="{% url event_events_list event.event_org.org_short_name %}?event_type={{ event.event_type }}">{{ event.event_type }}</a></div>
+		<div class="event_type" style="background-color: #{{ event.event_type.type_color }};"><a style="color: #{{ event.event_type.contrast }};" href="{% url 'event_events_list' event.event_org.org_short_name %}?event_type={{ event.event_type }}">{{ event.event_type }}</a></div>
 		<div>-</div>
 		<div class=event_date>{{ event.event_date|date:"D m/d/Y h:i a" }}</div>
 	  </div>

@@ -1,12 +1,12 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Edit Event" %}{% endblock %}
-{% block header_page_specific %} 
+{% block extra_head %}{{ block.super }}
 	<!-- calendar -->
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
-	<script type="text/javascript" src="{{ MEDIA_URL }}js/timepicker/js/timepicker.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqboxy/stylesheets/boxy.css" />
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/timepicker/css/ui-lightness/jquery-ui-1.7.2.custom.css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+	<script type="text/javascript" src="{{ STATIC_URL }}js/timepicker/js/timepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/jqboxy/stylesheets/boxy.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/timepicker/css/ui-lightness/jquery-ui-1.7.2.custom.css" />
 	<script type="text/javascript">
 	  jQuery(document).ready(function(){
 	   
@@ -91,10 +91,10 @@
 	<!-- /calendar -->
 {% endblock %}
 {% block breadcrumb %}
-<a href="{% url home %}">{% trans "home" %}</a>
-&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+<a href="{% url 'home' %}">{% trans "home" %}</a>
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
-&gt; <a href="{% url event_events_list current_org.org_short_name %}">{% trans "Events" %}</a>
+&gt; <a href="{% url 'event_events_list' current_org.org_short_name %}">{% trans "Events" %}</a>
 &gt; <a href="{{ event.get_absolute_url }}">{{ event.event_name }}</a>
 &gt; {% trans "Edit Event" %}
 {% endblock %}
@@ -104,13 +104,13 @@
 <div class="section"> 
 	<div class="section_title"><font>{% trans "Edit Event" %}</font></div>
 	<div class="section_body">
-		<FORM id="edit_event" action="." method="POST">
+		<form id="edit_event" action="." method="post">{% csrf_token %}
 		<input type="hidden" id="dialog" name="dialog" value="False">
-		<TABLE>
+		<table>
 		 {{ form.as_table }}
-		</TABLE>
-		<INPUT id="event_edit_submit" type="submit" name="edit_event" value="{% trans "Save" %}">
-		</FORM>
+		</table>
+		<input id="event_edit_submit" type="submit" name="edit_event" value="{% trans "Save" %}">
+		</form>
 	</div>
 </div>
 

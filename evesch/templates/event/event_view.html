@@ -1,7 +1,7 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "View Event" %} {% endblock %}
-{% block header_page_specific %} 
+{% block extra_head %}{{ block.super }}
 <style>
   .event_status_closed { color: red; }
   .event_status_open { color: green; }
@@ -16,10 +16,10 @@
 </script>
 {% endblock %}
 {% block breadcrumb %}
-<a href="{% url home %}">home</a> 
-&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+<a href="{% url 'home' %}">home</a> 
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
-&gt; <a href="{% url event_events_list current_org.org_short_name %}">{% trans "Events" %}</a> 
+&gt; <a href="{% url 'event_events_list' current_org.org_short_name %}">{% trans "Events" %}</a> 
 &gt; {{ current_event.event_name }}
 {% endblock %}
 {% block content %}
@@ -68,8 +68,8 @@
 			<div class="section_body">
 				<div class="button_list">
 					<ul>
-					 {% if not current_event.event_perms.is_attending_event %}<li>{% if current_event.is_within_signup_deadline %}<strong><a href="{% url event_attendee_add current_org.org_short_name current_event.event_hash %}">{% trans "Attend" %}</a></strong>{% else %}<strong><a class="disabled_string">{% trans "Attend" %}</a></strong>{% endif %}</li>{% endif %}
-					 <li><strong><a href="{% url event_attendees_message current_org.org_short_name current_event.event_hash %}">{% trans "Message" %}</a></strong></li>
+					 {% if not current_event.event_perms.is_attending_event %}<li>{% if current_event.is_within_signup_deadline %}<strong><a href="{% url 'event_attendee_add' current_org.org_short_name current_event.event_hash %}">{% trans "Attend" %}</a></strong>{% else %}<strong><a class="disabled_string">{% trans "Attend" %}</a></strong>{% endif %}</li>{% endif %}
+					 <li><strong><a href="{% url 'event_attendees_message' current_org.org_short_name current_event.event_hash %}">{% trans "Message" %}</a></strong></li>
 					</ul>
 				</div>
 			    <div style="clear: both;"></div>
@@ -99,7 +99,7 @@
 						    {% if current_event.att_header_col4 %}<TD class="att_col">{{ attendee.att_col4 }}</TD>{% endif %}
 						    {% if current_event.att_header_col5 %}<TD class="att_col">{{ attendee.att_col5 }}</TD>{% endif %}
 						    {% if current_event.att_header_col6 %}<TD class="att_col">{{ attendee.att_col6 }}</TD>{% endif %}
-						    <TD>{% if attendee.att_perms.can_remove_attendee %}<a href="{% url event_attendee_remove current_org.org_short_name current_event.event_hash attendee.att_name %}"><img alt="remove" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove_user.png"></a>{% endif %}</TD>
+						    <TD>{% if attendee.att_perms.can_remove_attendee %}<a href="{% url 'event_attendee_remove' current_org.org_short_name current_event.event_hash attendee.att_name %}"><img alt="remove" style="border: solid 0px;" src="{{ STATIC_URL }}images/remove_user.png"></a>{% endif %}</TD>
 						</TR>	   
 					   </TABLE>
 				   </li></ul>

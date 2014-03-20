@@ -1,20 +1,21 @@
-{% load compressed %}<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  "http://www.w3.org/TR/html4/loose.dtd">
-<HTML>
-  <HEAD>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
-    <TITLE> EVEnt SCHeduler {% block title %} - Home{% endblock %}</TITLE>
-    <META NAME="author" CONTENT="Joe J. Jasinski"> 
-    <META NAME="keywords" CONTENT="event, events, scheduler, evesch, planning, planner, organization">
-    <META NAME="description" CONTENT="Plan organization events quickly and easily."> 
-    <link rel="icon" type="image/png"  href="{{ MEDIA_URL }}images/favicon.png">    
-    {% compressed_css 'base' %}
-    {% compressed_js 'base' %}
-     <!--[if lte IE 6]><script type="text/javascript" src="{{ MEDIA_URL }}js/jqsupersleight/supersleight.plugin.js"></script>
-     <script type="text/javascript"> $(document).ready(function(){ $('img').supersleight({shim: '{{ MEDIA_URL }}js/jqsupersleight/x.gif'}); });</script>
+    <title> EVEnt SCHeduler {% block title %} - Home{% endblock %}</title>
+    <meta name="author" content="Joe J. Jasinski"> 
+    <meta name="keywords" content="event, events, scheduler, evesch, planning, planner, organization">
+    <meta name="description" content="Plan organization events quickly and easily."> 
+    <link rel="icon" type="image/png"  href="{{ STATIC_URL }}images/favicon.png">    
+     <!--[if lte IE 6]><script type="text/javascript" src="{{ STATIC_URL }}js/jqsupersleight/supersleight.plugin.js"></script>
+     <script type="text/javascript"> $(document).ready(function(){ $('img').supersleight({shim: '{{ STATIC_URL }}js/jqsupersleight/x.gif'}); });</script>
      <![endif]-->
-    {% block header_page_specific %}{% endblock %}
-  </HEAD>
-  <BODY>
+    {% block extra_head %}
+     <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}css/master.css">
+     <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}js/jqui/css/smoothness/jquery-ui-1.7.1.custom.css">
+    {% endblock %}
+  </head>
+  <body>
     {% block base_layout %}{% endblock %}
-  </BODY>
-</HTML>
+  </body>
+</html>

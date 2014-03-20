@@ -1,16 +1,16 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Edit Group" %}{% endblock %}
-{% block header_page_specific %}
+{% block extra_head %}{{ block.super }}
 
-    <link rel="stylesheet" href="{{ MEDIA_URL }}js/jqtokenautocomplete/token-input-facebook.css" type="text/css" />
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jqtokenautocomplete/jquery.tokeninput.js"></script>
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqboxy/stylesheets/boxy.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}js/jqtokenautocomplete/token-input-facebook.css" type="text/css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jqtokenautocomplete/jquery.tokeninput.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/jqboxy/stylesheets/boxy.css" />
     <script type="text/javascript">
     $(document).ready(function(){
     
-        $("#add_user_form").tokenInput("{% url euser_ajax_lookup_org_users current_org.org_short_name %}", {
+        $("#add_user_form").tokenInput("{% url 'euser_ajax_lookup_org_users' current_org.org_short_name %}", {
             classes: {
                 tokenList: "token-input-list-facebook",
                 token: "token-input-token-facebook",
@@ -41,8 +41,8 @@
    	</script>       
 {% endblock %}
 {% block breadcrumb %}
-<a href="{% url home %}">{% trans "home" %}</a>
-&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+<a href="{% url 'home' %}">{% trans "home" %}</a>
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
 &gt; <a href="{{ current_usergroup.get_absolute_url }}">{{ current_usergroup.group_name }}</a>
 &gt; {% trans "Edit Group" %}
@@ -54,13 +54,13 @@
 	<div class="section_title"><font>{% trans "Edit Group" %}</font></div>
 	<div class="section_body">
 		{% trans "Edit Group for" %}: {{ current_org.org_name }}
-		<FORM id="edit_group" action="." method=POST>
+		<form id="edit_group" action="." method="post">{% csrf_token %}
 		<input type="hidden" id="dialog" name="dialog" value="False">
-		<TABLE>
+		<table>
 		 {{ edit_form.as_table }}
-		</TABLE>
-		<INPUT id="group_edit_submit" type="submit" name=save_group value="{% trans "Save" %}">
-		</FORM>
+		</table>
+		<input id="group_edit_submit" type="submit" name=save_group value="{% trans "Save" %}">
+		</form>
 	</div>
 </div>
 
@@ -68,17 +68,17 @@
 	<div class="section_title"><font>{% trans "Add Group Members" %}</font></div>
 	<div class="section_body">
 {% ifnotequal current_usergroup.meta 1 %}	
-		<FORM action="." method="POST">
-		<TABLE>
+		<form action="." method="POST">{% csrf_token %}
+		<table>
 		  <tr><td>&nbsp;</td><td>{% trans "Type the name of users in this organization that you want to add to this group." %}</td></tr>
 		  {{ group_add_member_form.as_table }}
-		</TABLE>
-	    <INPUT  type="submit" name="add_group_members" value="{% trans "Add" %}">
-		</FORM>
+		</table>
+	    <input  type="submit" name="add_group_members" value="{% trans "Add" %}">
+		</form>
 {% else %}
 		<div style="margin:5px;">
         {% trans "You cannot edit members of this group since this group represents all users in this organization. " %}
-	    {% trans "To add or remove members in this organization, visit the invite users page: " %}<a href="{% url org_org_member_invite current_org.org_short_name %}">Invite Users</a>
+	    {% trans "To add or remove members in this organization, visit the invite users page: " %}<a href="{% url 'org_org_member_invite' current_org.org_short_name %}">Invite Users</a>
 		</div>
 {% endifnotequal %}
 		<div id="info"></div>

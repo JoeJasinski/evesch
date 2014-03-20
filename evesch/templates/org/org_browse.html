@@ -1,7 +1,7 @@
 {% extends "base_layout_01.html" %}
 {% load ellipsis %}{% load i18n %}
 {% block title %} - {% trans "Browse" %}{% endblock %}
-{% block header_page_specific %}{% endblock %}
+{% block extra_head %}{{ block.super }}{% endblock %}
 {% block content %}
 &nbsp;
 <div class="page_heading"> Browse </div>

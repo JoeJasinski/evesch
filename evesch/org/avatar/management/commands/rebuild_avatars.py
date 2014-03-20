@@ -1,8 +1,8 @@
 from django.core.management.base import NoArgsCommand
 from django.conf import settings
 
-from org.avatar.models import Avatar
-from org.avatar import AUTO_GENERATE_AVATAR_SIZES
+from evesch.org.avatar.models import Avatar
+from evesch.org.avatar import AUTO_GENERATE_AVATAR_SIZES
 
 class Command(NoArgsCommand):
     help = "Regenerates avatar thumbnails for the sizes specified in " + \

@@ -3,8 +3,8 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from random import sample
-from core.lib import Message
-from core.middleware import threadlocals 
+from evesch.core.lib import Message
+from evesch.core.middleware import threadlocals 
 
 
 KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -77,7 +77,6 @@ class Organization(models.Model):
 	org_website = models.URLField(
 		db_column = "org_website",
 		verbose_name=_("Organization Website"),
-		verify_exists = False,
 		blank=True, null=True)
 	org_phone = models.CharField(
 		db_column = "org_phone",
@@ -160,24 +159,24 @@ class Organization(models.Model):
 		return self.org_users.all().count()
 
 	def get_admin_users(self):
-		from euser.models import eUser
+		from evesch.euser.models import eUser
 		return eUser.objects.filter(user_groups__in=self.get_org_admin_groups())
 		#return self.get_members().filter(user_groups__in=self.get_org_admin_groups())
 		# not sure if the commented syntax works.  Check
 	
 	# UNTESTED - was on the train and had to go before testing
 	def get_invited_users(self):
-		from euser.models import eUser	
+		from evesch.euser.models import eUser	
 		return eUser.objects.filter(user_invites_set__in=self.invite_set.all())
 	
 	
 	def get_coordinator_users(self):
-		from euser.models import eUser
+		from evesch.euser.models import eUser
 		return eUser.objects.filter(user_groups__in=self.get_coordinator_groups())
 
 	def get_orginvite_users(self):
 		""" Get users who can invite people to the org """
-		from euser.models import eUser
+		from evesch.euser.models import eUser
 		return eUser.objects.filter(user_groups__in=self.get_orginvite_groups())
 
 	def get_current_event(self, event_hash, message=None):
@@ -279,7 +278,7 @@ class Organization(models.Model):
 			self.org_date_created = datetime.now()
 		super(Organization, self).save()
 
-from euser.models import eUser
+from evesch.euser.models import eUser
 class OrgInvite(models.Model):
 	org = models.ForeignKey(Organization, related_name="invite_set")
 	user = models.ForeignKey( eUser, blank=True, null=True, related_name="user_invites_set")

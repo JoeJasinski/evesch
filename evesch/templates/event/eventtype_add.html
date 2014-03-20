@@ -1,9 +1,9 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Add Event Type" %}{% endblock %}
-{% block header_page_specific %}<script type="text/javascript" src="{{ MEDIA_URL }}js/jscolor/jscolor.js"></script>
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqboxy/stylesheets/boxy.css" />
+{% block extra_head %}{{ block.super }}<script type="text/javascript" src="{{ STATIC_URL }}js/jscolor/jscolor.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/jqboxy/stylesheets/boxy.css" />
 	<script type="text/javascript">
 	  $(document).ready(function(){
 
@@ -19,8 +19,8 @@
 	</script>
 {% endblock %}
 {% block breadcrumb %}
-<a href="{% url home %}">{% trans "home" %}</a>
-&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+<a href="{% url 'home' %}">{% trans "home" %}</a>
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
 &gt; Add Event Type
 {% endblock %}
@@ -31,13 +31,13 @@
 	<div class="section_title"><font>{% trans "Add Event Type" %}</font></div>
 	<div class="section_body">
 		{% trans "Add Event Type for" %}: {{ current_org.org_name }}
-		<FORM id="add_eventtype" action="." method=POST>
+		<form id="add_eventtype" action="." method="post">{% csrf_token %}
 		<input type="hidden" id="dialog" name="dialog" value="False">
-		<TABLE>
+		<table>
 		 {{ form.as_table }}
-		</TABLE>
-		<INPUT id="eventtype_add_submit" type="submit" name="add_eventtype" value="{% trans "Add" %}">
-		</FORM>
+		</table>
+		<input id="eventtype_add_submit" type="submit" name="add_eventtype" value="{% trans "Add" %}">
+		</form>
 	</div>
 </div>
 {% endblock %}

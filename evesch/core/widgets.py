@@ -4,11 +4,11 @@
 # To use you have to put calendar/ (from http://www.dynarch.com/projects/calendar/)
 # to your MEDIA folder and then include such links on your page:
 # <!-- calendar -->
-# <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}calendar/calendar-win2k-cold-2.css" />
-#<script type="text/javascript" src="{{ MEDIA_URL }}calendar/calendar.js"></script>
+# <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}calendar/calendar-win2k-cold-2.css" />
+#<script type="text/javascript" src="{{ STATIC_URL }}calendar/calendar.js"></script>
 # <!-- this is translation file - choose your language here -->
-#<script type="text/javascript" src="{{ MEDIA_URL }}calendar/lang/calendar-pl.js"></script>
-#<script type="text/javascript" src="{{ MEDIA_URL }}calendar/calendar-setup.js"></script>
+#<script type="text/javascript" src="{{ STATIC_URL }}calendar/lang/calendar-pl.js"></script>
+#<script type="text/javascript" src="{{ STATIC_URL }}calendar/calendar-setup.js"></script>
 #<!-- /calendar -->
 
 from django.utils.encoding import force_unicode
@@ -48,7 +48,7 @@ class DateTimeWidget(forms.widgets.TextInput):
         id = final_attrs['id']
         
         jsdformat = self.dformat #.replace('%', '%%')
-        cal = calbtn % (settings.MEDIA_URL, id, id, jsdformat, id)
+        cal = calbtn % (settings.STATIC_URL, id, id, jsdformat, id)
         a = u'<input%s />%s' % (forms.util.flatatt(final_attrs), cal)
         return a
 

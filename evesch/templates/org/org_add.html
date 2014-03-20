@@ -1,10 +1,10 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Add Organization" %}{% endblock %}
-{% block header_page_specific %} 
-<script type="text/javascript" src="{{ MEDIA_URL }}js/urlify.js"></script>  
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
-<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqboxy/stylesheets/boxy.css" />
+{% block extra_head %}{{ block.super }}
+<script type="text/javascript" src="{{ STATIC_URL }}js/urlify.js"></script>  
+<script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/jqboxy/stylesheets/boxy.css" />
 <script type="text/javascript">
  $(document).ready(function()
  {
@@ -29,21 +29,21 @@
 {% endblock %}
 
 {% block breadcrumb %}
-<a href="{% url home %}">{% trans "home" %}</a> 
-&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+<a href="{% url 'home' %}">{% trans "home" %}</a> 
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; {% trans "Add Organization" %}
 {% endblock %}
 {% block content %}
 <div class="section"> 
 	<div class="section_title"><font>{% trans "Add Organization" %}</font></div>
 	<div class="section_body">
-		<FORM id="add_org" action="." method="POST">
+		<form id="add_org" action="." method="post">{% csrf_token %}
 		<input type="hidden" id="dialog" name="dialog" value="False">
-		<TABLE>
+		<table>
 		 {{ form.as_table }}
-		</TABLE>
-		<INPUT id="org_add_submit" type="submit" name="org_add" value="{% trans "Add" %}">
-		</FORM>
+		</table>
+		<input id="org_add_submit" type="submit" name="org_add" value="{% trans "Add" %}">
+		</form>
 	</div>
 </div>
 

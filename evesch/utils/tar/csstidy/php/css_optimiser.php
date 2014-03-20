@@ -133,7 +133,7 @@ if(isset($_REQUEST['timestamp'])) $css->set_cfg('timestamp',true);
       <?php echo $lang[$l][6]; ?>
     </p>
 
-    <form method="post" action="">
+    <form method="post" action=".">{% csrf_token %}
       <div>
         <fieldset id="field_input">
           <legend><?php echo $lang[$l][8]; ?></legend> <label for="css_text"

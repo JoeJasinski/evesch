@@ -1,9 +1,9 @@
+from random import sample
 from django.utils.translation import ugettext_lazy as _, ugettext
 from django.db import models
-from org.models import Organization
-from random import sample
-from core.lib import Message
 from django.core.urlresolvers import reverse
+from evesch.org.models import Organization
+from evesch.core.lib import Message
 
 KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 

@@ -12,10 +12,10 @@ AVATAR_RESIZE_METHOD = getattr(settings, 'AVATAR_RESIZE_METHOD', Image.ANTIALIAS
 AVATAR_STORAGE_DIR = getattr(settings, 'AVATAR_STORAGE_DIR', 'avatars')
 AVATAR_GRAVATAR_BACKUP = getattr(settings, 'AVATAR_GRAVATAR_BACKUP', True)
 AVATAR_DEFAULT_URL = getattr(settings, 'AVATAR_DEFAULT_URL', 
-    settings.MEDIA_URL +  'images/org_photo_default.jpg')
+    settings.STATIC_URL +  'images/org_photo_default.jpg')
 
 from django.db.models import signals
-from org.avatar.models import Avatar
+from evesch.org.avatar.models import Avatar
 
 
 def create_default_thumbnails(instance=None, created=False, **kwargs):

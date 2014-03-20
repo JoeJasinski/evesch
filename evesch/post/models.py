@@ -1,8 +1,8 @@
-from django.db import models
-from org.models import Organization
-from euser.models import eUser
-from event.models import Event
 from datetime import datetime
+from django.db import models
+from evesch.org.models import Organization
+from evesch.euser.models import eUser
+from evesch.event.models import Event
 
 class Post(models.Model):
     message = models.CharField(max_length=500)

@@ -1,5 +1,5 @@
 from django import forms 
-from egroup.models import UserGroup
+from evesch.egroup.models import UserGroup
 
 class UserGroupForm(forms.ModelForm):
     group_desc = forms.CharField(

@@ -5,8 +5,8 @@
 <div class="page_heading"> Signup </div>
 <div class="menu">
 <ul class="nav">
- <li><strong><a href="{% url account_signup %}">{% trans "Signup" %}</a></strong></li>
- <li><strong><a href="{% url account_auth_login %}">{% trans "Login" %}</a></strong></li>
+ <li><strong><a href="{% url 'account_signup' %}">{% trans "Signup" %}</a></strong></li>
+ <li><strong><a href="{% url 'account_auth_login' %}">{% trans "Login" %}</a></strong></li>
  <li><strong><a href="">{% trans "Browse" %}</a></strong></li>
 </ul>
 </div>
@@ -19,10 +19,10 @@
 		{% trans "Please check your email to confirm your membership to this site." %}
 		{% trans "You will receive a confirmation email from us shortly." %}
 		{% trans "Click the confirmation link provided in that email or enter into the box below the confirmation number given in the email." %}</p></div>
-		<FORM action="." method="POST">
+		<form action="." method="POST">{% csrf_token %}
 		{{ form }}
 		<input type="submit" name="submit_security_hash" value="{% trans "Confirm" %}">
-		</FORM>
+		</form>
 	</div>
 </div>
 

@@ -1,6 +1,8 @@
-# Create your views here.
+import random
+import threading
+from datetime import datetime
+from django.core.mail import send_mail
 from django.utils.translation import ugettext_lazy as _
-from org.models import Organization
 from django.shortcuts import render_to_response 
 from django.template.loader import render_to_string
 from django.core.exceptions import ObjectDoesNotExist
@@ -9,18 +11,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from event.models import Attendee, Event
-from euser.models import eUser, get_current_user_by_email, get_current_user
-from django.http import HttpResponseRedirect, HttpResponse
-from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
-from core.forms import EveschLoginForm, SignupForm, PasswordResetForm, SignupConfirmForm
-from core.lib import Message, ePage
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator
-import settings 
-import random
-import threading
-from django.core.mail import send_mail
+from django.conf import settings
+from evesch.event.models import Attendee, Event
+from evesch.euser.models import eUser, get_current_user_by_email, get_current_user
+from evesch.core.forms import EveschLoginForm, SignupForm, PasswordResetForm, SignupConfirmForm
+from evesch.core.lib import Message, ePage
+from evesch.org.models import Organization
 
 
 KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'

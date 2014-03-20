@@ -12,11 +12,11 @@
 <div class="section">
 	<div class="section_title"><font>{% trans "Login" %}</font></div>
 	<div class="section_body">
-		<form method="post" action=".">
+		<form method="post" action=".">{% csrf_token %}
 		<table>
 		<tr><td>{{ form.username.label_tag }}</td><td>{{ form.username }}</td></tr>
 		<tr><td>{{ form.password.label_tag }}</td><td>{{ form.password }}</td></tr>
-		<tr><td>&nbsp;</td><td><div id="forgot_password"><a href="{% url account_password_reset %}">{% trans "Forgot your password?" %}</a></div></td></tr>
+		<tr><td>&nbsp;</td><td><div id="forgot_password"><a href="{% url 'account_password_reset' %}">{% trans "Forgot your password?" %}</a></div></td></tr>
 		</table>
 		<input type="submit" value="{% trans "login" %}" />
 		<input type="hidden" name="next" value="{{ next }}" />

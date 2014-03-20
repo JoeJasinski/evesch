@@ -3,7 +3,7 @@
 {% block title %} - {{ message.title }}{% endblock %}
 {% block content %}
 
-<form method="post" action=".">
+<form method="post" action=".">{% csrf_token %}
 <TABLE>
 <TR><TD><strong>{% trans "Attendees" %}</strong>:</TD><TD>{% for attendee in attendees %}<a href="{{ attendee.att_name.get_absolute_url }}">{{ attendee }}</a>, {% endfor %}</TD></TR>
 {{ form.as_table }}&nbsp;&nbsp;

@@ -1,5 +1,5 @@
 from django.template import Library, Node
-from org.models import Organization
+from evesch.org.models import Organization
 #from django.db.models import get_model
     
 register = Library()

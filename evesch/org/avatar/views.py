@@ -1,20 +1,19 @@
 import os.path
-
-from org.avatar.models import Avatar, avatar_file_path
-from org.avatar.forms import PrimaryAvatarForm, DeleteAvatarForm, UploadAvatarForm
+from random import sample
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext as _
-from euser.models import get_current_user
 from django.core.urlresolvers import reverse
-from core.lib import Message
 from django.db.models import get_app
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
-from org.models import Organization
-from random import sample
+from evesch.core.lib import Message
+from evesch.euser.models import get_current_user
+from evesch.org.models import Organization
+from evesch.org.avatar.models import Avatar, avatar_file_path
+from evesch.org.avatar.forms import PrimaryAvatarForm, DeleteAvatarForm, UploadAvatarForm
 
 KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 

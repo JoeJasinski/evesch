@@ -1,14 +1,15 @@
 # Create your views here.
+import calendar 
+from datetime import datetime, timedelta
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from datetime import datetime, timedelta
 from django.core.exceptions import ObjectDoesNotExist
-from org.models import Organization
-from event.models import Event
-import calendar 
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from evesch.org.models import Organization
+from evesch.event.models import Event
+
 calendar.setfirstweekday(6)
 
 class MonthDay(object):

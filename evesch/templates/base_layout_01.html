@@ -5,11 +5,11 @@
 	<!-- Start Base Layout -->
 	<div class="body_wrap">
 		<div class="header_banner">
-		  <span class="login_container">{% if request.user.euser.is_authenticated %}<a href="{% url account_auth_logout %}">Logout</a> - <a href="{% url euser_user_settings %}">Settings</a> - <a href="{{ request.user.euser.get_absolute_url }}">{{ request.user }}</a> {% else %} <a href="{% url account_auth_login %}">Login</a>{% endif %}</span>
-                  <span class="logo"><a href="{% url home %}"><span class="logo_text">Evesch</span><img width="200px" src="{{ MEDIA_URL }}images/evesch_logo.png" alt="logo"></a></span>
+		  <span class="login_container">{% if request.user.euser.is_authenticated %}<a href="{% url 'account_auth_logout' %}">Logout</a> - <a href="{% url 'euser_user_settings' %}">Settings</a> - <a href="{{ request.user.euser.get_absolute_url }}">{{ request.user }}</a> {% else %} <a href="{% url 'account_auth_login' %}">Login</a>{% endif %}</span>
+                  <span class="logo"><a href="{% url 'home' %}"><span class="logo_text">Evesch</span><img width="200px" src="{{ STATIC_URL }}images/evesch_logo.png" alt="logo"></a></span>
 		</div>
 		<div class="main_container">
-		 <div class="breadcrumb">{% block breadcrumb %}<a href="{% url home %}">home</a>{% endblock %}</div>
+		 <div class="breadcrumb">{% block breadcrumb %}<a href="{% url 'home' %}">home</a>{% endblock %}</div>
 		 <div class="main_container_wrap">{% block content %}{% endblock %}</div>
 		</div>
 		<div class="footer"><font>{% trans "All Images and Content Copyright Joseph J. Jasinski 2009" %}</font></div>

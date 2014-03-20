@@ -1,5 +1,5 @@
-from org.models import Organization
-from django.contrib.syndication.feeds import Feed
+from evesch.org.models import Organization
+from django.contrib.syndication.views import Feed
 
 
 class OrgFeed(Feed):

@@ -26,9 +26,9 @@
 			  <TABLE>
 			  <TR><TD class="org_name_list"><a href="{{ org.get_absolute_url }}">{{ org.org_name }}</a></TD>
 			  	  <TD class="org_desc_list">{{ org.org_desc|ellipsis:40 }}</TD>
-			      <TD> <a title="{% trans "Leave Organization" %}" href="{% url org_org_leave org.org_short_name %}"><img alt="{% trans "Leave" %}" style="border: solid 0px;" src="{{ MEDIA_URL }}images/leave.png"></a></TD>
-			      <TD>{% if org.user_perms.can_edit_org %}<a title="{% trans "Edit Organization" %}" href="{% url org_org_edit org.org_short_name %}"><img class="img_edit" alt="{% trans "Edit" %}" style="border: solid 0px;" src="{{ MEDIA_URL }}images/edit.png"></a>{% else %}&nbsp;{% endif %}</TD>			      
-			      <TD>{% if org.user_perms.can_remove_org %}<a title="{% trans "Remove Organization" %}" href="{% url org_org_remove org.org_short_name %}"><img class="img_remove" alt="{% trans "Remove" %}" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove.png"></a>{% else %}&nbsp;{% endif %}</TD>
+			      <TD> <a title="{% trans "Leave Organization" %}" href="{% url 'org_org_leave' org.org_short_name %}"><img alt="{% trans "Leave" %}" style="border: solid 0px;" src="{{ STATIC_URL }}images/leave.png"></a></TD>
+			      <TD>{% if org.user_perms.can_edit_org %}<a title="{% trans "Edit Organization" %}" href="{% url 'org_org_edit' org.org_short_name %}"><img class="img_edit" alt="{% trans "Edit" %}" style="border: solid 0px;" src="{{ STATIC_URL }}images/edit.png"></a>{% else %}&nbsp;{% endif %}</TD>			      
+			      <TD>{% if org.user_perms.can_remove_org %}<a title="{% trans "Remove Organization" %}" href="{% url 'org_org_remove' org.org_short_name %}"><img class="img_remove" alt="{% trans "Remove" %}" style="border: solid 0px;" src="{{ STATIC_URL }}images/remove.png"></a>{% else %}&nbsp;{% endif %}</TD>
 			  </TR>
 			  <TR><TD colspan="4">{{ org.org_city }}&nbsp;{{ org.org_state}}</TD></TR>
 			  </TABLE>

@@ -1,19 +1,19 @@
-# Create your views here.
+import re
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
-from euser.models import get_current_user
-from egroup.models import UserGroup
-from org.models import Organization
-from euser.models import eUser
-from egroup.forms import UserGroupEditForm, UserGroupForm, GroupAddMemberForm
-from core.lib import Message, ePage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
-import re
+from evesch.euser.models import get_current_user
+from evesch.egroup.models import UserGroup
+from evesch.org.models import Organization
+from evesch.euser.models import eUser
+from evesch.egroup.forms import UserGroupEditForm, UserGroupForm, GroupAddMemberForm
+from evesch.core.lib import Message, ePage
+
 
 @login_required
 def group_add(request,org_short_name,template_name=None):

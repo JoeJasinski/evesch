@@ -1,9 +1,9 @@
-from django.core.management.base import NoArgsCommand
-
-from org.models import Organization
-from egroup.models import UserGroup
-from event.models import EventType, Event
 from datetime import datetime
+from django.core.management.base import NoArgsCommand
+from evesch.org.models import Organization
+from evesch.egroup.models import UserGroup
+from evesch.event.models import EventType, Event
+
 
 class Command(NoArgsCommand):
 	help = "Setup Users for Testing"

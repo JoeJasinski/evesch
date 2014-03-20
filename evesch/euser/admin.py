@@ -1,5 +1,5 @@
 from django.contrib import admin
-from euser.models import eUser,UserIM,UserGroup
+from evesch.euser.models import eUser,UserIM,UserGroup
 
 class eUserAdmin(admin.ModelAdmin):
     list_display = ['username','last_name','first_name','gender']

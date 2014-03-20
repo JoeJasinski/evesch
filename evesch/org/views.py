@@ -1,20 +1,21 @@
 # Create your views here.
-from django.utils.translation import ugettext_lazy as _
-from org.models import Organization, OrgInvite
-from event.models import EventType
-from org.forms import OrganizationForm, OrganizationFormEdit, OrganizationJoinForm, OrganizationInviteMember
-from django.shortcuts import render_to_response
 from datetime import datetime
+from django.utils.translation import ugettext_lazy as _
+from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from core.lib import Message, ePage
-from egroup.models import UserGroup
-from euser.models import eUser, get_current_user
 from django.core.paginator import Paginator
 from django.db.models import Q
+from evesch.core.lib import Message, ePage
+from evesch.egroup.models import UserGroup
+from evesch.euser.models import eUser, get_current_user
+from evesch.org.models import Organization, OrgInvite
+from evesch.event.models import EventType
+from evesch.org.forms import OrganizationForm, OrganizationFormEdit, OrganizationJoinForm, OrganizationInviteMember
+
 
 def org_browse(request, filter_abc=None, template_name=None):
     public_orgs = Organization.objects.get_browsable_orgs()

@@ -8,10 +8,10 @@
 <div class="section">
 	<div class="section_title"><font>{% trans "Signup" %}</font></div>
 	<div class="section_body">
-		<form method="post" action=".">
+		<form method="post" action=".">{% csrf_token %}
 		<table>
 		{{ form }}
-		<tr><th>&nbsp;</th><td><img src="{% url account_signup_captcha %}" alt="Captcha" id="id_captcha_img" /></td></tr>
+		<tr><th>&nbsp;</th><td><img src="{% url 'account_signup_captcha' %}" alt="Captcha" id="id_captcha_img" /></td></tr>
 		</table>
 		<input type="submit" value="{% trans "signup" %}" />
 		<input type="hidden" name="next" value="{{ next }}" />

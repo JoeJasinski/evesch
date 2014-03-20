@@ -1,11 +1,12 @@
+from random import sample
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User, UserManager
-from org.models import Organization
-from egroup.models import UserGroup
-from core.lib import Message
-from django.core.urlresolvers import reverse
-from random import sample
+from evesch.org.models import Organization
+from evesch.egroup.models import UserGroup
+from evesch.core.lib import Message
+
 
 KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 

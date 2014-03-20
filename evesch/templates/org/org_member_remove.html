@@ -2,8 +2,8 @@
 {% load i18n %}
 {% block title %} - {% trans "Remove Member" %}{% endblock %}
 {% block breadcrumb %}
-<a href="{% url home %}">{% trans "home" %}</a> 
-&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+<a href="{% url 'home' %}">{% trans "home" %}</a> 
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a>
 &gt; {% trans "Remove Member" %}
 {% endblock %}
@@ -15,9 +15,9 @@
 	     <TR><TD>{% trans "Member" %}:</TD><TD>{{ current_member.username }}</TD></TR>
 		 <TR><TD>{% trans "Org Name" %}:</TD><TD>{{ current_org.org_name }}</TD></TR>
 		</TABLE>
-		<FORM action="." method=POST>
-		<INPUT type="submit" name="org_member_remove" value="{% trans "Remove" %}">
-		</FORM>
+		<form action="." method="post">{% csrf_token %}
+		<input type="submit" name="org_member_remove" value="{% trans "Remove" %}">
+		</form>
 	</div>
 </div>
 {% endblock %}

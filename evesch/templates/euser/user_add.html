@@ -5,10 +5,10 @@
 {% block content %}
 	<a href="{% url home %}">{% trans "home" %}</a> &gt; {% trans "User Add" %}
 	<div class="section_title"><font>{% trans "User Add" %}</font></div>
-	<FORM action="." method="POST">
-	  <TABLE>
+	<form action="." method="post">{% csrf_token %}
+	  <table>
 	   {{ form.as_table }}
-	  </TABLE>
-	  <INPUT type="submit" name="add_user" value="{% trans "Add" %}">
-	</FORM>
+	  </table>
+	  <input type="submit" name="add_user" value="{% trans "Add" %}">
+	</form>
 {% endblock %}

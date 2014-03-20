@@ -1,12 +1,12 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}	   {% load adminmedia %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Add Event" %}{% endblock %}
-{% block header_page_specific %} 
+{% block extra_head %}{{ block.super }}
 	<!-- calendar -->
-	<script type="text/javascript" src="{{ MEDIA_URL }}js/timepicker/js/timepicker.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/timepicker/css/ui-lightness/jquery-ui-1.7.2.custom.css" />
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqboxy/stylesheets/boxy.css" />
+	<script type="text/javascript" src="{{ STATIC_URL }}js/timepicker/js/timepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/timepicker/css/ui-lightness/jquery-ui-1.7.2.custom.css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jqboxy/javascripts/jquery.boxy.js"></script>    
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/jqboxy/stylesheets/boxy.css" />
 	<script type="text/javascript">
 	  jQuery(document).ready(function(){
 
@@ -62,13 +62,13 @@
 	</script>
 	<!-- /calendar -->
 	<script type="text/javascript" src="/admin/jsi18n/"></script>
-	<script type="text/javascript" src="{% admin_media_prefix %}js/core.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/core.js"></script>
 {% endblock %}
 {% block breadcrumb %}
-<a href="{% url home %}">{% trans "home" %}</a> 
-&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+<a href="{% url 'home' %}">{% trans "home" %}</a> 
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
-&gt; <a href="{% url event_events_list current_org.org_short_name %}">{% trans "Events" %}</a>
+&gt; <a href="{% url 'event_events_list' current_org.org_short_name %}">{% trans "Events" %}</a>
 &gt; {% trans "Add Event" %}
 {% endblock %}
 {% block content %}

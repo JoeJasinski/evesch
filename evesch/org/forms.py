@@ -1,8 +1,7 @@
 from django import forms
 from django.forms import ModelForm, Form
-from org.models import Organization
 from django.utils.translation import ugettext_lazy as _
-
+from evesch.org.models import Organization
 
 class OrganizationForm(ModelForm):
     def __init__(self, *args, **kwargs):

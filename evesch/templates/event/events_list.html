@@ -3,10 +3,10 @@
 {% load pagination_tags %}
 {% load ellipsis %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "List Events" %}{% endblock %}
-{% block header_page_specific %}<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/event_list_entry.css">{% endblock %}
+{% block extra_head %}<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/event_list_entry.css">{% endblock %}
 {% block breadcrumb %}
-<a href="{% url home %}">home</a> 
-&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+<a href="{% url 'home' %}">home</a> 
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
 &gt; {% trans "Events" %}
 {% endblock %}

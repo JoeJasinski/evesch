@@ -20,7 +20,7 @@
 			</div>
 			<div>
 			{% for user in members.current_page.object_list  %}
-			 <div class="org_user_list"> &nbsp; <div style="float: right;">{% if current_org.org_perms.can_remove_users %}<a title="{% trans "Remove Member" %}" href="{% url org_org_member_remove current_org.org_short_name user.username %}"><img alt="remove" style="border: solid 0px;" src="{{ MEDIA_URL }}images/remove_user.png"></a>{% endif %}</div><div style="float: left;"><a href="{{ user.get_absolute_url }}">{{ user.first_name }} {{ user.last_name }} ({{ user.username }}) </a></div></div>
+			 <div class="org_user_list"> &nbsp; <div style="float: right;">{% if current_org.org_perms.can_remove_users %}<a title="{% trans "Remove Member" %}" href="{% url 'org_org_member_remove' current_org.org_short_name user.username %}"><img alt="remove" style="border: solid 0px;" src="{{ STATIC_URL }}images/remove_user.png"></a>{% endif %}</div><div style="float: left;"><a href="{{ user.get_absolute_url }}">{{ user.first_name }} {{ user.last_name }} ({{ user.username }}) </a></div></div>
 			{% endfor %}
 						<div style="clear: both"></div>
 			</div>

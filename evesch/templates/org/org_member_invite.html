@@ -1,13 +1,13 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
 {% block title %} - {{ message.title }}{% endblock %}
-    {% block header_page_specific %} 
-    <link rel="stylesheet" href="{{ MEDIA_URL }}js/jqtokenautocomplete/token-input-facebook.css" type="text/css" />
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jqtokenautocomplete/jquery.tokeninput.js"></script>
+    {% block extra_head %}{{ block.super }}
+    <link rel="stylesheet" href="{{ STATIC_URL }}js/jqtokenautocomplete/token-input-facebook.css" type="text/css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jqtokenautocomplete/jquery.tokeninput.js"></script>
 	<script type="text/javascript">
     $(document).ready(function(){
 
-        $("#invite_member_form").tokenInput("{% url euser_ajax_lookup_users %}", {
+        $("#invite_member_form").tokenInput("{% url 'euser_ajax_lookup_users' %}", {
             classes: {
                 tokenList: "token-input-list-facebook",
                 token: "token-input-token-facebook",
@@ -26,8 +26,8 @@
    	</script>
 {% endblock %}
 {% block breadcrumb %}
-<a href="{% url home %}">{% trans "home" %}</a> 
-&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+<a href="{% url 'home' %}">{% trans "home" %}</a> 
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> &gt; {% trans "Invite Members" %}
 {% endblock %}
 {% block content %}
@@ -36,19 +36,19 @@
 <div class="section"> 
 	<div class="section_title"><font>{% trans "Invite Members" %}</font></div>
 	<div class="section_body">
-		<FORM action="." method="POST">
-		<TABLE>
+		<form action="." method="post">{% csrf_token %}
+		<table>
 		{{ form }}
-		</TABLE>
-	    <INPUT type="submit" name="add_org_members" value="{% trans "Invite" %}">
-		</FORM>
+		</table>
+	    <input type="submit" name="add_org_members" value="{% trans "Invite" %}">
+		</form>
 		<div id="info"></div>
 	</div>
 </div>
 
 {% if invited_users %}
 <div class="section">
-	<div class="section_title"><font>{% trans "Users Invited (waiting for them to confirm)" %}</font><span class="section_title_icon"><a title="{% trans "Invite User to Org" %}" href="{% url org_org_member_invite current_org.org_short_name %}"></a></span></div>
+	<div class="section_title"><font>{% trans "Users Invited (waiting for them to confirm)" %}</font><span class="section_title_icon"><a title="{% trans "Invite User to Org" %}" href="{% url 'org_org_member_invite' current_org.org_short_name %}"></a></span></div>
 	<div class="section_body">
 		<div id="org_user_list_container">
 		{% with invited_users as members %}

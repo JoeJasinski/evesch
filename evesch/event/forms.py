@@ -1,14 +1,15 @@
-from django.utils.translation import ugettext_lazy as _
-from django import forms 
-from event.models import  EventType, Event, Attendee
-from org.models import Organization
-from django.core.exceptions import ObjectDoesNotExist
-from core.widgets import DateTimeWidget
-from core.ajax_filtered_fields.forms import ManyToManyByLetter
-from django.conf import settings
-from euser.models import eUser
 import datetime
 import re 
+from django.utils.translation import ugettext_lazy as _
+from django import forms 
+from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
+from evesch.event.models import  EventType, Event, Attendee
+from evesch.org.models import Organization
+from evesch.core.widgets import DateTimeWidget
+from evesch.core.ajax_filtered_fields.forms import ManyToManyByLetter
+from evesch.euser.models import eUser
+
 
 from django.forms.widgets import  SplitDateTimeWidget, SplitHiddenDateTimeWidget
 
@@ -114,10 +115,10 @@ class EventForm(forms.ModelForm):
     class Meta:
         
         js = (
-            settings.ADMIN_MEDIA_PREFIX + "js/SelectBox.js",
-            settings.ADMIN_MEDIA_PREFIX + "js/SelectFilter2.js",
-            settings.MEDIA_URL + 'js/jqui/js/jquery-1.3.2.min.js',
-            settings.MEDIA_URL + 'js/ajax_filtered_fields/ajax_filtered_fields.js',
+            settings.STATIC_URL + "js/SelectBox.js",
+            settings.STATIC_URL + "js/SelectFilter2.js",
+            settings.STATIC_URL + 'js/jqui/js/jquery-1.3.2.min.js',
+            settings.STATIC_URL + 'js/ajax_filtered_fields/ajax_filtered_fields.js',
         )
         
         model = Event

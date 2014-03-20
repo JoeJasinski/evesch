@@ -16,8 +16,8 @@
 			</script>
 			<div class="page_nav">
 				<div> {% trans "Page" %} {{ all_orgs_page.curr }} {% trans "of" %} {{ all_orgs_page.num_pages }}</div>
-				<span>{% if all_orgs_page.prev %}<a id="all_orgs_prev" href="{% url org_orgs_list %}?all_orgs_page={{ all_orgs_page.prev }}&my_orgs_page={{ my_orgs_page.next }}" onClick="return false;">Previous</a>{% else %}{% trans "Previous" %}{% endif %}</span>
-				<span>{% if all_orgs_page.next %}<a id="all_orgs_next" href="{% url org_orgs_list %}?all_orgs_page={{ all_orgs_page.next }}&my_orgs_page={{ my_orgs_page.next }}" onClick="return false;">Next</a>{% else %}{% trans "Next" %}{% endif %}</span>
+				<span>{% if all_orgs_page.prev %}<a id="all_orgs_prev" href="{% url 'org_orgs_list' %}?all_orgs_page={{ all_orgs_page.prev }}&my_orgs_page={{ my_orgs_page.next }}" onClick="return false;">Previous</a>{% else %}{% trans "Previous" %}{% endif %}</span>
+				<span>{% if all_orgs_page.next %}<a id="all_orgs_next" href="{% url 'org_orgs_list' %}?all_orgs_page={{ all_orgs_page.next }}&my_orgs_page={{ my_orgs_page.next }}" onClick="return false;">Next</a>{% else %}{% trans "Next" %}{% endif %}</span>
 			</div>
 			
 			<ul class="all_org_list">
@@ -27,7 +27,7 @@
 				  <TR><TD class="org_name_list">{{ org.org_name }}</TD>
 				  	  <TD class="org_privacy_list">{{ org.get_org_join_privacy_display }}</TD>
 				      <TD class="org_desc_list"> {{ org.org_desc|ellipsis:30 }}</TD>
-				      <TD> {% if not org.org_perms.is_memberof_org %}<a title="{% trans "Join Organization" %}" href="{% url org_org_join org.org_short_name %}"><img alt="Join" style="border: solid 0px;" src="{{ MEDIA_URL }}images/join.png"></a>{% endif %}&nbsp;</TD>
+				      <TD> {% if not org.org_perms.is_memberof_org %}<a title="{% trans "Join Organization" %}" href="{% url 'org_org_join' org.org_short_name %}"><img alt="Join" style="border: solid 0px;" src="{{ STATIC_URL }}images/join.png"></a>{% endif %}&nbsp;</TD>
 				   </TR>
 			   </TABLE>
 			   </li>

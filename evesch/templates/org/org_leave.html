@@ -2,26 +2,26 @@
 {% load i18n %}
 {% block title %} - {% trans "Leave Organization" %}{% endblock %}
 {% block breadcrumb %}
-<a href="{% url home %}">{% trans "home" %}</a> 
-&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+<a href="{% url 'home' %}">{% trans "home" %}</a> 
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; {% trans "Leave Organization" %}
 {% endblock %}
 {% block content %}
 <div class="section">
 	<div class="section_title"><font>{% trans "Leave Organization" %}</font></div>
 	<div class="section_body">
-		<TABLE>
+		<table>
 		 <TR><TD>{% trans "Org Name" %}:</TD><TD>{{ current_org.org_name }}</TD></TR>
 		 <TR><TD>{% trans "Org Type" %}:</TD><TD>{{ current_org.get_org_type_display }}</TD></TR>
 		 <TR><TD>{% trans "Org Description" %}:</TD><TD>{{ current_org.org_desc }}</TD></TR>
-		</TABLE>
+		</table>
 		
-		<FORM action="." method="POST">
-		<TABLE>
+		<form action="." method="post">{% csrf_token %}
+		<table>
 		 {{ form.as_table }}
-		</TABLE>
-		<INPUT type="submit" name="org_leave" value="{% trans "Leave" %}">
-		</FORM>
+		</table>
+		<input type="submit" name="org_leave" value="{% trans "Leave" %}">
+		</form>
 	</div>
 </div>
 {% endblock %}

@@ -1,7 +1,7 @@
+import re
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-import re
-from euser.models import eUser
+from evesch.euser.models import eUser
 
 class CaptchaField(forms.CharField):
  

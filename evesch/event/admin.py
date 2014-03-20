@@ -1,5 +1,5 @@
 from django.contrib import admin
-from event.models import EventType,Event,Attendee
+from evesch.event.models import EventType,Event,Attendee
 
 class EventTypeAdmin(admin.ModelAdmin):
     list_display = ['type_name','type_active','type_hash','type_desc','type_color','org_name']

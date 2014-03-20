@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load color_correct %}
 {% block title %} - {{ message.title }}{% endblock %}
-{% block header_page_specific %} 
+{% block extra_head %}{{ block.super }}
 	<script type="text/javascript">
 	  $(document).ready(function(){
 	   $('#min_event_date_input').datepicker({ dateFormat: 'yy-mm-dd' });
@@ -19,8 +19,8 @@
 	</script>
 {% endblock %}
 {% block breadcrumb %}
-<a href="{% url home %}">{% trans "home" %}</a> 
-&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+<a href="{% url 'home' %}">{% trans "home" %}</a> 
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> &gt; {% trans "Organization Reports" %}
 {% endblock %}
 {% block content %}
@@ -32,12 +32,12 @@
 	<div class="section_body">
 	 {% ifnotequal type "generic" %}
 	 <div class="report_filter">
-	   <FORM action="." method="POST">
-	   <TABLE>
+	   <form action="." method="post">{% csrf_token %}
+	   <table>
 	   <TR><TD>{{ form.min_event_date.label }}</TD><TD>{{ form.max_event_date.label }}</TD><TD>&nbsp;</TD></TR>
        <TR><TD>{{ form.min_event_date }}</TD><TD>{{ form.max_event_date }}</TD><TD><input type="submit" value="{% trans "Filter" %}"></TD></TR>
-       </TABLE>
-       </FORM>
+       </table>
+       </form>
      </div>
      <div id="filter_toggle"><a href="#">{% trans "Filter Results" %}</a></div>
 
@@ -45,9 +45,9 @@
 	
 	  {% ifequal type "generic" %}
 		<ul>
-		 <li><a href="{% url report_org_reports_by_user current_org.org_short_name %}">{% trans "Report Grouped By User" %}</a></li>
-		 <li><a href="{% url report_org_reports_by_eventtype current_org.org_short_name %}">{% trans "Report Grouped By Event Type" %}</a></li>
-		 <li><a href="{% url report_org_reports_by_event current_org.org_short_name %}">{% trans "Report Grouped by Event" %}</a></li>
+		 <li><a href="{% url 'report_org_reports_by_user' current_org.org_short_name %}">{% trans "Report Grouped By User" %}</a></li>
+		 <li><a href="{% url 'report_org_reports_by_eventtype' current_org.org_short_name %}">{% trans "Report Grouped By Event Type" %}</a></li>
+		 <li><a href="{% url 'report_org_reports_by_event' current_org.org_short_name %}">{% trans "Report Grouped by Event" %}</a></li>
 		</ul>
    	  {% else %}{% ifequal type "event" %}
 		{% include "report/inc_org_report_event.html" %}

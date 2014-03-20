@@ -4,7 +4,7 @@ import os.path
 from django.db import models
 from django.core.files.base import ContentFile
 from django.utils.translation import ugettext as _
-from org.models import Organization
+from evesch.org.models import Organization
 
 try:
     from cStringIO import StringIO
@@ -16,7 +16,7 @@ try:
 except ImportError:
     import Image
 
-from org.avatar import AVATAR_STORAGE_DIR, AVATAR_RESIZE_METHOD
+from evesch.org.avatar import AVATAR_STORAGE_DIR, AVATAR_RESIZE_METHOD
 
 def avatar_file_path(instance=None, filename=None, org_short_name=None):
     return os.path.join(AVATAR_STORAGE_DIR, org_short_name, filename)

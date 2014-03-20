@@ -1,4 +1,4 @@
-# Create your views here.
+from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
@@ -6,14 +6,13 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from datetime import datetime
-from core.lib import Message
-from core.exceptions import EventTypeExistsException
-from core.forms import MessageForm
-from event.models import Event,EventType,Attendee
-from event.forms import EventForm, EventTypeForm, AttendeeForm
-from euser.models import eUser, get_current_user
-from org.models import Organization
+from evesch.core.lib import Message
+from evesch.core.exceptions import EventTypeExistsException
+from evesch.core.forms import MessageForm
+from evesch.event.models import Event,EventType,Attendee
+from evesch.event.forms import EventForm, EventTypeForm, AttendeeForm
+from evesch.euser.models import eUser, get_current_user
+from evesch.org.models import Organization
 
 
 @login_required

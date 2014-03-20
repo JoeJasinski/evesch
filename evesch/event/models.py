@@ -1,13 +1,14 @@
-from django.db import models
-from org.models import Organization
-from euser.models import eUser
 from datetime import datetime
 from random import sample
-from core.exceptions import EventTypeExistsException
-from core.middleware import threadlocals 
-from django.utils.translation import ugettext_lazy as _
-from core.lib import text_vs_bg
+from django.db import models
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
+from evesch.org.models import Organization
+from evesch.euser.models import eUser
+from evesch.core.exceptions import EventTypeExistsException
+from evesch.core.middleware import threadlocals 
+from evesch.core.lib import text_vs_bg
+
 #from django.contrib.auth.models import User
 
 KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'

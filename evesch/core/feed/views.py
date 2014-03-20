@@ -1,20 +1,20 @@
-# Create your views here.
+from icalendar import Calendar, vCalAddress, vText
+import icalendar
+from datetime import timedelta
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
-from org.models import Organization
-from event.models import Event
-from core.feed.feeds import OrgFeed
-from euser.models import eUser, get_current_user
-from django.contrib.syndication.views import feed
+#from django.contrib.syndication.views import feed
 from django.utils import feedgenerator
 from django.template.loader import render_to_string
 from django.http import HttpResponse
-from icalendar import Calendar, vCalAddress, vText
-import icalendar
-from datetime import timedelta
+from evesch.org.models import Organization
+from evesch.event.models import Event
+from evesch.core.feed.feeds import OrgFeed
+from evesch.euser.models import eUser, get_current_user
+
 
 def org_rss(request,org_short_name,org_feed_hash):
     try: 

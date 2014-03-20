@@ -2,9 +2,9 @@
 {% load i18n %}{% load ellipsis %}
 {% load dict_lookup %}
 {% block title %} - {% trans "Home" %}{% endblock %}
-{% block header_page_specific %}{% endblock %}
+{% block extra_head %}{{ block.super }}{% endblock %}
 {% block breadcrumb %}
-<a href="{% url home %}">{% trans "home" %}</a>
+<a href="{% url 'home' %}">{% trans "home" %}</a>
 &gt; {% trans "Organizations" %}
 {% endblock %}
 {% block content %}
@@ -13,7 +13,7 @@
 <ul class="nav">
  <li><strong><a>{% trans "Organization" %}</a></strong>
   <ul>
-    <li><a href="{% url org_org_add %}">{% trans "Add" %}</a></li>
+    <li><a href="{% url 'org_org_add' %}">{% trans "Add" %}</a></li>
   </ul>
  </li>
 </ul>

@@ -1,7 +1,7 @@
 {% extends "avatar/org_photo_base.html" %}
 {% load i18n %}
 {% block title %} - Delete Organization Photo {{ current_org.org_short_name }}{% endblock %}
-{% block header_page_specific %} 
+{% block extra_head %}{{ block.super }}
 <style rel="stylesheet" type="text/css">
 ul.photo_list  { padding: 0px; margin: 0px; } 
 ul.photo_list li ul li { background-color: white; border: solid 1px #1a88c9; display: block; float:left; margin: 5px; padding: 5px; }
@@ -10,8 +10,8 @@ ul.photo_list ul {list-style-type: none; margin: 0px; padding: 0px; }
 </style>
 {% endblock %}
 {% block breadcrumb %}
-	<a href="{% url home %}">{% trans "home" %}</a> 
-	&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+	<a href="{% url 'home' %}">{% trans "home" %}</a> 
+	&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 	&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> &gt; {% trans "Delete Organization Photo" %}
 {% endblock %}
 {% block org_photo_content %}
@@ -24,9 +24,9 @@ ul.photo_list ul {list-style-type: none; margin: 0px; padding: 0px; }
 	<div class="photo_choose_box">
     <p>{% trans "Please select the organization photos that you would like to delete." %}</p>
     {% if not avatars %}
-        <p>{% trans "You have no photos to delete.  Please" %} <a href="{% url org_org_edit_photo current_org.org_short_name %}">upload one</a> now." </p>
+        <p>{% trans "You have no photos to delete.  Please" %} <a href="{% url 'org_org_edit_photo' current_org.org_short_name %}">upload one</a> now." </p>
     {% else %}
-        <form method="POST" action="">
+        <form method="POST" action="">{% csrf_token %}
             <ul class="photo_list">
                 {{ delete_avatar_form.as_ul }}
             </ul>

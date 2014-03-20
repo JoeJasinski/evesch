@@ -1,19 +1,19 @@
 # Create your views here.
 #from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from euser.models import eUser, get_current_user
-from euser.forms import UserForm
-from event.models import EventType
-from org.models import Organization
-from event.forms import EventTypeForm
-from euser.forms import UserForm
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.db.models import Q
-from core.lib import Message
+from evesch.euser.models import eUser, get_current_user
+from evesch.euser.forms import UserForm
+from evesch.event.models import EventType
+from evesch.org.models import Organization
+from evesch.event.forms import EventTypeForm
+from evesch.euser.forms import UserForm
+from evesch.core.lib import Message
 
 def get_or_create_profile(self,user):
     try:

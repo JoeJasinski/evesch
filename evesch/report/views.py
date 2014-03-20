@@ -1,14 +1,13 @@
-# Create your views here.
+from datetime import datetime, timedelta
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from core.lib import Message
-from euser.models import eUser, get_current_user
-from org.models import Organization
 from django.contrib.auth.decorators import login_required
-from event.models import EventType
-from report.forms import ReportFilterForm
-from datetime import datetime, timedelta
+from evesch.core.lib import Message
+from evesch.euser.models import eUser, get_current_user
+from evesch.org.models import Organization
+from evesch.event.models import EventType
+from evesch.report.forms import ReportFilterForm
 
 @login_required
 def org_reports(request,org_short_name, type='generic', template_name=None):
