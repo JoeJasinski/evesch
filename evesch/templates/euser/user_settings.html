@@ -21,7 +21,7 @@
 
 {% endblock %}
 {% block breadcrumb %}
-<a href="{% url 'home' %}">{% trans "home" %}</a>  &gt; {% trans "user" %} &gt; <a href="{{ request.user.euser.get_absolute_url }}">{{ current_user.username }}</a>
+<a href="{% url 'home' %}">{% trans "home" %}</a>  &gt; {% trans "user" %} &gt; <a href="{{ request.user.get_absolute_url }}">{{ current_user.username }}</a>
 {% endblock %}
 {% block content %}
 <div class="section">
