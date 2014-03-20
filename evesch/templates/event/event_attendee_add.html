@@ -2,10 +2,10 @@
 {% load i18n %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Add Event Attendee" %}{% endblock %}
 {% block breadcrumb %}
-<a href="{% url home %}">{% trans "home" %}</a> 
-&gt; <a href="{% url org_orgs_list %}">{% trans "Organizations" %}</a>
+<a href="{% url 'home' %}">{% trans "home" %}</a> 
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
-&gt; <a href="{% url event_events_list current_org.org_short_name %}">{% trans "Events" %}</a>
+&gt; <a href="{% url 'event_events_list' current_org.org_short_name %}">{% trans "Events" %}</a>
 &gt; <a href="{{ current_event.get_absolute_url }}">{{ current_event.event_name }}</a>
 &gt; {% trans "Add Event Attendee" %}
 {% endblock %}

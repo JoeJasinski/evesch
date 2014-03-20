@@ -92,7 +92,7 @@ def org_ics(request,org_short_name,org_feed_hash):
     
     response = HttpResponse()
     response['Content-Type'] = 'text/calendar'
-    response.write(orgical.as_string())
+    response.write(orgical.to_ical())
     #template_name = "error.html"
     return response
     

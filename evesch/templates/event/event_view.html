@@ -37,7 +37,7 @@
 				<div class="section_body">
 					<TABLE>
 					 <TR><TD>{% trans "Event Name" %}:</TD><TD>{{ current_event.event_name }}</TD></TR>
-					 <TR><TD>{% trans "Type" %}:</TD><TD  style="background-color: #{{ current_event.event_type.type_color }};"><a  style="color: #{{ current_event.event_type.contrast }};" href="{% url event_events_list current_org.org_short_name %}?event_type={{ current_event.event_type }}">{{ current_event.event_type }}</a></TD></TR>
+					 <TR><TD>{% trans "Type" %}:</TD><TD  style="background-color: #{{ current_event.event_type.type_color }};"><a  style="color: #{{ current_event.event_type.contrast }};" href="{% url 'event_events_list' current_org.org_short_name %}?event_type={{ current_event.event_type }}">{{ current_event.event_type }}</a></TD></TR>
 					 <TR><TD>{% trans "Event Status" %}:</TD><TD>{% ifequal current_event.event_open 1 %}<div class=event_status_open>Open</div>{% else %}<div class=event_status_closed>Closed</div>{% endifequal %}</TD></TR>
 					 <TR><TD>{% trans "Date" %}:</TD><TD>{{ current_event.event_date|date:"l, F d, Y" }}</TD></TR>
 					 <TR><TD>{% trans "Time" %}:</TD><TD>{{ current_event.event_date|date:"h:i a" }}</TD></TR>
