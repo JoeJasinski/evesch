@@ -4,15 +4,15 @@
 <div class="background">
 	<!-- Start Base Layout -->
 	<div class="body_wrap">
-		<div class="header_banner">
+		<header class="header_banner">
 		  <span class="login_container">{% if request.user.is_authenticated %}<a href="{% url 'account_auth_logout' %}">Logout</a> - <a href="{% url 'euser_user_settings' %}">Settings</a> - <a href="{{ request.user.get_absolute_url }}">{{ request.user }}</a> {% else %} <a href="{% url 'account_auth_login' %}">Login</a>{% endif %}</span>
                   <span class="logo"><a href="{% url 'home' %}"><span class="logo_text">Evesch</span><img width="200px" src="{{ STATIC_URL }}images/evesch_logo.png" alt="logo"></a></span>
-		</div>
+		</header>
 		<div class="main_container">
 		 <div class="breadcrumb">{% block breadcrumb %}<a href="{% url 'home' %}">home</a>{% endblock %}</div>
 		 <div class="main_container_wrap">{% block content %}{% endblock %}</div>
 		</div>
-		<div class="footer"><font>{% trans "All Images and Content Copyright Joseph J. Jasinski " %}{% now "Y" %}</font></div>
+		<footer class="footer"><font>{% trans 'All Images and Content Copyright Joseph J. Jasinski ' %}{% now "Y" %}</font></footer>
 	</div>
 </div>
 
