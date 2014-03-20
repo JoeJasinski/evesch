@@ -112,7 +112,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'pagination.middleware.PaginationMiddleware',
-    'evesch.core.middleware.StripWhitespaceMiddleware.StripWhitespaceMiddleware',
     'evesch.core.middleware.threadlocals.ThreadLocals',
 #    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
