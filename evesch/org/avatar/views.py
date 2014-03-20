@@ -154,4 +154,4 @@ def delete(request, org_short_name, extra_context={}, next_override=None):
         template_name = "core/message.html"
         context = {'message':message } 
     return render_to_response('avatar/confirm_delete.html',context,context_instance=RequestContext(request))
-change = login_required(change)
+delete = login_required(delete)
