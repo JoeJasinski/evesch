@@ -20,7 +20,7 @@
 		<table>
 		 {{ form.as_table }}
 		</table>
-		<input id="group_add_submit" type="submit" name="add_eventtype" value="{% trans "Add" %}">
+	    <button id="group_add_submit" class="btn btn-default" name="add_group" type="submit">{% trans 'Add' %}</button>
 		</form>
 	</div>
 </div>
@@ -31,7 +31,7 @@
     <script type="text/javascript">
     $(document).ready(function(){
     
- 		$("input#group_add_submit").click( function() { $("form#add_group").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
+ 		$("#group_add_submit").click( function() { $("form#add_group").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
 
 {% if show_dialog %} 
 	    new Boxy('\

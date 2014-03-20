@@ -31,7 +31,7 @@ ul.photo_list ul {list-style-type: none; margin: 0px; padding: 0px; }
                 {{ delete_avatar_form.as_ul }}
             </ul>
             <div style="clear: both;"></div>
-            <input type="submit" value="{% trans 'Delete These' %}" />
+	        <button class="btn btn-default" type="submit">{% trans 'Delete These' %}</button>
         </form>
     {% endif %}
     </div>

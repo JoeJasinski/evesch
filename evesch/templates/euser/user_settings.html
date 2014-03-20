@@ -17,7 +17,7 @@
 	<table>
 	<tr><td>{{ request.user }}</td><td>&nbsp;</td></tr>
 	{{ form }}
-	<tr><td><input id="user_edit_submit" type="submit" name="save_settings" value="{% trans "Save" %}"></td><td>&nbsp;<font class="success_string">{{ quick_message }}</font></td></tr>
+	<tr><td><button id="user_edit_submit" class="btn btn-default" name="save_settings" type="submit">{% trans 'Save' %}</button></td><td>&nbsp;<font class="success_string">{{ quick_message }}</font></td></tr>
 	</form>
 	</table>
 	</div>
@@ -30,7 +30,7 @@
 {% block extra_foot %}{{ block.super }}   
 	<script type="text/javascript">
 		$(document).ready(function(){
-	   $("input#user_edit_submit").click( function() { $("form#edit_user").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
+	   $("#user_edit_submit").click( function() { $("form#edit_user").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
 
 {% if show_dialog %} 
 	    new Boxy('\

@@ -16,7 +16,7 @@
 		<table>
 		 {{ form.as_table }}
 		</table>
-		<input id="org_add_submit" type="submit" name="org_add" value="{% trans "Add" %}">
+		<button id="org_add_submit" class="btn btn-default" name="org_add" type="submit">{% trans 'Add' %}</button>
 		</form>
 	</div>
 </div>
@@ -38,7 +38,7 @@
         if (!e._changed) { e.value = URLify(document.getElementById("id_org_name").value, 50); }
     }
  
- 	   $("input#org_add_submit").click( function() { $("form#add_org").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
+ 	   $("#org_add_submit").click( function() { $("form#add_org").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
 
 {% if show_dialog %} 
     new Boxy('\

@@ -21,7 +21,7 @@
 		{% trans "Click the confirmation link provided in that email or enter into the box below the confirmation number given in the email." %}</p></div>
 		<form action="." method="post">{% csrf_token %}
 		{{ form }}
-		<input type="submit" name="submit_security_hash" value="{% trans "Confirm" %}">
+	    <button class="btn btn-default" name="submit_security_hash" type="submit">{% trans 'Confirm' %}</button>
 		</form>
 	</div>
 </div>

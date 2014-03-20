@@ -46,7 +46,7 @@ ul.photo_add li input { display: block; margin: 5px; }
 	                {{ primary_avatar_form.as_ul }}
 	            </ul>
 	            <div style="clear: both;"></div>
-	            <input type="submit" value="{% trans 'Choose Default' %}" />
+	            <button class="btn btn-default" type="submit">{% trans 'Choose Default' %}</button>
 	        </form>
 	    {% endif %}
 	    </div>
@@ -57,7 +57,7 @@ ul.photo_add li input { display: block; margin: 5px; }
 		        {{ upload_avatar_form.as_ul }}
 		        </ul>
 		        <div style="clear: both;"></div>
-		        <input type="submit" value="{% trans "Upload" %}" />
+	            <button class="btn btn-default" type="submit">{% trans "Upload" %}</button>
 		    </form>
 	    </div>
     	<div style="clear: both;"></div>

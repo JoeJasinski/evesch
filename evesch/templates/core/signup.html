@@ -13,7 +13,7 @@
 		{{ form }}
 		<tr><th>&nbsp;</th><td><img src="{% url 'account_signup_captcha' %}" alt="Captcha" id="id_captcha_img" /></td></tr>
 		</table>
-		<input type="submit" value="{% trans "signup" %}" />
+	    <button class="btn btn-default" type="submit">{% trans 'Signup' %}</button>
 		<input type="hidden" name="next" value="{{ next }}" />
 		</form>
 	</div>

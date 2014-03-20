@@ -16,7 +16,7 @@
 		 <TR><TD>{% trans "Org Name" %}:</TD><TD>{{ current_org.org_name }}</TD></TR>
 		</TABLE>
 		<form action="." method="post">{% csrf_token %}
-		<input type="submit" name="org_member_remove" value="{% trans "Remove" %}">
+		<button class="btn btn-default" name="org_member_remove" type="submit">{% trans 'Remove' %}</button>
 		</form>
 	</div>
 </div>

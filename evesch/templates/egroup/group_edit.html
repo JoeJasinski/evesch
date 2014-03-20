@@ -23,7 +23,7 @@
 		<table>
 		 {{ edit_form.as_table }}
 		</table>
-		<input id="group_edit_submit" type="submit" name=save_group value="{% trans "Save" %}">
+	    <button id="group_edit_submit" class="btn btn-default" name="save_group" type="submit">{% trans 'Save' %}</button>
 		</form>
 	</div>
 </div>
@@ -37,7 +37,7 @@
 		  <tr><td>&nbsp;</td><td>{% trans "Type the name of users in this organization that you want to add to this group." %}</td></tr>
 		  {{ group_add_member_form.as_table }}
 		</table>
-	    <input  type="submit" name="add_group_members" value="{% trans "Add" %}">
+	    <button name="add_group_members" class="btn btn-default" type="submit">{% trans 'Add' %}</button>
 		</form>
 {% else %}
 		<div style="margin:5px;">
@@ -84,7 +84,7 @@
             }
         });
     
- 		$("input#group_edit_submit").click( function() { $("form#edit_group").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
+ 		$("button#group_edit_submit").click( function() { $("form#edit_group").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
 
 {% if show_dialog %} 
 	    new Boxy('\

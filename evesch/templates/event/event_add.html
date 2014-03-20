@@ -22,7 +22,7 @@
 		<table>
 		 {{ form.as_table }}
 		</table>
-		<input id="event_add_submit" type="submit" name="add_event" value="{% trans "Add" %}">
+	    <button id="event_add_submit"  class="btn btn-default" name="add_event" type="submit">{% trans 'Add' %}</button>
 		</form>
 	</div>
 </div>
@@ -35,7 +35,7 @@
 	<script type="text/javascript">
 	  jQuery(document).ready(function(){
 
-	   jQuery("input#event_add_submit").click( function() { jQuery("form#add_event").submit( function(){ jQuery("input#dialog").attr("value","True"); return true; }); }); 
+	   jQuery("#event_add_submit").click( function() { jQuery("form#add_event").submit( function(){ jQuery("input#dialog").attr("value","True"); return true; }); }); 
 
 		 jQuery('#id_event_date').datepicker({  
 		     duration: '',  

@@ -20,7 +20,7 @@
 		<BR><BR>
 		<form action="." method="post">{% csrf_token %}
 		{% trans "Are you sure you want to delete?" %}
-		<input type="submit" name="remove_event_attendee" value="{% trans "Delete" %}">
+		<button name="remove_event_attendee" class="btn btn-default" type="submit">{% trans 'Delete' %}</button>
 		</form>
 	</div>
 </div>

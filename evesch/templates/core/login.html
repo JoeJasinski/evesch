@@ -18,7 +18,7 @@
 		<tr><td>{{ form.password.label_tag }}</td><td>{{ form.password }}</td></tr>
 		<tr><td>&nbsp;</td><td><div id="forgot_password"><a href="{% url 'account_password_reset' %}">{% trans "Forgot your password?" %}</a></div></td></tr>
 		</table>
-		<input type="submit" value="{% trans "login" %}" />
+	    <button class="btn btn-default" type="submit">{% trans "login" %}</button>
 		<input type="hidden" name="next" value="{{ next }}" />
 		</form>
 	</div>
