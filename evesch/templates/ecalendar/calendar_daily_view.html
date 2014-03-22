@@ -15,9 +15,9 @@
 <div class="section">
 <div class="section_title"><font>{% trans "Calendar" %}</font></div>
 <table align="center"><tr>
-<td><a href="{% url 'ecalendar_calendar_daily_view' current_org.org_short_name %}?year={{ year_prev }}&month={{ month_prev }}&day={{ day_prev }}">{% trans "Previous" %}</a></td>
-<td><a href="{% url 'ecalendar_calendar_daily_view' current_org.org_short_name %}">{% trans "Today" %}</a></td>
-<td><a href="{% url 'ecalendar_calendar_daily_view' current_org.org_short_name %}?year={{ year_next }}&month={{ month_next }}&day={{ day_next }}">{% trans "Next" %}</a></td>
+<td><a href="{% url 'ecalendar_calendar_daily_view' current_org.org_short_name %}?year={{ year_prev }}&month={{ month_prev }}&day={{ day_prev }}">{% trans "Previous" %}</a> &bull;
+<a href="{% url 'ecalendar_calendar_daily_view' current_org.org_short_name %}">{% trans "Today" %}</a> &bull; 
+<a href="{% url 'ecalendar_calendar_daily_view' current_org.org_short_name %}?year={{ year_next }}&month={{ month_next }}&day={{ day_next }}">{% trans "Next" %}</a></td>
 </table>
 
 <div align="center">{{  day|date:"F d, Y"}}</div>

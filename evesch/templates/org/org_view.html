@@ -11,8 +11,8 @@
 <div class="core_content">
     <div class="page_heading"> {{ current_org.org_name }} </div>
 	{% include "event/inc_event_menu.html" %}
-	<div class="section_sidebyside"> 
-	    <div class="section_leftcol">
+	<div class="section_sidebyside row"> 
+	    <div class="section_leftcol col-sm-6">
 
 			<div class="section">
 				<div class="section_title"><span class="section_title_icon">{% if current_org.org_perms.can_edit_org %}<a title="{% trans 'Delete Photo' %}" href="{% url 'org_org_delete_photo' current_org.org_short_name %}"><img class="img_edit" alt="remove photo" style="border: solid 0px;" src="{{ STATIC_URL }}images/remove.png"></a><a title="{% trans 'Edit Photo' %}" href="{% url 'org_org_edit_photo' current_org.org_short_name %}"><img class="img_edit" alt="edit_image" style="border: solid 0px;" src="{{ STATIC_URL }}images/edit.png"></a>{% endif %}</span><font>{% trans 'Photo' %}</font></div>
@@ -45,7 +45,7 @@
 			<div class="section" id="section_org_about_id">
 				<div class="section_title"><span class="section_title_icon">{% if current_org.org_perms.can_edit_org %}<a title="{% trans "Edit Organization" %}" href="{% url 'org_org_edit' current_org.org_short_name %}"><img class="img_edit" alt="edit_org" style="border: solid 0px;" src="{{ STATIC_URL }}images/edit.png"></a>{% endif %}</span><font>{% trans "About" %}</font></div>
 				<div class="section_body">
-					<table>
+					<table class="table">
 					 <tr><td>{% trans "Name" %}:</td><td>{{ current_org.org_name }}</td></tr>
 					 <tr><td>{% trans "Type" %}:</td><td>{{ current_org.get_org_type_display }}</td></tr>
 					 {% if current_org.org_email %}<tr><td>{% trans "Email" %}:</td><td>{{ current_org.org_email }}</td></tr>{% endif %}
@@ -65,7 +65,7 @@
 			</div>
 			
 		</div>
-		<div class="section_rightcol">
+		<div class="section_rightcol col-sm-6">
 		
 			<div class="section" id="section_org_description_id">
 				<div class="section_title"><span class="section_title_icon">{% if current_org.org_perms.can_edit_org %}<a title="{% trans "Edit Organization" %}" href="{% url 'org_org_edit' current_org.org_short_name %}"><img class="img_edit" alt="add" style="border: solid 0px;" src="{{ STATIC_URL }}images/edit.png"></a>{% endif %}</span><font>{% trans "Description" %}</font></div>
@@ -77,7 +77,7 @@
 			<div class="section" id="section_event_types_id">
 				<div class="section_title"><span class="section_title_icon">{% if current_org.org_perms.can_add_type %}<a title="{% trans "Add Event Type" %}" href="{% url 'event_eventtype_add' current_org.org_short_name %}"><img class="img_add" alt="add" style="border: solid 0px;" src="{{ STATIC_URL }}images/add.png"></a>{% endif %}</span><font>{% trans "Event Types" %}</font></div>
 				<div class="section_body">
-					<table>
+					<table class="table">
 					<tr><th>Type</th><th>Description</th><th>&nbsp;</th></tr>
 					{% for org_eventtype in org_eventtypes %}
 					  <tr><td class="eventtype_name" style="background-color: #{{ org_eventtype.type_color }};"><a style="color: #{{ org_eventtype.contrast }};" href="{% url 'event_events_list' current_org.org_short_name %}?event_type={{ org_eventtype.type_name }}">{{ org_eventtype.type_name  }}</a></td>
@@ -96,7 +96,7 @@
 					<ul class="org_group_list">
 					 {% for group in current_org.get_org_groups %}
 					  <li>
-					  <table>
+					  <table class="table">
 					    <tr><td class="group_name">
 					         <a href="{% url 'egroup_group_view' current_org.org_short_name group.group_hash %}">{{ group.group_name }}</a>
 					         {% if group.admin_org %}<img src="{{ STATIC_URL }}images/icon_adm.png" alt="{% trans 'Administer Organization' %}">{% endif %} {% if group.coord_events %}<img src="{{ STATIC_URL }}images/icon_crd.png" alt="{% trans 'Coordinate Events' %}">{% endif %} {% if group.invite_users %}<img src="{{ STATIC_URL }}images/icon_inv.png" alt="{% trans 'Invite Users' %}">{% endif %}

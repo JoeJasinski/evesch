@@ -1,6 +1,7 @@
 from evesch.base_settings import * 
 
 DEBUG=True
+COMPRESS_ENABLED = False
 
 DATABASES = {
     'default': {

@@ -141,7 +141,7 @@ def event_edit(request,org_short_name,event_hash,template_name=None):
                     show_dialog=True
             context = {'form':form,'current_org':current_org,'event':current_event,'message':message,'show_dialog':show_dialog}
         else:
-            form = EventForm(current_org,auto_id=False,instance=current_event)
+            form = EventForm(current_org,instance=current_event)
             context = {'form':form,'current_org':current_org,'event':current_event,}
     else:
         template_name = "core/message.html"
@@ -441,7 +441,7 @@ def eventtype_edit(request, org_short_name,eventtype_hash,template_name=None):
                 else:
                     context = {'current_org':current_org,'event_type':event_type,'form':form}
             else:
-                form = EventTypeForm(current_org, auto_id=False,instance=event_type)
+                form = EventTypeForm(current_org, instance=event_type)
                 context = {'current_org':current_org,'event_type':event_type,'form':form}
         except ObjectDoesNotExist:
             template_name = "error.html"

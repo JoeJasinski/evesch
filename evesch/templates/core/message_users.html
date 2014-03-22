@@ -1,12 +1,13 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
+{% load bootstrap_tags %}
 {% block title %} - {{ message.title }}{% endblock %}
 {% block content %}
 
 <form method="post" action=".">{% csrf_token %}
 <table>
 <tr><td><strong>{% trans "Attendees" %}</strong>:</td><td>{% for attendee in attendees %}<a href="{{ attendee.att_name.get_absolute_url }}">{{ attendee }}</a>, {% endfor %}</td></tr>
-{{ form.as_table }}&nbsp;&nbsp;
+{{ form|as_bootstrap }}&nbsp;&nbsp;
 </table>
 <button class="btn btn-default" name="send_message" type="submit">{% trans "Send" %}</button>
 </form>

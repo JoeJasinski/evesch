@@ -275,7 +275,7 @@ def org_edit(request,org_short_name=None,template_name=None):
                     show_dialog=True
             context = {'org_short_name':org_short_name,'form':form,'current_org':current_org,'message':message,'show_dialog':show_dialog,}                
         else:
-            form = OrganizationFormEdit(auto_id=False,instance=current_org)
+            form = OrganizationFormEdit(instance=current_org)
             context = {'org_short_name':org_short_name,'form':form,'current_org':current_org}
     else:
         template_name = "core/message.html"

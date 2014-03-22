@@ -1,5 +1,6 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
+{% load bootstrap_tags %}
 {% block title %} - {% trans "User Settings" %}{% endblock %}
 
 {% block breadcrumb %}
@@ -16,8 +17,9 @@
 	<input type="hidden" id="dialog" name="dialog" value="False">
 	<table>
 	<tr><td>{{ request.user }}</td><td>&nbsp;</td></tr>
-	{{ form }}
-	<tr><td><button id="user_edit_submit" class="btn btn-default" name="save_settings" type="submit">{% trans 'Save' %}</button></td><td>&nbsp;<font class="success_string">{{ quick_message }}</font></td></tr>
+	{{ form|as_bootstrap }}
+	<tr><td><button id="user_edit_submit" class="btn btn-default" name="save_settings" type="submit">{% trans 'Save' %}</button></td>
+		<td>&nbsp;<font class="success_string">{{ quick_message }}</font></td></tr>
 	</form>
 	</table>
 	</div>

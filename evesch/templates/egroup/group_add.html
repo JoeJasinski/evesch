@@ -1,5 +1,6 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
+{% load bootstrap_tags %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Add Group" %}{% endblock %}
 
 {% block breadcrumb %}
@@ -18,7 +19,7 @@
 		<form id="add_group" action="." method="post">{% csrf_token %}
 		<input type="hidden" id="dialog" name="dialog" value="False">
 		<table>
-		 {{ form.as_table }}
+		 {{ form|as_bootstrap }}
 		</table>
 	    <button id="group_add_submit" class="btn btn-default" name="add_group" type="submit">{% trans 'Add' %}</button>
 		</form>

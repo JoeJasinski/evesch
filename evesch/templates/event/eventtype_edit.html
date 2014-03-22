@@ -1,5 +1,6 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
+{% load bootstrap_tags %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Edit Event Type" %}{% endblock %}
 
 {% block breadcrumb %}
@@ -18,7 +19,7 @@
 		<form id="edit_eventtype" action="." method="post">{% csrf_token %}
 		<input type="hidden" id="dialog" name="dialog" value="False">
 		<table>
-		 {{ form.as_table }}
+		 {{ form|as_bootstrap }}
 		</table>
 	    <button id="eventtype_edit_submit" class="btn btn-default" name="edit_eventtype" type="submit">{% trans 'Save' %}</button>
 		</form>

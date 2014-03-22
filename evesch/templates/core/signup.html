@@ -1,5 +1,6 @@
 {% extends "base_layout_01.html" %}
 {% load i18n %}
+{% load bootstrap_tags %}
 {% block content %}
 &nbsp;
 <div class="page_heading"> Signup </div>
@@ -10,7 +11,7 @@
 	<div class="section_body">
 		<form method="post" action=".">{% csrf_token %}
 		<table>
-		{{ form }}
+		{{ form|as_bootstrap }}
 		<tr><th>&nbsp;</th><td><img src="{% url 'account_signup_captcha' %}" alt="Captcha" id="id_captcha_img" /></td></tr>
 		</table>
 	    <button class="btn btn-default" type="submit">{% trans 'Signup' %}</button>
