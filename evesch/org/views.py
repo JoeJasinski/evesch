@@ -128,7 +128,7 @@ def orgs_list_my(request, template_name=None):
 @login_required
 def org_join(request, org_short_name, template_name=None):
     current_user = request.user
-    current_org, message = Organization.objects.get_current_org(org_short_name, message)
+    current_org, message = Organization.objects.get_current_org(org_short_name, None)
     if not message:
         operms = current_org.org_perms(current_user)
         if operms['is_memberof_org']:

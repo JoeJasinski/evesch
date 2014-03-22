@@ -32,6 +32,7 @@ def user_view(request, username, template_name=None):
 
 @login_required
 def user_settings(request, template_name=None):
+    message = None
     quick_message = ""
     current_user = request.user
     show_dialog=False
