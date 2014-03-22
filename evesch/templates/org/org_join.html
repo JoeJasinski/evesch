@@ -1,9 +1,8 @@
-{% extends "base_layout_01.html" %}
+{% extends "org/base.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Join Organization" %}{% endblock %}
 {% block breadcrumb %}
 {{ block.super }} 
-&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; {% trans "Join Organization" %}
 {% endblock %}
 {% block content %}
