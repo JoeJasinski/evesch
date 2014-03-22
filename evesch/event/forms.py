@@ -134,60 +134,38 @@ class AttendeeForm(forms.ModelForm):
         super(AttendeeForm, self).__init__(*args, **kwargs)
         if current_event.event_track_hours:
             self.fields['att_hours'] =  HourField(widget=forms.TextInput(attrs={'size':'5',}), max_length=5)
-        if current_event.att_header_col1:
-            if current_event.att_type_col1 == 1:
-                self.fields['att_col1'] = forms.BooleanField(widget=forms.CheckboxInput(), label=current_event.att_header_col1, required=current_event.att_require_col1 )  
-            elif current_event.att_type_col1 == 2:
-                self.fields['att_col1'] = forms.CharField(widget=forms.Select(choices = self.parse_csv(current_event.att_type_drop_col1)), label=current_event.att_header_col1, required=current_event.att_require_col1)
-            elif current_event.att_type_col1 == 3:
-                self.fields['att_col1'] = forms.IntegerField(widget=forms.TextInput(attrs = {'size':'15',}), label=current_event.att_header_col1, required=current_event.att_require_col1)
-            else:
-                self.fields['att_col1'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col1, required=current_event.att_require_col1)
-        if current_event.att_header_col2:
-            if current_event.att_type_col2 == 1:
-                self.fields['att_col2'] = forms.BooleanField(widget=forms.CheckboxInput(), label=current_event.att_header_col2, required=current_event.att_require_col2 )  
-            elif current_event.att_type_col2 == 2:
-                self.fields['att_col2'] = forms.CharField(widget=forms.Select(choices = self.parse_csv(current_event.att_type_drop_col2)), label=current_event.att_header_col2, required=current_event.att_require_col2)
-            elif current_event.att_type_col2 == 3:
-                self.fields['att_col2'] = forms.IntegerField(widget=forms.TextInput(attrs = {'size':'15',}), label=current_event.att_header_col2, required=current_event.att_require_col2)
-            else:
-                self.fields['att_col2'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col2, required=current_event.att_require_col2)
-        if current_event.att_header_col3:
-            if current_event.att_type_col3 == 1:
-                self.fields['att_col3'] = forms.BooleanField(widget=forms.CheckboxInput(), label=current_event.att_header_col3, required=current_event.att_require_col3 )  
-            elif current_event.att_type_col3 == 2:
-                self.fields['att_col3'] = forms.CharField(widget=forms.Select(choices = self.parse_csv(current_event.att_type_drop_col3)), label=current_event.att_header_col3, required=current_event.att_require_col3)
-            elif current_event.att_type_col3 == 3:
-                self.fields['att_col3'] = forms.IntegerField(widget=forms.TextInput(attrs = {'size':'15',}), label=current_event.att_header_col3, required=current_event.att_require_col3)
-            else:
-                self.fields['att_col3'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col3, required=current_event.att_require_col3)           
-        if current_event.att_header_col4:
-            if current_event.att_type_col4 == 1:
-                self.fields['att_col4'] = forms.BooleanField(widget=forms.CheckboxInput(), label=current_event.att_header_col4, required=current_event.att_require_col4 )  
-            elif current_event.att_type_col4 == 2:
-                self.fields['att_col4'] = forms.CharField(widget=forms.Select(choices = self.parse_csv(current_event.att_type_drop_col4)), label=current_event.att_header_col4, required=current_event.att_require_col4)
-            elif current_event.att_type_col4 == 3:
-                self.fields['att_col4'] = forms.IntegerField(widget=forms.TextInput(attrs = {'size':'15',}), label=current_event.att_header_col4, required=current_event.att_require_col4)
-            else:
-                self.fields['att_col4'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col4, required=current_event.att_require_col4)           
-        if current_event.att_header_col5:
-            if current_event.att_type_col5 == 1:
-                self.fields['att_col5'] = forms.BooleanField(widget=forms.CheckboxInput(), label=current_event.att_header_col5, required=current_event.att_require_col5 )  
-            elif current_event.att_type_col5 == 2:
-                self.fields['att_col5'] = forms.CharField(widget=forms.Select(choices = self.parse_csv(current_event.att_type_drop_col5)), label=current_event.att_header_col5, required=current_event.att_require_col5)
-            elif current_event.att_type_col5 == 3:
-                self.fields['att_col5'] = forms.IntegerField(widget=forms.TextInput(attrs = {'size':'15',}), label=current_event.att_header_col5, required=current_event.att_require_col5)
-            else:
-                self.fields['att_col5'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col5, required=current_event.att_require_col5)                
-        if current_event.att_header_col6:
-            if current_event.att_type_col6 == 1:
-                self.fields['att_col6'] = forms.BooleanField(widget=forms.CheckboxInput(), label=current_event.att_header_col6, required=current_event.att_require_col6 )  
-            elif current_event.att_type_col6 == 2:
-                self.fields['att_col6'] = forms.CharField(widget=forms.Select(choices = self.parse_csv(current_event.att_type_drop_col6)), label=current_event.att_header_col6, required=current_event.att_require_col6)
-            elif current_event.att_type_col6 == 3:
-                self.fields['att_col6'] = forms.IntegerField(widget=forms.TextInput(attrs = {'size':'15',}), label=current_event.att_header_col6, required=current_event.att_require_col6)
-            else:
-                self.fields['att_col6'] = forms.CharField(widget=forms.TextInput(attrs = {'size':'30',}), label=current_event.att_header_col6, required=current_event.att_require_col6)              
+            
+        for index in range(1, 6):
+            attr_col = 'att_col%s' % (index)
+            att_header_col = 'att_header_col%s' % (index)
+            att_require_col = 'att_require_col%s' % (index)
+            att_type_col = 'att_type_col%s' % (index)
+            att_type_drop_col = 'att_type_drop_col%s' % (index)
+            if getattr(current_event, att_header_col):
+                if getattr(current_event, att_type_col) == 1:
+                    self.fields[attr_col] = forms.BooleanField(
+                                                widget=forms.CheckboxInput(), 
+                                                label=getattr(current_event, att_header_col) , 
+                                                required=getattr(current_event, att_require_col ) 
+                                                )
+                elif getattr(current_event, att_type_col) == 2:
+                    self.fields[attr_col] = forms.CharField(
+                                                widget=forms.Select(choices = self.parse_csv(getattr(current_event, att_type_drop_col ))), 
+                                                label=getattr(current_event, att_header_col) , 
+                                                required=getattr(current_event, att_require_col )
+                                                )
+                elif getattr(current_event, att_type_col) == 3:
+                    self.fields[attr_col] = forms.IntegerField(
+                                                widget=forms.TextInput(attrs = {'size':'15',}), 
+                                                label=getattr(current_event, att_header_col), 
+                                                required=getattr(current_event, att_require_col )
+                                                )
+                else:
+                    self.fields[attr_col] = forms.CharField(
+                                                widget=forms.TextInput(attrs = {'size':'30',}), 
+                                                label=getattr(current_event, att_header_col),
+                                                required=getattr(current_event, att_require_col )
+                                                )
     class Meta:
         model = Attendee
         exclude = ('att_ip','att_event','att_name','att_hours','att_col1','att_col2','att_col3','att_col4','att_col5','att_col6')

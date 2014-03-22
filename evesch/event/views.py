@@ -218,10 +218,8 @@ def event_attendee_add(request,org_short_name,event_hash,template_name=None):
             context = {'message':message,}  
     if not message:
         if request.method == 'POST':
-            form = AttendeeForm(current_event,request.POST)
-
-            #raise AssertionError(form.data)
-            if form.is_valid(): 
+            form = AttendeeForm(current_event,request.POST)            
+            if form.is_valid():
                 attendee = form.save(commit=False)
                 attendee.att_name = current_user
                 attendee.att_event = current_event
@@ -229,18 +227,11 @@ def event_attendee_add(request,org_short_name,event_hash,template_name=None):
                 attendee.att_added_date = datetime.now()
                 if current_event.event_track_hours:
                     attendee.att_hours = form.cleaned_data["att_hours"]
-                if current_event.att_header_col1:
-                    attendee.att_col1 = form.cleaned_data["att_col1"]
-                if current_event.att_header_col2:
-                    attendee.att_col2 = form.cleaned_data["att_col2"]
-                if current_event.att_header_col3:
-                    attendee.att_col3 = form.cleaned_data["att_col3"]
-                if current_event.att_header_col4:
-                    attendee.att_col4 = form.cleaned_data["att_col4"]
-                if current_event.att_header_col5:
-                    attendee.att_col5 = form.cleaned_data["att_col5"]
-                if current_event.att_header_col6:
-                    attendee.att_col6 = form.cleaned_data["att_col6"]                
+                for index in range(1, 6):
+                    att_col = 'att_col%s' % (index)
+                    att_header_col = 'att_header_col%s' % (index)
+                    if getattr(current_event, att_header_col):
+                        setattr(attendee, att_col, form.cleaned_data.get(att_col))
                 attendee.save()
                 #context = {'current_org':current_org,'current_event':current_event,'current_user':current_user,'form':form }
                 template_name = "core/message.html"

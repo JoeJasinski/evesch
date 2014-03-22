@@ -152,6 +152,7 @@ INSTALLED_APPS = (
     'compressor',
     'django_extensions',
     'django_forms_bootstrap',
+    'djangobower',
     'south',
 
     'evesch.core',
@@ -184,6 +185,7 @@ COMPRESS_CSS_FILTERS = [
 COMPRESS_JS_FILTERS = [
     'compressor.filters.jsmin.JSMinFilter'
 ]
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

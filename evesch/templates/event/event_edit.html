@@ -39,28 +39,12 @@
 	<script type="text/javascript">
 	  jQuery(document).ready(function(){
 	   
+      $("#id_event_date").datetimepicker({format: 'mm/dd/yyyy hh:ii', pick12HourFormat: true});
+      $("#id_event_signup_deadline").datetimepicker({format: 'mm/dd/yyyy hh:ii', pick12HourFormat: true});
+	   
 	   jQuery("#event_edit_submit").click( function() { jQuery("form#edit_event").submit( function(){ jQuery("input#dialog").attr("value","True"); return true; }); }); 
 
-		 jQuery('#id_event_date').datepicker({  
-		     duration: '',  
-		     showTime: true,  
-		     constrainInput: false,  
-		     stepMinutes: 5,  
-		     stepHours: 1,  
-		     altTimeField: '',  
-		     time24h: true  
-		 });  
-
-		 jQuery('#id_event_signup_deadline').datepicker({  
-		     duration: '',  
-		     showTime: true,  
-		     constrainInput: false,  
-		     stepMinutes: 5,  
-		     stepHours: 1,  
-		     altTimeField: '',  
-		     time24h: true  
-		 });  
-
+/*
 		 function DialogShowHide(val, i)
 		 {
 		   var drop_box_part = "id_att_type_drop_col" + i;
@@ -69,6 +53,7 @@
 		   (val=="2")?jQuery(drop_box).show():jQuery(drop_box).hide();		   
 		   (val=="2")?jQuery('label[for=' + drop_box_part + ']').show():jQuery("label[for=' + drop_box_part + ']").hide(); 
 		 }
+
 
 		for (i=1;i<=6;i++)
 		{ DialogShowHide(jQuery("select[name=att_type_col" + i +"]").attr("value"), i);	
@@ -105,6 +90,7 @@
 			}
         }
 
+*/
 
 {% if show_dialog %} 
     new Boxy('\

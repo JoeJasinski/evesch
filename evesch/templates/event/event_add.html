@@ -36,8 +36,11 @@
 	<script type="text/javascript">
 	  jQuery(document).ready(function(){
 
-	   jQuery("#event_add_submit").click( function() { jQuery("form#add_event").submit( function(){ jQuery("input#dialog").attr("value","True"); return true; }); }); 
+      $("#id_event_date").datetimepicker({format: 'mm/dd/yyyy hh:ii', pick12HourFormat: true});
+      $("#id_event_signup_deadline").datetimepicker({format: 'mm/dd/yyyy hh:ii', pick12HourFormat: true});
 
+	   jQuery("#event_add_submit").click( function() { jQuery("form#add_event").submit( function(){ jQuery("input#dialog").attr("value","True"); return true; }); }); 
+         /*
 		 jQuery('#id_event_date').datepicker({  
 		     duration: '',  
 		     showTime: true,  
@@ -76,6 +79,7 @@
 		 jQuery("#id_att_type_col5").change(function() { DialogShowHide($(this).val(), 5); });
 		 jQuery("#id_att_type_col6").change(function() { DialogShowHide($(this).val(), 6); });
 
+         */
 {% if show_dialog %} 
     new Boxy('\
     <div class="popup_message">\n\
