@@ -1,11 +1,10 @@
-{% extends "base_layout_01.html" %}
+{% extends "org/base.html" %}
 {% load i18n ellipsis thumbnail thumbnail %}
 {% block title %} - Organization {{ current_org.org_short_name }}{% endblock %}
 
 {% block breadcrumb %}
-	<a href="{% url 'home' %}">{% trans "home" %}</a> 
-	&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
-	&gt; <a href="">{{ current_org.org_name }}</a> &gt; {% trans "View Organization" %}
+{{ block.super }}
+	&gt; {% trans "View Organization" %}
 {% endblock %}
 {% block content %}
 <div class="core_content">

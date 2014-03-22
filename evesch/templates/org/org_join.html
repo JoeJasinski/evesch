@@ -2,7 +2,7 @@
 {% load i18n %}
 {% block title %} - {% trans "Join Organization" %}{% endblock %}
 {% block breadcrumb %}
-<a href="{% url 'home' %}">{% trans "home" %}</a> 
+{{ block.super }} 
 &gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; {% trans "Join Organization" %}
 {% endblock %}

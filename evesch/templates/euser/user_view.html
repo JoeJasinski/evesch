@@ -3,7 +3,9 @@
 {% block title %} - {% trans "View User Profile" %}{% endblock %}
 
 {% block breadcrumb %}
-<a href="{% url 'home' %}">{% trans "home" %}</a>  &gt; {% trans "user" %} &gt; {{ current_user.username }}
+{{ block.super }}
+&gt; {% trans "user" %} 
+&gt; {{ current_user.username }}
 {% endblock %}
 {% block content %}
 <div class="section">

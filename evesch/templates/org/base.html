@@ -1,0 +1,7 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}
+{% block breadcrumb %}
+{{ block.super }} 
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
+&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
+{% endblock %}

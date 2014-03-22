@@ -1,4 +1,4 @@
-{% extends "base_layout_01.html" %}
+{% extends "org/base.html" %}
 {% load i18n %}
 {% load color_correct %}
 {% block title %} - {{ message.title }}{% endblock %}
@@ -19,9 +19,8 @@
 	</script>
 {% endblock %}
 {% block breadcrumb %}
-<a href="{% url 'home' %}">{% trans "home" %}</a> 
-&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
-&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> &gt; {% trans "Organization Reports" %}
+{{ block.super }} 
+&gt; {% trans "Organization Reports" %}
 {% endblock %}
 {% block content %}
 <div class="page_heading"> {{ current_org.org_name }} </div>

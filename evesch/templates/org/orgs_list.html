@@ -4,7 +4,7 @@
 {% block title %} - {% trans "Home" %}{% endblock %}
 {% block extra_head %}{{ block.super }}{% endblock %}
 {% block breadcrumb %}
-<a href="{% url 'home' %}">{% trans "home" %}</a>
+{{ block.super }}
 &gt; {% trans "Organizations" %}
 {% endblock %}
 {% block content %}

@@ -1,10 +1,8 @@
-{% extends "base_layout_01.html" %}
+{% extends "org/base.html" %}
 {% load i18n %}
 {% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Remove Event Attendee" %}{% endblock %}
 {% block breadcrumb %}
-<a href="{% url 'home' %}">{% trans "home" %}</a> 
-&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
-&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
+{{ block.super }}
 &gt; <a href="{% url 'event_events_list' current_org.org_short_name %}">{% trans "Events" %}</a>  
 &gt; <a href="{{ event.get_absolute_url }}">{{ event.event_name }}</a>
 &gt; {% trans "Remove Event Attendee" %}

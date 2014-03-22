@@ -19,7 +19,7 @@ ul.photo_add li input { display: block; margin: 5px; }
 </style>
 {% endblock %}
 {% block breadcrumb %}
-	<a href="{% url 'home' %}">{% trans "home" %}</a> 
+{{ block.super }}
 	&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 	&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> &gt; {% trans "Edit Organization Photo" %}
 {% endblock %}

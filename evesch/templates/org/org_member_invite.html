@@ -1,13 +1,12 @@
-{% extends "base_layout_01.html" %}
+{% extends "org/base.html" %}
 {% load i18n %}
 {% block title %} - {{ message.title }}{% endblock %}
 {% block extra_head %}{{ block.super }}
     <link rel="stylesheet" href="{{ STATIC_URL }}js/jqtokenautocomplete/token-input-facebook.css" type="text/css" />
 {% endblock %}
 {% block breadcrumb %}
-<a href="{% url 'home' %}">{% trans "home" %}</a> 
-&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
-&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> &gt; {% trans "Invite Members" %}
+{{ block.super }}
+&gt; {% trans "Invite Members" %}
 {% endblock %}
 {% block content %}
 <div class="page_heading"> {{ current_org.org_name }} </div>

@@ -4,7 +4,7 @@
 {% block title %} - {% trans "Add Organization" %}{% endblock %}
 
 {% block breadcrumb %}
-<a href="{% url 'home' %}">{% trans "home" %}</a> 
+{{ block.super }}
 &gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
 &gt; {% trans "Add Organization" %}
 {% endblock %}
