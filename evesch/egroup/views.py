@@ -17,9 +17,8 @@ from evesch.core.lib import Message, ePage
 
 @login_required
 def group_add(request,org_short_name,template_name=None):
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
-    if not message:    
-        current_user, message = get_current_user(request.user)
     if not message:
         if not current_org.is_member(request.user):
             template_name = "core/message.html"
@@ -66,9 +65,8 @@ def group_add(request,org_short_name,template_name=None):
 
 @login_required
 def group_edit(request, org_short_name, group_hash, template_name=None):
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
-    if not message:
-        current_user, message = get_current_user(request.user)
     if not message: 
         current_usergroup, message = UserGroup.objects.get_current_usergroup(group_hash)
     if not message:
@@ -138,9 +136,8 @@ def group_edit(request, org_short_name, group_hash, template_name=None):
 
 @login_required
 def group_remove(request, org_short_name, group_hash, template_name=None):
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
-    if not message:
-        current_user, message = get_current_user(request.user)
     if not message: 
         current_usergroup, message = UserGroup.objects.get_current_usergroup(group_hash)
     if not message:
@@ -176,9 +173,8 @@ def group_remove(request, org_short_name, group_hash, template_name=None):
 
 @login_required
 def group_view(request, org_short_name, group_hash, template_name=None):
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
-    if not message:
-        current_user, message = get_current_user(request.user)
     if not message: 
         current_usergroup, message = UserGroup.objects.get_current_usergroup(group_hash)
     if not message: 
@@ -227,9 +223,8 @@ def group_members(request,org_short_name,group_hash,template_name=None):
  
 @login_required
 def groupuser_remove(request, org_short_name, group_hash, group_user, template_name=None):
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
-    if not message:
-        current_user, message = get_current_user(request.user)
     if not message: 
         current_usergroup, message = UserGroup.objects.get_current_usergroup(group_hash)
     if not message:

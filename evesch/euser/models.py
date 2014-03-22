@@ -154,7 +154,7 @@ def get_current_user(username, message=None):
         return None, message
     else:
         try:
-            current_user = eUser.objects.get(username=username)
+            current_user = get_user_model().objects.get(username=username)
         except:
             current_user = None
             message = Message(title=_("User Not Found"), text=_("The user was not found. Are you logged in?"))

@@ -39,9 +39,8 @@ def _get_next(request):
 
 def change(request, org_short_name, extra_context={}, next_override=None):
     message = None
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name, message)
-    if not message:    
-        current_user, message = get_current_user(request.user)
     if not message:
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
@@ -106,10 +105,9 @@ def change(request, org_short_name, extra_context={}, next_override=None):
 change = login_required(change)
 
 def delete(request, org_short_name, extra_context={}, next_override=None):
+    current_user = request.user
     message = None
     current_org, message = Organization.objects.get_current_org(org_short_name, message)
-    if not message:    
-        current_user, message = get_current_user(request.user)
     if not message:
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:

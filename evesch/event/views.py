@@ -57,9 +57,8 @@ def events_list(request,org_short_name,template_name=None):
 
 @login_required
 def event_add(request,org_short_name,template_name=None):
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
-    if not message:    
-        current_user, message = get_current_user(request.user)
     if not message:    
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
@@ -73,8 +72,6 @@ def event_add(request,org_short_name,template_name=None):
             message = Message(title=_("Cannot Add Event"), text=_("You do not have permission to add an event in this organization."))
             message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
-    if not message:
-        current_user, message = get_current_user(request.user, message)
     if not message:
         show_dialog=False
         if request.method == 'POST':
@@ -106,11 +103,10 @@ def event_add(request,org_short_name,template_name=None):
 
 @login_required
 def event_edit(request,org_short_name,event_hash,template_name=None):
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:
-        current_event, message = current_org.get_current_event(event_hash, message) 
-    if not message:    
-        current_user, message = get_current_user(request.user)
+        current_event, message = current_org.get_current_event(event_hash, message)
     if not message:
         eperms = current_event.event_perms(current_user)
         if not eperms['can_edit_event']:
@@ -150,11 +146,10 @@ def event_edit(request,org_short_name,event_hash,template_name=None):
 
 @login_required
 def event_remove(request,org_short_name,event_hash,template_name=None):
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:
         current_event, message = current_org.get_current_event(event_hash, message) 
-    if not message:    
-        current_user, message = get_current_user(request.user)
     if not message:
         eperms = current_event.event_perms(current_user)
         if not eperms['can_remove_event']:
@@ -183,11 +178,10 @@ def event_remove(request,org_short_name,event_hash,template_name=None):
 
 @login_required
 def event_attendee_add(request,org_short_name,event_hash,template_name=None):
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:
         current_event, message = current_org.get_current_event(event_hash, message)
-    if not message:
-        current_user, message = get_current_user(request.user, message)
     if not message:    
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
@@ -250,11 +244,10 @@ def event_attendee_add(request,org_short_name,event_hash,template_name=None):
 
 @login_required
 def event_attendees_message(request,org_short_name,event_hash,template_name=None):
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:
         current_event, message = current_org.get_current_event(event_hash, message)
-    if not message:
-        current_user, message = get_current_user(request.user, message)
     if not message:
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
@@ -297,11 +290,10 @@ def event_attendees_message(request,org_short_name,event_hash,template_name=None
 
 @login_required
 def event_attendee_remove(request,org_short_name,event_hash,att_name,template_name=None):
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:
         current_event, message = current_org.get_current_event(event_hash, message)
-    if not message:
-        current_user, message = get_current_user(request.user, message)
     if not message:    
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
@@ -350,6 +342,7 @@ def event_attendee_remove(request,org_short_name,event_hash,att_name,template_na
 
 @login_required
 def eventtype_add(request,org_short_name,template_name=None):
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:    
         if not current_org.is_member(request.user):
@@ -357,8 +350,6 @@ def eventtype_add(request,org_short_name,template_name=None):
             message = Message(title=_("Cannot Add Event Type"), text=_("You cannot add an event type in an organization that you do not belong to."))
             message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
-    if not message:
-        current_user, message = get_current_user(request.user, message)
     if not message:
         operms = current_org.org_perms(current_user)
         if not operms['can_add_type']:
@@ -396,9 +387,8 @@ def eventtype_add(request,org_short_name,template_name=None):
 
 @login_required
 def eventtype_edit(request, org_short_name,eventtype_hash,template_name=None):
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
-    if not message:
-        current_user, message = get_current_user(request.user, message)
     if not message:
         operms = current_org.org_perms(current_user)
         if not operms['can_edit_type']:
@@ -444,9 +434,8 @@ def eventtype_edit(request, org_short_name,eventtype_hash,template_name=None):
 
 @login_required
 def eventtype_remove(request, org_short_name,eventtype_hash,template_name=None):
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
-    if not message:
-        current_user, message = get_current_user(request.user, message)
     if not message:
         operms = current_org.org_perms(current_user)
         if not operms['can_remove_type']:

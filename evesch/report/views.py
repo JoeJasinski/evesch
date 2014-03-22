@@ -11,6 +11,7 @@ from evesch.report.forms import ReportFilterForm
 
 @login_required
 def org_reports(request,org_short_name, type='generic', template_name=None):
+    current_user = request.user
     min_event_date = datetime.today() - timedelta(120)
     max_event_date = datetime.date
     if request.method == 'POST': 
@@ -40,8 +41,6 @@ def org_reports(request,org_short_name, type='generic', template_name=None):
             
     org_w = None
     current_org, message = Organization.objects.get_current_org(org_short_name)
-    if not message:    
-        current_user, message = get_current_user(request.user)
     if not message:    
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:

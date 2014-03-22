@@ -28,59 +28,55 @@ def org_browse(request, filter_abc=None, template_name=None):
 
 
 @login_required
-def orgs_list(request, template_name=None):       
-    current_user, message = get_current_user(request.user)
-    if not message:
-        all_orgs_page = ePage(1)
-        if request.GET.__contains__("all_orgs_page"): 
-            try:
-                all_orgs_page.curr  = int(request.GET['all_orgs_page'])
-            except ValueError:
-                all_orgs_page.curr = 1
-        orgs = Organization.objects.filter(org_active=True).order_by('org_name')
-        all_orgs_page.set_pages(Paginator(orgs, 3))
+def orgs_list(request, template_name=None):
+    current_user = request.user 
 
-        my_orgs_page = ePage(1)
-        if request.GET.__contains__("my_orgs_page"): 
-            try:
-                my_orgs_page.curr = int(request.GET['my_orgs_page'])
-                #my_orgs_page.curr = int(request.GET.get('my_orgs_page',1))
-            except:
-                my_orgs_page.curr = 1 
+    all_orgs_page = ePage(1)
+    if request.GET.__contains__("all_orgs_page"): 
+        try:
+            all_orgs_page.curr  = int(request.GET['all_orgs_page'])
+        except ValueError:
+            all_orgs_page.curr = 1
+    orgs = Organization.objects.filter(org_active=True).order_by('org_name')
+    all_orgs_page.set_pages(Paginator(orgs, 3))
 
-        my_org_groups = UserGroup.objects.filter(pk__in=current_user.get_user_groups())
-        my_groups = orgs.filter(group_set__in=my_org_groups)
-        my_orgs = current_user.get_user_orgs().order_by('org_name')
-        jaz_orgs = []
-        for org in my_orgs:
-            org.user_perms = org.org_perms(current_user)
-            jaz_orgs.append(org)
-        my_orgs_page.set_pages(Paginator(jaz_orgs, 3))
+    my_orgs_page = ePage(1)
+    if request.GET.__contains__("my_orgs_page"): 
+        try:
+            my_orgs_page.curr = int(request.GET['my_orgs_page'])
+            #my_orgs_page.curr = int(request.GET.get('my_orgs_page',1))
+        except:
+            my_orgs_page.curr = 1 
 
-        #raise AssertionError(jaz_orgs[0].user_perms)
-        context = {'message':_("Index"),
-                   'all_orgs_page':all_orgs_page,
-                   'my_groups':my_groups,
-                   'my_orgs_page':my_orgs_page,
-                   'ajax_page_my':reverse('org_orgs_list_my_ajax',kwargs={}),
-                   'ajax_page_all':reverse('org_orgs_list_all_ajax',kwargs={}),
-                   }
-    else:
-        template_name = "core/message.html"
-        context = {'message':message }
+    my_org_groups = UserGroup.objects.filter(pk__in=current_user.get_user_groups())
+    my_groups = orgs.filter(group_set__in=my_org_groups)
+    my_orgs = current_user.get_user_orgs().order_by('org_name')
+    jaz_orgs = []
+    for org in my_orgs:
+        org.user_perms = org.org_perms(current_user)
+        jaz_orgs.append(org)
+    my_orgs_page.set_pages(Paginator(jaz_orgs, 3))
+
+    #raise AssertionError(jaz_orgs[0].user_perms)
+    context = {'message':_("Index"),
+               'all_orgs_page':all_orgs_page,
+               'my_groups':my_groups,
+               'my_orgs_page':my_orgs_page,
+               'ajax_page_my':reverse('org_orgs_list_my_ajax',kwargs={}),
+               'ajax_page_all':reverse('org_orgs_list_all_ajax',kwargs={}),
+               }
         
     return render_to_response(template_name,context, context_instance=RequestContext(request))
 
 
 @login_required
-def orgs_list_all(request, template_name=None):    
+def orgs_list_all(request, template_name=None):
+    current_user = request.user  
     message = None
     if not request.is_ajax():
         template_name = "core/message.html"
         message = Message(title=_("Cannot Be Viewed"), text=_("Cannot view this page" ))          
         context = {'message':message,}
-    if not message:   
-        current_user, message = get_current_user(request.user)
     if not message:
         all_orgs_page = ePage(1)
         if request.GET.__contains__("all_orgs_page"): 
@@ -98,13 +94,12 @@ def orgs_list_all(request, template_name=None):
 
 @login_required
 def orgs_list_my(request, template_name=None):
+    current_user = request.user
     message = None
     if not request.is_ajax():
         template_name = "core/message.html"
         message = Message(title=_("Cannot Be Viewed"), text=_("Cannot view this page" ))          
         context = {'message':message,}
-    if not message:
-        current_user, message = get_current_user(request.user)
     if not message:
         orgs = Organization.objects.filter(org_active=True).order_by('org_name')
 
@@ -132,9 +127,8 @@ def orgs_list_my(request, template_name=None):
 
 @login_required
 def org_join(request, org_short_name, template_name=None):
-    current_user, message = get_current_user(request.user)
-    if not message:
-        current_org, message = Organization.objects.get_current_org(org_short_name, message)
+    current_user = request.user
+    current_org, message = Organization.objects.get_current_org(org_short_name, message)
     if not message:
         operms = current_org.org_perms(current_user)
         if operms['is_memberof_org']:
@@ -168,9 +162,8 @@ def org_join(request, org_short_name, template_name=None):
 
 @login_required
 def org_leave(request, org_short_name, template_name=None):
-    current_user, message = get_current_user(request.user)
-    if not message:
-        current_org, message = Organization.objects.get_current_org(org_short_name)
+    current_user = request.user
+    current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:
         operms = current_org.org_perms(current_user)
         if operms['is_memberof_org']:
@@ -213,9 +206,8 @@ def org_view(request,org_short_name,template_name=None):
 
 @login_required
 def org_members(request,org_short_name,template_name=None):
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
-    if not message:    
-        current_user, message = get_current_user(request.user)
     if not message:
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
@@ -242,10 +234,8 @@ def org_members(request,org_short_name,template_name=None):
 @login_required
 def org_edit(request,org_short_name=None,template_name=None):
     """ Edits an organization """
-    
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
-    if not message:    
-        current_user, message = get_current_user(request.user)
     if not message:
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
@@ -285,9 +275,8 @@ def org_edit(request,org_short_name=None,template_name=None):
 @login_required
 def org_remove(request,org_short_name=None,template_name=None):
     """ Removes an organization """
+    current_user = request.user
     current_org, message = Organization.objects.get_current_org(org_short_name)
-    if not message:    
-        current_user, message = get_current_user(request.user)
     if not message:
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
@@ -317,42 +306,36 @@ def org_remove(request,org_short_name=None,template_name=None):
 @login_required
 def org_add(request,template_name=None):
     """ Adds an organization """
-    
-    current_user, message = get_current_user(request.user)
-    if not message:
-        show_dialog=False        
-        if request.method == 'POST':
-            form = OrganizationForm(request.POST)
-            if form.is_valid():
-                current_org = form.save()
-                current_org.save()
-                groups = UserGroup.objects.init_org_groups(current_org, current_user)
-                eventtypes = EventType.objects.init_event_types(current_org)
-    
-                message = Message(title=_("Organization Added"), text=_("Organization Added"))
-                message.addlink(_("View"),current_org.get_absolute_url())
-                message.addlink(_("Edit"),reverse('org_org_edit',kwargs={'org_short_name':current_org.org_short_name,}))
-                if request.POST.get("dialog",'') == "False":
-                    template_name = "core/message.html"
-                    show_dialog=False
-                else:
-                    show_dialog=True
-                context = {'message':message,'current_org':current_org,'form':form,'show_dialog':show_dialog,}                    
+    current_user = request.user
+    show_dialog=False        
+    if request.method == 'POST':
+        form = OrganizationForm(request.POST)
+        if form.is_valid():
+            current_org = form.save()
+            current_org.save()
+            groups = UserGroup.objects.init_org_groups(current_org, current_user)
+            eventtypes = EventType.objects.init_event_types(current_org)
+
+            message = Message(title=_("Organization Added"), text=_("Organization Added"))
+            message.addlink(_("View"),current_org.get_absolute_url())
+            message.addlink(_("Edit"),reverse('org_org_edit',kwargs={'org_short_name':current_org.org_short_name,}))
+            if request.POST.get("dialog",'') == "False":
+                template_name = "core/message.html"
+                show_dialog=False
             else:
-                context = { 'form':form,'show_dialog':show_dialog,}
+                show_dialog=True
+            context = {'message':message,'current_org':current_org,'form':form,'show_dialog':show_dialog,}                    
         else:
-            form = OrganizationForm()
-            context = { 'form':form } 
+            context = { 'form':form,'show_dialog':show_dialog,}
     else:
-        template_name = "core/message.html"
-        context = {'message':message }
+        form = OrganizationForm()
+        context = { 'form':form } 
     return render_to_response(template_name,context,context_instance=RequestContext(request))    
 
 @login_required
 def org_member_remove(request,org_short_name=None, username=None, template_name=None):
-    current_user, message = get_current_user(request.user)
-    if not message:
-        current_org, message = Organization.objects.get_current_org(org_short_name)
+    current_user = request.user
+    current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:
         current_member, message = get_current_user(username)
     if not message:
@@ -382,10 +365,9 @@ def org_member_remove(request,org_short_name=None, username=None, template_name=
 
 @login_required
 def org_member_invite(request,org_short_name=None, template_name=None):
-    current_user, message = get_current_user(request.user)
+    current_user = request.user
     invited_users = get_user_model().objects.none()
-    if not message:
-        current_org, message = Organization.objects.get_current_org(org_short_name)
+    current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
@@ -435,7 +417,9 @@ def org_member_invite(request,org_short_name=None, template_name=None):
         context = {'message':message }
     return render_to_response(template_name,context,context_instance=RequestContext(request))   
 
+@login_required
 def org_list_invites(request,org_short_name,template_name=None):
+    current_user = request.user
     invited_users_page = ePage(1)
     message = None
     if not True: # request.is_ajax():
@@ -443,11 +427,9 @@ def org_list_invites(request,org_short_name,template_name=None):
         message = Message(title=_("Cannot Be Viewed"), text=_("Cannot view this page" ))          
         context = {'message':message,}
     if not message:
-        current_user, message = get_current_user(request.user)
-    if not message:
         current_org, message = Organization.objects.get_current_org(org_short_name)      
     if not message:
-        if request.GET.__contains__("invited_users_page"): 
+        if request.GET.get("invited_users_page"): 
             try:
                 invited_users_page.curr = int(request.GET['invited_users_page'])
             except:
