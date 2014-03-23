@@ -37,18 +37,18 @@ def user_settings(request, template_name=None):
     current_user = request.user
     show_dialog=False
     if request.method == 'POST':
-            form = UserForm(request.POST, instance=current_user)
-            if form.is_valid():
-                form.save()
-                message = Message(title=_("Settings Saved"), text=_("Settings Saved"))
-                message.addlink(_("View"),reverse('euser_user_view',kwargs={'username':current_user.username,}))
-                message.addlink(_("Edit"),reverse('euser_user_settings'))
-                quick_message = _("Saved")
-                if request.POST.get("dialog",'') == "False":
-                    template_name = "core/message.html"
-                    show_dialog=False
-                else:
-                    show_dialog=True
+        form = UserForm(request.POST, instance=current_user)
+        if form.is_valid():
+            form.save()
+            message = Message(title=_("Settings Saved"), text=_("Settings Saved"))
+            message.addlink(_("View"),reverse('euser_user_view',kwargs={'username':current_user.username,}))
+            message.addlink(_("Edit"),reverse('euser_user_settings'))
+            quick_message = _("Saved")
+            if request.POST.get("dialog",'') == "False":
+                template_name = "core/message.html"
+                show_dialog=False
+            else:
+                show_dialog=True
     else:
             form = UserForm(instance=current_user)
     context = {'current_user':current_user,'form':form,'quick_message':quick_message,'message':message,'show_dialog':show_dialog,}
