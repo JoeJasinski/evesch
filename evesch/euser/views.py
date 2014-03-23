@@ -8,27 +8,39 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.db.models import Q
 from django.contrib.auth import get_user_model
+from django.views.generic import DetailView, UpdateView
+from django.http import Http404
+from evesch.core.view_mixins import LoginRequiredMixin
 from evesch.euser.models import get_current_user
-from evesch.euser.forms import UserForm
 from evesch.event.models import EventType
 from evesch.org.models import Organization
 from evesch.event.forms import EventTypeForm
 from evesch.euser.forms import UserForm
 from evesch.core.lib import Message
 
-@login_required
-def user_view(request, username, template_name=None):
-    current_user, message = get_current_user(username)
-    if not message:
-        if request.user.id == current_user.id:
-            myprofile = True
+
+class UserView(LoginRequiredMixin, DetailView):
+    
+    http_method_names = [u'get',]
+    slug_field = "username"
+    context_object_name = "current_user"
+    template_name = 'euser/user_view.html'
+    
+    def get_object(self):
+        slug = self.kwargs.get(self.get_slug_field(), None)
+        current_user, message = get_current_user(slug)
+        if message:
+            raise Http404(unicode(message.text))
+        return current_user
+
+    def get_context_data(self, **kwargs):
+        context =  super(UserView, self).get_context_data(**kwargs)
+        if self.request.user.id == self.object.id:
+            context.update({'myprofile':True})
         else:
-            myprofile = False
-        context = {'current_user':current_user,'myprofile':myprofile}
-    else:
-        template_name = "core/message.html"
-        context = {'message':message,}
-    return render_to_response(template_name,context, context_instance=RequestContext(request))
+            context.update({'myprofile':False})
+        return context
+
 
 @login_required
 def user_settings(request, template_name=None):
@@ -73,7 +85,7 @@ def lookup_users(request, org_short_name=None, template_name=None):
                 except ValueError:
                     pass              
     else:
-        if request.GET.__contains__("q"): 
+        if request.GET.get("q"): 
             try:
                 q  = request.GET['q']
                 users = get_user_model().objects.filter(Q(username__icontains=q) | Q(last_name__icontains=q) | Q(first_name__icontains=q)).order_by('username')[:10]
