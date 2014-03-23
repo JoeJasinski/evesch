@@ -30,3 +30,8 @@
 	</div>
 </div>
 {% endblock %}
+
+
+{% block extra_foot %}{{ block.super }}
+    {% include  "egroup/inc_group_user_list_js.html" %} 
+{% endblock %}

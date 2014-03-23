@@ -61,7 +61,8 @@
 {% endif %}
 {% endblock %}
 
-{% block extra_foot %}
+{% block extra_foot %}{{ block.super }}
+    {% include  "egroup/inc_group_user_list_js.html" %}
     <script type="text/javascript" src="{{ STATIC_URL }}js/jqtokenautocomplete/jquery.tokeninput.js"></script>
     <script type="text/javascript">
     $(document).ready(function(){

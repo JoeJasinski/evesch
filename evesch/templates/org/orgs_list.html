@@ -42,3 +42,7 @@
 </div>
 
 {% endblock %}
+
+{% block extra_foot %}{{ block.super }}
+  {% include "org/inc_myorgs_list_entry_js.html" %}
+{% endblock %}

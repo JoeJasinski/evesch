@@ -1,19 +1,5 @@
 {% load ellipsis %}
 {% load i18n %}
-			<script language="Javascript" type="text/javascript">
-			$(document).ready(function()
-			{
-			    function load_posts(url)
-			    {  var cachebuster=Math.floor(Math.random()*10000001); $("#my_org_list_container").load( url, "ajax=" + cachebuster );  }
-			    
-			    $("#my_orgs_prev").click(function() 
-			    {  load_posts("{{ ajax_page_my }}?my_orgs_page={{ my_orgs_page.prev }}"); });
-			    
-			    $("#my_orgs_next").click(function() 
-			    {  load_posts("{{ ajax_page_my }}?my_orgs_page={{ my_orgs_page.next }}"); });		    
-			
-			});
-			</script>
 			<div class="page_nav">
 				<div> {% trans "Page" %} {{ my_orgs_page.curr }} {% trans "of" %} {{ my_orgs_page.num_pages }}</div>
 				<span>{% if my_orgs_page.prev %}<a id="my_orgs_prev" href=".?my_orgs_page={{ my_orgs_page.prev }}&all_orgs_page={{ all_orgs_page.prev }}" onClick="return false;">Previous</a>{% else %}Previous{% endif %}</span>

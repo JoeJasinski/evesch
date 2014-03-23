@@ -1,0 +1,16 @@
+{% load ellipsis %}
+{% load i18n %}
+<script type="text/javascript">
+$(document).ready(function()
+{
+    function load_posts(url)
+    {  var cachebuster=Math.floor(Math.random()*10000001); $("#my_org_list_container").load( url, "ajax=" + cachebuster );  }
+    
+    $("#my_orgs_prev").click(function() 
+    {  load_posts("{{ ajax_page_my }}?my_orgs_page={{ my_orgs_page.prev }}"); });
+    
+    $("#my_orgs_next").click(function() 
+    {  load_posts("{{ ajax_page_my }}?my_orgs_page={{ my_orgs_page.next }}"); });		    
+
+});
+</script>

@@ -44,9 +44,9 @@
 {% block extra_foot %}{{ block.super }}
     <script type="text/javascript" src="{{ STATIC_URL }}js/jqtokenautocomplete/jquery.tokeninput.js"></script>
 	<script type="text/javascript">
-    $(document).ready(function(){
+    jQuery(document).ready(function(){
 
-        $("#invite_member_form").tokenInput("{% url 'euser_ajax_lookup_users' %}", {
+        jQuery("#invite_member_form").tokenInput("{% url 'euser_ajax_lookup_users' %}", {
             classes: {
                 tokenList: "token-input-list-facebook",
                 token: "token-input-token-facebook",

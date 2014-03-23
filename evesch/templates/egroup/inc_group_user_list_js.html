@@ -1,0 +1,15 @@
+{% load i18n %}
+<script type="text/javascript">
+jQuery(document).ready(function()
+{
+    function load_posts(url)
+    {  var cachebuster=Math.floor(Math.random()*10000001); $("#org_user_list_container").load( url, "ajax=" + cachebuster );  }
+    
+    $("#members_prev").click(function() 
+    {  load_posts("{{ ajax_page_members }}?members_page={{ members.prev }}"); });
+    
+    $("#members_next").click(function() 
+    {  load_posts("{{ ajax_page_members }}?members_page={{ members.next }}"); });
+
+});
+</script>
