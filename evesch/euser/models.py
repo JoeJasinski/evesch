@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from random import sample
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -155,7 +156,7 @@ def get_current_user(username, message=None):
     else:
         try:
             current_user = get_user_model().objects.get(username=username)
-        except:
+        except get_user_model().DoesNotExist:
             current_user = None
-            message = Message(title=_("User Not Found"), text=_("The user was not found. Are you logged in?"))
+            message = Message(title=_("User Not Found"), text=_("The user was not found."))
         return current_user, message
