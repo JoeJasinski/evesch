@@ -12,9 +12,7 @@ class StripWhitespaceMiddleware:
         self.whitespace = re.compile('\s*\n')
 
     def process_response(self, request, response):
-        #print dir(response)
-        #print response.headers
-        if("text" in response['Content-Type'] ):
+        if "text" in response['Content-Type']:
             new_content = self.whitespace.sub('\n', response.content)
             response.content = new_content
             return response

@@ -1,8 +1,8 @@
 {% extends "base_layout_01.html" %}
-{% load ellipsis %}{% load i18n %}
+{% load ellipsis %}{% load i18n %}{% load static %}
 {% load pagination_tags %}
 {% block title %} - {% trans "Home" %}{% endblock %}
-{% block extra_head %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/event_list_entry.css">{% endblock %}
+{% block extra_head %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static 'css/event_list_entry.css' %}">{% endblock %}
 {% block content %}
 
 <div class="core_content">
@@ -34,7 +34,7 @@
 					<TABLE>
 					{% for invite in user_org_invites %}
 					 <TR><TD><a href="{{ current_org.get_absolute_url }}">{{ invite.org }}</a></TD>
-					     <TD><a title="{% trans "Join Organization" %}" href="{% url 'org_org_join' invite.org.org_short_name %}"><img alt="Join" style="border: solid 0px;" src="{{ STATIC_URL }}images/join.png"></a></TD></TR>
+					     <TD><a title="{% trans "Join Organization" %}" href="{% url 'org_org_join' invite.org.org_short_name %}"><img alt="Join" style="border: solid 0px;" src="{% static 'images/join.png' %}"></a></TD></TR>
 					{% endfor %}
 					</TABLE>
 				</div>

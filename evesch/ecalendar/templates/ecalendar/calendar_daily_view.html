@@ -1,0 +1,33 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}{% load ellipsis %}{% load static %}
+{% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Daily Calendar of Events" %}{% endblock %}
+{% block extra_head %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static 'css/event_list_entry.css' %}">{% endblock %}
+{% block breadcrumb %}
+<a href="{% url 'home' %}">{% trans "home" %}</a> 
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
+&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
+&gt; {% trans "Calendar (Daily)" %}
+{% endblock %}
+{% block content %}
+<div class="page_heading"> {{ current_org.org_name }} </div>
+{% include "event/inc_event_menu.html" %}
+
+<div class="section">
+<div class="section_title"><font>{% trans "Calendar" %}</font></div>
+<TABLE align="center"><TR>
+<TD><a href="{% url 'ecalendar_calendar_daily_view' current_org.org_short_name %}?year={{ year_prev }}&month={{ month_prev }}&day={{ day_prev }}">{% trans "Previous" %}</a></TD>
+<TD><a href="{% url 'ecalendar_calendar_daily_view' current_org.org_short_name %}">{% trans "Today" %}</a></TD>
+<TD><a href="{% url 'ecalendar_calendar_daily_view' current_org.org_short_name %}?year={{ year_next }}&month={{ month_next }}&day={{ day_next }}">{% trans "Next" %}</a></TD>
+</TABLE>
+
+<div align="center">{{  day|date:"F d, Y"}}</div>
+
+{% if events %}   
+   {% with events as events %}
+      {% include "event/inc_events_list_entry.html" %} 
+   {% endwith %}
+{% else %}
+   {% trans "No events on this day." %}
+{% endif %}
+</div>
+{% endblock %}

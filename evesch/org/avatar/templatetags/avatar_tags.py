@@ -30,7 +30,7 @@ def avatar(org_short_name, size=300):
 
     try:
         org = Organization.objects.get(org_short_name=org_short_name)
-        alt = unicode(org.org_name)
+        alt = str(org.org_name)
         url = avatar_url(org, size)
     except Organization.DoesNotExist:
         url = AVATAR_DEFAULT_URL

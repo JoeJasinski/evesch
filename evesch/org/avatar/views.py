@@ -1,12 +1,12 @@
 import os.path
 from random import sample
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext as _
-from django.core.urlresolvers import reverse
-from django.db.models import get_app
+from django.urls import reverse
+from django.apps import apps
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 from django.contrib import messages
@@ -86,7 +86,7 @@ def change(request, org_short_name, extra_context={}, next_override=None):
                 else:
                     template_name = "core/message.html"
                     context = {'message':message }
-                    return render_to_response(template_name,context,context_instance=RequestContext(request))                     
+                    return render(request, template_name, context)                     
             if 'choice' in request.POST:
                 primary_avatar_form = PrimaryAvatarForm(request.POST or None, org=current_org, **kwargs)
                 if primary_avatar_form.is_valid():
@@ -103,7 +103,7 @@ def change(request, org_short_name, extra_context={}, next_override=None):
     else:
         template_name = "core/message.html"
         context = {'message':message } 
-    return render_to_response(template_name,context,context_instance=RequestContext(request))
+    return render(request, template_name, context)
 
 change = login_required(change)
 
@@ -135,23 +135,23 @@ def delete(request, org_short_name, extra_context={}, next_override=None):
         if request.method == 'POST':
             if delete_avatar_form.is_valid():
                 ids = delete_avatar_form.cleaned_data['choices']
-                if unicode(avatar.id) in ids and avatars.count() > len(ids):
+                if str(avatar.id) in ids and avatars.count() > len(ids):
                     for a in avatars:
-                        if unicode(a.id) not in ids:
+                        if str(a.id) not in ids:
                             a.primary = True
                             a.save()
                             break
                 Avatar.objects.filter(id__in=ids).delete()
                 messages.add_message(request, messages.INFO, _("Successfully deleted the requested avatars."))
                 return HttpResponseRedirect(next_override or _get_next(request))
-        return render_to_response('avatar/confirm_delete.html',extra_context,
-            context_instance = RequestContext(request,
-                { 'avatar': avatar, 'avatars': avatars,'current_org':current_org,
-                  'delete_avatar_form': delete_avatar_form,'next': next_override or _get_next(request), }
-            )
-        )
+        extra_context.update(
+            {'avatar': avatar, 'avatars': avatars,
+             'current_org': current_org,
+             'delete_avatar_form': delete_avatar_form,
+             'next': next_override or _get_next(request), })
+        return render(request, 'avatar/confirm_delete.html', extra_context)
     else:
         template_name = "core/message.html"
         context = {'message':message } 
-    return render_to_response('avatar/confirm_delete.html',context,context_instance=RequestContext(request))
+    return render(request, 'avatar/confirm_delete.html', context)
 delete = login_required(delete)

@@ -1,0 +1,32 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}{% load static %}
+{% load pagination_tags %}
+{% load ellipsis %}
+{% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "List Events" %}{% endblock %}
+{% block extra_head %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static 'css/event_list_entry.css' %}">{% endblock %}
+{% block breadcrumb %}
+<a href="{% url 'home' %}">home</a> 
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
+&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
+&gt; {% trans "Events" %}
+{% endblock %}
+{% block content %}
+<div class="page_heading"> {{ current_org.org_name }} </div>
+{% include "event/inc_event_menu.html" %}
+
+<div class="section">
+    <div class="section_title"><font>{{ heading }}</font></div>
+	<div class="section_body">
+{% if events %}   
+   {% autopaginate events 20 %}
+   {% paginate %}
+   {% with events as events %}
+      {% include "event/inc_events_list_entry.html" %} 
+   {% endwith %}
+   {% paginate %}
+{% else %}
+   {% trans "No events listed." %}
+{% endif %}
+    </div>
+ </div>
+{% endblock %}

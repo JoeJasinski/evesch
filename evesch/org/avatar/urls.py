@@ -1,6 +1,7 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import url
+from evesch.org.avatar.views import change, delete
 
-urlpatterns = patterns('',
-    url('^change/$', 'evesch.org.avatar.views.change', name='org_org_edit_photo'),
-    url('^delete/$', 'evesch.org.avatar.views.delete', name='org_org_delete_photo'),
-)
+urlpatterns = [
+    url('^change/$', change, name='org_org_edit_photo'),
+    url('^delete/$', delete, name='org_org_delete_photo'),
+]

@@ -1,20 +1,13 @@
 import datetime
 import os.path
+from io import StringIO
+
+from PIL import Image
 
 from django.db import models
 from django.core.files.base import ContentFile
 from django.utils.translation import ugettext as _
 from evesch.org.models import Organization
-
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
-
-try:
-    from PIL import Image
-except ImportError:
-    import Image
 
 from evesch.org.avatar import AVATAR_STORAGE_DIR, AVATAR_RESIZE_METHOD
 
@@ -22,13 +15,19 @@ def avatar_file_path(instance=None, filename=None, org_short_name=None):
     return os.path.join(AVATAR_STORAGE_DIR, org_short_name, filename)
 
 class Avatar(models.Model):
-    org = models.ForeignKey(Organization)
-    primary = models.BooleanField(default=False)
-    avatar = models.ImageField(max_length=1024, upload_to=avatar_file_path, blank=True)
-    date_uploaded = models.DateTimeField(default=datetime.datetime.now)
+    org = models.ForeignKey(
+        Organization, on_delete=models.CASCADE)
+    primary = models.BooleanField(
+        default=False)
+    avatar = models.ImageField(
+        max_length=1024,
+        upload_to=avatar_file_path,
+        blank=True)
+    date_uploaded = models.DateTimeField(
+        default=datetime.datetime.now)
     
-    def __unicode__(self):
-        return _(u'Avatar for %s') % self.org.org_short_name
+    def __str__(self):
+        return _('Avatar for {}'.format(self.org.org_short_name))
     
     def save(self, force_insert=False, force_update=False):
         if self.primary:

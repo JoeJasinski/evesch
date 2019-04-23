@@ -15,11 +15,10 @@ class Command(NoArgsCommand):
 		#from django.conf import settings
 		#from django.core.management import setup_environ
 		#setup_environ( settings )
-	
 		
 		# Create some orgs
-		print "---------------------"
-		print "Creating Orgs"
+		print("---------------------")
+		print("Creating Orgs")
 		org1 = Organization(org_name='Illinois Wesleyan University', org_short_name='iwu',)
 		org1.org_desc = 'This is a liberal Arts School'
 		org1.org_phone = '309-555-1212'
@@ -28,7 +27,7 @@ class Command(NoArgsCommand):
 		org1.org_state = 'Illinois'
 		org1.org_type = 4
 		org1.save()
-		print " Created: " + org1.org_name
+		print(" Created: " + org1.org_name)
 		
 		org2 = Organization(org_name='DePaul University', org_short_name='dpu',)
 		org2.org_desc = 'This is a private university'
@@ -38,7 +37,7 @@ class Command(NoArgsCommand):
 		org2.org_state = 'Illinois'
 		org2.org_type = 4
 		org2.save()
-		print " Created: " + org2.org_name
+		print(" Created: " + org2.org_name)
 		
 		org3 = Organization(org_name='Northwestern University', org_short_name='nwu',)
 		org3.org_desc = 'This is a private university'
@@ -48,7 +47,7 @@ class Command(NoArgsCommand):
 		org3.org_state = 'Illinois'
 		org3.org_type = 4
 		org3.save()
-		print " Created: " + org3.org_name
+		print(" Created: " + org3.org_name)
 		
 		org4 = Organization(org_name='University of Chicago', org_short_name='uofc',)
 		org4.org_desc = 'This is a private university'
@@ -58,7 +57,7 @@ class Command(NoArgsCommand):
 		org4.org_state = 'Illinois'
 		org4.org_type = 4
 		org4.save()
-		print " Created: " + org4.org_name
+		print(" Created: " + org4.org_name)
 		
 		org5 = Organization(org_name='School of the Art Institute', org_short_name='ai',)
 		org5.org_desc = 'This is a private university'
@@ -68,30 +67,30 @@ class Command(NoArgsCommand):
 		org5.org_state = 'Illinois'
 		org5.org_type = 4
 		org5.save()
-		print " Created: " + org5.org_name
+		print(" Created: " + org5.org_name)
 		
 		## Create some event types
-		print "Creating EventTypes"
+		print("Creating EventTypes")
 		event_type1 = EventType.objects.create_eventtype("Charity",org1)
 		event_type1.type_desc = "Charity Event"
 		event_type1.type_color = "00FF00"
 		event_type1.save()
-		print " Created: " + event_type1.type_name + " for org " + org1.org_short_name
+		print(" Created: " + event_type1.type_name + " for org " + org1.org_short_name)
 		
 		event_type2 = EventType.objects.create_eventtype("Service",org2)
 		event_type2.type_desc = "Charity Event for Fun"
 		event_type2.type_color = "FF0000"
 		event_type2.save()
-		print " Created: " + event_type2.type_name + " for org " + org2.org_short_name
+		print(" Created: " + event_type2.type_name + " for org " + org2.org_short_name)
 		
 		event_type3 = EventType.objects.create_eventtype("Community",org2)
 		event_type3.type_desc = "Charity Event for Fun"
 		event_type3.type_color = "0000FF"
 		event_type3.save()
-		print " Created: " + event_type2.type_name + " for org " + org2.org_short_name
+		print(" Created: " + event_type2.type_name + " for org " + org2.org_short_name)
 		
 		## Create some users
-		print "Creating Users"
+		print("Creating Users")
 		
 		User = get_user_model()
 		
@@ -106,7 +105,7 @@ class Command(NoArgsCommand):
 		euser.save()
 		euser.user_organizations=[org2]
 		eusers.append(euser)
-		print " Created: %s" % (euser.username)
+		print(" Created: %s" % (euser.username))
 				
 		user_email='joe.jasinski@gmail.com'
 		euser = User(username="joe",email=user_email)
@@ -118,7 +117,7 @@ class Command(NoArgsCommand):
 		euser.save()
 		euser.user_organizations=[org2]
 		eusers.append(euser)
-		print " Created: %s" % (euser.username)
+		print(" Created: %s" % (euser.username))
 		
 		user_email='john.jasinski@gmail.com'
 		euser = User(username="john",email=user_email)
@@ -129,7 +128,7 @@ class Command(NoArgsCommand):
 		euser.set_password('1234')
 		euser.save()
 		euser.user_organizations=[org2]
-		print " Created: %s" % (euser.username)
+		print(" Created: %s" % (euser.username))
 		
 		
 		usernames = [
@@ -165,14 +164,14 @@ class Command(NoArgsCommand):
 			euser.set_password = "1234"
 			euser.save()
 			eusers.append(euser)
-			print " Created: %s" % (euser.username)
+			print(" Created: %s" % (euser.username))
 			
 		for euser in eusers:
 			euser.user_organizations.add(org1)
 			
 		
 		## Create some groups
-		print "Creating Groups" 
+		print("Creating Groups" )
 		UserGroup.objects.init_org_groups(org1, eusers[1])
 		g1 = UserGroup.objects.all()[0]
 		eusers[2].user_groups.add(g1)
@@ -183,36 +182,36 @@ class Command(NoArgsCommand):
 		UserGroup.objects.init_org_groups(org5, eusers[2])
 		
 		## Create some events
-		print "Creating Events" 
+		print("Creating Events" )
 		event1 = Event.objects.create_event("IWU Event 1",eusers[1],org1,event_type1,datetime(2009,07,25,12,00,00))
 		event1.event_desc = "This is event 1"
 		event1.save()
-		print " Created: " + event1.event_name + " of type " + event_type1.type_name + " in org " + org1.org_short_name
+		print(" Created: " + event1.event_name + " of type " + event_type1.type_name + " in org " + org1.org_short_name)
 		
 		event2 = Event.objects.create_event("IWU Event 2",eusers[2],org1,event_type1,datetime(2009,07,14,12,00,00))
 		event2.event_desc = "This is event 2"
 		event2.save()
-		print " Created: " + event2.event_name + " of type " + event_type1.type_name + " in org " + org1.org_short_name
+		print(" Created: " + event2.event_name + " of type " + event_type1.type_name + " in org " + org1.org_short_name)
 		
 		event3 = Event.objects.create_event("IWU Event 3",eusers[2],org1,event_type1,datetime(2009,8,14,12,00,00))
 		event3.event_desc = "This is event 3"
 		event3.save()
-		print " Created: " + event3.event_name + " of type " + event_type1.type_name + " in org " + org1.org_short_name
+		print(" Created: " + event3.event_name + " of type " + event_type1.type_name + " in org " + org1.org_short_name)
 		
 		event4 = Event.objects.create_event("IWU Event 4",eusers[2],org1,event_type1,datetime(2009,9,14,12,00,00))
 		event4.event_desc = "This is event 4"
 		event4.save()
-		print " Created: " + event4.event_name + " of type " + event_type1.type_name + " in org " + org1.org_short_name
+		print(" Created: " + event4.event_name + " of type " + event_type1.type_name + " in org " + org1.org_short_name)
 		
 		event5 = Event.objects.create_event("IWU Event 5",eusers[1],org1,event_type1,datetime(2009,9,14,12,00,00))
 		event5.event_desc = "This is event 5"
 		event5.save()
-		print " Created: " + event5.event_name + " of type " + event_type1.type_name + " in org " + org1.org_short_name
+		print(" Created: " + event5.event_name + " of type " + event_type1.type_name + " in org " + org1.org_short_name)
 		
 		event6 = Event.objects.create_event("IWU Event 6",eusers[2],org1,event_type1,datetime(2009,9,14,12,00,00))
 		event6.event_desc = "This is event 6"
 		event6.save()
-		print " Created: " + event6.event_name + " of type " + event_type1.type_name + " in org " + org1.org_short_name
+		print(" Created: " + event6.event_name + " of type " + event_type1.type_name + " in org " + org1.org_short_name)
 		
 		
 		

@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404
 
 from ajax_filtered_fields import utils
 
+
 def json_index(request):
     """
     Answer to ajax requests of the client returning
@@ -30,7 +31,7 @@ def json_index(request):
                 # get the queryset
                 objects = utils.getObjects(model, lookup_dict, select_related)
                 # get the raw data and dump the json
-                raw_data = [(i.pk, unicode(i)) for i in objects]
+                raw_data = [(i.pk, str(i)) for i in objects]
                 data = simplejson.dumps(raw_data)
                 # return data with the right content type
                 return HttpResponse(data, content_type="application/json")

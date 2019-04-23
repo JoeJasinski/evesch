@@ -3,8 +3,8 @@ import icalendar
 from datetime import timedelta
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.core.urlresolvers import reverse
+from django.shortcuts import render
+from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 #from django.contrib.syndication.views import feed
 from django.utils import feedgenerator
@@ -51,7 +51,7 @@ def org_rss(request,org_short_name,org_feed_hash):
     except ObjectDoesNotExist:
         context = {'error':"Organization does not exist",}
         template_name = "error.html"
-    return render_to_response(template_name,context,context_instance=RequestContext(request))
+    return render(request, template_name, context)
 
 def org_ics(request,org_short_name,org_feed_hash):
     host = request.META['HTTP_HOST']
@@ -106,18 +106,18 @@ def user_rss(request,username,user_feed_hash):
             return HttpResponseRedirect(reverse('home'))
         
         if not user_feed_hash == current_user.user_feed_hash:
-            return HttpResponseRedirect(reverse('euser_user_view', kwargs={'username':current_user.username}))
+            return HttpResponseRedirect(reverse('euser_user_view', kwargs={'username': current_user.username}))
         
         user_events = Event.objects.filter(attendee__in=current_user.attendee_set.all()).order_by('-event_date')
         orgfeed = feedgenerator.Rss201rev2Feed(title=current_user.username, 
-           link="http://%s%s" % (host, reverse('euser_user_view', kwargs={'username':current_user.username}))  , 
+           link="http://%s%s" % (host, reverse('euser_user_view', kwargs={'username': current_user.username})), 
            description=current_user.about, language='en', 
            )
         
         for event in user_events:
             orgfeed.add_item(
             title=event.event_name, 
-            link="http://%s%s" % (host,  reverse('event_event_view', kwargs={'org_short_name':event.event_org.org_short_name,'event_hash':event.event_hash})), 
+            link="http://%s%s" % (host, reverse('event_event_view', kwargs={'org_short_name': event.event_org.org_short_name, 'event_hash': event.event_hash})), 
             description="Event on: %s --  Description: %s" % (event.event_date.strftime('%d %b %Y'), event.event_desc),
             categories=(event.event_type,),
             author_name=event.event_creator_name,
@@ -131,7 +131,7 @@ def user_rss(request,username,user_feed_hash):
     except ObjectDoesNotExist:
         context = {'error':"Organization does not exist",}
         template_name = "error.html"
-    return render_to_response(template_name,context,context_instance=RequestContext(request))
+    return render(request, template_name, context)
 
 
 def user_ics(request,username,user_feed_hash):
@@ -142,7 +142,7 @@ def user_ics(request,username,user_feed_hash):
 
     #user_events = Event.objects.all()
     if not user_feed_hash == current_user.user_feed_hash:
-        return HttpResponseRedirect(reverse('euser_user_view', kwargs={'username':current_user.username}))
+        return HttpResponseRedirect(reverse('euser_user_view', kwargs={'username': current_user.username}))
     
     user_events =  Event.objects.filter(attendee__in=current_user.attendee_set.all()).order_by('-event_date')
     userical = Calendar()
@@ -158,7 +158,7 @@ def user_ics(request,username,user_feed_hash):
         cal_event.add('description', event.event_desc)
         cal_event.add('categories',event.event_type)
         cal_event.add('duration',timedelta(hours=1))
-        cal_event.add('url',"http://" + host + reverse('event_event_view',kwargs={'org_short_name':event.event_org.org_short_name,'event_hash':event.event_hash,}))
+        cal_event.add('url',"http://" + host + reverse('event_event_view', kwargs={'org_short_name': event.event_org.org_short_name, 'event_hash': event.event_hash,}))
         if event.event_creator_name.email:
             organizer_n = event.event_creator_name.email
         else:
@@ -168,13 +168,10 @@ def user_ics(request,username,user_feed_hash):
         organizer.params['role'] = vText('CREATOR')
         cal_event.add('organizer', organizer, encode=0)
         userical.add_component(cal_event)
-
-    template_name = "core/message.html"
-    context = {}
     
     response = HttpResponse()
     response['Content-Type'] = 'text/calendar'
-    response.write(userical.as_string())
+    response.write(userical)
     #template_name = "error.html"
     return response
     

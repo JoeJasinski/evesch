@@ -1,9 +1,9 @@
 # Create your views here.
 #from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.db.models import Q
@@ -16,6 +16,7 @@ from evesch.event.forms import EventTypeForm
 from evesch.euser.forms import UserForm
 from evesch.core.lib import Message
 
+
 @login_required
 def user_view(request,username, template_name=None):
     current_user, message = get_current_user(username)
@@ -24,11 +25,12 @@ def user_view(request,username, template_name=None):
             myprofile = True
         else:
             myprofile = False
-        context = {'current_user':current_user,'myprofile':myprofile}
+        context = {'current_user': current_user, 'myprofile': myprofile}
     else:
         template_name = "core/message.html"
-        context = {'message':message,}
-    return render_to_response(template_name,context, context_instance=RequestContext(request))
+        context = {'message': message,}
+    return render(request, template_name, context)
+
 
 @login_required
 def user_settings(request, template_name=None):
@@ -40,23 +42,31 @@ def user_settings(request, template_name=None):
                 form = UserForm(request.POST, instance=current_user)
                 if form.is_valid():
                     form.save()
-                    message = Message(title=_("Settings Saved"), text=_("Settings Saved"))
-                    message.addlink(_("View"),reverse('euser_user_view',kwargs={'username':current_user.username,}))
-                    message.addlink(_("Edit"),reverse('euser_user_settings'))
+                    message = Message(
+                        title=_("Settings Saved"),
+                        text=_("Settings Saved"))
+                    message.addlink(_("View"), reverse('euser_user_view', kwargs={'username': current_user.username,}))
+                    message.addlink(_("Edit"), reverse('euser_user_settings'))
                     quick_message = _("Saved")
-                    if request.POST.get("dialog",'') == "False":
+                    if request.POST.get("dialog", '') == "False":
                         template_name = "core/message.html"
                         show_dialog=False
                     else:
                         show_dialog=True
         else:
                 form = UserForm(instance=current_user)
-        context = {'current_user':current_user,'form':form,'quick_message':quick_message,'message':message,'show_dialog':show_dialog,}
+        context = {
+            'current_user': current_user,
+            'form': form,
+            'quick_message': quick_message,
+            'message': message,
+            'show_dialog': show_dialog,}
     else:
         template_name = "core/message.html"
-        context = {'message':message,}
+        context = {'message': message}
 
-    return render_to_response(template_name,context, context_instance=RequestContext(request))
+    return render(request, template_name, context)
+
 
 @login_required
 def lookup_users(request, org_short_name=None, template_name=None):
@@ -69,21 +79,23 @@ def lookup_users(request, org_short_name=None, template_name=None):
         if not message:
             operms = current_org.org_perms(current_user) 
             if not operms['is_memberof_org']:
-                message = Message(title=_("Cannot View Group"), text=_("You are not a member of this org"))
+                message = Message(
+                    title=_("Cannot View Group"),
+                    text=_("You are not a member of this org"))
         if not message:
-            if request.GET.__contains__("q"): 
+            if 'q' in request.GET: 
                 try:
-                    q  = request.GET['q']
+                    q = request.GET['q']
                     users = (current_org.get_invited_users() | current_org.get_members()).filter(Q(username__icontains=q) | Q(last_name__icontains=q) | Q(first_name__icontains=q)).order_by('username')[:10]
                 except ValueError:
                     pass              
     else:
-        if request.GET.__contains__("q"): 
+        if 'q' in request.GET: 
             try:
-                q  = request.GET['q']
+                q = request.GET['q']
                 users = get_user_model().objects.filter(Q(username__icontains=q) | Q(last_name__icontains=q) | Q(first_name__icontains=q)).order_by('username')[:10]
             except ValueError:
                 pass
     
-    context = {'users':users,}
-    return render_to_response(template_name,context, context_instance=RequestContext(request))
+    context = {'users': users,}
+    return render(request, template_name, context)

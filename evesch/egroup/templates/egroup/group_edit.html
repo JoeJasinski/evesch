@@ -1,0 +1,101 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}{% load static %}
+{% block title %} - {% trans "Organization" %} {{ current_org.org_short_name }} - {% trans "Edit Group" %}{% endblock %}
+{% block extra_head %}{{ block.super }}
+    <link rel="stylesheet" href="{% static 'js/jqtokenautocomplete/token-input-facebook.css' %}" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'js/jqboxy/stylesheets/boxy.css' %}" />
+{% endblock %}
+{% block breadcrumb %}
+<a href="{% url 'home' %}">{% trans "home" %}</a>
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
+&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> 
+&gt; <a href="{{ current_usergroup.get_absolute_url }}">{{ current_usergroup.group_name }}</a>
+&gt; {% trans "Edit Group" %}
+{% endblock %}
+{% block content %}
+<div class="page_heading"> {{ current_org.org_name }} </div>
+{% include "event/inc_event_menu.html" %}
+<div class="section">
+	<div class="section_title"><font>{% trans "Edit Group" %}</font></div>
+	<div class="section_body">
+		{% trans "Edit Group for" %}: {{ current_org.org_name }}
+		<form id="edit_group" action="." method="post">{% csrf_token %}
+		<input type="hidden" id="dialog" name="dialog" value="False">
+		<table>
+		 {{ edit_form.as_table }}
+		</table>
+		<input id="group_edit_submit" type="submit" name=save_group value="{% trans "Save" %}">
+		</form>
+	</div>
+</div>
+
+<div class="section"> 
+	<div class="section_title"><font>{% trans "Add Group Members" %}</font></div>
+	<div class="section_body">
+{% ifnotequal current_usergroup.meta 1 %}	
+		<form action="." method="post">{% csrf_token %}
+		<table>
+		  <tr><td>&nbsp;</td><td>{% trans "Type the name of users in this organization that you want to add to this group." %}</td></tr>
+		  {{ group_add_member_form.as_table }}
+		</table>
+	    <input  type="submit" name="add_group_members" value="{% trans "Add" %}">
+		</form>
+{% else %}
+		<div style="margin:5px;">
+        {% trans "You cannot edit members of this group since this group represents all users in this organization. " %}
+	    {% trans "To add or remove members in this organization, visit the invite users page: " %}<a href="{% url 'org_org_member_invite' current_org.org_short_name %}">Invite Users</a>
+		</div>
+{% endifnotequal %}
+		<div id="info"></div>
+	</div>
+</div>
+
+{% if groupusers %}
+<div class="section">
+	<div class="section_title"><font>{% trans "Group Members" %}</font><span class="section_title_icon"><a title="{% trans "Current Group Members" %}" href="{% url 'org_org_member_invite' current_org.org_short_name %}"></a></span></div>
+	<div class="section_body">
+		<div id="org_user_list_container">
+		{% with groupusers as members %}
+			{% include  "egroup/inc_group_user_list.html" %}
+		{% endwith %}
+	    </div>
+		<div style="clear: both"></div>
+	</div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_foot %}
+    <script type="text/javascript" src="{% static 'js/jqtokenautocomplete/jquery.tokeninput.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jqboxy/javascripts/jquery.boxy.js' %}"></script>    
+    <script type="text/javascript">
+    $(document).ready(function(){
+    
+        $("#add_user_form").tokenInput("{% url 'euser_ajax_lookup_org_users' current_org.org_short_name %}", {
+            classes: {
+                tokenList: "token-input-list-facebook",
+                token: "token-input-token-facebook",
+                tokenDelete: "token-input-delete-token-facebook",
+                selectedToken: "token-input-selected-token-facebook",
+                highlightedToken: "token-input-highlighted-token-facebook",
+                dropdown: "token-input-dropdown-facebook",
+                dropdownItem: "token-input-dropdown-item-facebook",
+                dropdownItem2: "token-input-dropdown-item2-facebook",
+                selectedDropdownItem: "token-input-selected-dropdown-item-facebook",
+                inputToken: "token-input-input-token-facebook"
+            }
+        });
+    
+ 		$("input#group_edit_submit").click( function() { $("form#edit_group").submit( function(){ $("input#dialog").attr("value","True"); return true; }); }); 
+
+{% if show_dialog %} 
+	    new Boxy('\
+	    <div class="popup_message">\n\
+	      <ul>{% for link in message.links %}<li><a href="{{ link.link }}">{{ link.name }}</a></li>{% endfor %}</ul>\n\
+	    </div>', 
+	    {modal: true,  title:"{{ message.text }}", closeable: false });   
+{% endif %}
+    
+ 	});
+   	</script> 
+{% endblock %}

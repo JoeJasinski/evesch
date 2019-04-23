@@ -11,7 +11,7 @@
 #<script type="text/javascript" src="{{ STATIC_URL }}calendar/calendar-setup.js"></script>
 #<!-- /calendar -->
 
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 from django.conf import settings
 from django import forms
 from datetime import datetime, time
@@ -39,10 +39,10 @@ class DateTimeWidget(forms.widgets.TextInput):
         if value != '': 
             try:
                 final_attrs['value'] = \
-                                   force_unicode(value.strftime(self.dformat))
+                                   force_text(value.strftime(self.dformat))
             except:
                 final_attrs['value'] = \
-                                   force_unicode(value)
+                                   force_text(value)
         if not final_attrs.has_key('id'):
             final_attrs['id'] = u'%s_id' % (name)
         id = final_attrs['id']

@@ -1,12 +1,12 @@
 # Create your views here.
 from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib.auth import get_user_model
@@ -24,7 +24,7 @@ def org_browse(request, filter_abc=None, template_name=None):
         raise AssertionError(filter_abc)
         public_orgs = public_orgs.filter(org_name__istartswith=filter_abc)
     context = {'orgs':public_orgs,}
-    return render_to_response(template_name,context, context_instance=RequestContext(request))
+    return render(request, template_name, context)
 
 
 @login_required
@@ -32,16 +32,16 @@ def orgs_list(request, template_name=None):
     current_user, message = get_current_user(request.user)
     if not message:
         all_orgs_page = ePage(1)
-        if request.GET.__contains__("all_orgs_page"): 
+        if 'all_orgs_page' in request.GET: 
             try:
-                all_orgs_page.curr  = int(request.GET['all_orgs_page'])
+                all_orgs_page.curr = int(request.GET['all_orgs_page'])
             except ValueError:
                 all_orgs_page.curr = 1
         orgs = Organization.objects.filter(org_active=True).order_by('org_name')
         all_orgs_page.set_pages(Paginator(orgs, 3))
 
         my_orgs_page = ePage(1)
-        if request.GET.__contains__("my_orgs_page"): 
+        if "my_orgs_page" in request.GET: 
             try:
                 my_orgs_page.curr = int(request.GET['my_orgs_page'])
                 #my_orgs_page.curr = int(request.GET.get('my_orgs_page',1))
@@ -58,18 +58,18 @@ def orgs_list(request, template_name=None):
         my_orgs_page.set_pages(Paginator(jaz_orgs, 3))
 
         #raise AssertionError(jaz_orgs[0].user_perms)
-        context = {'message':_("Index"),
-                   'all_orgs_page':all_orgs_page,
-                   'my_groups':my_groups,
-                   'my_orgs_page':my_orgs_page,
-                   'ajax_page_my':reverse('org_orgs_list_my_ajax',kwargs={}),
-                   'ajax_page_all':reverse('org_orgs_list_all_ajax',kwargs={}),
+        context = {'message': _("Index"),
+                   'all_orgs_page': all_orgs_page,
+                   'my_groups': my_groups,
+                   'my_orgs_page': my_orgs_page,
+                   'ajax_page_my': reverse('org_orgs_list_my_ajax',kwargs={}),
+                   'ajax_page_all': reverse('org_orgs_list_all_ajax',kwargs={}),
                    }
     else:
         template_name = "core/message.html"
-        context = {'message':message }
+        context = {'message': message}
         
-    return render_to_response(template_name,context, context_instance=RequestContext(request))
+    return render(request, template_name, context)
 
 
 @login_required
@@ -78,38 +78,40 @@ def orgs_list_all(request, template_name=None):
     if not request.is_ajax():
         template_name = "core/message.html"
         message = Message(title=_("Cannot Be Viewed"), text=_("Cannot view this page" ))          
-        context = {'message':message,}
+        context = {'message': message}
     if not message:   
         current_user, message = get_current_user(request.user)
     if not message:
         all_orgs_page = ePage(1)
-        if request.GET.__contains__("all_orgs_page"): 
+        if "all_orgs_page" in request.GET: 
             try:
                 all_orgs_page.curr  = int(request.GET['all_orgs_page'])
             except:
                 all_orgs_page.curr = 1
         orgs = Organization.objects.filter(org_active=True).order_by('org_name')
         all_orgs_page.set_pages(Paginator(orgs, 3))
-        context = {'all_orgs_page':all_orgs_page, 'ajax_page_all':reverse('org_orgs_list_all_ajax',kwargs={}),}
+        context = {'all_orgs_page': all_orgs_page, 'ajax_page_all': reverse('org_orgs_list_all_ajax',kwargs={}),}
     else:
         template_name = "core/message.html"
-        context = {'message':message }
-    return render_to_response(template_name,context, context_instance=RequestContext(request))
+        context = {'message': message}
+    return render(request, template_name, context)
 
 @login_required
 def orgs_list_my(request, template_name=None):
     message = None
     if not request.is_ajax():
         template_name = "core/message.html"
-        message = Message(title=_("Cannot Be Viewed"), text=_("Cannot view this page" ))          
-        context = {'message':message,}
+        message = Message(
+            title=_("Cannot Be Viewed"),
+            text=_("Cannot view this page" ))          
+        context = {'message': message}
     if not message:
         current_user, message = get_current_user(request.user)
     if not message:
         orgs = Organization.objects.filter(org_active=True).order_by('org_name')
 
         my_orgs_page = ePage(1)
-        if request.GET.__contains__("my_orgs_page"): 
+        if "my_orgs_page" in request.GET: 
             try:
                 my_orgs_page.curr = int(request.GET['my_orgs_page'])
             except:
@@ -127,8 +129,8 @@ def orgs_list_my(request, template_name=None):
         context = {'my_orgs_page':my_orgs_page,'ajax_page_my':reverse('org_orgs_list_my_ajax',kwargs={}),}
     else:
         template_name = "core/message.html"
-        context = {'message':message }
-    return render_to_response(template_name,context, context_instance=RequestContext(request))
+        context = {'message': message}
+    return render(request, template_name, context)
 
 @login_required
 def org_join(request, org_short_name, template_name=None):
@@ -139,15 +141,17 @@ def org_join(request, org_short_name, template_name=None):
         operms = current_org.org_perms(current_user)
         if operms['is_memberof_org']:
             template_name = "core/message.html"
-            message = Message(title=_("Already a Member"), text=_("You are already a member of this organization." ))          
+            message = Message(
+                title=_("Already a Member"),
+                text=_("You are already a member of this organization." ))          
             message.addlink(_("Continue"),current_org.get_absolute_url())
-            context = {'message':message,}
+            context = {'message': message}
     if not message:
         if not operms['can_join_org']:
             template_name = "core/message.html"
             message = Message(title=_("Approval Needed"), text=_("In order to join this organization, you need approval from the organization admin."))
             message.addlink(_("Back"),current_org.get_absolute_url())
-            context = {'message':message,}
+            context = {'message': message}
     if not message:  
         if request.method == 'POST':                    
             current_user.user_organizations.add(current_org)
@@ -157,14 +161,14 @@ def org_join(request, org_short_name, template_name=None):
             #message = Message(title="You have Joined the organization", text="Org Join Successful: " + org_user_group.group_name )
             message = Message(title=_("You have Joined the organization"), text=_("Org Join Successful: %s" % (current_org.org_name,)) )            
             message.addlink(_("Continue"),current_org.get_absolute_url())
-            context = {'message':message,}
+            context = {'message': message}
         else:  
             form = OrganizationJoinForm()
             context = {'form':form,'current_org':current_org}
     else:
         template_name = "core/message.html"
-        context = {'message':message }
-    return render_to_response(template_name,context,context_instance=RequestContext(request))
+        context = {'message': message}
+    return render(request, template_name, context)
 
 @login_required
 def org_leave(request, org_short_name, template_name=None):
@@ -183,11 +187,11 @@ def org_leave(request, org_short_name, template_name=None):
             template_name = "core/message.html"
             message = Message(title=_("Not a Member"), text=_("You cannot leave this organization because you are not a member of the organization."))      
             message.addlink(_("Back"),reverse('org_orgs_list',kwargs={}))               
-        context = {'message':message, 'current_org':current_org, } 
+        context = {'message': message, 'current_org':current_org, } 
     else:
         template_name = "core/message.html"
-        context = {'message':message }      
-    return render_to_response(template_name,context,context_instance=RequestContext(request))
+        context = {'message': message}      
+    return render(request, template_name, context)
 
 @login_required
 def org_view(request,org_short_name,template_name=None):
@@ -195,7 +199,7 @@ def org_view(request,org_short_name,template_name=None):
     current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:
         members_page = ePage(1)
-        if request.GET.__contains__("members_page"): 
+        if "members_page" in request.GET: 
             try:
                 members_page.curr  = int(request.GET['members_page'])
             except:
@@ -208,8 +212,8 @@ def org_view(request,org_short_name,template_name=None):
         context = {'message':_("Org View"),'current_org':current_org,'org_eventtypes':org_eventtypes, 'members':members_page, 'ajax_page_members': reverse('org_org_user_list_ajax', kwargs={'org_short_name':current_org.org_short_name,})}
     else:
         template_name = "core/message.html"
-        context = {'message':message }    
-    return render_to_response(template_name,context,context_instance=RequestContext(request))
+        context = {'message': message}    
+    return render(request, template_name, context)
 
 @login_required
 def org_members(request,org_short_name,template_name=None):
@@ -222,10 +226,10 @@ def org_members(request,org_short_name,template_name=None):
             template_name = "core/message.html"
             message = Message(title=_("Can Not Edit Org"), text=_("You cannot view members of an organization that you do not belong to."))
             message.addlink(_("Back"),current_org.get_absolute_url())
-            context = {'message':message,}
+            context = {'message': message}
     if not message:
         members_page = ePage(1)
-        if request.GET.__contains__("members_page"): 
+        if "members_page" in request.GET: 
             try:
                 members_page.curr  = int(request.GET['members_page'])
             except:
@@ -235,13 +239,13 @@ def org_members(request,org_short_name,template_name=None):
         context = {'current_org':current_org,'members':members_page,'ajax_page_members': reverse('org_org_user_list_ajax', kwargs={'org_short_name':current_org.org_short_name,})}
     else:
         template_name = "core/message.html"
-        context = {'message':message }  
-    return render_to_response(template_name,context,context_instance=RequestContext(request))
+        context = {'message': message}  
+    return render(request, template_name, context)
 
 
 @login_required
 def org_edit(request,org_short_name=None,template_name=None):
-    """ Edits an organization """
+    """Edits an organization """
     
     current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:    
@@ -250,41 +254,57 @@ def org_edit(request,org_short_name=None,template_name=None):
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
-            message = Message(title=_("Can Not Edit Org"), text=_("You cannot edit an organization that you do not belong to."))
+            message = Message(
+                title=_("Can Not Edit Org"),
+                text=_("You cannot edit an organization that you do not belong to."))
             message.addlink(_("Back"),current_org.get_absolute_url())
-            context = {'message':message,}
+            context = {'message': message}
     if not message:
         if not operms['can_edit_org']:
             template_name = "core/message.html"
-            message = Message(title=_("Can Not Edit Org"), text=_("You cannot edit this organization because you do not have permission to."))
+            message = Message(
+                title=_("Can Not Edit Org"),
+                text=_("You cannot edit this organization because you do not have permission to."))
             message.addlink(_("Back"),current_org.get_absolute_url())
-            context = {'message':message,}
+            context = {'message': message}
     if not message:
         show_dialog=False
         if request.method == 'POST':
             form = OrganizationFormEdit(request.POST, instance=current_org)
             if form.is_valid():
                 form.save()
-                message = Message(title=_("Organization Changes Saved"), text=_("Organization Changes Saved"))
-                message.addlink(_("View"),current_org.get_absolute_url())
-                message.addlink(_("Edit"),reverse('org_org_edit',kwargs={'org_short_name':current_org.org_short_name,}))
-                if request.POST.get("dialog",'') == "False":
+                message = Message(
+                    title=_("Organization Changes Saved"),
+                    text=_("Organization Changes Saved"))
+                message.addlink(
+                    _("View"), current_org.get_absolute_url())
+                message.addlink(
+                    _("Edit"), reverse('org_org_edit',
+                        kwargs={'org_short_name': current_org.org_short_name,}))
+                if request.POST.get("dialog", '') == "False":
                     template_name = "core/message.html"
                     show_dialog=False
                 else:
                     show_dialog=True
-            context = {'org_short_name':org_short_name,'form':form,'current_org':current_org,'message':message,'show_dialog':show_dialog,}                
+            context = {'org_short_name': org_short_name,
+                       'form': form,
+                       'current_org': current_org,
+                       'message': message,
+                       'show_dialog': show_dialog,}                
         else:
-            form = OrganizationFormEdit(auto_id=False,instance=current_org)
-            context = {'org_short_name':org_short_name,'form':form,'current_org':current_org}
+            form = OrganizationFormEdit(auto_id=False, instance=current_org)
+            context = {
+                'org_short_name': org_short_name,
+                'form': form, 'current_org': current_org}
     else:
         template_name = "core/message.html"
-        context = {'message':message }
-    return render_to_response(template_name, context,context_instance=RequestContext(request))
+        context = {'message': message}
+    return render(request, template_name, context)
+
 
 @login_required
 def org_remove(request,org_short_name=None,template_name=None):
-    """ Removes an organization """
+    """Removes an organization """
     current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:    
         current_user, message = get_current_user(request.user)
@@ -292,31 +312,33 @@ def org_remove(request,org_short_name=None,template_name=None):
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
-            message = Message(title=_("Can Not Remove Org"), text=_("You cannot remove an organization that you do not belong to."))
-            message.addlink(_("Continue"),current_org.get_absolute_url())
-            context = {'message':message,}
+            message = Message(
+                title=_("Can Not Remove Org"),
+                text=_("You cannot remove an organization that you do not belong to."))
+            message.addlink(_("Continue"), current_org.get_absolute_url())
+            context = {'message': message}
     if not message:
         if not operms['can_remove_org']:
             template_name = "core/message.html"
-            message = Message(title=_("Can Not Remove Org"), text=_("You cannot remove this organization because you do not have permission to."))
-            message.addlink(_("Back"),current_org.get_absolute_url())
-            context = {'message':message,}
+            message = Message(
+                title=_("Can Not Remove Org"),
+                text=_("You cannot remove this organization because you do not have permission to."))
+            message.addlink(_("Back"), current_org.get_absolute_url())
+            context = {'message': message}
     if not message:
-        context = {'current_org':current_org}
+        context = {'current_org': current_org}
         if request.method == 'POST':
             current_org.org_active = False
             current_org.save()
             return HttpResponseRedirect(reverse('org_orgs_list',))
-        else:
-            pass
     else:
         template_name = "core/message.html"
-        context = {'message':message }     
-    return render_to_response(template_name,context,context_instance=RequestContext(request))
+        context = {'message': message}     
+    return render(request, template_name, context)
 
 @login_required
 def org_add(request,template_name=None):
-    """ Adds an organization """
+    """Adds an organization """
     
     current_user, message = get_current_user(request.user)
     if not message:
@@ -329,27 +351,35 @@ def org_add(request,template_name=None):
                 groups = UserGroup.objects.init_org_groups(current_org, current_user)
                 eventtypes = EventType.objects.init_event_types(current_org)
     
-                message = Message(title=_("Organization Added"), text=_("Organization Added"))
-                message.addlink(_("View"),current_org.get_absolute_url())
-                message.addlink(_("Edit"),reverse('org_org_edit',kwargs={'org_short_name':current_org.org_short_name,}))
+                message = Message(
+                    title=_("Organization Added"),
+                    text=_("Organization Added"))
+                message.addlink(
+                    _("View"), current_org.get_absolute_url())
+                message.addlink(
+                    _("Edit"), reverse('org_org_edit', kwargs={'org_short_name':current_org.org_short_name,}))
                 if request.POST.get("dialog",'') == "False":
                     template_name = "core/message.html"
                     show_dialog=False
                 else:
                     show_dialog=True
-                context = {'message':message,'current_org':current_org,'form':form,'show_dialog':show_dialog,}                    
+                context = {
+                    'message': message,
+                    'current_org': current_org,
+                    'form': form,
+                    'show_dialog': show_dialog}                    
             else:
-                context = { 'form':form,'show_dialog':show_dialog,}
+                context = {'form': form, 'show_dialog': show_dialog}
         else:
             form = OrganizationForm()
-            context = { 'form':form } 
+            context = {'form': form} 
     else:
         template_name = "core/message.html"
-        context = {'message':message }
-    return render_to_response(template_name,context,context_instance=RequestContext(request))    
+        context = {'message': message}
+    return render(request, template_name, context)    
 
 @login_required
-def org_member_remove(request,org_short_name=None, username=None, template_name=None):
+def org_member_remove(request, org_short_name=None, username=None, template_name=None):
     current_user, message = get_current_user(request.user)
     if not message:
         current_org, message = Organization.objects.get_current_org(org_short_name)
@@ -359,29 +389,33 @@ def org_member_remove(request,org_short_name=None, username=None, template_name=
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
-            message = Message(title=_("Can Not Remove User"), text=_("You cannot remove a user in an organization that you do not belong to."))
+            message = Message(
+                title=_("Can Not Remove User"),
+                text=_("You cannot remove a user in an organization that you do not belong to."))
             message.addlink(_("Continue"),current_org.get_absolute_url())
-            context = {'message':message,}
+            context = {'message': message}
     if not message:
         if not operms['can_remove_users']:
             template_name = "core/message.html"
-            message = Message(title=_("Can Not Remove Member"), text=_("You cannot remove this member because you do not have permission to."))
-            message.addlink(_("Back"),current_org.get_absolute_url())
-            context = {'message':message,}
+            message = Message(
+                title=_("Can Not Remove Member"),
+                text=_("You cannot remove this member because you do not have permission to."))
+            message.addlink(_("Back"), current_org.get_absolute_url())
+            context = {'message': message}
     if not message:
         if request.method == 'POST':
             current_member.user_organizations.remove(current_org)
             return HttpResponseRedirect(current_org.get_absolute_url())
         else:
             pass
-        context = {'current_org':current_org, 'current_member':current_member, }
+        context = {'current_org': current_org, 'current_member': current_member, }
     else:
         template_name = "core/message.html"
-        context = {'message':message }
-    return render_to_response(template_name,context,context_instance=RequestContext(request))    
+        context = {'message': message}
+    return render(request, template_name, context)    
 
 @login_required
-def org_member_invite(request,org_short_name=None, template_name=None):
+def org_member_invite(request, org_short_name=None, template_name=None):
     current_user, message = get_current_user(request.user)
     invited_users = get_user_model().objects.none()
     if not message:
@@ -390,15 +424,19 @@ def org_member_invite(request,org_short_name=None, template_name=None):
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
-            message = Message(title=_("Can Not Invite User"), text=_("You cannot invite a user to an organization that you do not belong to."))
+            message = Message(
+                title=_("Can Not Invite User"),
+                text=_("You cannot invite a user to an organization that you do not belong to."))
             message.addlink(_("Continue"),current_org.get_absolute_url())
-            context = {'message':message,}
+            context = {'message': message}
     if not message:
         if not operms['can_invite_users']:
             template_name = "core/message.html"
-            message = Message(title=_("Can Not Invite Member"), text=_("You cannot invite people to this organization because you do not have permission to."))
+            message = Message(
+                title=_("Can Not Invite Member"),
+                text=_("You cannot invite people to this organization because you do not have permission to."))
             message.addlink(_("Back"),current_org.get_absolute_url())
-            context = {'message':message,}
+            context = {'message': message}
     if not message:
         invited_users_page = ePage(1)
         org_invites = current_org.invite_set.all()
@@ -421,7 +459,7 @@ def org_member_invite(request,org_short_name=None, template_name=None):
         else:
             form = OrganizationInviteMember()
 
-            if request.GET.__contains__("members_page"): 
+            if "members_page" in request.GET: 
                 try:
                     members_page.curr = int(request.GET['members_page'])
                 except:
@@ -429,25 +467,32 @@ def org_member_invite(request,org_short_name=None, template_name=None):
                 
         invited_users_page.set_pages(Paginator(invited_users, 5))
 
-        context = {'current_org':current_org,'form':form,'invited_users':invited_users_page,'ajax_page_members':reverse('org_org_invites_list_ajax', kwargs={'org_short_name':current_org.org_short_name,})}
+        context = {
+            'current_org': current_org,
+            'form': form,
+            'invited_users': invited_users_page,
+            'ajax_page_members': reverse(
+                'org_org_invites_list_ajax', kwargs={'org_short_name': current_org.org_short_name,})}
     else:
         template_name = "core/message.html"
-        context = {'message':message }
-    return render_to_response(template_name,context,context_instance=RequestContext(request))   
+        context = {'message': message}
+    return render(request, template_name, context)   
 
 def org_list_invites(request,org_short_name,template_name=None):
     invited_users_page = ePage(1)
     message = None
     if not True: # request.is_ajax():
         template_name = "core/message.html"
-        message = Message(title=_("Cannot Be Viewed"), text=_("Cannot view this page" ))          
-        context = {'message':message,}
+        message = Message(
+            title=_("Cannot Be Viewed"),
+            text=_("Cannot view this page" ))          
+        context = {'message': message}
     if not message:
         current_user, message = get_current_user(request.user)
     if not message:
         current_org, message = Organization.objects.get_current_org(org_short_name)      
     if not message:
-        if request.GET.__contains__("invited_users_page"): 
+        if "invited_users_page" in request.GET: 
             try:
                 invited_users_page.curr = int(request.GET['invited_users_page'])
             except:
@@ -456,11 +501,13 @@ def org_list_invites(request,org_short_name,template_name=None):
         org_invites = current_org.invite_set.all()
         invited_users = get_user_model().objects.filter(user_invites_set__in=org_invites)   
         invited_users_page.set_pages(Paginator(invited_users, 5))
-        context = {'current_org':current_org,'invited_users':invited_users_page,'ajax_page_members':reverse('org_org_invites_list_ajax', kwargs={'org_short_name':current_org.org_short_name,})}
-
+        context = {
+            'current_org': current_org,
+            'invited_users': invited_users_page,
+            'ajax_page_members': reverse(
+                'org_org_invites_list_ajax',
+                kwargs={'org_short_name': current_org.org_short_name,})}
     else:
         template_name = "core/message.html"
-        context = {'message':message }
-    return render_to_response(template_name,context,context_instance=RequestContext(request))
-
-   
+        context = {'message': message}
+    return render(request, template_name, context)

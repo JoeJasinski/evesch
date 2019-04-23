@@ -1,0 +1,28 @@
+{% load i18n static permission_tags %}
+			<script language="Javascript" type="text/javascript">
+			$(document).ready(function()
+			{
+			    function load_posts(url)
+			    {  var cachebuster=Math.floor(Math.random()*10000001); $("#org_user_list_container").load( url, "ajax=" + cachebuster );  }
+			    
+			    $("#members_prev").click(function() 
+			    {  load_posts("{{ ajax_page_members }}?members_page={{ members.prev }}"); });
+			    
+			    $("#members_next").click(function() 
+			    {  load_posts("{{ ajax_page_members }}?members_page={{ members.next }}"); });		    
+			
+			});
+			</script>
+			<div class="page_nav"> 
+				<div>{% trans "Page" %} {{ members.curr }} {% trans "of" %} {{ members.num_pages }}</div>
+				<span>{% if members.prev %}<a id="members_prev" href=".?members_page={{ members.prev }}" onClick="return false;">Previous</a>{% else %}Previous{% endif %}</span>
+				<span>{% if members.next %}<a id="members_next" href=".?members_page={{ members.next }}" onClick="return false;">Next</a>{% else %}Next{% endif %}</span>
+			</div>
+			<div>
+			{% with org_perms=request.user|org_permissions:current_org %}
+			{% for user in members.current_page.object_list  %}
+			 <div class="org_user_list"> &nbsp; <div style="float: right;">{% if org_perms.can_remove_users %}<a title="{% trans "Remove Member" %}" href="{% url 'org_org_member_remove' current_org.org_short_name user.username %}"><img alt="remove" style="border: solid 0px;" src="{% static 'images/remove_user.png' %}"></a>{% endif %}</div><div style="float: left;"><a href="{{ user.get_absolute_url }}">{{ user.first_name }} {{ user.last_name }} ({{ user.username }}) </a></div></div>
+			{% endfor %}
+			{% endwith %}
+						<div style="clear: both"></div>
+			</div>

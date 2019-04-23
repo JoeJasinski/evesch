@@ -1,17 +1,17 @@
 # Django settings for evesch project.
-import os, sys
+import os
+import sys
 
-PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__.decode('utf-8')))
-ENVIRONMENT_ROOT = os.path.abspath(os.path.join(PROJECT_ROOT, '..', '..', '..'))
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+ENVIRONMENT_ROOT = os.path.abspath(os.path.join(PROJECT_ROOT, '..', '..'))
 HTDOCS_ROOT = os.path.abspath(os.path.join(ENVIRONMENT_ROOT, 'htdocs'))
 LOG_ROOT = os.path.abspath(os.path.join(ENVIRONMENT_ROOT, 'var', 'log'))
 sys.path.insert(0, os.path.join(PROJECT_ROOT, "core"))
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-     # ('joe', 'joe@evesch.com'),
+    # ('joe', 'joe@evesch.com'),
 )
 
 MANAGERS = ADMINS
@@ -19,13 +19,13 @@ AUTH_USER_MODEL = 'euser.eUser'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(ENVIRONMENT_ROOT, 'data', 'evesch.db'),
+        'ENGINE': os.getenv('DATABASE_BACKEND', 'django.db.backends.postgresql_psycopg2'), # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': os.getenv('DATABASE_NAME', 'postgres'),
         # The following settings are not used with sqlite3:
-        'USER': 'evesch',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+        'USER': os.getenv('DATABASE_USER', 'postgres'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'postgres'),
+        'HOST': os.getenv('DATABASE_HOST', 'db'),
+        'PORT':  os.getenv('DATABASE_PORT', '5432'),
     }
 }
 
@@ -34,9 +34,7 @@ DATABASES = {
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = []
 
-INTERNAL_IPS = ('127.0.0.1','localhost',)
-
-
+INTERNAL_IPS = ('127.0.0.1', 'localhost',)
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -59,7 +57,7 @@ USE_I18N = True
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 
-MEDIA_ROOT = os.path.abspath(os.path.join(HTDOCS_ROOT,  'media'))
+MEDIA_ROOT = os.path.abspath(os.path.join(HTDOCS_ROOT, 'media'))
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
@@ -70,7 +68,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = os.path.join(HTDOCS_ROOT,  'static') 
+STATIC_ROOT = os.path.join(HTDOCS_ROOT, 'static') 
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -89,54 +87,57 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+#   'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '@+@m7a_u8)0*i$a#-rhfc+m&h$=@rqza8x^g8yaw&*3#34f5ml(9gd41jh'
 
-
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
-
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'pagination.middleware.PaginationMiddleware',
-    'evesch.core.middleware.StripWhitespaceMiddleware.StripWhitespaceMiddleware',
-    'evesch.core.middleware.threadlocals.ThreadLocals',
+    #'pagination.middleware.PaginationMiddleware',
+    'pagination_bootstrap.middleware.PaginationMiddleware',
+    # 'evesch.core.middleware.StripWhitespaceMiddleware.StripWhitespaceMiddleware',
+    # 'evesch.core.middleware.threadlocals.ThreadLocals',
 #    'debug_toolbar.middleware.DebugToolbarMiddleware',
-)
+]
 
 ROOT_URLCONF = 'evesch.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'evesch.wsgi.application'
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.core.context_processors.request",
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.i18n",
-    "django.contrib.messages.context_processors.messages",
-)
 
+TEMPLATES = [
+    {
+        "BACKEND": 'django.template.backends.django.DjangoTemplates',
+        "DIRS": [
+            os.path.join(PROJECT_ROOT, 'templates'),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.request',
+                "django.contrib.auth.context_processors.auth",
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.csrf',
+                'django.template.context_processors.debug',
+                "django.contrib.messages.context_processors.messages",
+            ]
+        }
+    }
+]
 
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_ROOT, 'templates'),
-)
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -145,11 +146,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'south',
     'rosetta',   # used for easily editing i18n files
-    'pagination',
+    'pagination_bootstrap',
     'django_extensions',
-    'south',
 
     'evesch.core',
     'evesch.org',
@@ -163,7 +162,6 @@ INSTALLED_APPS = (
     'evesch.core.ajax_filtered_fields', 
     'evesch.report',
     'evesch.post',
-
 )
 
 # max size for profie photo uploads (in KB)
@@ -201,12 +199,6 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(LOG_ROOT, "evesch-django.log"),
-            'formatter': 'verbose'
-        },
     },
     'loggers': {
         'django.request': {
@@ -215,7 +207,7 @@ LOGGING = {
             'propagate': True,
         },
         'evesch': {
-            'handlers': ['file', 'console'],
+            'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
         },

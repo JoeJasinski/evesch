@@ -1,0 +1,67 @@
+{% extends "base_layout_01.html" %}
+{% load i18n %}{% load static %}
+{% block title %} - {{ message.title }}{% endblock %}
+{% block extra_head %}{{ block.super }}
+    <link rel="stylesheet" href="{% static 'js/jqtokenautocomplete/token-input-facebook.css' %}" type="text/css" />
+{% endblock %}
+{% block breadcrumb %}
+<a href="{% url 'home' %}">{% trans "home" %}</a> 
+&gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
+&gt; <a href="{{ current_org.get_absolute_url }}">{{ current_org.org_name }}</a> &gt; {% trans "Invite Members" %}
+{% endblock %}
+{% block content %}
+<div class="page_heading"> {{ current_org.org_name }} </div>
+{% include "event/inc_event_menu.html" %}
+<div class="section"> 
+	<div class="section_title"><font>{% trans "Invite Members" %}</font></div>
+	<div class="section_body">
+		<form action="." method="post">{% csrf_token %}
+		<table>
+		{{ form }}
+		</table>
+	    <input type="submit" name="add_org_members" value="{% trans "Invite" %}">
+		</form>
+		<div id="info"></div>
+	</div>
+</div>
+
+{% if invited_users %}
+<div class="section">
+	<div class="section_title"><font>{% trans "Users Invited (waiting for them to confirm)" %}</font><span class="section_title_icon"><a title="{% trans "Invite User to Org" %}" href="{% url 'org_org_member_invite' current_org.org_short_name %}"></a></span></div>
+	<div class="section_body">
+		<div id="org_user_list_container">
+		{% with invited_users as members %}
+			{% include  "org/inc_org_user_list.html" %}
+		{% endwith %}
+	    </div>
+		<div style="clear: both"></div>
+	</div>
+</div>
+{% endif %}
+
+
+{% endblock %}
+
+{% block extra_foot %}{{ block.super }}
+    <script type="text/javascript" src="{% static 'js/jqtokenautocomplete/jquery.tokeninput.js' %}"></script>
+	<script type="text/javascript">
+    $(document).ready(function(){
+
+        $("#invite_member_form").tokenInput("{% url 'euser_ajax_lookup_users' %}", {
+            classes: {
+                tokenList: "token-input-list-facebook",
+                token: "token-input-token-facebook",
+                tokenDelete: "token-input-delete-token-facebook",
+                selectedToken: "token-input-selected-token-facebook",
+                highlightedToken: "token-input-highlighted-token-facebook",
+                dropdown: "token-input-dropdown-facebook",
+                dropdownItem: "token-input-dropdown-item-facebook",
+                dropdownItem2: "token-input-dropdown-item2-facebook",
+                selectedDropdownItem: "token-input-selected-dropdown-item-facebook",
+                inputToken: "token-input-input-token-facebook"
+            }
+        });
+
+	});
+   	</script>
+{% endblock %}

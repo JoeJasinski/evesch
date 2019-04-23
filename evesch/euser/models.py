@@ -1,5 +1,5 @@
 from random import sample
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractUser
@@ -27,7 +27,8 @@ def get_current_user_by_email(email, message=None):
             current_user = None
             message = Message(title=_("User Not Found"), text=_("The user was not found. Are you logged in?"))
         return current_user, message
-    
+
+
 class UserIM(models.Model):
 
     IM_PROTOCOL_TYPES = (
@@ -56,7 +57,7 @@ class UserIM(models.Model):
         verbose_name = _("Is IM Default Name"), 
         default=False)
     
-    def __unicode__(self):
+    def __str__(self):
         return "%s - %s" % (self.im_name, self.im_protocol_type)
 
 
@@ -68,55 +69,51 @@ class eUser(AbstractUser):
     )
 
     user_organizations = models.ManyToManyField(Organization, 
-        related_name = "org_users",
-        verbose_name = _("User Organizations"),                                    
-        blank=True, null=True)
+        related_name="org_users",
+        verbose_name=_("User Organizations"),                                    
+        blank=True)
     user_groups = models.ManyToManyField(UserGroup,
-        verbose_name = _("User Groups"),
-        related_name = "group_users",
-        blank=True, null=True)
+        verbose_name=_("User Groups"),
+        related_name="group_users",
+        blank=True)
     phone = models.CharField(
-        db_column=u"phone",
         verbose_name=_("Phone Number"),
         max_length=64, 
         blank=True, null=True)
     gender = models.IntegerField(
-        db_column = u"gender",
-        verbose_name= _("Gender"),
+        verbose_name=_("Gender"),
         choices=GENDER_CHOICES, 
         blank=True, null=True, 
-        help_text = _("Optional Gender Information"))
+        help_text=_("Optional Gender Information"))
     country = models.CharField(
-        verbose_name = _("Country"),
+        verbose_name=_("Country"),
         max_length=64,
-        help_text = _("User's Country"),
-        blank=True,null=True)
+        help_text=_("User's Country"),
+        blank=True, null=True)
     city = models.CharField(
-        verbose_name = _("City"),
-        blank=True,null=True,
+        verbose_name=_("City"),
+        blank=True, null=True,
         max_length=64,
-        help_text = _("User's City"))
-    im_names = models.ForeignKey(UserIM,
-        related_name = u"user_im_names",
-        blank=True,null=True) 
+        help_text=_("User's City"))
+    im_names = models.ForeignKey(
+        UserIM,
+        related_name=u"user_im_names",
+        blank=True, null=True,
+        on_delete=models.CASCADE) 
     about = models.CharField(
-        db_column = u"about",
-        verbose_name = _("About Me"),
+        verbose_name=_("About Me"),
         max_length=256,
         blank=True, null=True)
     security_hash = models.CharField(
-        verbose_name = _("Confirmation Number"),
+        verbose_name=_("Confirmation Number"),
         blank=True, null=True,
-        max_length = 24)
+        max_length=24)
     user_feed_hash =  models.CharField(
         max_length=24,
         verbose_name=_("User Feed Hash"),
         null=True, blank=True,)
-    
-   # class Meta:
-    #    db_table="EveschUsers"
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s" % (self.username)
     
     def get_user_orgs(self):
@@ -138,7 +135,7 @@ class eUser(AbstractUser):
         super(eUser, self).set_password(raw_password)
 
     def get_absolute_url(self):
-        return reverse('euser_user_view',kwargs={'username':self.username,})
+        return reverse('euser_user_view', kwargs={'username':self.username,})
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -148,7 +145,8 @@ class eUser(AbstractUser):
     class Meta:
         verbose_name = _('User')
         verbose_name_plural = _('Users')
-    
+
+
 def get_current_user(username, message=None):
     if message:
         return None, message
@@ -157,5 +155,7 @@ def get_current_user(username, message=None):
             current_user = eUser.objects.get(username=username)
         except:
             current_user = None
-            message = Message(title=_("User Not Found"), text=_("The user was not found. Are you logged in?"))
+            message = Message(
+                title=_("User Not Found"),
+                text=_("The user was not found. Are you logged in?"))
         return current_user, message

@@ -1,6 +1,10 @@
-from django.conf.urls import patterns, include, url
-from evesch.ecalendar.views import *
+from django.conf.urls import url
+from forum import views
 
-urlpatterns = patterns('',
-    url('^$', 'forum.views.forum_list', {'template_name':"forum/forum_list.html"}, name='forum_forum_list' ),
-)
+urlpatterns = [
+    url(
+        r'^$',
+        views.forum_list,
+        {'template_name': "forum/forum_list.html"},
+        name='forum_forum_list'),
+]

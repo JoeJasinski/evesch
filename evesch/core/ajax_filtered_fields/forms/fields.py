@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from django.forms.util import ValidationError
+from django.forms.utils import ValidationError
 from django.utils.translation import ugettext as _
 
 from ajax_filtered_fields.forms import FilteredSelectMultiple, FilteredSelect
 from ajax_filtered_fields import utils
+
 
 class AjaxManyToManyField(forms.ModelMultipleChoiceField):
     """
@@ -35,12 +36,12 @@ class AjaxManyToManyField(forms.ModelMultipleChoiceField):
         default_index: the index of the lookup sequence that will
             be the default choice when the field is initially displayed.
             set to None if you want the widget to start empty
-            
+
         select_related: if not None the resulting querydict is performed
             using select_related(select_related), allowing foreign keys
             to be retrieved (e.g. useful when the unicode representation 
             of the model objects contains references to foreign keys)
-            
+
         It is possible to pass all the other args and kwargs accepted by 
         the django field class.
         """
@@ -54,13 +55,13 @@ class AjaxManyToManyField(forms.ModelMultipleChoiceField):
             # get the queryset
             queryset = utils.getObjects(model, lookup_dict, select_related)
         # call the parent constructor
-        super(AjaxManyToManyField, self
-            ).__init__(queryset, widget=widget, *args, **kwargs)
+        super(AjaxManyToManyField, self).__init__(
+            queryset, widget=widget, *args, **kwargs)
         # populate widget with some data
         self.widget.lookups = self.lookups = lookups
         self.widget.model = self.model = model
         self.widget.select_related = select_related
-        
+
     def clean(self, value):
         if self.required and not value:
             raise ValidationError(self.error_messages['required'])
@@ -80,8 +81,8 @@ class AjaxManyToManyField(forms.ModelMultipleChoiceField):
             else:
                 final_values.append(obj)
         return final_values
-        
-            
+
+
 class AjaxForeignKeyField(forms.ModelChoiceField):
     """
     Base foreign key form field that display filter choices using
@@ -102,13 +103,13 @@ class AjaxForeignKeyField(forms.ModelChoiceField):
             # get the queryset
             queryset = utils.getObjects(model, lookup_dict, select_related)
         # call the parent constructor
-        super(AjaxForeignKeyField, self
-            ).__init__(queryset, widget=widget, *args, **kwargs)
+        super(AjaxForeignKeyField, self).__init__(
+            queryset, widget=widget, *args, **kwargs)
         # populate widget with some data
         self.widget.lookups = self.lookups = lookups
         self.widget.model = self.model = model
         self.widget.select_related = select_related
-        
+
     def clean(self, value):
         forms.Field.clean(self, value)
         if value in forms.fields.EMPTY_VALUES:
@@ -151,10 +152,11 @@ def _byLetterFactory(parent):
             # other non-letter records
             regex_lookup_key = "%s__iregex" % field_name
             lookups.append((_('other'), {regex_lookup_key: "^[^a-z]"}))
-        
+
             super(ByLetter, self).__init__(model, lookups, *args, **kwargs)
     return ByLetter
-    
+
+
 ManyToManyByLetter = _byLetterFactory(AjaxManyToManyField)
 ForeignKeyByLetter = _byLetterFactory(AjaxForeignKeyField)
 
@@ -186,6 +188,7 @@ def _byStatusFactory(parent):
                 )
             super(ByStatus, self).__init__(model, lookups, *args, **kwargs)
     return ByStatus
-    
+
+
 ManyToManyByStatus = _byStatusFactory(AjaxManyToManyField)
 ForeignKeyByStatus = _byStatusFactory(AjaxForeignKeyField)

@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from django.utils.translation import ugettext_lazy as _
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from evesch.core.lib import Message
@@ -8,6 +8,7 @@ from evesch.euser.models import get_current_user
 from evesch.org.models import Organization
 from evesch.event.models import EventType
 from evesch.report.forms import ReportFilterForm
+
 
 @login_required
 def org_reports(request,org_short_name, type='generic', template_name=None):
@@ -46,9 +47,11 @@ def org_reports(request,org_short_name, type='generic', template_name=None):
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
-            message = Message(title=_("Cannot Add Event"), text=_("You cannot add an event in an organization that you do not belong to."))
-            message.addlink(_("Back"),current_org.get_absolute_url())
-            context = {'message':message,}
+            message = Message(
+                title=_("Cannot Add Event"),
+                text=_("You cannot add an event in an organization that you do not belong to."))
+            message.addlink(_("Back"), current_org.get_absolute_url())
+            context = {'message': message}
     if not message:
         
         if type == 'user':
@@ -65,8 +68,7 @@ def org_reports(request,org_short_name, type='generic', template_name=None):
                     user_w.events.append(att.att_event)
                 org_w.users.append(user)
             
-                # needs more code here
-                
+                # TODO needs more code here
         elif type == 'eventtype':            
             type_display = _("Report grouped by Event Type")
             org_w = OrgWrapper()
@@ -87,11 +89,16 @@ def org_reports(request,org_short_name, type='generic', template_name=None):
             type_display = _("Report Types")
         
         # report code here
-        context = {'current_org':current_org,'org_w':org_w,'type':type,'type_display':type_display,'form':form}
+        context = {
+            'current_org': current_org,
+            'org_w': org_w,
+            'type': type,
+            'type_display': type_display,
+            'form': form}
     else:
         template_name = "core/message.html"
-        context = {'message':message }
-    return render_to_response(template_name,context,context_instance=RequestContext(request))
+        context = {'message': message}
+    return render(request, template_name, context)
 
 
 
