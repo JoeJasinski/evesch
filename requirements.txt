@@ -9,7 +9,6 @@ icalendar==4.0.3
 polib==1.1.0
 python-dateutil==2.8.0
 pytz==2019.1
-pylint
 requests==2.21
 six==1.12
 sqlparse==0.3.0

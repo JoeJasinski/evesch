@@ -213,3 +213,6 @@ LOGGING = {
         },
     }
 }
+
+
+TEST_RUNNER = 'evesch.runner.PytestTestRunner'

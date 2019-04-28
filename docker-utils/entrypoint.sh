@@ -22,6 +22,10 @@ elif [ "$1" == "lint" ]; then
     shift
     echo "Pylint"
     pylint ${SITE_DIR}proj/evesch/
+elif [ "$1" == "test" ]; then
+    shift
+    echo "Pytest"
+    pytest -vs --cov=evesch ${SITE_DIR}proj/evesch/
 else
     exec "$@"
 fi
