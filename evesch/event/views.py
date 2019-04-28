@@ -83,7 +83,7 @@ def event_add(request, org_short_name, template_name=None):
     if not message:
         show_dialog=False
         if request.method == 'POST':
-            form = EventForm(current_org,request.POST)
+            form = EventForm(current_org, request.POST)
             if form.is_valid():
                 current_event = form.save(commit=False)
                 current_event.event_creator_name = current_user
@@ -124,7 +124,7 @@ def event_add(request, org_short_name, template_name=None):
                     'current_org': current_org,
                     'org_short_name': org_short_name,
                     'error': "update",
-                    'show_dialog': show_dialog,}
+                    'show_dialog': show_dialog}
         else:
             form = EventForm(current_org)
             context = {

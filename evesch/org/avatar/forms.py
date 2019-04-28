@@ -8,7 +8,8 @@ def avatar_img(avatar, size):
     if not avatar.thumbnail_exists(size):
         avatar.create_thumbnail(size)
     return mark_safe("""<img src="%s" alt="%s" width="%s" height="%s" />""" % 
-        (avatar.avatar_url(size), unicode(avatar), size, ((size * 3) / 4)))
+        (avatar.avatar_url(size), str(avatar), size, ((size * 3) / 4)))
+
 
 class PrimaryAvatarForm(forms.Form):
     
@@ -21,6 +22,7 @@ class PrimaryAvatarForm(forms.Form):
             choices=[(c.id, avatar_img(c, size)) for c in org.avatar_set.all()],
             widget=widgets.RadioSelect)
 
+
 class DeleteAvatarForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
@@ -31,6 +33,7 @@ class DeleteAvatarForm(forms.Form):
         self.fields['choices'] = forms.MultipleChoiceField(label=_("Available Photos"),
             choices=[(c.id, avatar_img(c, size)) for c in org.avatar_set.all()],
             widget=widgets.CheckboxSelectMultiple)
+
 
 class UploadAvatarForm(forms.Form):
     avatar = forms.ImageField(required=False, label="Upload a photo")

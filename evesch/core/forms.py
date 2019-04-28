@@ -18,7 +18,7 @@ class CaptchaField(forms.CharField):
 
 class MessageForm(forms.Form):
     subject = forms.CharField(max_length=50)
-    body = forms.CharField(widget=forms.Textarea(attrs = {'cols': '45', 'rows': '5'}), max_length=512)
+    body = forms.CharField(widget=forms.Textarea(attrs={'cols': '45', 'rows': '5'}), max_length=512)
     
 class EveschLoginForm(forms.Form):
     username = forms.CharField()
@@ -44,7 +44,7 @@ class SignupForm(forms.Form):
 
     def clean_username(self):
         post_username = self.cleaned_data['username']
-        p = re.compile('^\w+$')
+        p = re.compile(r'^\w+$')
         if not p.match(post_username):
             raise forms.ValidationError(_("You must use only letters, numbers, or an underscore"))
         if eUser.objects.filter(username=post_username):

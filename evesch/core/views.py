@@ -28,7 +28,6 @@ KEYS = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 
 def index(request, template_name=None):
-    #raise AssertionError(request.user)
     if request.user.is_authenticated:
         try:
             current_user = get_user_model().objects.get(username=request.user)

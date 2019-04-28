@@ -13,7 +13,9 @@ class OrganizationForm(ModelForm):
     class Meta:
         model = Organization
         exclude = (
-            'org_date_created', 'org_feed_hash', 'org_active', )
+            'org_date_created',
+            'org_feed_hash',
+            'org_active', )
         
     def clean_org_short_name(self):
         org_short_name=self.cleaned_data['org_short_name']
