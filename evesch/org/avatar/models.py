@@ -24,19 +24,19 @@ class Avatar(models.Model):
         blank=True)
     date_uploaded = models.DateTimeField(
         default=datetime.datetime.now)
-    
+
     def __str__(self):
         return _('Avatar for {}'.format(self.org.org_short_name))
-    
+
     def save(self, force_insert=False, force_update=False):
         if self.primary:
             avatars = Avatar.objects.filter(org=self.org, primary=True).exclude(id=self.id)
             avatars.update(primary=False)
         super(Avatar, self).save(force_insert, force_update)
-    
+
     def thumbnail_exists(self, size):
         return self.avatar.storage.exists(self.avatar_name(size))
-    
+
     def create_thumbnail(self, size):
         try:
             orig = self.avatar.storage.open(self.avatar.name, 'rb').read()
@@ -44,16 +44,16 @@ class Avatar(models.Model):
         except IOError:
             return # What should we do here?  Render a "sorry, didn't work" img?
         (w, h) = image.size
-            
+
         width = size
         if w != width or h != ((width * 3) / 4):
             #if taller than ratio...
             if h / w > 0.75:
                 h1 = ((w * 3) / 4)
-                image = image.crop((0, (h / 2) - (h1 / 2), w, (h / 2) + (h1 / 2) ))
+                image = image.crop((0, (h / 2) - (h1 / 2), w, (h / 2) + (h1 / 2)))
             else:
                 w1 = ((h * 4) / 3)
-                image = image.crop(( ( w / 2 ) - (w1 / 2), 0, ( w / 2 ) + (w1 / 2), h ))
+                image = image.crop(((w / 2 ) - (w1 / 2), 0, (w / 2) + (w1 / 2), h))
             image = image.resize((width, ((width * 3) / 4)), AVATAR_RESIZE_METHOD)
         
             if image.mode != "RGB":
@@ -64,10 +64,10 @@ class Avatar(models.Model):
         else:
             thumb_file = ContentFile(orig)
         thumb = self.avatar.storage.save(self.avatar_name(size), thumb_file)
-    
+
     def avatar_url(self, size):
         return self.avatar.storage.url(self.avatar_name(size))
-    
+
     def avatar_name(self, size):
         return os.path.join(
             AVATAR_STORAGE_DIR, self.org.org_short_name,

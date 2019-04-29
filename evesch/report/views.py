@@ -11,39 +11,39 @@ from evesch.report.forms import ReportFilterForm
 
 
 @login_required
-def org_reports(request,org_short_name, type='generic', template_name=None):
+def org_reports(request, org_short_name, type='generic', template_name=None):
     min_event_date = datetime.today() - timedelta(120)
     max_event_date = datetime.date
-    if request.method == 'POST': 
+    if request.method == 'POST':
         form = ReportFilterForm(initial=request.POST)
         if form.is_valid():
             min_event_date = form.cleaned_data['min_event_date']
             max_event_date = form.cleaned_data['max_event_date']
-        raise AssertionError(str(min_event_date) + " " + str(max_event_date) )
+        raise AssertionError(str(min_event_date) + " " + str(max_event_date))
     else:
         form = ReportFilterForm()
-    
+
     class OrgWrapper(object):
         def __init__(self):
             eventtypes = []
             users = []
-            
+
     class EventTypeWrapper(object):
         def __init__(self):
             eventtype = None
             events = []
-    
+
     class UserWrapper(object):
         def __init__(self):
             user = None
             events = []
             attending = []
-            
+
     org_w = None
     current_org, message = Organization.objects.get_current_org(org_short_name)
-    if not message:    
+    if not message:
         current_user, message = get_current_user(request.user)
-    if not message:    
+    if not message:
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
@@ -53,7 +53,7 @@ def org_reports(request,org_short_name, type='generic', template_name=None):
             message.addlink(_("Back"), current_org.get_absolute_url())
             context = {'message': message}
     if not message:
-        
+    
         if type == 'user':
             type_display = _("Report grouped by User")
             org_w = OrgWrapper()
@@ -67,9 +67,9 @@ def org_reports(request,org_short_name, type='generic', template_name=None):
                     user_w.attending.append(att)
                     user_w.events.append(att.att_event)
                 org_w.users.append(user)
-            
+
                 # TODO needs more code here
-        elif type == 'eventtype':            
+        elif type == 'eventtype':
             type_display = _("Report grouped by Event Type")
             org_w = OrgWrapper()
             org_w.eventtypes = []
@@ -87,7 +87,7 @@ def org_reports(request,org_short_name, type='generic', template_name=None):
             type_display = _("Report grouped by Event")
         else:
             type_display = _("Report Types")
-        
+
         # report code here
         context = {
             'current_org': current_org,
@@ -99,6 +99,3 @@ def org_reports(request,org_short_name, type='generic', template_name=None):
         template_name = "core/message.html"
         context = {'message': message}
     return render(request, template_name, context)
-
-
-

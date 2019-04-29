@@ -10,12 +10,12 @@ KEYS = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 class UserGroupManager(models.Manager):
     def create_user_group(self, group_name, org_name, group_desc=None):
-        user_group = UserGroup(group_name=group_name, 
+        user_group = UserGroup(group_name=group_name,
                                org_name=org_name)
         user_group.group_desc = group_desc
         user_group.save()
         return user_group
-        
+
     def init_org_groups(self, org, user):
         admin_desc_text = ugettext("People in this group can administer the organization.")
         admin_group = UserGroup(
@@ -34,7 +34,7 @@ class UserGroupManager(models.Manager):
             group_name="Everyone Group",
             group_desc=coord_desc_text, group_removable=False,
             admin_org=False, coord_events=False, invite_users=False,
-            meta=1, org_name=org)        
+            meta=1, org_name=org)
         everyone_group.save()
         user.user_groups.add(admin_group)
         user.user_groups.add(event_coordinator_group)
@@ -54,14 +54,14 @@ class UserGroupManager(models.Manager):
             return current_usergroup, message
 
 class UserGroup(models.Model):
-    
+
     GROUP_META = (
         (0, 'None'),
         (1, 'Everyone'),
     )
 
     group_name = models.CharField(
-        max_length=40,)
+        max_length=40)
     group_hash = models.SlugField(
         max_length=16)
     group_desc = models.TextField(blank=True, null=True)
@@ -75,12 +75,12 @@ class UserGroup(models.Model):
     objects = UserGroupManager()
 
     def __str__(self):
-        return "%s - %s - %s" % (
+        return "{} - {} - {}".format(
             self.org_name.org_short_name, self.group_name, self.group_hash)
-    
+
     def __int__(self):
         return self.pk
-    
+
     def get_members(self):
         if self.meta == 1:
             return self.org_name.get_members()
@@ -91,8 +91,8 @@ class UserGroup(models.Model):
         return reverse(
             'egroup_group_view',
             kwargs={'org_short_name': self.org_name.org_short_name,
-                    'group_hash': self.group_hash,})
-    
+                    'group_hash': self.group_hash})
+
     def save(self):
         if not self.id:
             self.group_hash = "".join(sample(KEYS, 16))

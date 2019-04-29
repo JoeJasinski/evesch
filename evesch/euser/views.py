@@ -18,7 +18,7 @@ from evesch.core.lib import Message
 
 
 @login_required
-def user_view(request,username, template_name=None):
+def user_view(request, username, template_name=None):
     current_user, message = get_current_user(username)
     if not message:
         if request.user.id == current_user.id:
@@ -37,30 +37,36 @@ def user_settings(request, template_name=None):
     quick_message = ""
     current_user, message = get_current_user(request.user)
     if not message:
-        show_dialog=False
+        show_dialog = False
         if request.method == 'POST':
-                form = UserForm(request.POST, instance=current_user)
-                if form.is_valid():
-                    form.save()
-                    message = Message(
-                        title=_("Settings Saved"),
-                        text=_("Settings Saved"))
-                    message.addlink(_("View"), reverse('euser_user_view', kwargs={'username': current_user.username,}))
-                    message.addlink(_("Edit"), reverse('euser_user_settings'))
-                    quick_message = _("Saved")
-                    if request.POST.get("dialog", '') == "False":
-                        template_name = "core/message.html"
-                        show_dialog=False
-                    else:
-                        show_dialog=True
+            form = UserForm(request.POST, instance=current_user)
+            if form.is_valid():
+                form.save()
+                message = Message(
+                    title=_("Settings Saved"),
+                    text=_("Settings Saved"))
+                message.addlink(
+                    _("View"),
+                    reverse(
+                        'euser_user_view',
+                        kwargs={'username': current_user.username}))
+                message.addlink(
+                    _("Edit"),
+                    reverse('euser_user_settings'))
+                quick_message = _("Saved")
+                if request.POST.get("dialog", '') == "False":
+                    template_name = "core/message.html"
+                    show_dialog = False
+                else:
+                    show_dialog = True
         else:
-                form = UserForm(instance=current_user)
+            form = UserForm(instance=current_user)
         context = {
             'current_user': current_user,
             'form': form,
             'quick_message': quick_message,
             'message': message,
-            'show_dialog': show_dialog,}
+            'show_dialog': show_dialog}
     else:
         template_name = "core/message.html"
         context = {'message': message}
@@ -71,31 +77,38 @@ def user_settings(request, template_name=None):
 @login_required
 def lookup_users(request, org_short_name=None, template_name=None):
     users = []
-    
+
     if org_short_name:
         current_user, message = get_current_user(request.user)
         if not message:
             current_org, message = Organization.objects.get_current_org(org_short_name)
         if not message:
-            operms = current_org.org_perms(current_user) 
+            operms = current_org.org_perms(current_user)
             if not operms['is_memberof_org']:
                 message = Message(
                     title=_("Cannot View Group"),
                     text=_("You are not a member of this org"))
         if not message:
-            if 'q' in request.GET: 
+            if 'q' in request.GET:
                 try:
                     q = request.GET['q']
-                    users = (current_org.get_invited_users() | current_org.get_members()).filter(Q(username__icontains=q) | Q(last_name__icontains=q) | Q(first_name__icontains=q)).order_by('username')[:10]
+                    users = (current_org.get_invited_users() |
+                             current_org.get_members()).filter(
+                                 Q(username__icontains=q) |
+                                 Q(last_name__icontains=q) |
+                                 Q(first_name__icontains=q)).order_by('username')[:10]
                 except ValueError:
-                    pass              
+                    pass
     else:
-        if 'q' in request.GET: 
+        if 'q' in request.GET:
             try:
                 q = request.GET['q']
-                users = get_user_model().objects.filter(Q(username__icontains=q) | Q(last_name__icontains=q) | Q(first_name__icontains=q)).order_by('username')[:10]
+                users = get_user_model().objects.filter(
+                    Q(username__icontains=q) |
+                    Q(last_name__icontains=q) |
+                    Q(first_name__icontains=q)).order_by('username')[:10]
             except ValueError:
                 pass
-    
-    context = {'users': users,}
+
+    context = {'users': users}
     return render(request, template_name, context)

@@ -7,7 +7,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from evesch.org.models import Organization
+from evesch.org.decorators import org_required
 from evesch.event.models import Event
+
 
 calendar.setfirstweekday(6)
 
@@ -22,12 +24,12 @@ class MonthDay(object):
         return "%s" % (self.date)
 
 
-def calendar_monthly_view(request, template_name, org_short_name):
+@org_required
+def calendar_monthly_view(request, message, current_org, template_name=None):
 
-    current_org, message = Organization.objects.get_current_org(org_short_name)
     if message:
         template_name = "core/message.html"
-        context = {'message':message,}
+        context = {'message': message}
         return render(request, template_name, context)
 
     date_validate_error = False
@@ -49,7 +51,7 @@ def calendar_monthly_view(request, template_name, org_short_name):
                     kwargs={'org_short_name': current_org.org_short_name}))
     else:
         month_cursor = datetime.now()
-        
+
     month_next = month_cursor.month + 1
     month_prev = month_cursor.month - 1
     year_next = month_cursor.year
@@ -74,23 +76,26 @@ def calendar_monthly_view(request, template_name, org_short_name):
             monthday.events = events.filter(event_date__day=day)
             weeklist.append(monthday)
         monthcal.append(weeklist)
-    context = {'monthcal': monthcal, "current_org": current_org,
+    context = {'monthcal': monthcal,
+               "current_org": current_org,
                'month': month_cursor,
-               'month_prev': month_prev, 'month_next': month_next,
-               'year_prev': year_prev, 'year_next': year_next}
+               'month_prev': month_prev,
+               'month_next': month_next,
+               'year_prev': year_prev,
+               'year_next': year_next}
     return render(request, template_name, context)
 
 
-def calendar_daily_view(request, template_name, org_short_name):
+@org_required
+def calendar_daily_view(request, message, current_org, template_name=None):
 
-    current_org, message = Organization.objects.get_current_org(org_short_name)
     if message:
         template_name = "core/message.html"
         context = {'message': message}
         return render(request, template_name, context)
-            
+
     date_validate_error = False
-    if request.GET.__contains__("month") and request.GET.__contains__("year") and request.GET.__contains__("day"): 
+    if 'month' in request.GET and 'year' in request.GET and 'day' in request.GET:
         try:
             month = int(request.GET['month'])
             year = int(request.GET['year'])
@@ -106,8 +111,9 @@ def calendar_daily_view(request, template_name, org_short_name):
             date_validate_error = True
         if date_validate_error:
             return HttpResponseRedirect(
-                reverse('ecalendar_calendar_daily_view',
-                        kwargs={'org_short_name': current_org.org_short_name,}))
+                reverse(
+                    'ecalendar_calendar_daily_view',
+                    kwargs={'org_short_name': current_org.org_short_name}))
     else:
         day_cursor = datetime.now()
 
@@ -128,20 +134,25 @@ def calendar_daily_view(request, template_name, org_short_name):
         month_prev = 12
         year_prev = year_prev - 1
     events = current_org.get_events().filter(
-        event_date__year=day_cursor.year, 
-        event_date__month=day_cursor.month, 
-        event_date__day=day_cursor.day,).order_by('event_name')   
+        event_date__year=day_cursor.year,
+        event_date__month=day_cursor.month,
+        event_date__day=day_cursor.day,).order_by('event_name')
 
     context = {
-        'events': events, "current_org": current_org, 'day': day_cursor,
-        'month_prev': month_prev, 'month_next': month_next,
-        'year_prev': year_prev, 'year_next': year_next,
-        'day_prev': day_prev, 'day_next': day_next, }
+        'events': events,
+        "current_org": current_org,
+        'day': day_cursor,
+        'month_prev': month_prev,
+        'month_next': month_next,
+        'year_prev': year_prev,
+        'year_next': year_next,
+        'day_prev': day_prev,
+        'day_next': day_next}
     return render(request, template_name, context)
 
 
-def calendar_default_view(request, org_short_name):
-    current_org, message = Organization.objects.get_current_org(org_short_name)
+@org_required
+def calendar_default_view(request, message, current_org, template_name=None):
     if not message:
         return HttpResponseRedirect(
             reverse(

@@ -12,389 +12,394 @@ from django.conf import settings
 
 #from django.contrib.auth.models import User
 
-KEYS='1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+KEYS = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 
 class EventTypeManager(models.Manager):
-	def create_eventtype(self, type_name, org_name, type_desc=None, type_color=None):
-		if EventType.objects.filter(type_name=type_name, org_name=org_name, type_active=True).count() < 1:
-			event_type = EventType(type_name=type_name, org_name=org_name)
-			event_type.type_desc = type_desc
-			event_type.type_color = type_color
-			event_type.save()
-			return event_type
-		else:
-			raise EventTypeExistsException('Type already exists')
-	
-	def init_event_types(self, org_name):
-		return self.create_eventtype("Default", org_name, "Default Type", "FF0000")
-		
+    def create_eventtype(self, type_name, org_name, type_desc=None, type_color=None):
+        if EventType.objects.filter(type_name=type_name, org_name=org_name, type_active=True).count() < 1:
+            event_type = EventType(type_name=type_name, org_name=org_name)
+            event_type.type_desc = type_desc
+            event_type.type_color = type_color
+            event_type.save()
+            return event_type
+        else:
+            raise EventTypeExistsException('Type already exists')
+
+    def init_event_types(self, org_name):
+        return self.create_eventtype("Default", org_name, "Default Type", "FF0000")
+
 
 class EventType(models.Model):
-	type_name = models.CharField(
-		db_column = "type_name",
-		verbose_name=_("Event Type"),
-		#db_index=True,
-		unique=False,
-		max_length=32)
-	type_hash = models.CharField(
-		db_column = "type_hash",
-		verbose_name=_("Event Type Hash"),
-		db_index=True,
-		unique=True,
-		max_length=8,)
-	type_desc = models.CharField(
-		db_column = "type_desc",
-		verbose_name=_("Event Type Description"),
-		max_length=256, 
-		blank=True, null=True)
-	type_color = models.CharField(
-		verbose_name=_("Event Type Color"),
-		max_length=15, 
-		blank=True, null=True)
-	type_track_hours = models.BooleanField(
-		db_column="type_track_hours",
-		verbose_name=_("Track Hours for events of this type?"),
-		default = False)
-	org_name = models.ForeignKey(Organization, on_delete=models.CASCADE)
-	type_active = models.BooleanField(
-		verbose_name = _("Event Type Enabled"),
-		help_text = _("Has the event been disabled?"),
-		default=True)
-	objects = EventTypeManager()
-    
-	def contrast(self):
-	   return text_vs_bg(self.type_color)
+    type_name = models.CharField(
+        db_column="type_name",
+        verbose_name=_("Event Type"),
+        #db_index=True,
+        unique=False,
+        max_length=32)
+    type_hash = models.CharField(
+        db_column="type_hash",
+        verbose_name=_("Event Type Hash"),
+        db_index=True,
+        unique=True,
+        max_length=8,)
+    type_desc = models.CharField(
+        db_column="type_desc",
+        verbose_name=_("Event Type Description"),
+        max_length=256,
+        blank=True, null=True)
+    type_color = models.CharField(
+        verbose_name=_("Event Type Color"),
+        max_length=15,
+        blank=True, null=True)
+    type_track_hours = models.BooleanField(
+        db_column="type_track_hours",
+        verbose_name=_("Track Hours for events of this type?"),
+        default=False)
+    org_name = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    type_active = models.BooleanField(
+        verbose_name=_("Event Type Enabled"),
+        help_text=_("Has the event been disabled?"),
+        default=True)
+    objects = EventTypeManager()
 
-	def save(self, *args, **kwargs):
-		if not self.id:
-			self.type_hash =  "".join(sample(KEYS,8))
-		super(EventType, self).save(*args, **kwargs)
-		
-	objects = EventTypeManager()
+    def contrast(self):
+       return text_vs_bg(self.type_color)
 
-	def get_events(self):
-		if not hasattr(self, '_events'):
-			self._events = self.event_set.filter(event_active=True)
-		return self._events
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.type_hash = "".join(sample(KEYS, 8))
+        super(EventType, self).save(*args, **kwargs)
 
-	#class Meta:
-	#	db_table="EventTypes"
+    objects = EventTypeManager()
 
-	def __str__(self):
-		return "%s" % (self.type_name)
-	
+    def get_events(self):
+        if not hasattr(self, '_events'):
+            self._events = self.event_set.filter(event_active=True)
+        return self._events
+
+    def __str__(self):
+        return "%s" % (self.type_name)
+
+
 class EventManager(models.Manager):
-	def create_event(self, event_name,event_creator_name,
-					 event_org,event_type,event_date):
-		event = Event(event_name=event_name,
-					  event_creator_name=event_creator_name,
-					  event_org=event_org,
-					  event_type=event_type,
-					  event_date=event_date)
-		return event
+    def create_event(self, event_name, event_creator_name,
+                     event_org, event_type, event_date):
+        event = Event(event_name=event_name,
+                      event_creator_name=event_creator_name,
+                      event_org=event_org,
+                      event_type=event_type,
+                      event_date=event_date)
+        return event
 
 
 COLUMN_TYPES = (
-	(0,'Textbox'),
-	(1,'Checkbox'),
-	(2,'Dropdown'),
-	(3,'Number'),
+    (0, 'Textbox'),
+    (1, 'Checkbox'),
+    (2, 'Dropdown'),
+    (3, 'Number'),
 )
 
 class Event(models.Model):
-	event_name = models.CharField(
-		verbose_name=_("Event Name"),
-		db_index=True,
-		max_length=64)
-	event_hash = models.CharField(
-		verbose_name=_("Event Hash"),
-		db_index=True,
-		unique=True,
-		max_length=8,)
-	event_active = models.NullBooleanField(
-		verbose_name=_("Does the Event Exist?"),
-		default = True, blank=True, null=True)
-	event_open = models.BooleanField(
-		verbose_name=_("Event open to Add Attendees"),
-		default=True)
-	event_signup_deadline = models.DateTimeField(
-		verbose_name = _("Date that you must register by."),
-		blank=True, null=True)
-	event_date = models.DateTimeField(
-		db_index=True,
-		verbose_name=_("Date and Time of Event"))
-	event_creator_name = models.ForeignKey(
-		settings.AUTH_USER_MODEL,
-		on_delete=models.CASCADE,
-		verbose_name=_("Event Creator"), related_name="event_creator")
-	event_created_date = models.DateTimeField(
-		verbose_name=_("Event Created Date"),
-		null=True, auto_now_add=True)
-	event_desc = models.CharField(
-		default="",
-		verbose_name=_("Event Description"),
-		max_length=512, blank=True, null=True)
-	event_max_attendees = models.IntegerField(
-		verbose_name=_("Maximum Number of Addendees"),
-		blank=True, null=True)
-	event_priority = models.IntegerField(
-		verbose_name=_("Event Priority"),
-		blank=True, null=True)	
-	event_type = models.ForeignKey(
-		EventType,
-		on_delete=models.CASCADE,
-		verbose_name=_("Type of Event"))
-	event_org = models.ForeignKey(
-		Organization,
-		on_delete=models.CASCADE,
-		verbose_name=_("Organization Sponsoring the Event"))
-	event_coordinators = models.ManyToManyField(settings.AUTH_USER_MODEL,
-		verbose_name=_("Event Coordinators"))
-	event_track_hours = models.BooleanField(
-		verbose_name=_("Should we track the hours attendees spend at events?"),
-		default=False)
-	att_header_col1 = models.CharField(
-		max_length=20, verbose_name=_("Column 1 Header"),
-		blank=True, null=True,)
-	att_require_col1 = models.BooleanField(
-		_('Required'), default=False)
-	att_type_col1 = models.IntegerField(
-		_("Custom Field Type 1"),
-		default=0, choices=COLUMN_TYPES)
-	att_type_drop_col1 = models.CharField(
-		_("Custom Field Type 1 Dropdown"),
-		blank=True, null=True, max_length=255)
+    event_name = models.CharField(
+        verbose_name=_("Event Name"),
+        db_index=True,
+        max_length=64)
+    event_hash = models.CharField(
+        verbose_name=_("Event Hash"),
+        db_index=True,
+        unique=True,
+        max_length=8)
+    event_active = models.NullBooleanField(
+        verbose_name=_("Does the Event Exist?"),
+        default=True, blank=True, null=True)
+    event_open = models.BooleanField(
+        verbose_name=_("Event open to Add Attendees"),
+        default=True)
+    event_signup_deadline = models.DateTimeField(
+        verbose_name=_("Date that you must register by."),
+        blank=True, null=True)
+    event_date = models.DateTimeField(
+        db_index=True,
+        verbose_name=_("Date and Time of Event"))
+    event_creator_name = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name=_("Event Creator"), related_name="event_creator")
+    event_created_date = models.DateTimeField(
+        verbose_name=_("Event Created Date"),
+        null=True, auto_now_add=True)
+    event_desc = models.CharField(
+        default="",
+        verbose_name=_("Event Description"),
+        max_length=512, blank=True, null=True)
+    event_max_attendees = models.IntegerField(
+        verbose_name=_("Maximum Number of Addendees"),
+        blank=True, null=True)
+    event_priority = models.IntegerField(
+        verbose_name=_("Event Priority"),
+        blank=True, null=True)
+    event_type = models.ForeignKey(
+        EventType,
+        on_delete=models.CASCADE,
+        verbose_name=_("Type of Event"))
+    event_org = models.ForeignKey(
+        Organization,
+        on_delete=models.CASCADE,
+        verbose_name=_("Organization Sponsoring the Event"))
+    event_coordinators = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        verbose_name=_("Event Coordinators"))
+    event_track_hours = models.BooleanField(
+        verbose_name=_("Should we track the hours attendees spend at events?"),
+        default=False)
+    att_header_col1 = models.CharField(
+        max_length=20, verbose_name=_("Column 1 Header"),
+        blank=True, null=True,)
+    att_require_col1 = models.BooleanField(
+        _('Required'), default=False)
+    att_type_col1 = models.IntegerField(
+        _("Custom Field Type 1"),
+        default=0, choices=COLUMN_TYPES)
+    att_type_drop_col1 = models.CharField(
+        _("Custom Field Type 1 Dropdown"),
+        blank=True, null=True, max_length=255)
 
-	att_header_col2 = models.CharField(
-		max_length=20, verbose_name=_("Column 2 Header"),
-		blank=True, null=True)
-	att_require_col2 = models.BooleanField(
-		_('Required'), default=False)
-	att_type_col2 = models.IntegerField(
-		_("Custom Field Type 2"), default=0, choices=COLUMN_TYPES)
-	att_type_drop_col2 = models.CharField(
-		_("Custom Field Type 2 Dropdown"),
-		blank=True, null=True, max_length=255)
-	
-	att_header_col3 = models.CharField(
-		max_length=20, verbose_name=_("Column 3 Header"),
-		blank=True, null=True,)
-	att_require_col3 = models.BooleanField(
-		_('Required'), default=False)
-	att_type_col3 = models.IntegerField(
-		_("Custom Field Type 3"), default=0, choices=COLUMN_TYPES)
-	att_type_drop_col3 = models.CharField(
-		_("Custom Field Type 3 Dropdown"),
-		blank=True, null=True, max_length=255)
-	
-	att_header_col4 = models.CharField(
-		max_length=20, verbose_name=_("Column 4 Header"),
-		blank=True, null=True,)
-	att_require_col4 = models.BooleanField(
-		_('Required'), default=False)
-	att_type_col4 = models.IntegerField(
-		_("Custom Field Type 4"), default=0, choices=COLUMN_TYPES)
-	att_type_drop_col4 = models.CharField(
-		_("Custom Field Type 4 Dropdown"),
-		blank=True, null=True, max_length=255)
-	
-	att_header_col5 = models.CharField(
-		max_length=20, verbose_name=_("Column 5 Header"),
-		blank=True, null=True,)
-	att_require_col5 = models.BooleanField(
-		_('Required'), default=False)
-	att_type_col5 = models.IntegerField(
-		_("Custom Field Type 5"), default=0, choices=COLUMN_TYPES)
-	att_type_drop_col5 = models.CharField(
-		_("Custom Field Type 5 Dropdown"),
-		blank=True, null=True, max_length=255)
-	
-	att_header_col6 = models.CharField(
-		max_length=20, verbose_name=_("Column 6 Header"),
-		blank=True, null=True,)	
-	att_require_col6 = models.BooleanField(
-		_('Required'), default=False)
-	att_type_col6 = models.IntegerField(
-		_("Custom Field Type 6"), default=0, choices=COLUMN_TYPES)
-	att_type_drop_col6 = models.CharField(
-		_("Custom Field Type 6 Dropdown"),
-		blank=True, null=True, max_length=255)
-	
-	objects = EventManager()
+    att_header_col2 = models.CharField(
+        max_length=20, verbose_name=_("Column 2 Header"),
+        blank=True, null=True)
+    att_require_col2 = models.BooleanField(
+        _('Required'), default=False)
+    att_type_col2 = models.IntegerField(
+        _("Custom Field Type 2"), default=0, choices=COLUMN_TYPES)
+    att_type_drop_col2 = models.CharField(
+        _("Custom Field Type 2 Dropdown"),
+        blank=True, null=True, max_length=255)
 
-	def is_within_signup_deadline(self):
-		if self.event_signup_deadline < datetime.now():
-			return False
-		else:
-			return True
-	
-	def is_past(self):
-		if self.event_date < datetime.now():
-			return False
-		else:
-			return True
+    att_header_col3 = models.CharField(
+        max_length=20, verbose_name=_("Column 3 Header"),
+        blank=True, null=True,)
+    att_require_col3 = models.BooleanField(
+        _('Required'), default=False)
+    att_type_col3 = models.IntegerField(
+        _("Custom Field Type 3"), default=0, choices=COLUMN_TYPES)
+    att_type_drop_col3 = models.CharField(
+        _("Custom Field Type 3 Dropdown"),
+        blank=True, null=True, max_length=255)
 
-	def __str__(self):
-		return "{}".format(self.event_name)
-	
-	def get_attendees(self):
-		return self.attendee_set.all()
-	
-	def get_attendee_count(self):
-		return self.attendee_set.count()
-	
-	def get_event_coordinators(self):
-		return self.event_coordinators.all()
+    att_header_col4 = models.CharField(
+        max_length=20, verbose_name=_("Column 4 Header"),
+        blank=True, null=True,)
+    att_require_col4 = models.BooleanField(
+        _('Required'), default=False)
+    att_type_col4 = models.IntegerField(
+        _("Custom Field Type 4"), default=0, choices=COLUMN_TYPES)
+    att_type_drop_col4 = models.CharField(
+        _("Custom Field Type 4 Dropdown"),
+        blank=True, null=True, max_length=255)
 
-	def is_attending(self, user):
-		return self.attendee_set.filter(att_name=user)
-	
-	def is_event_coordinator(self,user):
-		return self.event_coordinators.filter(username=user)
+    att_header_col5 = models.CharField(
+        max_length=20, verbose_name=_("Column 5 Header"),
+        blank=True, null=True,)
+    att_require_col5 = models.BooleanField(
+        _('Required'), default=False)
+    att_type_col5 = models.IntegerField(
+        _("Custom Field Type 5"), default=0, choices=COLUMN_TYPES)
+    att_type_drop_col5 = models.CharField(
+        _("Custom Field Type 5 Dropdown"),
+        blank=True, null=True, max_length=255)
 
-	def is_creator(self,user):
-		if self.event_creator_name.id == user.id:
-			return True
-		else:
-		    return False
-	
-	def get_absolute_url(self):
-		return reverse(
-			'event_event_view',
-			kwargs={'org_short_name': self.event_org.org_short_name,
-			        'event_hash': self.event_hash})
-	
-	def is_additional_signup_info(self):
-		return self.att_header_col1 or self.att_header_col2 or self.att_header_col3 or self.att_header_col4 or self.att_header_col5 or self.att_header_col6 or self.event_track_hours
-	
-	def event_perms(self, user):
-		permissions = {
-	        'can_remove_event': False,
-	        'can_edit_event': False,
-	        'can_join_event': True,
-	        'is_attending_event': False,
-	        'can_message_event': False,
-	    }
-		operms = self.event_org.org_perms(user)
-		permissions['is_attending_event'] = self.is_attending(user)
-		if user.is_superuser == 1:
-			if operms['is_memberof_org']:
-				permissions['can_remove_event'] = True
-				permissions['can_edit_event'] = True
-				permissions['can_message_event'] = True
-				permissions['can_join_event'] = True
-		if self.event_org.get_admin_users().filter(id=user.id):
-			if operms['is_memberof_org']:
-				permissions['can_remove_event'] = True
-				permissions['can_edit_event'] = True
-				permissions['can_message_event'] = True
-				permissions['can_join_event'] = True		    	
-		else: 
-			if operms['is_memberof_org']:
-				permissions['can_remove_event'] = self.is_event_coordinator(user) or self.is_creator(user)
-				permissions['can_edit_event'] = self.is_event_coordinator(user) or self.is_creator(user)
-				permissions['can_message_event'] = permissions['is_attending_event']
+    att_header_col6 = models.CharField(
+        max_length=20, verbose_name=_("Column 6 Header"),
+        blank=True, null=True,)
+    att_require_col6 = models.BooleanField(
+        _('Required'), default=False)
+    att_type_col6 = models.IntegerField(
+        _("Custom Field Type 6"), default=0, choices=COLUMN_TYPES)
+    att_type_drop_col6 = models.CharField(
+        _("Custom Field Type 6 Dropdown"),
+        blank=True, null=True, max_length=255)
 
-		return permissions
-	
-	
-	def save(self, *args, **kwargs):
-		if not self.id:
-			self.event_hash = "".join(sample(KEYS,8))
-			if not self.event_desc:
-				self.event_desc = ""	
-		if not self.event_signup_deadline:
-			self.event_signup_deadline = self.event_date
-		super(Event, self).save(*args, **kwargs)
+    objects = EventManager()
+
+    def is_within_signup_deadline(self):
+        if self.event_signup_deadline < datetime.now():
+            return False
+        else:
+            return True
+
+    def is_past(self):
+        if self.event_date < datetime.now():
+            return False
+        else:
+            return True
+
+    def __str__(self):
+        return "{}".format(self.event_name)
+
+    def get_attendees(self):
+        return self.attendee_set.all()
+
+    def get_attendee_count(self):
+        return self.attendee_set.count()
+    
+    def get_event_coordinators(self):
+        return self.event_coordinators.all()
+
+    def is_attending(self, user):
+        return self.attendee_set.filter(att_name=user)
+
+    def is_event_coordinator(self, user):
+        return self.event_coordinators.filter(username=user)
+
+    def is_creator(self, user):
+        if self.event_creator_name.id == user.id:
+            return True
+        else:
+            return False
+
+    def get_absolute_url(self):
+        return reverse(
+            'event_event_view',
+            kwargs={'org_short_name': self.event_org.org_short_name,
+                    'event_hash': self.event_hash})
+
+    def is_additional_signup_info(self):
+        return (
+            self.att_header_col1 or
+            self.att_header_col2 or
+            self.att_header_col3 or
+            self.att_header_col4 or
+            self.att_header_col5 or
+            self.att_header_col6 or
+            self.event_track_hours)
+
+    def event_perms(self, user):
+        permissions = {
+            'can_remove_event': False,
+            'can_edit_event': False,
+            'can_join_event': True,
+            'is_attending_event': False,
+            'can_message_event': False,
+        }
+        operms = self.event_org.org_perms(user)
+        permissions['is_attending_event'] = self.is_attending(user)
+        if user.is_superuser == 1:
+            if operms['is_memberof_org']:
+                permissions['can_remove_event'] = True
+                permissions['can_edit_event'] = True
+                permissions['can_message_event'] = True
+                permissions['can_join_event'] = True
+        if self.event_org.get_admin_users().filter(id=user.id):
+            if operms['is_memberof_org']:
+                permissions['can_remove_event'] = True
+                permissions['can_edit_event'] = True
+                permissions['can_message_event'] = True
+                permissions['can_join_event'] = True
+        else: 
+            if operms['is_memberof_org']:
+                permissions['can_remove_event'] = self.is_event_coordinator(user) or self.is_creator(user)
+                permissions['can_edit_event'] = self.is_event_coordinator(user) or self.is_creator(user)
+                permissions['can_message_event'] = permissions['is_attending_event']
+
+        return permissions
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.event_hash = "".join(sample(KEYS, 8))
+            if not self.event_desc:
+                self.event_desc = ""
+        if not self.event_signup_deadline:
+            self.event_signup_deadline = self.event_date
+        super(Event, self).save(*args, **kwargs)
 
 
 class AttendeeManager(models.Manager):
-	def exists(self, attendee):
-		pass
+    def exists(self, attendee):
+        pass
 
 
 class Attendee(models.Model):
-	att_name = models.ForeignKey(
-		settings.AUTH_USER_MODEL,
-		on_delete=models.CASCADE,
-		verbose_name=_("User Attending"))
-	att_event = models.ForeignKey(
-		Event,
-		on_delete=models.CASCADE,
-		verbose_name=_("Event to Attend"))
-	att_added_date = models.DateTimeField(
-		db_column="att_added_date",
-		verbose_name=_("Register Date"), 
-		auto_now_add=True)
-	att_ip = models.GenericIPAddressField(
-		db_column="att_ip",
-		verbose_name=_("Attendee IP Address"),
-		blank=True, null=True)
-	att_hours = models.FloatField(
-		db_column="att_hours",
-		verbose_name=_("Attendee Hours"),
-		blank=True, null=True)
-	att_col1 = models.CharField(
-		max_length=20,
-		verbose_name=_("Column 1"),
-		blank=True, null=True)
-	att_col2 = models.CharField(
-		max_length=20,
-		verbose_name=_("Column 2"),
-		blank=True, null=True)
-	att_col3 = models.CharField(
-		max_length=20,
-		verbose_name=_("Column 3"),
-		blank=True, null=True)
-	att_col4 = models.CharField(
-		max_length=20,
-		verbose_name=_("Column 4"),
-		blank=True, null=True)
-	att_col5 = models.CharField(
-		max_length=20,
-		verbose_name=_("Column 5"),
-		blank=True, null=True)
-	att_col6 = models.CharField(
-		max_length=20,
-		verbose_name=_("Column 6"),
-		blank=True, null=True)
+    att_name = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name=_("User Attending"))
+    att_event = models.ForeignKey(
+        Event,
+        on_delete=models.CASCADE,
+        verbose_name=_("Event to Attend"))
+    att_added_date = models.DateTimeField(
+        db_column="att_added_date",
+        verbose_name=_("Register Date"), 
+        auto_now_add=True)
+    att_ip = models.GenericIPAddressField(
+        db_column="att_ip",
+        verbose_name=_("Attendee IP Address"),
+        blank=True, null=True)
+    att_hours = models.FloatField(
+        db_column="att_hours",
+        verbose_name=_("Attendee Hours"),
+        blank=True, null=True)
+    att_col1 = models.CharField(
+        max_length=20,
+        verbose_name=_("Column 1"),
+        blank=True, null=True)
+    att_col2 = models.CharField(
+        max_length=20,
+        verbose_name=_("Column 2"),
+        blank=True, null=True)
+    att_col3 = models.CharField(
+        max_length=20,
+        verbose_name=_("Column 3"),
+        blank=True, null=True)
+    att_col4 = models.CharField(
+        max_length=20,
+        verbose_name=_("Column 4"),
+        blank=True, null=True)
+    att_col5 = models.CharField(
+        max_length=20,
+        verbose_name=_("Column 5"),
+        blank=True, null=True)
+    att_col6 = models.CharField(
+        max_length=20,
+        verbose_name=_("Column 6"),
+        blank=True, null=True)
 
-	objects = AttendeeManager()
-	
-	#def is_registered(self, user, event):
-	#	try: 
-	#		self.objects.get(att_name=user,att_event=event)
-	#		return True
-	#	except:
-	#		return False
+    objects = AttendeeManager()
 
-	def is_attending(self, user):
-		return self.att_name.id == user.id
+    #def is_registered(self, user, event):
+    #	try: 
+    #		self.objects.get(att_name=user,att_event=event)
+    #		return True
+    #	except:
+    #		return False
 
-	def __str__(self):
-		return "{}".format(self.att_name)
+    def is_attending(self, user):
+        return self.att_name.id == user.id
 
-	#def display_users(self):
-	#	return "%s - %s" % (threadlocals.get_current_user().user.id, self.att_name.id)
+    def __str__(self):
+        return "{}".format(self.att_name)
 
-	def att_perms(self, user):
-		permissions = {
-	        'can_remove_attendee':False,  
-	        'can_remove_attendee_after_event':False,         
-	    }
+    #def display_users(self):
+    #	return "%s - %s" % (threadlocals.get_current_user().user.id, self.att_name.id)
 
-		event = self.att_event
+    def att_perms(self, user):
+        permissions = {
+            'can_remove_attendee':False,
+            'can_remove_attendee_after_event':False,
+        }
 
-		if user.is_superuser == 1:
-			permissions['can_remove_attendee'] = True
-			permissions['can_remove_attendee_after_event'] = True
-		elif event.event_org.get_admin_users().filter(id=user.id):
-			permissions['can_remove_attendee'] = True
-			permissions['can_remove_attendee_after_event'] = True
-		elif event.is_creator(user) or event.is_event_coordinator(user):
-			permissions['can_remove_attendee'] = True
-			permissions['can_remove_attendee_after_event'] = True
-		else:
-			permissions['can_remove_attendee'] = self.is_attending(user)
-		return permissions
+        event = self.att_event
+
+        if user.is_superuser == 1:
+            permissions['can_remove_attendee'] = True
+            permissions['can_remove_attendee_after_event'] = True
+        elif event.event_org.get_admin_users().filter(id=user.id):
+            permissions['can_remove_attendee'] = True
+            permissions['can_remove_attendee_after_event'] = True
+        elif event.is_creator(user) or event.is_event_coordinator(user):
+            permissions['can_remove_attendee'] = True
+            permissions['can_remove_attendee_after_event'] = True
+        else:
+            permissions['can_remove_attendee'] = self.is_attending(user)
+        return permissions

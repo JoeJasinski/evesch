@@ -6,7 +6,7 @@ urlpatterns = [
     url(r'^(?P<username>\w{1,30})/$',
         views.user_view,
         {'template_name': 'euser/user_view.html'},
-        name='euser_user_view'),    
+        name='euser_user_view'),
     url(r'^ajax/lookup_users/$',
         views.lookup_users,
         {'template_name': 'euser/ajax/lookup_users.html'},
