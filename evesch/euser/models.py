@@ -147,7 +147,7 @@ class eUser(AbstractUser):
         super(eUser, self).save(*args, **kwargs)
 
     class Meta:
-        verbose_name=_('User')
+        verbose_name = _('User')
         verbose_name_plural = _('Users')
 
 

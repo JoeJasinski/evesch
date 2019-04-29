@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^by_user/$',
         views.org_reports,
         {'template_name': 'report/org_report.html', 'type': 'user'},
-        name='report_org_reports_by_user'), 
+        name='report_org_reports_by_user'),
     url(r'^by_eventtype/$',
         views.org_reports,
         {'template_name': 'report/org_report.html', 'type': 'eventtype'},

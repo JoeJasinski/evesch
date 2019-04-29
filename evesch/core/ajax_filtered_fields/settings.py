@@ -8,6 +8,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 # (eg: django.contrib.auth.decorators.login_required).
 # Default is django.contrib.admin.views.decorators.staff_member_required.
 
-AUTH_DECORATOR = getattr(settings, 
-    "AJAX_FILTERED_FIELDS_AUTH_DECORATOR", 
+AUTH_DECORATOR = getattr(
+    settings,
+    "AJAX_FILTERED_FIELDS_AUTH_DECORATOR",
     staff_member_required)

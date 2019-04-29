@@ -2,7 +2,7 @@ from django.template import Library, Node
 from django.template import TemplateSyntaxError
 from evesch.org.models import Organization
 #from django.db.models import get_model
-    
+
 register = Library()
 
 

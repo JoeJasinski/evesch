@@ -84,13 +84,13 @@ def orgs_list_all(request, template_name=None):
             title=_("Cannot Be Viewed"),
             text=_("Cannot view this page"))
         context = {'message': message}
-    if not message:   
+    if not message:
         current_user, message = get_current_user(request.user)
     if not message:
         all_orgs_page = ePage(1)
-        if "all_orgs_page" in request.GET: 
+        if "all_orgs_page" in request.GET:
             try:
-                all_orgs_page.curr  = int(request.GET['all_orgs_page'])
+                all_orgs_page.curr = int(request.GET['all_orgs_page'])
             except:
                 all_orgs_page.curr = 1
         orgs = Organization.objects.filter(org_active=True).order_by('org_name')
@@ -123,7 +123,7 @@ def orgs_list_my(request, template_name=None):
             try:
                 my_orgs_page.curr = int(request.GET['my_orgs_page'])
             except:
-                my_orgs_page.curr = 1 
+                my_orgs_page.curr = 1
         my_org_groups = UserGroup.objects.filter(pk__in=current_user.get_user_groups())
         my_groups = orgs.filter(group_set__in=my_org_groups)
         my_orgs = current_user.get_user_orgs().order_by('org_name')
@@ -153,7 +153,7 @@ def org_join(request, current_org, template_name=None, message=None):
             template_name = "core/message.html"
             message = Message(
                 title=_("Already a Member"),
-                text=_("You are already a member of this organization." ))
+                text=_("You are already a member of this organization."))
             message.addlink(
                 _("Continue"),
                 current_org.get_absolute_url())
@@ -168,7 +168,7 @@ def org_join(request, current_org, template_name=None, message=None):
                 _("Back"),
                 current_org.get_absolute_url())
             context = {'message': message}
-    if not message:  
+    if not message:
         if request.method == 'POST':
             current_user.user_organizations.add(current_org)
             current_user.user_invites_set.filter(org=current_org).delete()
@@ -180,7 +180,7 @@ def org_join(request, current_org, template_name=None, message=None):
             message.addlink(
                 _("Continue"), current_org.get_absolute_url())
             context = {'message': message}
-        else:  
+        else:
             form = OrganizationJoinForm()
             context = {'form': form, 'current_org': current_org}
     else:
@@ -208,7 +208,7 @@ def org_leave(request, current_org, template_name=None, message=None):
             template_name = "core/message.html"
             message = Message(
                 title=_("Not a Member"),
-                text=_("You cannot leave this organization because you are not a member of the organization."))      
+                text=_("You cannot leave this organization because you are not a member of the organization."))
             message.addlink(
                 _("Back"),
                 reverse('org_orgs_list', kwargs={}))
@@ -224,9 +224,9 @@ def org_view(request, current_org, template_name=None, message=None):
     """ Displays organization detail information """
     if not message:
         members_page = ePage(1)
-        if "members_page" in request.GET: 
+        if "members_page" in request.GET:
             try:
-                members_page.curr  = int(request.GET['members_page'])
+                members_page.curr = int(request.GET['members_page'])
             except:
                 members_page.curr = 1
         members = current_org.get_members()
@@ -340,7 +340,8 @@ def org_edit(request, current_org, template_name=None, message=None):
             form = OrganizationFormEdit(auto_id=False, instance=current_org)
             context = {
                 'org_short_name': current_org.org_short_name,
-                'form': form, 'current_org': current_org}
+                'form': form,
+                'current_org': current_org}
     else:
         template_name = "core/message.html"
         context = {'message': message}
@@ -424,7 +425,7 @@ def org_add(request, template_name=None):
                 context = {'form': form, 'show_dialog': show_dialog}
         else:
             form = OrganizationForm()
-            context = {'form': form} 
+            context = {'form': form}
     else:
         template_name = "core/message.html"
         context = {'message': message}
@@ -516,11 +517,11 @@ def org_member_invite(request, current_org, template_name=None, message=None):
         else:
             form = OrganizationInviteMember()
 
-            if "members_page" in request.GET: 
+            if "members_page" in request.GET:
                 try:
                     members_page.curr = int(request.GET['members_page'])
                 except:
-                    members_page.curr = 1 
+                    members_page.curr = 1
 
         invited_users_page.set_pages(Paginator(invited_users, 5))
 
@@ -529,7 +530,8 @@ def org_member_invite(request, current_org, template_name=None, message=None):
             'form': form,
             'invited_users': invited_users_page,
             'ajax_page_members': reverse(
-                'org_org_invites_list_ajax', kwargs={'org_short_name': current_org.org_short_name,})}
+                'org_org_invites_list_ajax',
+                kwargs={'org_short_name': current_org.org_short_name,})}
     else:
         template_name = "core/message.html"
         context = {'message': message}

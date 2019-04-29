@@ -13,7 +13,7 @@ from django.forms.widgets import  SplitDateTimeWidget, SplitHiddenDateTimeWidget
 
 
 class ColorField(forms.CharField):
- 
+
     def clean(self, value):
 
         value = super(ColorField, self).clean(value)
@@ -27,6 +27,7 @@ class ColorField(forms.CharField):
             raise forms.ValidationError(_('Must be a Hex Color value'))
 
         return value
+
 
 class HourField(forms.CharField):
 
@@ -42,6 +43,7 @@ class HourField(forms.CharField):
 
         return value
 
+
 class TypeDropField(forms.CharField):
 
     def __init__(self, *args, **kwargs):
@@ -55,6 +57,7 @@ class TypeDropField(forms.CharField):
             raise forms.ValidationError(
                 _('Must be a comma separated word list of only letters, numbers or underscores.'))
         return value
+
 
 class EventTypeForm(forms.ModelForm):
     type_desc = forms.CharField(
@@ -72,10 +75,9 @@ class EventTypeForm(forms.ModelForm):
     def clean_type_name(self):
         #raise forms.ValidationError(self.instance)
         type_name_input = self.cleaned_data['type_name']
-        if int(
-            EventType.objects.filter(
-            type_name__iexact=type_name_input, type_active=True,
-            org_name=self._current_org).exclude(id=self.instance.id).count() >= 1):
+        if int(EventType.objects.filter(
+                type_name__iexact=type_name_input, type_active=True,
+                org_name=self._current_org).exclude(id=self.instance.id).count() >= 1):
             raise forms.ValidationError(_("Type Name already exists."))
         return type_name_input
 

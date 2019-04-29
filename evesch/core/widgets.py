@@ -36,7 +36,7 @@ class DateTimeWidget(forms.widgets.TextInput):
     def render(self, name, value, attrs=None):
         if value is None: value = ''
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
-        if value != '': 
+        if value != '':
             try:
                 final_attrs['value'] = \
                                    force_text(value.strftime(self.dformat))
@@ -46,7 +46,7 @@ class DateTimeWidget(forms.widgets.TextInput):
         if not final_attrs.has_key('id'):
             final_attrs['id'] = u'%s_id' % (name)
         id = final_attrs['id']
-        
+
         jsdformat = self.dformat #.replace('%', '%%')
         cal = calbtn % (settings.STATIC_URL, id, id, jsdformat, id)
         a = u'<input%s />%s' % (forms.util.flatatt(final_attrs), cal)

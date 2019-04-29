@@ -53,7 +53,7 @@ def text_vs_bg(bgcolor):
     LB2 = (blue2/255) ** 2.2
 
     L1 = .2126*LR1 + .7152 * LG1 + .0722*LB1
-    L2  = .2126*LR2 + .7152 * LG2 + .0722*LB2
+    L2 = .2126*LR2 + .7152 * LG2 + .0722*LB2
 
     lum_ratio = (L1 + .05) / (L2 + .05)
 

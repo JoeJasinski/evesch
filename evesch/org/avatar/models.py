@@ -53,7 +53,7 @@ class Avatar(models.Model):
                 image = image.crop((0, (h / 2) - (h1 / 2), w, (h / 2) + (h1 / 2)))
             else:
                 w1 = ((h * 4) / 3)
-                image = image.crop(((w / 2 ) - (w1 / 2), 0, (w / 2) + (w1 / 2), h))
+                image = image.crop(((w / 2) - (w1 / 2), 0, (w / 2) + (w1 / 2), h))
             image = image.resize((width, ((width * 3) / 4)), AVATAR_RESIZE_METHOD)
         
             if image.mode != "RGB":

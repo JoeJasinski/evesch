@@ -4,11 +4,11 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
+from django.conf import settings
 from evesch.org.models import Organization
 from evesch.core.exceptions import EventTypeExistsException
-from evesch.core.middleware import threadlocals 
+from evesch.core.middleware import threadlocals
 from evesch.core.lib import text_vs_bg
-from django.conf import settings
 
 #from django.contrib.auth.models import User
 
@@ -64,7 +64,7 @@ class EventType(models.Model):
     objects = EventTypeManager()
 
     def contrast(self):
-       return text_vs_bg(self.type_color)
+        return text_vs_bg(self.type_color)
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -242,7 +242,7 @@ class Event(models.Model):
 
     def get_attendee_count(self):
         return self.attendee_set.count()
-    
+
     def get_event_coordinators(self):
         return self.event_coordinators.all()
 
@@ -296,7 +296,7 @@ class Event(models.Model):
                 permissions['can_edit_event'] = True
                 permissions['can_message_event'] = True
                 permissions['can_join_event'] = True
-        else: 
+        else:
             if operms['is_memberof_org']:
                 permissions['can_remove_event'] = self.is_event_coordinator(user) or self.is_creator(user)
                 permissions['can_edit_event'] = self.is_event_coordinator(user) or self.is_creator(user)
@@ -330,7 +330,7 @@ class Attendee(models.Model):
         verbose_name=_("Event to Attend"))
     att_added_date = models.DateTimeField(
         db_column="att_added_date",
-        verbose_name=_("Register Date"), 
+        verbose_name=_("Register Date"),
         auto_now_add=True)
     att_ip = models.GenericIPAddressField(
         db_column="att_ip",
@@ -368,7 +368,7 @@ class Attendee(models.Model):
     objects = AttendeeManager()
 
     #def is_registered(self, user, event):
-    #	try: 
+    #	try:
     #		self.objects.get(att_name=user,att_event=event)
     #		return True
     #	except:

@@ -10,20 +10,20 @@ from ajax_filtered_fields import utils
 
 
 def _renderFilter(js_method_name, element_id, model, lookup_list, select_related):
-        """Return the html output of a filter link."""
-        label, lookup_dict = lookup_list
-        script = "ajax_filtered_fields.%s('%s', '%s', '%s', '%s', '%s')" % (
-            js_method_name,
-            element_id,
-            model._meta.app_label, 
-            model._meta.object_name, 
-            utils.lookupToString(lookup_dict),
-            select_related)
-        return u"""
-            <a class="ajax_filter_choice" 
-                href="javascript:void(0)"
-                onclick="%s">%s</a>
-        """ % (script, label)
+    """Return the html output of a filter link."""
+    label, lookup_dict = lookup_list
+    script = "ajax_filtered_fields.{}('{}', '{}', '{}', '{}', '{}')".format(
+        js_method_name,
+        element_id,
+        model._meta.app_label,
+        model._meta.object_name,
+        utils.lookupToString(lookup_dict),
+        select_related)
+    return u"""
+        <a class="ajax_filter_choice" 
+            href="javascript:void(0)"
+            onclick="%s">%s</a>
+    """ % (script, label)
 
 
 class FilteredSelectMultiple(forms.SelectMultiple):
@@ -36,14 +36,15 @@ class FilteredSelectMultiple(forms.SelectMultiple):
         if len(self.lookups) > 1:
             js_method_name = "getManyToManyJSON"
             lookups_output = "\n".join(
-                _renderFilter(js_method_name, self._element_id, 
-                    self.model, i, self.select_related) 
+                _renderFilter(
+                    js_method_name, self._element_id,
+                    self.model, i, self.select_related)
                 for i in self.lookups)
 
         # normal widget output from the anchestor
-        self.choices = self._getAllChoices(value)                
-        parent_output = super(FilteredSelectMultiple, self
-            ).render(name, value, attrs, choices)
+        self.choices = self._getAllChoices(value)
+        parent_output = super(FilteredSelectMultiple, self).render(
+            name, value, attrs, choices)
 
         # create the output including the django admin's Javascript code that
         # mutates the select widget into a selectfilter one
@@ -61,8 +62,8 @@ class FilteredSelectMultiple(forms.SelectMultiple):
                 	SelectFilter.init("id_%s", "%s", 0, "%s");
                 });
             </script>
-        """ % (lookups_output, parent_output, name, 
-            verbose_name, settings.STATIC_URL)
+        """ % (lookups_output, parent_output, name,
+               verbose_name, settings.STATIC_URL)
 
         return mark_safe(output)
 
@@ -88,15 +89,16 @@ class FilteredSelect(forms.Select):
         if len(self.lookups) > 1:
             js_method_name = "getForeignKeyJSON"
             lookups_output = "\n".join(
-                _renderFilter(js_method_name, self._element_id, 
-                    self.model, i, self.select_related) 
+                _renderFilter(
+                    js_method_name, self._element_id,
+                    self.model, i, self.select_related)
                 for i in self.lookups)
 
         # get the selected object name
         selection = "-" * 9
         if value:
-            selection = utils.getObject(self.model, {"pk": value}, 
-                self.select_related)
+            selection = utils.getObject(self.model, {"pk": value},
+                                        self.select_related)
 
         # filter selectbox input
         filter_id = "%s_input" % self._element_id
@@ -111,8 +113,8 @@ class FilteredSelect(forms.Select):
         # normal widget output from the anchestor
         # create a field with a dummy name , the real value
         # will be retrieved from a hidden field
-        parent_output = super(FilteredSelect, self
-            ).render("dummy-%s" % name, value, attrs, choices)
+        parent_output = super(FilteredSelect, self).render(
+            "dummy-%s" % name, value, attrs, choices)
 
         # output
         mapping = {
@@ -121,15 +123,14 @@ class FilteredSelect(forms.Select):
             "filter_id": filter_id,
             "parent_output": parent_output,
             "name": name,
-            "element_id": self._element_id, 
+            "element_id": self._element_id,
             "value": "" if value is None else value,
-            }
-                
+        }
+
         output = u"""
             <div class="selector">
                 %(lookups_output)s
             </div>
-            
             <div class="selector">
                 <div class="selector-available">
                     <h2>%(selection)s</h2>
@@ -144,7 +145,7 @@ class FilteredSelect(forms.Select):
             <input type="hidden" name="%(name)s" id="hidden-%(element_id)s" value="%(value)s" />
             
             <script type="text/javascript" charset="utf-8">
-        		$(document).ready(function(){
+                $(document).ready(function(){
                     SelectBox.init('%(element_id)s');
 
                     $("#%(filter_id)s").bind("keyup", function(e) {
@@ -156,8 +157,8 @@ class FilteredSelect(forms.Select):
                     });
                     
                     ajax_filtered_fields.bindForeignKeyOptions("%(element_id)s");
-        		});
-        	</script>
+                });
+            </script>
             """ % mapping
 
         return mark_safe(output)

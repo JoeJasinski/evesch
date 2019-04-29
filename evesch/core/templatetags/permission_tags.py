@@ -1,4 +1,4 @@
-from django import template  
+from django import template
 register = template.Library()
 
 
@@ -10,4 +10,3 @@ def org_permissions(user, obj):
 @register.filter(name='event_permissions')
 def event_permissions(user, obj):
     return obj.event_perms(user)
-

@@ -1,7 +1,7 @@
 import os.path
 from PIL import Image
 from django.conf import settings
-    
+
 
 AUTO_GENERATE_AVATAR_SIZES = getattr(settings, 'AUTO_GENERATE_AVATAR_SIZES', (80, 40))
 AVATAR_RESIZE_METHOD = getattr(settings, 'AVATAR_RESIZE_METHOD', Image.ANTIALIAS)

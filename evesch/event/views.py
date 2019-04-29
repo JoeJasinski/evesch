@@ -421,7 +421,7 @@ def event_attendees_message(request, current_org, current_event, template_name=N
 def event_attendee_remove(request, current_org, current_event, att_name, template_name=None, message=None):
     if not message:
         current_user, message = get_current_user(request.user, message)
-    if not message:    
+    if not message:
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
@@ -452,7 +452,7 @@ def event_attendee_remove(request, current_org, current_event, att_name, templat
                         text=_("You cannot remove yourself from the event after the event has taken place."))
                     message.addlink(_("Back"), current_event.get_absolute_url())
                     context = {'message': message}
-        else:  
+        else:
             if not aperms['can_remove_attendee']:
                 template_name = "core/message.html"
                 message = Message(
@@ -539,7 +539,7 @@ def eventtype_add(request, current_org, template_name=None, message=None):
                     'show_dialog': show_dialog}
             else:
                 context = {'form': form, 'current_org': current_org}
-        else:    
+        else:
             form = EventTypeForm(current_org)
             context = {
                 'form': form,
@@ -547,7 +547,7 @@ def eventtype_add(request, current_org, template_name=None, message=None):
                 'current_org': current_org}
                 #raise AssertionError
     else:
-        context = {'message': message} 
+        context = {'message': message}
     return render(request, template_name, context)
 
 @login_required

@@ -19,7 +19,7 @@ class OrganizationManager(models.Manager):
         organization.org_date_created = datetime.now()
         organization.save()
         #user_group = UserGroup.objects.create_user_group()
-        return organization 
+        return organization
 
     def get_current_org(self, org_short_name, message=None):
         if message:
@@ -29,7 +29,7 @@ class OrganizationManager(models.Manager):
                 current_org = super(OrganizationManager, self).get(
                     org_short_name=org_short_name, org_active=True)
             except:
-                current_org =  None
+                current_org = None
                 message = Message(
                     title="Org Not Found",
                     text="The organization was not found")
@@ -104,7 +104,7 @@ class Organization(models.Model):
         blank=True, null=True, default=0)
     org_date_created = models.DateTimeField(
         null=True, auto_now_add=True)
-    org_feed_hash =  models.CharField(
+    org_feed_hash = models.CharField(
         max_length=20,
         verbose_name=_("Organization Feed Hash"),
         null=True, blank=True)
@@ -194,7 +194,7 @@ class Organization(models.Model):
         if self.org_users.filter(id=user.id):
             return True
         else:
-            return False	
+            return False
 
     def org_perms(self, user):
         permissions = {
@@ -244,14 +244,14 @@ class Organization(models.Model):
                 permissions['can_add_group'] = True
                 permissions['can_remove_group'] = True
                 permissions['can_remove_users'] = True
-                permissions['can_invite_users'] = True			
+                permissions['can_invite_users'] = True
         elif self.get_coordinator_users():
             permissions['can_join_org'] = True
             if permissions['is_memberof_org']:
                 permissions['can_add_event'] = True
         else:
             if self.org_join_privacy == 0:
-                permissions['can_join_org'] = True	
+                permissions['can_join_org'] = True
             if self.org_join_privacy == 1 or self.org_join_privacy == 2:
                 from org.models import OrgInvite
                 if  OrgInvite.objects.filter(org=self, user=user, direction=True) > 0:
@@ -287,7 +287,7 @@ class OrgInvite(models.Model):
     direction = models.BooleanField(
         default=True)
     invite_hash = models.CharField(
-        db_index=True,					
+        db_index=True,
         max_length=20,
         verbose_name=_("Invite Hash"),
         null=True, blank=True,)

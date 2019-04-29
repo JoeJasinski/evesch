@@ -2,7 +2,7 @@ from django.conf.urls import url
 from evesch.core import views
 from evesch.euser import views as euser_views
 
-urlpatterns = [                  
+urlpatterns = [
     url(r'^login/$',
         views.evesch_login,
         {'template_name': 'core/login.html'},
@@ -38,5 +38,5 @@ urlpatterns = [
     url(r'^settings/$',
         euser_views.user_settings,
         {'template_name': 'euser/user_settings.html'},
-        name='euser_user_settings'), 
+        name='euser_user_settings'),
 ]

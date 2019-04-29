@@ -13,7 +13,7 @@ class AjaxManyToManyField(forms.ModelMultipleChoiceField):
     JQuery ajax requests.
     """
     def __init__(self, model, lookups, default_index=0, select_related=None,
-        widget=FilteredSelectMultiple, *args, **kwargs):
+                 widget=FilteredSelectMultiple, *args, **kwargs):
         """
         model: the related model
         lookups: a sequence of (label, lookup_dict) that tells how to
@@ -39,10 +39,10 @@ class AjaxManyToManyField(forms.ModelMultipleChoiceField):
 
         select_related: if not None the resulting querydict is performed
             using select_related(select_related), allowing foreign keys
-            to be retrieved (e.g. useful when the unicode representation 
+            to be retrieved (e.g. useful when the unicode representation
             of the model objects contains references to foreign keys)
 
-        It is possible to pass all the other args and kwargs accepted by 
+        It is possible to pass all the other args and kwargs accepted by
         the django field class.
         """
         lookups = list(lookups)
@@ -89,7 +89,7 @@ class AjaxForeignKeyField(forms.ModelChoiceField):
     JQuery ajax requests.
     """
     def __init__(self, model, lookups, default_index=0, select_related=None,
-        widget=FilteredSelect, *args, **kwargs):
+                 widget=FilteredSelect, *args, **kwargs):
         """
         See the AjaxManyToManyField docstring.
         """
@@ -128,22 +128,22 @@ class AjaxForeignKeyField(forms.ModelChoiceField):
 
 def _byLetterFactory(parent):
     """
-    Factory function returning a ManyToMany or ForeignKey field with 
+    Factory function returning a ManyToMany or ForeignKey field with
     filters based on initials of a field of the objects.
     parent can be AjaxManyToManyField or AjaxForeignKeyField.
     """
     class ByLetter(parent):
         """
-        Ajax filtered field that displays filters based on 
+        Ajax filtered field that displays filters based on
         initials of a field of the objects, as they are typed by the user.
         """
         def __init__(self, model, field_name="name", *args, **kwargs):
             """
             model: the related model
-            field_name: the name of the field looked up 
+            field_name: the name of the field looked up
                 for initial
-        
-            It is possible to pass all the other args and kwargs accepted by 
+
+            It is possible to pass all the other args and kwargs accepted by
             parent ajax filtered field.
             """
             import string
@@ -163,13 +163,13 @@ ForeignKeyByLetter = _byLetterFactory(AjaxForeignKeyField)
 
 def _byStatusFactory(parent):
     """
-    Factory function returning a ManyToMany or ForeignKey field with 
+    Factory function returning a ManyToMany or ForeignKey field with
     filters based on activation status of the object.
     parent can be AjaxManyToManyField or AjaxForeignKeyField.
     """
     class ByStatus(parent):
         """
-        Ajax filtered field that displays filters based on 
+        Ajax filtered field that displays filters based on
         activation status of the objects.
         """
         def __init__(self, model, field_name="is_active", *args, **kwargs):
@@ -178,7 +178,7 @@ def _byStatusFactory(parent):
             field_name: the name of the field that
                 manages the activation of the object
 
-            It is possible to pass all the other args and kwargs accepted by 
+            It is possible to pass all the other args and kwargs accepted by
             parent ajax filtered field.
             """
             lookups = (

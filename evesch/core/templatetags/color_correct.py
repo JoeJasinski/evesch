@@ -1,6 +1,6 @@
-from django import template  
+from django import template
 from evesch.core.lib import text_vs_bg
-register = template.Library()  
+register = template.Library()
 
 
 @register.filter("color_correct")
