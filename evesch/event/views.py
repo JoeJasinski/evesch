@@ -242,7 +242,7 @@ def event_remove(request, org_short_name, event_hash, template_name=None):
     return render(request, template_name, context)
 
 @login_required
-def event_attendee_add(request,org_short_name,event_hash,template_name=None):
+def event_attendee_add(request, org_short_name, event_hash, template_name=None):
     current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:
         current_event, message = current_org.get_current_event(event_hash, message)
@@ -330,7 +330,7 @@ def event_attendee_add(request,org_short_name,event_hash,template_name=None):
     return render(request, template_name, context)
 
 @login_required
-def event_attendees_message(request,org_short_name,event_hash,template_name=None):
+def event_attendees_message(request, org_short_name, event_hash, template_name=None):
     current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:
         current_event, message = current_org.get_current_event(event_hash, message)
@@ -453,7 +453,7 @@ def event_attendee_remove(request, org_short_name, event_hash, att_name, templat
     return render(request, template_name, context)
 
 @login_required
-def eventtype_add(request,org_short_name,template_name=None):
+def eventtype_add(request, org_short_name, template_name=None):
     current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:    
         if not current_org.is_member(request.user):
@@ -518,7 +518,7 @@ def eventtype_add(request,org_short_name,template_name=None):
     return render(request, template_name, context)
 
 @login_required
-def eventtype_edit(request, org_short_name,eventtype_hash,template_name=None):
+def eventtype_edit(request, org_short_name, eventtype_hash, template_name=None):
     current_org, message = Organization.objects.get_current_org(org_short_name)
     if not message:
         current_user, message = get_current_user(request.user, message)

@@ -49,6 +49,7 @@ class TypeDropField(forms.CharField):
     
     def clean(self, value):
         value = super(TypeDropField, self).clean(value)
+        value = value if value else ""
         p = re.compile(r'^[a-zA-Z0-9_ ,]*$')
         if not p.match(value):
             raise forms.ValidationError(

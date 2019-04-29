@@ -46,13 +46,17 @@ def change(request, org_short_name, extra_context={}, next_override=None):
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
-            message = Message(title=_("Can Not Edit Org Photo"), text=_("You cannot edit an organization that you do not belong to."))
+            message = Message(
+                title=_("Can Not Edit Org Photo"),
+                text=_("You cannot edit an organization that you do not belong to."))
             message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
         if not operms['can_edit_org']:
             template_name = "core/message.html"
-            message = Message(title=_("Can Not Edit Org Photo"), text=_("You cannot edit this organization because you do not have permission to."))
+            message = Message(
+                title=_("Can Not Edit Org Photo"),
+                text=_("You cannot edit this organization because you do not have permission to."))
             message.addlink(_("Back"),current_org.get_absolute_url())
             context = {'message':message,}
     if not message:
@@ -63,20 +67,28 @@ def change(request, org_short_name, extra_context={}, next_override=None):
         else:
             avatar = None
             kwargs = {}
-        primary_avatar_form = PrimaryAvatarForm( None, org=current_org, **kwargs)
+        primary_avatar_form = PrimaryAvatarForm(None, org=current_org, **kwargs)
         upload_avatar_form = UploadAvatarForm()
         if request.method == "POST":
             updated = False
             if 'avatar' in request.FILES:
                 if avatars.count() >= 4:
                     template_name = "core/message.html"
-                    message = Message(title=_("Max uploads reached"), text=_("You cannot upload more than 4 photos."))
-                    message.addlink(_("Back"),reverse('org_org_edit_photo',kwargs={'org_short_name':current_org.org_short_name}))
-                    message.addlink(_("Delete Photos"),reverse('org_org_delete_photo',kwargs={'org_short_name':current_org.org_short_name}))
+                    message = Message(
+                        title=_("Max uploads reached"),
+                        text=_("You cannot upload more than 4 photos."))
+                    message.addlink(
+                        _("Back"),
+                        reverse('org_org_edit_photo',
+                            kwargs={'org_short_name': current_org.org_short_name}))
+                    message.addlink(
+                        _("Delete Photos"),
+                        reverse('org_org_delete_photo',
+                            kwargs={'org_short_name': current_org.org_short_name}))
                 if not message:
                     upload_avatar_form = UploadAvatarForm(request.POST, request.FILES)
                     if upload_avatar_form.is_valid():
-                        path = avatar_file_path(org_short_name=current_org.org_short_name,filename="".join(sample(KEYS,12)) + ".jpg")
+                        path = avatar_file_path(org_short_name=current_org.org_short_name, filename="".join(sample(KEYS,12)) + ".jpg")
                         avatar = Avatar(org=current_org, primary=True, avatar=path,)
                         new_file = avatar.avatar.storage.save(path, request.FILES['avatar'])
                         avatar.save()
@@ -98,11 +110,15 @@ def change(request, org_short_name, extra_context={}, next_override=None):
                     return HttpResponseRedirect(next_override or _get_next(request))
         
         template_name='avatar/change.html'
-        context = { 'current_org':current_org, 'avatar': avatar, 'avatars': avatars,'primary_avatar_form': primary_avatar_form,
-                  'upload_avatar_form':upload_avatar_form,'next': next_override or _get_next(request), }
+        context = {'current_org': current_org,
+                   'avatar': avatar,
+                   'avatars': avatars,
+                   'primary_avatar_form': primary_avatar_form,
+                   'upload_avatar_form': upload_avatar_form,
+                   'next': next_override or _get_next(request), }
     else:
         template_name = "core/message.html"
-        context = {'message':message } 
+        context = {'message': message} 
     return render(request, template_name, context)
 
 change = login_required(change)
@@ -116,15 +132,20 @@ def delete(request, org_short_name, extra_context={}, next_override=None):
         operms = current_org.org_perms(current_user)
         if not operms['is_memberof_org']:
             template_name = "core/message.html"
-            message = Message(title=_("Can Not Edit Org Photo"), text=_("You cannot edit an organization that you do not belong to."))
-            message.addlink(_("Back"),current_org.get_absolute_url())
-            context = {'message':message,}
+            message = Message(
+                title=_("Can Not Edit Org Photo"),
+                text=_("You cannot edit an organization that you do not belong to."))
+            message.addlink(_("Back"), current_org.get_absolute_url())
+            context = {'message': message}
     if not message:
         if not operms['can_edit_org']:
             template_name = "core/message.html"
-            message = Message(title=_("Can Not Edit Org Photo"), text=_("You cannot edit this organization because you do not have permission to."))
-            message.addlink(_("Back"),current_org.get_absolute_url())
-            context = {'message':message,}
+            message = Message(
+                title=_("Can Not Edit Org Photo"),
+                text=_("You cannot edit this organization because you do not have permission to."))
+            message.addlink(
+                _("Back"), current_org.get_absolute_url())
+            context = {'message': message}
     if not message:        
         avatars = Avatar.objects.filter(org=current_org).order_by('-primary')
         if avatars.count() > 0:
@@ -142,16 +163,18 @@ def delete(request, org_short_name, extra_context={}, next_override=None):
                             a.save()
                             break
                 Avatar.objects.filter(id__in=ids).delete()
-                messages.add_message(request, messages.INFO, _("Successfully deleted the requested avatars."))
+                messages.add_message(
+                    request, messages.INFO, _("Successfully deleted the requested avatars."))
                 return HttpResponseRedirect(next_override or _get_next(request))
         extra_context.update(
-            {'avatar': avatar, 'avatars': avatars,
+            {'avatar': avatar,
+             'avatars': avatars,
              'current_org': current_org,
              'delete_avatar_form': delete_avatar_form,
              'next': next_override or _get_next(request), })
         return render(request, 'avatar/confirm_delete.html', extra_context)
     else:
         template_name = "core/message.html"
-        context = {'message':message } 
+        context = {'message': message} 
     return render(request, 'avatar/confirm_delete.html', context)
 delete = login_required(delete)

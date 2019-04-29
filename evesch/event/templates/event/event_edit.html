@@ -1,9 +1,11 @@
 {% extends "base_layout_01.html" %}
-{% load i18n %}{% load static %}
+{% load i18n static %}
 {% block title %} - {% trans "Edit Event" %}{% endblock %}
 {% block extra_head %}{{ block.super }}
     <link rel="stylesheet" type="text/css" href="{% static 'js/jqboxy/stylesheets/boxy.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'js/timepicker/css/ui-lightness/jquery-ui-1.7.2.custom.css' %}" />
+{% endblock extra_head %}
+
 {% block breadcrumb %}
 <a href="{% url 'home' %}">{% trans "home" %}</a>
 &gt; <a href="{% url 'org_orgs_list' %}">{% trans "Organizations" %}</a>
@@ -13,8 +15,8 @@
 &gt; {% trans "Edit Event" %}
 {% endblock %}
 {% block content %}
-<div class="page_heading"> {{ current_org.org_name }} </div>
-{% include "event/inc_event_edit_menu.html" %}
+<div class="page_heading">{{ current_org.org_name }}</div>
+{% include "event/inc_event_edit_menu.html" with current_event=event %}
 <div class="section"> 
 	<div class="section_title"><font>{% trans "Edit Event" %}</font></div>
 	<div class="section_body">
@@ -23,7 +25,7 @@
 		<table>
 		 {{ form.as_table }}
 		</table>
-		<input id="event_edit_submit" type="submit" name="edit_event" value="{% trans "Save" %}">
+		<input id="event_edit_submit" type="submit" name="edit_event" value="{% trans 'Save' %}">
 		</form>
 	</div>
 </div>

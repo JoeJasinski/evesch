@@ -3,7 +3,7 @@
 {% block title %} - {% trans "Add User" %}{% endblock %}
 
 {% block content %}
-	<a href="{% url home %}">{% trans "home" %}</a> &gt; {% trans "User Add" %}
+	<a href="{% url 'home' %}">{% trans "home" %}</a> &gt; {% trans "User Add" %}
 	<div class="section_title"><font>{% trans "User Add" %}</font></div>
 	<form action="." method="post">{% csrf_token %}
 	  <table>

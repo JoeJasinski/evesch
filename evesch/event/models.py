@@ -276,7 +276,7 @@ class Event(models.Model):
 	        'is_attending_event': False,
 	        'can_message_event': False,
 	    }
-		operms = self.event_org.org_perms()
+		operms = self.event_org.org_perms(user)
 		permissions['is_attending_event'] = self.is_attending(user)
 		if user.is_superuser == 1:
 			if operms['is_memberof_org']:

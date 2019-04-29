@@ -1,9 +1,7 @@
 import datetime
 import os.path
 from io import StringIO
-
 from PIL import Image
-
 from django.db import models
 from django.core.files.base import ContentFile
 from django.utils.translation import ugettext as _
@@ -13,6 +11,7 @@ from evesch.org.avatar import AVATAR_STORAGE_DIR, AVATAR_RESIZE_METHOD
 
 def avatar_file_path(instance=None, filename=None, org_short_name=None):
     return os.path.join(AVATAR_STORAGE_DIR, org_short_name, filename)
+
 
 class Avatar(models.Model):
     org = models.ForeignKey(
@@ -70,5 +69,6 @@ class Avatar(models.Model):
         return self.avatar.storage.url(self.avatar_name(size))
     
     def avatar_name(self, size):
-        return os.path.join(AVATAR_STORAGE_DIR, self.org.org_short_name,
+        return os.path.join(
+            AVATAR_STORAGE_DIR, self.org.org_short_name,
             'resized', str(size), self.avatar.name)

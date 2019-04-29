@@ -46,7 +46,7 @@ TIME_ZONE = 'America/Chicago'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
-#LANGUAGE_CODE = 'de'
+
 
 SITE_ID = 1
 
@@ -87,12 +87,13 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#   'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '@+@m7a_u8)0*i$a#-rhfc+m&h$=@rqza8x^g8yaw&*3#34f5ml(9gd41jh'
+SECRET_KEY = os.getenv(
+    "SECRET_KEY",
+    'dummy-value-change-me')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -125,14 +126,14 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
-                "django.contrib.auth.context_processors.auth",
+                'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.media',
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.template.context_processors.i18n',
                 'django.template.context_processors.csrf',
                 'django.template.context_processors.debug',
-                "django.contrib.messages.context_processors.messages",
+                'django.contrib.messages.context_processors.messages',
             ]
         }
     }

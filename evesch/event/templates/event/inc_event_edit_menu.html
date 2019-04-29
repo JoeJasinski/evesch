@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n permission_tags %}
 <div class="menu">
 <ul class=nav>
 {% with event_perms=request.user|event_permissions:current_event %}
